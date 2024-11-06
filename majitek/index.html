@@ -1,0 +1,512 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAJITEK - gestion de l’eau</title>
+
+    <!--Bootstrap ================================================== -->
+    <link href="static/css/bootstrap@5.3.0-alpha3.min.css" rel="stylesheet"
+        integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
+    <!--<link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">-->
+
+    <!-- Style Sheet ================================================== -->
+    <link rel="stylesheet" type="text/css" href="static/css/styles.css">
+    <link rel="icon" type="image/ico" href="static/favicon.ico"/>
+</head>
+
+<body data-bs-spy="scroll" data-bs-target="#header-nav" tabindex="0">
+
+
+    <nav class="navbar navbar-expand-lg bg-white navbar-light container-fluid py-3 position-fixed ">
+        <div class="container">
+            <a class="navbar-brand" href="index.html"><img src="static/images/LOGO-MAJITEK.png" style="width: 200px;" alt="logo"></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"
+                aria-controls="offcanvasNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasNavbar"
+                aria-labelledby="offcanvasNavbarLabel">
+                <div class="offcanvas-header">
+                    <h5 class="offcanvas-title" id="offcanvasNavbarLabel">Menu</h5>
+                    <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas"
+                        aria-label="Close"></button>
+                </div>
+                <div class="offcanvas-body">
+                    <ul class="navbar-nav align-items-center justify-content-end flex-grow-1 pe-3">
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase  active px-3" aria-current="page"
+                                href="index.html">majitek</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase  px-3" href="#services">Services</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase  px-3" href="#apropos">a propos</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase  px-3" href="#projcts">projets</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-uppercase  px-3" href="#cta">Contact</a>
+                        </li>
+                    </ul>
+
+                    <div class="d-flex mt-5 mt-lg-0 ps-lg-3 align-items-center justify-content-center ">
+                        <ul class="navbar-nav justify-content-end align-items-center">
+                            <li class="nav-item">
+                                <a class="nav-link px-3 phone-no" href="#">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none">
+                                        <path
+                                            d="M18.3274 22.5001C17.4124 22.5001 16.1271 22.1691 14.2024 21.0938C11.862 19.7813 10.0516 18.5696 7.72383 16.2479C5.47946 14.0049 4.38727 12.5527 2.85868 9.77115C1.1318 6.63052 1.42618 4.98427 1.75524 4.28068C2.14712 3.43974 2.72555 2.93677 3.47321 2.43755C3.89787 2.15932 4.34727 1.92081 4.81571 1.72505C4.86258 1.7049 4.90618 1.68568 4.94508 1.66833C5.17712 1.5638 5.52868 1.40583 5.97399 1.57458C6.27118 1.68615 6.53649 1.91443 6.9518 2.32458C7.80352 3.16458 8.96743 5.03537 9.3968 5.95412C9.68508 6.57333 9.87587 6.98208 9.87633 7.44052C9.87633 7.97724 9.60633 8.39115 9.27868 8.83787C9.21727 8.92177 9.15633 9.00193 9.09727 9.07974C8.74055 9.54849 8.66227 9.68396 8.71383 9.92583C8.81837 10.4119 9.5979 11.859 10.879 13.1372C12.1601 14.4155 13.5654 15.1458 14.0534 15.2499C14.3056 15.3038 14.4438 15.2222 14.9276 14.8529C14.997 14.7999 15.0682 14.7451 15.1427 14.6902C15.6424 14.3185 16.0371 14.0555 16.5612 14.0555H16.564C17.0201 14.0555 17.4106 14.2533 18.0574 14.5796C18.9012 15.0052 20.8282 16.1541 21.6734 17.0068C22.0845 17.4211 22.3137 17.6855 22.4257 17.9822C22.5945 18.429 22.4356 18.7791 22.332 19.0135C22.3146 19.0524 22.2954 19.0951 22.2752 19.1424C22.0779 19.61 21.838 20.0585 21.5585 20.4821C21.0602 21.2274 20.5554 21.8044 19.7126 22.1968C19.2798 22.4015 18.8062 22.5052 18.3274 22.5001Z"
+                                            fill="#313131" />
+                                    </svg>
+                                    (262) 693 31 04 66
+                                </a>
+                            </li>
+                        </ul>
+                        <button type="button" class="btn btn-primary ms-md-3"> Devis  </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <section id="hero" class="position-relative overflow-hidden py-4" >
+        <div class="container py-5 mt-5">
+            <div class="row align-items-center py-5 mt-5">
+                <div class="col-md-12 mb-6 mb-md-0 ">
+                    <h6 class="text-white">Faire appel à Majitek, c’est :</h6>
+                    <h2 class="text-white fw-bold display-2">Chérir la planète
+                        et son portefeuille 
+                        en même temps</h2>
+                    <p class="text-white">SARL MAJITEK est une entreprise engagée dans la promotion de solutions
+                        durables pour la gestion de l’eau. .</p>
+                    <ul class="list-unstyled">
+                        <li class="text-white fw-bold">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23"
+                                fill="none">
+                                <g clip-path="url(#clip0_1_359)">
+                                    <path
+                                        d="M11.5 0.359375C5.34719 0.359375 0.359375 5.34719 0.359375 11.5C0.359375 17.6528 5.34719 22.6406 11.5 22.6406C17.6528 22.6406 22.6406 17.6528 22.6406 11.5C22.6406 5.34719 17.6528 0.359375 11.5 0.359375ZM11.5 2.51562C16.4653 2.51562 20.4844 6.53393 20.4844 11.5C20.4844 16.4653 16.4661 20.4844 11.5 20.4844C6.5347 20.4844 2.51562 16.4661 2.51562 11.5C2.51562 6.5347 6.53393 2.51562 11.5 2.51562ZM17.7982 8.36746L16.7859 7.34693C16.5762 7.13557 16.2349 7.13418 16.0235 7.34387L9.67375 13.6426L6.98778 10.9349C6.77813 10.7235 6.43681 10.7221 6.22545 10.9318L5.20487 11.9441C4.99352 12.1538 4.99212 12.4951 5.20182 12.7065L9.27987 16.8176C9.48952 17.0289 9.83084 17.0303 10.0422 16.8206L17.7952 9.12983C18.0065 8.92014 18.0079 8.57882 17.7982 8.36746Z"
+                                        fill="white" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_1_359">
+                                        <rect width="23" height="23" fill="white" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                            Économies Financières
+                        </li>
+                        <li class="text-white fw-bold">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23"
+                                fill="none">
+                                <g clip-path="url(#clip0_1_359)">
+                                    <path
+                                        d="M11.5 0.359375C5.34719 0.359375 0.359375 5.34719 0.359375 11.5C0.359375 17.6528 5.34719 22.6406 11.5 22.6406C17.6528 22.6406 22.6406 17.6528 22.6406 11.5C22.6406 5.34719 17.6528 0.359375 11.5 0.359375ZM11.5 2.51562C16.4653 2.51562 20.4844 6.53393 20.4844 11.5C20.4844 16.4653 16.4661 20.4844 11.5 20.4844C6.5347 20.4844 2.51562 16.4661 2.51562 11.5C2.51562 6.5347 6.53393 2.51562 11.5 2.51562ZM17.7982 8.36746L16.7859 7.34693C16.5762 7.13557 16.2349 7.13418 16.0235 7.34387L9.67375 13.6426L6.98778 10.9349C6.77813 10.7235 6.43681 10.7221 6.22545 10.9318L5.20487 11.9441C4.99352 12.1538 4.99212 12.4951 5.20182 12.7065L9.27987 16.8176C9.48952 17.0289 9.83084 17.0303 10.0422 16.8206L17.7952 9.12983C18.0065 8.92014 18.0079 8.57882 17.7982 8.36746Z"
+                                        fill="white" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_1_359">
+                                        <rect width="23" height="23" fill="white" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                            Durabilité Environnementale
+                        </li>
+                        <li class="text-white fw-bold">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 23 23"
+                                fill="none">
+                                <g clip-path="url(#clip0_1_359)">
+                                    <path
+                                        d="M11.5 0.359375C5.34719 0.359375 0.359375 5.34719 0.359375 11.5C0.359375 17.6528 5.34719 22.6406 11.5 22.6406C17.6528 22.6406 22.6406 17.6528 22.6406 11.5C22.6406 5.34719 17.6528 0.359375 11.5 0.359375ZM11.5 2.51562C16.4653 2.51562 20.4844 6.53393 20.4844 11.5C20.4844 16.4653 16.4661 20.4844 11.5 20.4844C6.5347 20.4844 2.51562 16.4661 2.51562 11.5C2.51562 6.5347 6.53393 2.51562 11.5 2.51562ZM17.7982 8.36746L16.7859 7.34693C16.5762 7.13557 16.2349 7.13418 16.0235 7.34387L9.67375 13.6426L6.98778 10.9349C6.77813 10.7235 6.43681 10.7221 6.22545 10.9318L5.20487 11.9441C4.99352 12.1538 4.99212 12.4951 5.20182 12.7065L9.27987 16.8176C9.48952 17.0289 9.83084 17.0303 10.0422 16.8206L17.7952 9.12983C18.0065 8.92014 18.0079 8.57882 17.7982 8.36746Z"
+                                        fill="white" />
+                                </g>
+                                <defs>
+                                    <clipPath id="clip0_1_359">
+                                        <rect width="23" height="23" fill="white" />
+                                    </clipPath>
+                                </defs>
+                            </svg>
+                            Engagement envers la Qualité
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="partners">
+        <div class="container my-5 py-5">
+            <h6 class="fw-bold text-capitalize fs-5 my-5">Nos partenaires de confiance</h6>
+            <div class="row logo-partenaire">
+                <div class="logo-content d-flex flex-wrap justify-content-between">
+                    <a href="#" class="mb-5 mx-2">
+                        <img src="static/images/logo-afd.png" alt="logo AFD" class="none">
+                    </a>
+                    <a href="#" class="mb-5 mx-2">
+                        <img src="static/images/logo-dgac.png" alt="logo DGAC" class="none">
+                    </a>
+                    <a href="#" class="mb-5 mx-2">
+                        <img src="static/images/logo_HOP&GO.png" alt="logo HOP&GO" class="none">
+                    </a>
+                    <a href="#" class="mb-5 mx-2">
+                        <img src="static/images/logo_BRED.png" alt="logo BRED" class="none">
+                    </a>
+                    <a href="#" class="mb-5 mx-2">
+                        <img src="static/images/Logo_CA.png" alt="logo CA" class="none">
+                    </a>
+                    <a href="#" class="mb-5 mx-2">
+                        <img src="static/images/Logo_SGBFC.png" alt="logo BFC" class="none">
+                    </a>
+                    <a href="#" class="mb-5 mx-2">
+                        <img src="static/images/LOGO-TRANSDEV.png" alt="logo TRANSDEV" class="none">
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="projects">
+
+        <div class="container-fluid my-5 pt-5 p-0 ">
+            <h6 class="text-center text-white mt-5">Nos réalisations</h6>
+            <h2 class="text-center text-white fw-bold display-4 mb-5">Nos derniers projets</h2>
+           
+            <div class="isotope-container">
+                <div class="col-md-2 item roof">
+                    <a href="#"><img src="static/images/project1.png" alt="image" class="img-fluid"></a>
+                    <div class="description text-center px-3 py-5">
+                        <h6 class="project-date my-3 pt-3 fs-6">Feb 3, 2023</h6>
+                        <h3 class="project-heading mb-3">Stockage</h3>
+                        <a href="project-single.html" class="btn btn-primary mt-3">Voir +</a>
+                    </div>
+                </div>
+                <div class="col-md-2 item solar">
+                    <a href="#"><img src="static/images/project2.jpg" alt="image" class="img-fluid"></a>
+                    <div class="description text-center px-3 py-5">
+                        <h6 class="project-date my-3 pt-3 fs-6">Feb 3, 2023</h6>
+                        <h3 class="project-heading mb-3">Installation</h3>
+                        <a href="project-single.html" class="btn btn-primary mt-3">Voir +</a>
+                    </div>
+                </div>
+                <div class="col-md-2 item repair">
+                    <a href="#"><img src="static/images/project3.png" alt="image" class="img-fluid"></a>
+                    <div class="description text-center px-3 py-5">
+                        <h6 class="project-date my-3 pt-3 fs-6">Feb 3, 2023</h6>
+                        <h3 class="project-heading mb-3">Pompage</h3>
+                        <a href="project-single.html" class="btn btn-primary mt-3">Voir +</a>
+                    </div>
+                </div>
+                <div class="col-md-2 item roof">
+                    <a href="#"><img src="static/images/project4.jpg" alt="image" class="img-fluid"></a>
+                    <div class="description text-center px-3 py-5">
+                        <h6 class="project-date my-3 pt-3 fs-6">Feb 3, 2023</h6>
+                        <h3 class="project-heading mb-3">Stockage</h3>
+                        <a href="project-single.html" class="btn btn-primary mt-3">Voir +</a>
+                    </div>
+                </div>
+                <div class="col-md-2 item install">
+                    <a href="#"><img src="static/images/project5.png" alt="image" class="img-fluid"></a>
+                    <div class="description text-center px-3 py-5">
+                        <h6 class="project-date my-3 pt-3 fs-6">Feb 3, 2023</h6>
+                        <h3 class="project-heading mb-3">Filtration</h3>
+                        <a href="project-single.html" class="btn btn-primary mt-3">Voir +</a>
+                    </div>
+                </div>
+                <div class="col-md-2 item install">
+                    <a href="#"><img src="static/images/project1.png" alt="image" class="img-fluid"></a>
+                    <div class="description text-center px-3 py-5">
+                        <h6 class="project-date my-3 pt-3 fs-6">Feb 3, 2023</h6>
+                        <h3 class="project-heading mb-3">Stockage</h3>
+                        <a href="project-single.html" class="btn btn-primary mt-3">Voir +</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <section id="about">
+        <div class="container py-5">
+            <div class="row align-items-center py-5">
+                <div class=" col-md-6 ps-md-5">
+                    <img src="static/images/about-img.jpg" alt="image" class="img-fluid">
+                </div>
+                <div class="col-md-6 px-4 py-5 back-sigle">
+                    <h6 class="text-white">a propos de MAJITEK</h6>
+                    <h2 class="fw-bold text-white display-4 mb-3">Nous avons plus de 
+                        5 ans d'expérience</h2>
+                    <p class="text-white">nous sommes passionnés par la conservation de l’eau et l’impact positif que cela peut avoir sur l’environnement et votre budget. Pour en savoir plus sur nos solutions de récupération d’eau depluie et de stokage d’eau potable conformes aux normes ACS, n’hésitez pas à nous contacter. Nous sommes prêts à répondre à vos questions et à vous aider à mettre en placeune solution adaptée à vos besoins.
+                    </p>
+                    <a href="#" class="btn btn-primary service-btn mt-3">Demander un devis</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="process">
+        <div class="container my-5 py-5">
+            <div class="row liner process-components my-5">
+                <h2 class="text-center liner-product fw-bold display-4 mb-5"><span class="background-white"> produits </span></h2>
+                <div class="mb-4 filtre-product">
+                    <p class="text-center">
+                        <button class="filter-button px-3 me-2 mb-3 active" data-filter="*">Nos citernes de stockage</button>
+                        <button class="filter-button px-3 me-2 mb-3" data-filter=".roof">Industries</button>
+                        <button class="filter-button px-3 me-2 mb-3" data-filter=".install">Réalisations</button>
+                        <button class="filter-button px-3 me-2 mb-3" data-filter=".solar">Filtrage</button>
+                        <button class="filter-button px-3 me-2 mb-3" data-filter=".repair">Stockage</button>
+                    </p>
+                </div>
+                <div class="d-flex flex-wrap justify-content-between">
+                    <div class="col-md-6 col-lg-3">
+                        <div class="mb-3">
+                            <a href="#"><img src="static/images/Citerne-1200-Litres-majitek.png" alt="image" class="img-fluid"></a>
+                          
+                            <a href="#" class="text-decoration-none">
+                                <h5 class="mb-3">LES CITERNES HORIZONTALES</h5>
+                            </a>
+                            <a href="blog-single.html" class="btn btn-primary mt-3 mb-5">Voir +</a>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-lg-3">
+                        <div class="mb-3">
+                            <a href="#"><img src="static/images/Vignette-Citerne-1200-Litres-majitek.png" alt="image" class="img-fluid"></a>
+                            
+                            <a href="#" class="text-decoration-none">
+                                <h5 class="mb-3">CITERNE HORIZONTALE 
+                                    1200 Litres</h5>
+                            </a>
+                            <a href="blog-single.html" class="btn btn-primary mt-3 mb-5">Voir +</a>
+    
+                        </div>
+                    </div><div class="col-md-6 col-lg-3">
+                        <div class="mb-3">
+                            <a href="#"><img src="static/images/Vignette-Citerne-5100-Litres-RF-majitek.png" alt="image" class="img-fluid"></a>
+                            
+                            <a href="#" class="text-decoration-none">
+                                <h5 class="mb-3">Citerne horizontale renforcée 
+                                    5100 Litres</h5>
+                            </a>
+                            
+                            <a href="blog-single.html" class="btn btn-primary mt-3 mb-5">Voir +</a>
+    
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex flex-wrap justify-content-between">
+                <div class="col-md-6 col-lg-3">
+                    <div class="mb-3">
+                        <a href="#"><img src="static/images/Vignette-CITERNE-400-Litres-Transport-majitek.png" alt="image" class="img-fluid"></a>
+                        
+                        <a href="#" class="text-decoration-none">
+                            <h5 class="mb-3">Citerne grandes capacités 
+                                renforcées</h5>
+                        </a>
+                        
+                        <a href="blog-single.html" class="btn btn-primary mt-3 mb-5">Voir +</a>
+
+                    </div>
+                </div>
+                <div class="col-md-6 col-lg-3">
+                    <div class="mb-3">
+                        <a href="#"><img src="static/images/Vignette-Citerne-Grande-Capacite-Profil-RF-majitek.png" alt="image" class="img-fluid"></a>
+                       
+                        <a href="#" class="text-decoration-none">
+                            <h5 class="mb-3">How to take care of your roofr</h5>
+                        </a>
+                        
+                        <a href="blog-single.html" class="btn btn-primary mt-3 mb-5">Voir +</a>
+
+                    </div>
+                </div><div class="col-md-6 col-lg-3">
+                    <div class="mb-3">
+                        <a href="#"><img src="static/images/Citerne-11-000-Litres-Verticale-RF-majitek.png" alt="image" class="img-fluid"></a>
+                        
+                        <a href="#" class="text-decoration-none">
+                            <h5 class="mb-3">CIterne de transport
+                                400 Litres</h5>
+                        </a>
+                        
+                        <a href="blog-single.html" class="btn btn-primary mt-3 mb-5">Voir +</a>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        </div>
+    </section>
+
+    <section id="services" class="my-5 pt-5">
+        <div class="container pt-5">
+            <h6 class="">Nos services</h6>
+            <h2 class=" fw-bold display-4 mb-4">Ce que nous offrons</h2>
+            <div class="row">
+                <div class=" mt-4 col-md-6 col-lg-3">
+                    <div class="services-components text-center py-5 px-3">
+                        <img src="static/images/kit_icon.png" alt="image" class="img-fluid" style="width:20%;">
+                        <h5 class="services-heading mb-3">Vente de Kits Complets</h5>
+                        <p>Notre gamme de kits de récupération
+                            d’eau de pluie comprend tout ce dont
+                            vous avez besoin pour collecter, filtrer
+                            et stocker efficacement l’eau de pluie.
+                        </p>
+                        <a href="services-single.html" class="btn btn-primary service-btn mt-3">Voir +</a>
+
+                    </div>
+                </div>
+                <div class=" mt-4 col-md-6 col-lg-3">
+                    <div class="services-components text-center py-5 px-3">
+                        <img src="static/images/install_icon.png" alt="image" class="img-fluid" style="width:20%;">
+                        <h5 class="services-heading mb-3">Installation
+                            Professionnelle</h5>
+                        <p>En tant qu’experts dans le domaine,
+                            notre équipe hautement qualifiée assure
+                            une installation professionnelle de vos
+                            citernes.
+                        </p>
+                        <a href="services-single.html" class="btn btn-primary service-btn mt-3">Voir +</a>
+
+                    </div>
+                </div>
+                <div class=" mt-4 col-md-6 col-lg-3">
+                    <div class="services-components text-center py-5 px-3">
+                        <img src="static/images/install_icon.png" alt="image" class="img-fluid" style="width:20%;">
+                        <h5 class="services-heading mb-3">SErvice après vente </h5>
+                        <p>MAJITEK garantie un fonctionnement
+                            optimal et une utilisation sûre de votre
+                            système de stockage d’eau + une économies substantielles à long
+                            terme.</p>
+                        <a href="services-single.html" class="btn btn-primary service-btn mt-3">Voir +</a>
+
+                    </div>
+                </div>
+                <div class=" mt-4 col-md-6 col-lg-3">
+                    <div class="services-components text-center py-5 px-3">
+                        <img src="static/images/qualite-icon.png" alt="image" class="img-fluid" style="width:20%;">
+                        <h5 class="services-heading mb-3">Durabilité
+                            Environnementale </h5>
+                        <p>En utilisant notre solution de
+                            récupération d’eau de pluie, vous
+                            contribuez à la préservation des
+                            ressources en eau tout en réduisant
+                            votre empreinte carbone.                        </p>
+                        <a href="services-single.html" class="btn btn-primary service-btn mt-3">Voir +</a>
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+   
+
+    <section id="footer">
+        <div class="container footer-container mt-5 pt-3">
+            <footer class="row row-cols-1 row-cols-sm-2 row-cols-md-5 my-5 py-5 ">
+
+                <div class=" col-md-4 mt-5 mt-md-0 ">
+                    <a class="navbar-brand" href="index.html"><img src="static/images/LOGO-MAJITEK.png" style="width: 200px;" alt="logo"></a>
+                    <p class="">Chez SARL MAJITEK, nous sommes passionnés par
+                        la conservation de l’eau et l’impact positif que cela
+                        peut avoir sur l’environnement et votre budget.</p>
+                    <div class="d-flex align-items-center ">
+                        <a href="#" target="_blank"><iconify-icon class="social-link-icon active pe-4"
+                                icon="mdi:facebook"></iconify-icon></a>
+                        <a href="#" target="_blank"><iconify-icon class="social-link-icon pe-4"
+                                icon="mdi:instagram"></iconify-icon></a>
+                        <a href="#" target="_blank"><iconify-icon class="social-link-icon pe-4"
+                                icon="mdi:linkedin"></iconify-icon></a>
+                        <a href="#" target="_blank"><iconify-icon class="social-link-icon pe-4"
+                                icon="mdi:youtube"></iconify-icon></a>
+                    </div>
+
+                </div>
+
+                <div class="col-md-2 offset-md-1">
+                    <h5 class="py-3">Nos Services</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-3"><a href="#" class="nav-link fw-normal p-0 "> Vente de kits complets</a>
+                        </li>
+                        <li class="nav-item mb-3"><a href="#" class="nav-link fw-normal p-0 "> Installation professionnelle </a>
+                        </li>
+                        <li class="nav-item mb-3"><a href="#" class="nav-link fw-normal p-0 "> Services après vente</a>
+                        </li>
+                        <li class="nav-item mb-3"><a href="#" class="nav-link fw-normal p-0 "> Durabilité Environnementale</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-2 ">
+                    <h5 class="py-3">Liens</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item mb-3"><a href="#" class="nav-link fw-normal p-0 "> A propos </a>
+                        </li>
+                        <li class="nav-item mb-3"><a href="#" class="nav-link fw-normal p-0 "> Nos produits </a>
+                        </li>
+                        <li class="nav-item mb-3"><a href="#" class="nav-link fw-normal p-0 "> Services </a>
+                        </li>
+                        <li class="nav-item mb-3"><a href="#" class="nav-link fw-normal p-0 "> Nos réalisations</a></li>
+                        <li class="nav-item mb-3"><a href="#" class="nav-link fw-normal p-0 "> Informations légales </a></li>
+                        <li class="nav-item mb-3"><a href="#" class="nav-link fw-normal p-0 "> Politique de confidentialité </a></li>
+                    </ul>
+                </div>
+                <div class="col-md-3 ">
+                    <h5 class="py-3">Nous contacter</h5>
+                    <ul class="nav flex-column">
+                        <li class="nav-item d-flex mb-3">
+                            <iconify-icon class="contact-icon pe-3" icon="ion:location"></iconify-icon>
+                            <a href="#" class="nav-link p-0 "> 25 RUE DU STADE 
+                                97615 PAMANDZI </a>
+                        </li>
+                        <li class="nav-item d-flex mb-3">
+                            <iconify-icon class="contact-icon pe-3" icon="ion:call"></iconify-icon><a href="#"
+                                class="nav-link p-0 "> (262) 693 31 04 66 <br>(262) 639 69 04 83  </a>
+                        </li>
+                        <li class="nav-item d-flex mb-3">
+                            <iconify-icon class="contact-icon pe-3" icon="ion:mail"></iconify-icon><a href="#"
+                                class="nav-link p-0 "> contact@majitek.com </a>
+                        </li>
+
+                    </ul>
+                </div>
+            </footer>
+        </div>
+
+        <footer class="d-flex flex-wrap justify-content-between align-items-center border-top"></footer>
+
+        <div class="container">
+            <footer class="d-flex flex-wrap justify-content-between align-items-center py-2 pt-4">
+                <div class="col-md-6 d-flex align-items-center">
+                    <p>© 2024 MAJITEK - All rights reserved</p>
+
+                </div>
+                <div class="col-md-6 d-flex align-items-center justify-content-end">
+                    <p class="">© 2024 Website By:<a href="#" class="website-link"
+                            target="_blank"> <b><u>ATOVA Software Agency</u></b></a></p>
+                </div>
+
+            </footer>
+        </div>
+    </section>
+
+    <!-- script ================================================== -->
+    <script src="static/js/jquery-1.11.0.min.js"></script>
+    <script src="static/js/plugins.js"></script>
+    <script src="static/js/script.js"></script>
+    <script src="static/js/bootstrap@5.3.0-alpha3.bundle.min.js"
+        integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
+
+    <!--<script src="https://cdn.jsdelivr.net/npm/iconify-icon@1.0.7/dist/iconify-icon.min.js"></script>-->
+
+
+</body>
+
+</html>
