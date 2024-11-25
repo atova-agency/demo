@@ -7,11 +7,10 @@ nav ul li ul {background-color:#a4a4a4;}
 nav ul li ul li a {color: #e1e1e1;}
 </style>
 <main>
-
-# La demande
-
 <section>
-
+<header>
+# La demande
+</header>
 <aside>
 ## 1. Modernisation du site web.
 Nous souhaitons refondre notre site web actuel pour le rendre plus interactif et convivial. 
@@ -91,4 +90,123 @@ Ce travail est essentiel pour assurer une cohérence visuelle à travers tous no
 : La charte graphique est le document de référence qui rassemble et présente de manière exhaustive tous les éléments graphiques utilisés pour représenter une marque/business (logos, typographies, couleurs, etc.)
 </article>
 </section>
+
+---
+
+<section>
+<header>
+
+# Offre
+
+</header>
+<h1>Note Pour l'Équipe</h1>
+</section>
+<section>
+<article>
+
+## 1. Modernisation du site web.
+
+### Re-lookage: Changement d'apparence
+
+L'apparence générale (l'habillage) du site web est modifiée, mais les textes et les images d'illustration restent généralement inchangées. 
+
+### Refonte: 
+
+Le site internet est complètement recréé. Des pages web sont ajoutées ou supprimées. 
+Quelques éléments (textes et images) de l'ancienne version peuvent être réutilisés.
+
+<br/ >
+
+Nous recommendons fortement de choisir la refonte lorsque 
+
+- le design est devenu obsolète avec le temps, 
+- le site n'attire plus assez de visiteurs, 
+- le site n'est plus aligné avec votre offre,
+- le site ne permet pas une navigation optimale,
+
+</article>
+</section>
+<section>
+<article>
+
+## 2. Mise à jour régulière du blog.
+
+La maintenance d'un blog avec articles complets fournit est 
+trés différent de l'animation d'un blog où seul les grandes lignes 
+sont disponible.
+ 
+Dans ce dernier cas il faudra prevoir un travailleur en regis.
+
+De plus, le role de l'équipe de contenu coté "baobab" qui semble déja produire des resources pour téléchargement devra être clarifier.
+
+Enfin une optimisation SEO est un travail à part entière qui devra faire l'object d'une nouvelle rubrique dans la partie demande.
+</article>
+</section>
+<section>
+<article>
+
+## 3. Plateforme de formation en ligne.
+
+Il existe des plateformes et service d'enseignement enligne.
+S'il faut développer "une plateforme robuste pour les aspects conférence et formation de nos services"
+de toute pièce, il faudra prendre en compte le coût, similaire a un site de e-commerce.
+
+Solution possible
+
+- Google meet: <https://workspace.google.com/products/meet/>
+- Zoom: <https://zoom.us/pricing>
+
+</article>
+</section>
+<section>
+<article>
+
+## 4. Gestion des médias sociaux.
+
+À partir de €545 ht/ mois	
+
+- Instagram, Facebook
+- Publication
+- Modération
+- 4 posts/mois
+- Retouche photos
+- Référencement optimisé
+- Photos transmises par le client
+- Optimisation du compte (ou création)
+
+</article>
+</section>
+<section>
+<article>
+
+## 5. Création Chaîne YouTube 
+
+- Créez le compte YouTube
+- Mettez à jour le nom et la description de la chaîne
+- Upload votre photo de profil et votre logo
+- Upload vos vidéos
+- Optimisez vos vidéos
+- Définissez la disposition "Look et mise en page" de votre chaîne
+- Créez une liste de lecture
+
+</article>
+</section>
+<section>
+<article>
+
+## 6. Mise à jour de la plaquette. 
+
+Quel est notre role? PAO?
+
+</article>
+</section>
+<section>
+<article>
+
+## 7. Charte graphique et le logo. 
+
+No comment
+</article>
+</section>
+
 </main>
