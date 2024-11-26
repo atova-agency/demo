@@ -156,6 +156,8 @@ Solution possible
 - Google meet: <https://workspace.google.com/products/meet/>
 - Zoom: <https://zoom.us/pricing>
 
+Les prix varie selon le nombre d'utilisateurs et la durée des sessions
+
 </article>
 </section>
 <section>
@@ -163,7 +165,7 @@ Solution possible
 
 ## 4. Gestion des médias sociaux.
 
-À partir de €545 ht/ mois	
+À partir de `€545 ht/ mois`	
 
 - Instagram, Facebook
 - Publication
