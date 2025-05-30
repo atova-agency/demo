@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" color-mode="" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>« Projet d’application mobile : Gestion de chantier »</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="css/vpkely.css" />
+  <link rel="icon" href="css/a_atovy-ico.svg">
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">« Projet d’application mobile : Gestion de
+chantier »</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#contact-atova" id="toc-contact-atova">Contact
+Atova</a></li>
+<li><a href="#spécifications-périmètre-fonctionnel"
+id="toc-spécifications-périmètre-fonctionnel">Spécifications : Périmètre
+fonctionnel</a>
+<ul>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+<li><a href="#proforma-pour-la-réalisation-du-projet"
+id="toc-proforma-pour-la-réalisation-du-projet">Proforma pour la
+réalisation du projet</a></li>
+</ul></li>
+</ul>
+</nav>
+<main>
+<h1 id="contact-atova">Contact Atova</h1>
+<ul>
+<li>whatsapp 034 13 782 71 roby</li>
+</ul>
+<h1 id="spécifications-périmètre-fonctionnel">Spécifications : Périmètre
+fonctionnel</h1>
+<h2>
+Dates importantes
+</h2>
+<ul>
+<li>Date de publication de l’appel d’offres : 27 mars 2024</li>
+</ul>
+<p><sup>1</sup> <em>Service</em> : Application mobile, maintenance et
+hébergement</p>
+<h2 id="introduction">Introduction</h2>
+<p>Nous sommes chargés de créer une application mobile de gestion de
+chantier, ainsi que de gestion des sous-traitants et des ouvriers,
+conçue pour le mobile. ## Spécifications</p>
+<ul>
+<li>Demande explicite</li>
+</ul>
+<ol type="1">
+<li>Ajout, modification, suppression d’un site de projet</li>
+<li>Ajout, modification, suppression d’un
+collaborateur/sous-traitant/ouvrier</li>
+<li>Ajout et suppression de photos de projets</li>
+<li>Soumission de devis par les sous-traitants</li>
+<li>Émission d’un devis révisé par le donneur d’ordre</li>
+<li>Base de données alimentée par des formulaires front-end (ordinateur
+ou web)</li>
+<li>Suivi de l’état d’avancement des projets</li>
+<li>Moteur de recherche</li>
+<li>Archivage des projets terminés</li>
+<li>Appels d’offres, affectation des tâches aux ouvriers</li>
+<li>Recherche d’ouvriers par catégorie, disponibilité, spécialisation,
+etc.</li>
+<li>Tableau de bord d’administration de l’application</li>
+</ol>
+<ul>
+<li>Spécification implicite</li>
+</ul>
+<ol type="1">
+<li>Base de données</li>
+</ol>
+<ul>
+<li>Tables et schéma</li>
+<li>API</li>
+</ul>
+<ol start="2" type="1">
+<li>Android</li>
+</ol>
+<ul>
+<li></li>
+</ul>
+<h3 id="core-administrateur-du-site">Core (administrateur du site)</h3>
+<p>Les administrateurs de la plateforme doivent être capables de :</p>
+<ul>
+<li>Ajouter, modifier ou supprimer des pages, des sections, des
+sous-catégories, etc. - Ajouter, modifier ou supprimer des éléments
+composant les équipes par projet ;</li>
+<li>Créer et assigner des tâches (date de début, date de fin,
+etc.) ;</li>
+<li><h3 id="médias">Médias</h3></li>
+<li>Insérer des images et des vidéos, directement sur le site
+d’hébergement de l’application ou via un autre hébergeur (comme
+YouTube) ;</li>
+</ul>
+<h3 id="moteur-de-recherche">Moteur de recherche</h3>
+<ul>
+<li>Le moteur de recherche doit pouvoir indexer l’ensemble du contenu
+(et des métadonnées associées) des sites, y compris les fichiers
+(documents PDF et autres formats) et les co-brandings.</li>
+<li>Les fonctionnalités de recherche attendues sont :</li>
+<li>Recherche plein texte ;</li>
+<li>Nombre illimité de mots dans une requête ;</li>
+<li>Les résultats seront affichés par ordre de pertinence, avec les
+termes de recherche mis en évidence.</li>
+<li>La recherche peut être contextualisée par catégorie.</li>
+</ul>
+<h3 id="gestion-des-travailleurs">Gestion des travailleurs</h3>
+<p>Une page dédiée à la gestion des travailleurs sera disponible sur la
+plateforme. Sur cette page,</p>
+<ul>
+<li>Vous trouverez toutes les missions en cours.</li>
+<li>Les missions créées seront automatiquement masquées à une date
+définie par l’administrateur.</li>
+<li>Les différentes rubriques des offres d’emploi :</li>
+<li>Date de publication</li>
+<li>Date limite de candidature</li>
+<li>Département</li>
+<li>Type de contrat</li>
+<li>Catégorie</li>
+<li>Missions</li>
+<li>Compétences et qualifications requises</li>
+<li>Conditions générales</li>
+<li>Informations complémentaires</li>
+<li>Contact</li>
+</ul>
+<hr />
+<h2 id="proforma-pour-la-réalisation-du-projet">Proforma pour la
+réalisation du projet</h2>
+<table>
+<thead>
+<tr class="header">
+<th>Item</th>
+<th>description</th>
+<th style="text-align: right;">cout</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>dev</td>
+<td>analyse et design</td>
+<td style="text-align: right;">1400 €</td>
+</tr>
+<tr class="even">
+<td>codage</td>
+<td></td>
+<td style="text-align: right;">1600 €</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>* backend</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td></td>
+<td>* frontend</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>design</td>
+<td></td>
+<td style="text-align: right;">1200 €</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>* frontend</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>* mobile</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td>maintenance</td>
+<td></td>
+<td style="text-align: right;">240 €</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>db, aide tech</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td></td>
+<td></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td>hebergement</td>
+<td></td>
+<td style="text-align: right;">500 €</td>
+</tr>
+<tr class="even">
+<td></td>
+<td>serveur Api, db</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td></td>
+<td>Nom de Domain</td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="even">
+<td><strong>Total Projet</strong></td>
+<td></td>
+<td style="text-align: right;">4940 €</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td></td>
+<td style="text-align: right;"></td>
+</tr>
+</tbody>
+</table>
+<p>Debut projet: 1400 €<br />
+Payment mensuelle 12 mois: 233 €</p>
+</main>
+</body>
+</html>
