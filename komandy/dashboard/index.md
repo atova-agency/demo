@@ -7,7 +7,12 @@ title: Application Multi-Solution
 
 # Liens utiles
 
+DOMAIN KNOWLEDGE
+
 - [la-fiche-dintervention](https://lecoursgratuit.com/la-fiche-dintervention-travaux-un-outil-essentiel-pour-la-gestion-efficace-des-chantiers/)
+- [construction-management](https://altersquare.medium.com/mobile-first-design-for-construction-management-software-field-usability-guide-3f52adf45b02)
+- [construction-app-dev](https://exoft.net/construction-app-development-guide/)
+- [construction-app](https://ascendixtech.com/construction-app-development/)
 
 </article>
 <article>
