@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" color-mode="" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>Kômandy: Vision conceptuelle</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style>
+  <link rel="stylesheet" href="static/css/vpkely.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">Kômandy: Vision conceptuelle</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#flux-de-travail-de-base"
+id="toc-flux-de-travail-de-base">Flux de travail de base</a>
+<ul>
+<li><a href="#chantier" id="toc-chantier">1. Chantier</a></li>
+<li><a href="#projets" id="toc-projets">2. Projets</a></li>
+<li><a href="#tâches" id="toc-tâches">3. Tâches</a></li>
+<li><a href="#équipes" id="toc-équipes">4. Équipes</a></li>
+<li><a href="#clock-in" id="toc-clock-in">5. Clock-in</a></li>
+</ul></li>
+<li><a href="#à-propos-des-tâches" id="toc-à-propos-des-tâches">À propos
+des tâches</a>
+<ul>
+<li><a href="#dépendances-des-tâches"
+id="toc-dépendances-des-tâches">Dépendances des tâches</a></li>
+<li><a href="#déplacement-de-tâches-entre-projets"
+id="toc-déplacement-de-tâches-entre-projets">Déplacement de tâches entre
+projets</a></li>
+<li><a href="#pièces-jointes-aux-tâches"
+id="toc-pièces-jointes-aux-tâches">Pièces jointes aux tâches</a></li>
+<li><a href="#planification-minimale-des-tâches"
+id="toc-planification-minimale-des-tâches">Planification minimale des
+tâches</a></li>
+<li><a href="#rappels-et-notifications-de-tâches"
+id="toc-rappels-et-notifications-de-tâches">Rappels et notifications de
+tâches</a></li>
+</ul></li>
+<li><a href="#autres-concepts-clés" id="toc-autres-concepts-clés">Autres
+concepts clés</a>
+<ul>
+<li><a href="#fonctionnalité-de-recherche-globale"
+id="toc-fonctionnalité-de-recherche-globale">Fonctionnalité de recherche
+globale</a></li>
+<li><a href="#visualisation-du-projet"
+id="toc-visualisation-du-projet">Visualisation du projet</a></li>
+<li><a href="#contrôle-daccès-basé-sur-les-rôles-rba"
+id="toc-contrôle-daccès-basé-sur-les-rôles-rba">Contrôle d’accès basé
+sur les rôles (RBA)</a></li>
+</ul></li>
+</ul>
+</nav>
+<main>
+<p>Kômandy est une plateforme de gestion de projets terrain axée sur la
+simplicité et l’efficacité.</p>
+<p>Kômandy organise votre travail grâce aux rubriques clés
+suivantes :</p>
+<ol type="1">
+<li>Chantiers : Unité organisationnelle de niveau supérieur contenant
+les projets et les membres de l’équipe.</li>
+<li>Projets : Ensemble de tâches connexes au sein d’un chantier.</li>
+<li>Tâches : Éléments de travail individuels à réaliser.</li>
+<li>Équipes : Groupes cadres-employés collaborant sur des chantiers et
+des projets.</li>
+<li>Pointage : Gérez le temps et la présence de vos employés sur le
+terrain.</li>
+</ol>
+<h1 id="flux-de-travail-de-base">Flux de travail de base</h1>
+<p>Un flux de travail typique dans Kômandy ressemble à ceci :</p>
+<ul>
+<li>Créer un chantier</li>
+<li>Inviter des membres de l’équipe à y participer ou assigner des
+équipiers</li>
+<li>Créer des projets au sein des chantiers</li>
+<li>Ajouter des tâches à vos projets</li>
+<li>Assigner des tâches aux membres de vos équipes</li>
+<li>Suivre l’avancement des tâches</li>
+</ul>
+<h2 id="chantier">1. Chantier</h2>
+<h3 id="quest-ce-quun-chantier">Qu’est-ce qu’un chantier?</h3>
+<p>Le chantier est une unité organisationnelle de niveau supérieur de
+Kômandy. Il sert de conteneur pour les projets, les tâches et les
+membres d’une équipe. Un chantier est un espace dédié à une équipe, un
+service ou un domaine de travail spécifique.</p>
+<h4 id="créer-un-chantier">Créer un chantier</h4>
+<p>Pour créer un chantier :</p>
+<ul>
+<li>Cliquez sur le sélecteur de chantier en haut à gauche</li>
+<li>Sélectionnez « Créer une chantier »</li>
+<li>Saisissez un nom pour votre chantier</li>
+<li>Cliquez sur « Créer »</li>
+</ul>
+<h4 id="gestion-des-chantiers---paramètres">Gestion des chantiers -
+Paramètres</h4>
+<p>Chaque chantier possède ses propres paramètres que vous pouvez
+configurer :</p>
+<ul>
+<li>Cliquez sur le sélecteur de chantiers en haut à gauche</li>
+<li>Sélectionnez le chantier que vous souhaitez gérer</li>
+<li>Cliquez sur « Paramètres » dans la barre latérale</li>
+</ul>
+<p>Depuis la page des paramètres, vous pouvez :</p>
+<ul>
+<li>Modifier le nom du chantier</li>
+<li>Configurer les paramètres spécifiques au chantier</li>
+</ul>
+<h4 id="passer-dun-chantier-à-un-autre">Passer d’un chantier à un
+autre</h4>
+<p>Si vous avez plusieurs chantiers, vous pouvez facilement passer d’un
+chantier à un autre:</p>
+<ul>
+<li>Cliquez sur le sélecteur de chantiers en haut à gauche</li>
+<li>Sélectionnez le chantier vers lesquel vous souhaitez passer</li>
+</ul>
+<h4 id="supprimer-un-chantier">Supprimer un chantier</h4>
+<p>Pour supprimer un chantier :</p>
+<ul>
+<li>Accédez aux paramètres du chantier</li>
+<li>Faites défiler la page jusqu’en bas</li>
+<li>Cliquez sur « Supprimer le chantier »</li>
+<li>Confirmez la suppression</li>
+</ul>
+<p>Remarque : La suppression d’un chantier entraîne la suppression
+définitive de tous les projets, tâches et données qui lui sont associés.
+Cette action est irréversible. (Solution possible: git)</p>
+<h2 id="projets">2. Projets</h2>
+<h3 id="que-sont-les-projets">Que sont les projets ?</h3>
+<p>Dans Kômandy, les projets regroupent des tâches liées au sein d’un
+chantier. Ils vous aident à organiser votre travail en groupes logiques.
+Un projet peut représenter un espace de travail, un client, un service,
+une flotte de véhicules ou toute autre organisation de vos tâches.</p>
+<h4 id="créer-un-projet">Créer un projet</h4>
+<p>Pour créer un projet :</p>
+<ul>
+<li>Accédez au chantier où vous souhaitez créer le projet.</li>
+<li>Cliquez sur « Projets » dans la barre latérale.</li>
+<li>Cliquez sur le bouton « Nouveau projet ».</li>
+<li>Saisissez un nom et une description (facultatif) pour votre
+projet.</li>
+<li>Cliquez sur « Créer ».</li>
+</ul>
+<p>Le projet sera créé et vous serez redirigé vers la vue tableau.
+🎉</p>
+<h4 id="vues-des-projets">Vues des projets</h4>
+<p>Dans Kômandy, chaque projet peut être visualisé de différentes
+manières :</p>
+<ul>
+<li>Vue Liste : affiche les tâches sous forme de liste simple</li>
+<li>Vue Tableau : affiche les tâches organisées par statut dans un
+tableau de type Kanban</li>
+</ul>
+<p>Pour passer d’une vue à l’autre, utilisez le sélecteur de vue dans
+l’en-tête du projet.</p>
+<h3 id="paramètres-du-projet">Paramètres du projet</h3>
+<p>Pour accéder aux paramètres du projet :</p>
+<ul>
+<li>Accédez au projet</li>
+<li>Cliquez sur le bouton « Paramètres » dans l’en-tête du projet</li>
+</ul>
+<p>Vous serez redirigé vers la page des paramètres du projet.</p>
+<p>Depuis la page des paramètres, vous pouvez :</p>
+<ul>
+<li>Modifier le nom et la description du projet</li>
+<li>Configurer les paramètres spécifiques au projet</li>
+</ul>
+<h3 id="archivage-et-suppression-de-projets">Archivage et suppression de
+projets</h3>
+<p>Lorsqu’un projet est terminé ou n’est plus nécessaire, vous
+pouvez :</p>
+<ul>
+<li>Archiver : conserve les données du projet, mais le supprime de la
+liste des projets actifs</li>
+<li>Supprimer : supprime définitivement le projet et toutes ses tâches
+(NOTE: Option à voir)</li>
+</ul>
+<p>Pour archiver ou supprimer un projet, accédez aux paramètres du
+projet et faites défiler la page jusqu’en bas.</p>
+<h2 id="tâches">3. Tâches</h2>
+<h3 id="quest-ce-quune-tâche">Qu’est-ce qu’une tâche?</h3>
+<p>Les tâches sont les éléments de travail fondamentaux de Kômandy.
+Elles représentent des actions spécifiques à réaliser dans le cadre d’un
+projet. Chaque tâche peut avoir différents attributs, tels que des
+responsables, des dates d’échéance, un statut et un suivi du temps.</p>
+<h4 id="créer-des-tâches">Créer des tâches</h4>
+<p>Pour créer une tâche :</p>
+<ul>
+<li>Accédez au projet dans lequel vous souhaitez créer la tâche.</li>
+<li>Cliquez sur le bouton « Nouvelle tâche ».</li>
+<li>Saisissez un titre pour votre tâche.</li>
+<li>Ajoutez des informations supplémentaires.</li>
+<li>Cliquez sur « Créer ».</li>
+</ul>
+<p>La tâche sera ajoutée à la liste des tâches du projet. 🎉</p>
+<h4 id="propriétés-des-tâches">Propriétés des tâches</h4>
+<p>Les tâches dans Kômandy possèdent plusieurs propriétés qui vous
+aident à suivre et à gérer votre travail :</p>
+<ul>
+<li>Titre : Brève description de la tâche</li>
+<li>Description : Informations détaillées sur les tâches à
+effectuer</li>
+<li>Statut : État actuel de la tâche (par exemple, À faire, En cours,
+Terminé)</li>
+<li>Responsable : Personne responsable de la réalisation de la
+tâche</li>
+<li>Échéance : Date limite de réalisation de la tâche</li>
+<li>Priorité : Niveau d’importance de la tâche</li>
+<li>Suivi du temps : Enregistrement du temps passé sur la tâche</li>
+</ul>
+<h4 id="gestion-des-tâches">Gestion des tâches</h4>
+<p>Vous pouvez gérer les tâches de plusieurs manières :</p>
+<ul>
+<li>Modifier : Cliquez sur une tâche pour accéder à ses détails et la
+modifier.</li>
+<li>Modifier le statut : Faites glisser les tâches entre les colonnes de
+la vue Tableau (Kanban) ou sélectionnez un nouveau statut dans la vue
+Liste.</li>
+<li>Attribuer : Attribuez ou réattribuez des tâches aux membres de
+l’équipe.</li>
+<li>Commenter : Ajoutez des commentaires pour discuter de la tâche avec
+votre équipe.</li>
+<li>Suivi du temps : Démarrez et arrêtez le suivi du temps pour
+enregistrer la durée du travail.</li>
+<li>Tâche parente (NOTE: find better wording)</li>
+</ul>
+<h2 id="équipes">4. Équipes</h2>
+<h3 id="gestion-déquipe-dans-kômandy">Gestion d’équipe dans Kômandy</h3>
+<p>Kômandy vous permet de collaborer avec les membres de votre équipe
+sur différents chantiers et projets. Une gestion d’équipe efficace est
+essentielle à une collaboration réussie.</p>
+<h4 id="inviter-des-membres-de-léquipe">Inviter des membres de
+l’équipe</h4>
+<p>NOTE: Field workers form should be different from Member form TODO:
+make a distinction between a member and a worker.</p>
+<p>Pour inviter quelqu’un à vos chantiers :</p>
+<ul>
+<li>Accédez aux paramètres des chantiers</li>
+<li>Cliquez sur l’onglet « Membres »</li>
+<li>Cliquez sur « Inviter un membre »</li>
+<li>Saisissez l’adresse e-mail de la personne à inviter</li>
+<li>Sélectionnez le rôle approprié pour le nouveau membre</li>
+<li>Cliquez sur « Envoyer l’invitation »</li>
+</ul>
+<p>La personne invitée aura accès aux chantiers après s’être connectée.
+🎉</p>
+<h4 id="gérer-les-membres-de-léquipe">Gérer les membres de l’équipe</h4>
+<p>Pour gérer les membres de l’équipe existants :</p>
+<ul>
+<li>Accédez aux paramètres des chantiers</li>
+<li>Cliquez sur l’onglet « Membres »</li>
+</ul>
+<p>De là, vous pouvez :</p>
+<ul>
+<li>Ajouter un membre au chantier</li>
+<li>Supprimer un membre d’un chantier</li>
+</ul>
+<h2 id="clock-in">5. Clock-in</h2>
+<p>Gérez le temps et la présence de vos employés sur le terrain.</p>
+<h3 id="accompagnement-des-employés-sur-le-terrain">Accompagnement des
+employés sur le terrain</h3>
+<p>Prenez des décisions éclairées en obtenant une vue d’ensemble des
+performances de vos collaborateurs: De la performance et de la
+productivité globales, au temps consacré aux projets et aux tâches.</p>
+<h3 id="suivi-des-présences">Suivi des présences</h3>
+<p>Assurez-vous d’avoir un aperçu de la disponibilité et de la
+productivité de votre équipe. Suivez facilement les arrivées tardives ou
+les départs anticipés.</p>
+<p>Le système vous aide à maintenir la productivité de votre équipe,
+même sans connexion. Exploitez la prise en charge réseau hors ligne de
+Kômandy pour un accès et une capture de données continus, avec une
+synchronisation automatique une fois le réseau rétabli.</p>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">select tech</th>
+<th style="text-align: left;">Commentaires</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Text-based Time-Clock</td>
+<td style="text-align: left;">(pointage par SMS: extra cost!)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">IVR</td>
+<td style="text-align: left;">(pointage par voix: à voir:
+compliqué?)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">QR code</td>
+<td style="text-align: left;">(pointage par scan par le superviseur
+surplace: Lent)</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">NFC</td>
+<td style="text-align: left;">(pointage par tap sur le phone du
+superviseur surplace: Plus rapide)</td>
+</tr>
+</tbody>
+</table>
+<h3 id="fonctionnalités-clés">Fonctionnalités clés</h3>
+<p>Avec ce système, vous ne vous contentez pas de suivre le temps: vous
+prenez le contrôle de votre journée. Que vous gériez plusieurs sites ou
+que vous jongliez avec différents plannings de travail, ces
+fonctionnalités vous aident à éliminer les incertitudes et vous
+permettent de vous concentrer sur l’avancement de vos projets sans les
+tracas de la gestion manuelle des feuilles de temps.</p>
+<p>L’application de pointage Kômandy pour les travailleurs de terrain
+présente les fonctionnalités suivantes :</p>
+<ul>
+<li>Fonctionnalité hors ligne : La possibilité de suivre le temps de
+travail, même sans connexion internet, est essentielle pour les
+travailleurs de terrain.</li>
+<li>Pointage d’entrée et de sortie facile : Une interface simple et
+intuitive permet aux employés d’enregistrer leurs heures de
+travail.</li>
+<li>Rapports de temps détaillés : Possibilité de générer des rapports
+sur les heures de travail, les projets et les tâches.</li>
+<li>Application mobile : Une application mobile dédiée, facile d’accès
+et d’utilisation pour les travailleurs de terrain.</li>
+</ul>
+<h3 id="règles-simples-de-suivi-du-temps">Règles simples de suivi du
+temps</h3>
+<ul>
+<li>Définissez des plages horaires d’arrivée et de départ spécifiques :
+évitez les entrées en avance ou en retard.</li>
+<li>Définissez des durées minimales de quart : évitez les
+enregistrements incomplets accidentels.</li>
+<li>Personnalisez les règles par site.
+<ul>
+<li>S’adapter aux différentes exigences du projet.</li>
+<li>Adapter les temps de pause aux différents projets.</li>
+</ul></li>
+<li>Suivi des heures supplémentaires : signalez automatiquement les
+heures dépassant les limites de travail normales.</li>
+</ul>
+<p>Par défaut, l’intégration avec les systèmes de paie n’est pas
+disponible. Notre objectif principal est de garantir l’indépendance, la
+petite taille et la réactivité de Kômandy. Cependant, la possibilité
+d’exporter les données de temps vers les systèmes de paie pour une
+intégration transparente pourrait être ajoutée.</p>
+<h1 id="à-propos-des-tâches">À propos des tâches</h1>
+<h2 id="dépendances-des-tâches">Dépendances des tâches</h2>
+<p>Les projets complexes comportent souvent des tâches qui dépendent de
+la réalisation d’autres tâches.</p>
+<p>La fonctionnalité de dépendance des tâches permet aux utilisateurs
+de :</p>
+<ul>
+<li>Créer des relations prédécesseur/successeur entre les tâches
+<ul>
+<li>Créer des sous-tâches au sein de tâches existantes</li>
+</ul></li>
+<li>Visualiser les dépendances dans les vues Tableau et Chronologie
+<ul>
+<li>Visualiser les relations parent-enfant dans l’interface
+utilisateur</li>
+<li>Naviguer facilement entre les tâches parentes et enfant</li>
+</ul></li>
+<li>Marquer les tâches parentes comme terminées lorsque toutes les
+sous-tâches sont terminées</li>
+<li>Recevoir des notifications lorsque les tâches bloquantes sont
+terminées</li>
+<li>Filtrer les tâches par état de dépendance (bloquée, bloquante,
+etc.)</li>
+<li>Détecter et prévenir les dépendances circulaires</li>
+</ul>
+<p>Les dépendances sont accessibles en cas de besoin, sans surcharger
+les vues principales des tâches. Ils offrent un moyen naturel
+d’organiser un travail complexe sans encombrer la vue principale du
+tableau. Ils maintient une interface utilisateur claire tout en ajoutant
+de puissantes fonctionnalités d’organisation.</p>
+<h2 id="déplacement-de-tâches-entre-projets">Déplacement de tâches entre
+projets</h2>
+<p>La réorganisation des tâches est courante à mesure que les projets
+évoluent et que les priorités changent. La possibilité de déplacer des
+tâches entre projets est une fonctionnalité standard des outils de
+gestion de projet éprouvés. Les utilisateurs ont souvent besoin de
+réorganiser leur travail en déplaçant des tâches entre différents
+projets.</p>
+<p>Les fonctionnalités de l’application permettent aux utilisateurs
+de :</p>
+<ul>
+<li>Déplacer des tâches d’un projet à un autre tout en préservant toutes
+les données de la tâche ;</li>
+<li>Ajuster éventuellement le statut des tâches lors du déplacement
+entre des projets avec des flux de travail différents ;</li>
+<li>Conserver l’historique des tâches, les commentaires et les pièces
+jointes pendant le déplacement ;</li>
+<li>Proposer une interface utilisateur claire pour la sélection du
+projet de destination.</li>
+</ul>
+<h2 id="pièces-jointes-aux-tâches">Pièces jointes aux tâches</h2>
+<p>Les pièces jointes sont essentielles pour fournir du contexte et de
+la documentation aux tâches. Les utilisateurs doivent partager des
+fichiers liés aux tâches (documents, images, fichiers de conception,
+etc.). Les outils externes de partage de fichiers peuvent créer des flux
+de travail déconnectés.</p>
+<p>La fonctionnalité de pièces jointes permet aux utilisateurs de :</p>
+<ul>
+<li>Importer des fichiers directement dans les fiches de tâches</li>
+<li>Prévisualiser les types de fichiers courants (images, PDF,
+etc.)</li>
+<li>Télécharger les pièces jointes</li>
+<li>Gérer les pièces jointes (supprimer, remplacer)</li>
+</ul>
+<p>Remarque : Une fiche de tâche est une tâche et ses sous-tâches
+directement liées, souvent séquentielles.</p>
+<p>Cette fonctionnalité conserve les fichiers pertinents avec les tâches
+auxquelles ils appartiennent. Elle réduit les changements de contexte et
+améliore l’efficacité du flux de travail sans ajouter de complexité
+inutile.</p>
+<h2 id="planification-minimale-des-tâches">Planification minimale des
+tâches</h2>
+<p>La planification des tâches est essentielle à la planification des
+projets. Une planification efficace des tâches est essentielle à la
+planification des projets et à l’allocation des ressources. Les
+paramètres par défaut configurables aident les équipes à maintenir des
+pratiques cohérentes.</p>
+<p>Améliorez la fonctionnalité de gestion des échéances pour
+inclure :</p>
+<ul>
+<li>Dates d’échéance par défaut configurables (par exemple, +1 semaine
+après la création)</li>
+<li>Préréglages de dates d’échéance au niveau de l’équipe ou du
+projet</li>
+<li>Indicateurs visuels pour les tâches en cours ou en retard</li>
+<li>Intégration de la vue Calendrier</li>
+<li>Modification des dates d’échéance par lots</li>
+</ul>
+<p>Cette fonctionnalité simplifie le processus de définition des dates
+d’échéance tout en offrant une flexibilité adaptée aux différents flux
+de travail des équipes, réduisant ainsi le travail manuel et préservant
+la clarté.</p>
+<h2 id="rappels-et-notifications-de-tâches">Rappels et notifications de
+tâches</h2>
+<p>Les utilisateurs manquent souvent des échéances ou des mises à jour
+importantes en raison de l’absence de système de rappel ou de
+notification intégré. Cela entraîne des retards et des problèmes de
+communication dans l’exécution des projets.</p>
+<p>Des notifications ponctuelles sont essentielles pour maintenir les
+projets sur la bonne voie et garantir que les membres de l’équipe sont
+informés de leurs responsabilités et des modifications apportées à leur
+travail.</p>
+<p>Le système de notifications complet de Kômandy comprend :</p>
+<ul>
+<li>Rappels d’échéance (horaires configurables)</li>
+<li>Notifications d’attribution de tâches</li>
+<li>Alertes de commentaires et de mentions</li>
+<li>Notifications de changement de statut</li>
+<li>Préférences de notification par utilisateur</li>
+<li>Plusieurs canaux de diffusion (dans l’application, par e-mail,
+etc.)</li>
+</ul>
+<p>Cela réduit le besoin de suivi manuel tout en permettant aux
+utilisateurs de contrôler les notifications qu’ils reçoivent, leur
+permettant ainsi de rester informés sans être débordés.</p>
+<h1 id="autres-concepts-clés">Autres concepts clés</h1>
+<h2 id="fonctionnalité-de-recherche-globale">Fonctionnalité de recherche
+globale</h2>
+<p>À mesure que les projets se développent, trouver des tâches ou des
+informations spécifiques devient de plus en plus difficile sans des
+fonctionnalités de recherche performantes.</p>
+<p>Une fonctionnalité de recherche globale permet aux utilisateurs
+de :</p>
+<ul>
+<li>Rechercher dans tous les projets et chantiers auxquels ils ont
+accès ;</li>
+<li>Filtrer les résultats de recherche selon différents critères
+(statut, responsable, date, etc.) ;</li>
+<li>Rechercher dans les descriptions et les commentaires des
+tâches ;</li>
+<li>Enregistrer les recherches fréquentes pour un accès rapide.</li>
+</ul>
+<p>Une recherche efficace des informations devient essentielle à mesure
+que le volume des tâches et des projets augmente. Elle simplifie la
+recherche d’informations sans nécessiter de navigation complexe ni de
+mémorisation de l’emplacement de stockage, rendant ainsi l’ensemble du
+système plus accessible.</p>
+<h2 id="visualisation-du-projet">Visualisation du projet</h2>
+<p>Les graphes et tableaux offrent une visualisation intuitive :</p>
+<ul>
+<li>Dates de début et de fin des tâches</li>
+<li>Interdépendances entre les tâches</li>
+<li>Jalons clés du projet</li>
+<li>Chronologie globale du projet et aperçu de son avancement</li>
+</ul>
+<h2 id="contrôle-daccès-basé-sur-les-rôles-rba">Contrôle d’accès basé
+sur les rôles (RBA)</h2>
+<p>À mesure que les équipes se développent et collaborent avec des
+intervenants externes, la capacité à contrôler précisément qui peut voir
+et modifier des informations spécifiques devient essentielle pour la
+sécurité et la gestion des flux de travail. Un contrôle d’accès
+approprié est essentiel pour la sécurité et la gestion des flux de
+travail.</p>
+<p>Les équipes ont besoin de niveaux d’autorisation différents selon les
+utilisateurs. Cela permet de partager des tableaux avec des intervenants
+externes ou de limiter les opérations sensibles à certains membres de
+l’équipe.</p>
+<p>Kômandy met en œuvre un système complet de contrôle d’accès basé sur
+les rôles, comprenant :</p>
+<ul>
+<li>Paramètres d’autorisations au niveau du projet</li>
+<li>Contrôles d’accès au niveau des tâches</li>
+<li>Rôles prédéfinis (Administrateur, Collaborateur, Lecteur)</li>
+<li>Autorisations d’accès temporaires avec expiration</li>
+<li>Création de rôles personnalisés avec autorisations granulaires</li>
+<li>Règles d’héritage des autorisations</li>
+<li>Journalisation des modifications d’autorisations</li>
+<li>Journaux d’audit détaillés des autorisations</li>
+<li>Indicateurs visuels des restrictions d’autorisations</li>
+</ul>
+<p>Chaque utilisateur ne voit que ce dont il a besoin en fonction de ses
+autorisations, garantissant ainsi une expérience claire et ciblée.</p>
+</main>
+</body>
+</html>

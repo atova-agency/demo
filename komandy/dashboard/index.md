@@ -5,6 +5,10 @@ title: Application Multi-Solution
 
 <article>
 
+# Concept du produit
+
+- [concept_fr](./concept_fr.html)
+
 # Liens utiles
 
 DOMAIN KNOWLEDGE
