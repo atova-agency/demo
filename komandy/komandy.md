@@ -1,7 +1,7 @@
 ---
 title: "« Projet d'application mobile : Gestion de chantier »"
 header-includes:
-  <link rel="icon" href="css/a_atovy-ico.svg">
+  <link rel="icon" href="./static/img/favicon.svg">
 ---
 
 <main>

@@ -1,11 +1,153 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" color-mode="" lang="" xml:lang="">
+<html color-mode="">
 <head>
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <!--meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" /-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>« Projet d’application mobile : Gestion de chantier »</title>
-  <style>
+  <!--style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -21,9 +163,10 @@
       vertical-align: middle;
     }
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
-  </style>
-  <link rel="stylesheet" href="css/vpkely.css" />
-  <link rel="icon" href="css/a_atovy-ico.svg">
+  </style-->
+  <link rel="icon" href="./static/img/favicon.svg">
+  <link rel="stylesheet" href="./static/css/vpkely.css" />
+  <link rel="stylesheet" href="./static/css/lang.css" />
 </head>
 <body>
 <header id="title-block-header">
@@ -34,207 +177,200 @@ chantier »</h1>
 <ul>
 <li><a href="#contact-atova" id="toc-contact-atova">Contact
 Atova</a></li>
-<li><a href="#spécifications-périmètre-fonctionnel"
-id="toc-spécifications-périmètre-fonctionnel">Spécifications : Périmètre
-fonctionnel</a>
+<li><a href="#concept-kômandy" id="toc-concept-kômandy">Concept
+Kômandy</a>
 <ul>
-<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
-<li><a href="#proforma-pour-la-réalisation-du-projet"
-id="toc-proforma-pour-la-réalisation-du-projet">Proforma pour la
-réalisation du projet</a></li>
+<li><a href="#klogistics" id="toc-klogistics">Klogistics</a></li>
+<li><a href="#koperations" id="toc-koperations">Koperations</a></li>
+</ul></li>
+<li><a href="#our-products" id="toc-our-products">Our products</a>
+<ul>
+<li><a href="#kfleet" id="toc-kfleet">Kfleet</a></li>
+<li><a href="#kelec" id="toc-kelec">Kelec</a></li>
+<li><a href="#kbuildyard" id="toc-kbuildyard">Kbuildyard</a></li>
+<li><a href="#ktimetrac" id="toc-ktimetrac">KtimeTrac</a></li>
+<li><a href="#kzoky_b" id="toc-kzoky_b">Kzoky_B</a></li>
+</ul></li>
+<li><a href="#other-products" id="toc-other-products">Other products</a>
+<ul>
+<li><a href="#kpris" id="toc-kpris">Kpris</a></li>
+<li><a href="#aiza" id="toc-aiza">AIza</a></li>
 </ul></li>
 </ul>
 </nav>
 <main>
+<section>
 <h1 id="contact-atova">Contact Atova</h1>
 <ul>
-<li>whatsapp 034 13 782 71 roby</li>
+<li>whatsapp <span class="sometype-mono-code">034 13 782 71</span>
+roby</li>
 </ul>
-<h1 id="spécifications-périmètre-fonctionnel">Spécifications : Périmètre
-fonctionnel</h1>
-<h2>
-Dates importantes
+<nav>
+<ul class="flex gap-4 float-right">
+<li id="select_en">
+<a href="#en"><img width="14px"  src="static/img/flags/gb.svg" /></a>
+</li>
+<li id="select_mg">
+<a href="#mg"><img width="14px" src="static/img/flags/mg.svg" /></a>
+</li>
+<li id="select_fr">
+<a href="#fr"><img width="14px"  src="static/img/flags/fr.svg" /></a>
+</li>
+</ul>
+</nav>
+</section>
+<p>voir aussi:</p>
+<ul>
+<li><a href="./dashboard/concept_fr.html">Kconstruction (fr) produit
+sous licence pour Solus</a></li>
+</ul>
+<h1 id="concept-kômandy">Concept Kômandy</h1>
+<div class="en">
+<p>Kômandy is a <em>Product Suite</em> developed by
+<strong>A</strong>tova</p>
+<p>The two main focuses are the implementation of desktop-oriented
+functionality for management and mobile/app functionality for
+operational purposes.</p>
+<p>The latter are developed as independent modules that are integrated
+and operated under the Kômandy label.</p>
+</div>
+<div class="fr">
+<p>Kômandy est une suite de produits développée par
+<strong>A</strong>tova.</p>
+<p>Les deux axes principaux sont la mise en œuvre de fonctionnalités
+orientées bureau pour la gestion et de fonctionnalités
+mobiles/applicatives à des fins opérationnelles.</p>
+<p>Ces dernières sont développées sous forme de modules indépendants,
+intégrés et exploités sous le label Kômandy.</p>
+</div>
+<section>
+<aside>
+<h2 style="padding-top: 0.5rem;content: url(&#39;./static/img/001.kLogistics.png&#39;); margin-left: 3rem;">
+Klogistics
 </h2>
+<div class="en">
+<p>The design and development of all our Products that tend to lean
+towards Desktop or web platform are guided by three concepts which we
+have branded as Kinventory, Kdeploy and Kprocurement.</p>
+</div>
+<div class="fr">
+<p>La conception et le développement de tous nos produits qui tendent
+vers une plate-forme de bureau ou Web sont guidés par trois concepts que
+nous avons nommés Kinventory, Kdeploy and Kprocurement.</p>
+</div>
+<div>
+
+</div>
 <ul>
-<li>Date de publication de l’appel d’offres : 27 mars 2024</li>
+<li>Kinventory</li>
+<li>Kdeploy</li>
+<li>Kprocurement</li>
 </ul>
-<p><sup>1</sup> <em>Service</em> : Application mobile, maintenance et
-hébergement</p>
-<h2 id="introduction">Introduction</h2>
-<p>Nous sommes chargés de créer une application mobile de gestion de
-chantier, ainsi que de gestion des sous-traitants et des ouvriers,
-conçue pour le mobile. ## Spécifications</p>
+</aside>
+<aside>
+<h2 style="padding-top: 0.5rem;content: url(&#39;./static/img/002.kOperations.png&#39;); margin-left: 3rem;">
+Koperations
+</h2>
+<div class="en">
+Two key aspects in developing field or offsite Products that tend to
+lean towards Mobile or web platform are the ability to organize and
+monitor work and workers. These activities fall under the categories
+Kmonitor and Kunit
+</div>
+<div class="fr">
+Deux aspects clés du développement de produits sur le terrain ou hors
+site, généralement orientés vers les plateformes mobiles ou web, sont la
+capacité d’organiser et de suivre le travail et les collaborateurs. Ces
+activités relèvent des catégories Kmonitor et Kunit.
+</div>
 <ul>
-<li>Demande explicite</li>
+<li>Kmonitor</li>
+<li>Kunit</li>
 </ul>
-<ol type="1">
-<li>Ajout, modification, suppression d’un site de projet</li>
-<li>Ajout, modification, suppression d’un
-collaborateur/sous-traitant/ouvrier</li>
-<li>Ajout et suppression de photos de projets</li>
-<li>Soumission de devis par les sous-traitants</li>
-<li>Émission d’un devis révisé par le donneur d’ordre</li>
-<li>Base de données alimentée par des formulaires front-end (ordinateur
-ou web)</li>
-<li>Suivi de l’état d’avancement des projets</li>
-<li>Moteur de recherche</li>
-<li>Archivage des projets terminés</li>
-<li>Appels d’offres, affectation des tâches aux ouvriers</li>
-<li>Recherche d’ouvriers par catégorie, disponibilité, spécialisation,
-etc.</li>
-<li>Tableau de bord d’administration de l’application</li>
-</ol>
+</aside>
+</section>
+<h2 id="klogistics">Klogistics</h2>
 <ul>
-<li>Spécification implicite</li>
+<li>Kinventory</li>
+<li>Kdeploy</li>
+<li>Kprocurement</li>
 </ul>
-<ol type="1">
-<li>Base de données</li>
-</ol>
+<h2 id="koperations">Koperations</h2>
 <ul>
-<li>Tables et schéma</li>
-<li>API</li>
+<li>Kmonitor</li>
+<li>Kunit</li>
 </ul>
-<ol start="2" type="1">
-<li>Android</li>
-</ol>
-<ul>
-<li></li>
-</ul>
-<h3 id="core-administrateur-du-site">Core (administrateur du site)</h3>
-<p>Les administrateurs de la plateforme doivent être capables de :</p>
-<ul>
-<li>Ajouter, modifier ou supprimer des pages, des sections, des
-sous-catégories, etc. - Ajouter, modifier ou supprimer des éléments
-composant les équipes par projet ;</li>
-<li>Créer et assigner des tâches (date de début, date de fin,
-etc.) ;</li>
-<li><h3 id="médias">Médias</h3></li>
-<li>Insérer des images et des vidéos, directement sur le site
-d’hébergement de l’application ou via un autre hébergeur (comme
-YouTube) ;</li>
-</ul>
-<h3 id="moteur-de-recherche">Moteur de recherche</h3>
-<ul>
-<li>Le moteur de recherche doit pouvoir indexer l’ensemble du contenu
-(et des métadonnées associées) des sites, y compris les fichiers
-(documents PDF et autres formats) et les co-brandings.</li>
-<li>Les fonctionnalités de recherche attendues sont :</li>
-<li>Recherche plein texte ;</li>
-<li>Nombre illimité de mots dans une requête ;</li>
-<li>Les résultats seront affichés par ordre de pertinence, avec les
-termes de recherche mis en évidence.</li>
-<li>La recherche peut être contextualisée par catégorie.</li>
-</ul>
-<h3 id="gestion-des-travailleurs">Gestion des travailleurs</h3>
-<p>Une page dédiée à la gestion des travailleurs sera disponible sur la
-plateforme. Sur cette page,</p>
-<ul>
-<li>Vous trouverez toutes les missions en cours.</li>
-<li>Les missions créées seront automatiquement masquées à une date
-définie par l’administrateur.</li>
-<li>Les différentes rubriques des offres d’emploi :</li>
-<li>Date de publication</li>
-<li>Date limite de candidature</li>
-<li>Département</li>
-<li>Type de contrat</li>
-<li>Catégorie</li>
-<li>Missions</li>
-<li>Compétences et qualifications requises</li>
-<li>Conditions générales</li>
-<li>Informations complémentaires</li>
-<li>Contact</li>
-</ul>
+<h1 id="our-products">Our products</h1>
+<section>
+<aside>
+<h2 style="padding-top: 0.5rem;content: url(&#39;./static/img/008.kFleet.png&#39;); margin-left: 3rem;">
+kFleet
+</h2>
+<h2 id="kfleet">Kfleet</h2>
+<div class="en">
+<p>Track your vehicles’ maintenance and service history. Measure fuel
+consumption and schedule automatic maintenance reminders. Wherever you
+are, stay in control with our desktop, web, or mobile app.</p>
+</div>
+<div class="fr">
+<p>Suivez l’historique d’entretien et de maintenance de vos véhicules.
+Mesurez votre consommation de carburant et programmez des rappels
+d’entretien automatiques. Où que vous soyez, gardez le contrôle grâce à
+notre application pour ordinateur, web ou mobile.</p>
+</div>
+</aside>
+<aside>
+<h2 style="padding-top: 0.5rem;content: url(&#39;./static/img/009.kElec.png&#39;); margin-left: 3rem;">
+kElec
+</h2>
+<h2 id="kelec">Kelec</h2>
+</aside>
+<aside>
+<h2 style="padding-top: 0.5rem;content: url(&#39;./static/img/010.kBuildyard.png&#39;); margin-left: 3rem;">
+kBuildyard
+</h2>
+<h2 id="kbuildyard">Kbuildyard</h2>
+</aside>
+<aside>
+<h2 style="padding-top: 0.5rem;content: url(&#39;./static/img/011.kTimeTrac.png&#39;); margin-left: 3rem;">
+kTimeTrac
+</h2>
+<h2 id="ktimetrac">KtimeTrac</h2>
+Schedule, track, and measure performance
+</aside>
+<aside>
+<h2 style="padding-top: 0.5rem;content: url(&#39;./static/img/012.kZoky_B.png&#39;); margin-left: 3rem;">
+kZoky_B
+</h2>
+<h2 id="kzoky_b">Kzoky_B</h2>
+</aside>
+</section>
+</div>
 <hr />
-<h2 id="proforma-pour-la-réalisation-du-projet">Proforma pour la
-réalisation du projet</h2>
-<table>
-<thead>
-<tr class="header">
-<th>Item</th>
-<th>description</th>
-<th style="text-align: right;">cout</th>
-</tr>
-</thead>
-<tbody>
-<tr class="odd">
-<td>dev</td>
-<td>analyse et design</td>
-<td style="text-align: right;">1400 €</td>
-</tr>
-<tr class="even">
-<td>codage</td>
-<td></td>
-<td style="text-align: right;">1600 €</td>
-</tr>
-<tr class="odd">
-<td></td>
-<td>* backend</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="even">
-<td></td>
-<td>* frontend</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="odd">
-<td>design</td>
-<td></td>
-<td style="text-align: right;">1200 €</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>* frontend</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="odd">
-<td></td>
-<td>* mobile</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="even">
-<td>maintenance</td>
-<td></td>
-<td style="text-align: right;">240 €</td>
-</tr>
-<tr class="odd">
-<td></td>
-<td>db, aide tech</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="even">
-<td></td>
-<td></td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="odd">
-<td>hebergement</td>
-<td></td>
-<td style="text-align: right;">500 €</td>
-</tr>
-<tr class="even">
-<td></td>
-<td>serveur Api, db</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="odd">
-<td></td>
-<td>Nom de Domain</td>
-<td style="text-align: right;"></td>
-</tr>
-<tr class="even">
-<td><strong>Total Projet</strong></td>
-<td></td>
-<td style="text-align: right;">4940 €</td>
-</tr>
-<tr class="odd">
-<td></td>
-<td></td>
-<td style="text-align: right;"></td>
-</tr>
-</tbody>
-</table>
-<p>Debut projet: 1400 €<br />
-Payment mensuelle 12 mois: 233 €</p>
+<h1 id="other-products">Other products</h1>
+<h2 id="kpris">Kpris</h2>
+<p>Private Realtime Interaction System</p>
+<h2 id="aiza">AIza</h2>
+<ul>
+<li><dl>
+<dt>A.I. Powered dedicated Search Engine for Madagascar and Mahasagar
+(the Indian-Ocean) …more</dt>
+<dd>
+Mahasagar, Mahāsāgara (महासागर) is the Hindi word for “ocean”<br/>buḥār
+بحر in Arabic, bahari in Swahili
+</dd>
+</dl></li>
+</ul>
 </main>
+<section>
+<figure>
+<img src="./static/img/atovaSA.svg" style="width:60%;height:45%;"
+alt="Build by Atova Software Agency" />
+<figcaption aria-hidden="true">Build by Atova Software
+Agency</figcaption>
+</figure>
+</section>
+<!-- SELECT LANG -->
+<script src="static/js/lang.js"></script>
 </body>
 </html>

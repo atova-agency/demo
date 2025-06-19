@@ -2,56 +2,43 @@
 title: Application Multi-Solution
 ---
 <main>
-
+MOVED TO Komandy INDEX
 <article>
 
-# Concept du produit
+# Concept Kômandy 
 
-- [concept_fr](./concept_fr.html)
+<div class="en">
+Kômandy is a *Product Suite* developed by **A**tova
 
-# Liens utiles
+The two main focuses are the implementation of desktop-oriented functionality for management
+and mobile/app functionality for operational purposes.
 
-DOMAIN KNOWLEDGE
+The latter are developed as independent modules that are integrated and operated
+under the Kômandy label.
+</div>
 
-- [la-fiche-dintervention](https://lecoursgratuit.com/la-fiche-dintervention-travaux-un-outil-essentiel-pour-la-gestion-efficace-des-chantiers/)
-- [construction-management](https://altersquare.medium.com/mobile-first-design-for-construction-management-software-field-usability-guide-3f52adf45b02)
-- [construction-app-dev](https://exoft.net/construction-app-development-guide/)
-- [construction-app](https://ascendixtech.com/construction-app-development/)
+<div class="fr">
+Kômandy est une suite de produits développée par **A**tova.
+
+Les deux axes principaux sont la mise en œuvre de fonctionnalités orientées bureau pour la gestion et de fonctionnalités mobiles/applicatives à des fins opérationnelles.
+
+Ces dernières sont développées sous forme de modules indépendants, intégrés et exploités sous le label Kômandy.
+</div>
+
+* ![Klogistic](./static/img/001.kLogistics.png)
+  - Kinventory
+  - Kdeploy
+  - Kprocurement
+
+* ![Koperations](./static/img/002.kOperations.png)
+  - Kmonitor
+  - Kunit
 
 </article>
-<article>
 
-# Dashboard
+voir aussi:  
 
-- Fiche d'intervention: Demande de travaux
-  * devis tâche travailleurs (interne)
-  * devis proformat société (coté client)
-- Annuaire professionelle
-  * par profession
-  * par devis (OMS)
-  * par disponibilité
-  * par responsabilité
-- Repertoire Chantiers
-  * Evaluation par Tâche
-  * Durée du projet
-  * Suivi, Progression du chantier
-  * Status du chantier
-- Archive, Etat-final
-  * Fiche fin des travaux
-  * Archivage et telechargement
-- Inventaire des Stocks
-  * par code, id
-  * par catégorie
-  * par chantier
-  * par qté, disponibilité
-</article>
-<section style="float:left;">
-<a href="./static/img/preliminaire-2025-05-27-17-42-58.jpg">
-<aside>
-![pour info](./static/img/preliminaire-2025-05-27-17-42-58.jpg){width="200px"}
-</aside>
-</a>
-</section>
+- [Kconstruction (fr) produit sous licence pour Solus](./concept_fr.html)
 
 
 </main>

@@ -1,5 +1,19 @@
 /* MVP.css v1.15 - https://github.com/andybrewer/mvp */
+/*
 @font-face {font-family: 'Inconsolata_local';src: url(https://lerina.github.io/fonts/Inconsolata-Regular.ttf);}
+*/
+@font-face {
+  font-family: 'Varela Round'; 
+  src: url(../fonts/Varela_Round/VarelaRound-Regular.ttf);
+  font-weight: regular;
+}
+@font-face {
+  font-family: 'SometypeMono'; 
+  src: url(../fonts/Sometype_Mono/static/sometype-mono-code.ttf);
+  font-weight: 400;
+}
+
+
 :root {
     --active-brightness: 0.85;
     --border-radius: 5px;
@@ -14,14 +28,14 @@
     --color-bg-secondary: #c3c3c3;  /*#e9e9e9;*/
     --color-link: #2c2d2f; /*#49545f;*/
     --color-secondary: #e9920d; /*#920de9;*/
-    --color-secondary-accent: #920de90b;
+    --color-secondary-accent: #d8d6d2; /*#920de90b;*/
     --color-shadow: #f4f4f4;
     --color-table: #118bee;
     --color-text: #000;
     --color-text-secondary: #666;
     --color-scrollbar: #cacae8;
-    --font-family: Ubuntu, Roboto, sans-serif;
-    --font-family-code: Inconsolata_local, monospace;
+    --font-family: 'Varela Round', sans-serif;
+    --font-family-code: SometypeMono, monospace;
     --hover-brightness: 1.3;
     --justify-important: center;
     --justify-normal: left;
@@ -35,10 +49,10 @@
 html[data-theme='light'] {
     --color-accent: #118bee15;
     --color-bg: linear-gradient(45deg, rgba(206,223,240, 0.4),rgba(239,222,205,0.7));
-    --color-bg-secondary: #c3c3c3;  /*#e9e9e9;*/
+    --color-bg-secondary: #c3c3c3;  /*#e9e9e9;   #d8d6d2*/
     --color-link: #2c2d2f; /*#49545f;*/
     --color-secondary: #e9920d; /*#920de9;*/
-    --color-secondary-accent: #920de90b;
+    --color-secondary-accent: #d8d6d2 /*#920de90b*/;
     --color-shadow: #f4f4f4;
     --color-table: #118bee;
     --color-text: #000;
@@ -72,6 +86,19 @@ html[data-theme='dark'] {
         --color-text: #f7f7f7;
         --color-text-secondary: #aaa;
     }
+}
+
+.varela-round-regular {
+  font-family: "Varela Round", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.sometype-mono-code {
+  font-family: "Sometype Mono", monospace;
+  font-optical-sizing: auto;
+  font-weight: 400;
+  font-style: normal;
 }
 
 html {
@@ -271,7 +298,7 @@ nav ul li ul li a {
   padding-top: 0.5rem;
   /*content: url("https://lerina.github.io/logo_lerina_96x96.png");
   */
-  content: url("./Logo_atovaSA.svg");
+  content: url("./logo.svg");
   margin-left: 3rem; /*gap between page left border and logo */
 }
 
@@ -928,7 +955,7 @@ dl:hover dd:last-of-type {
 
 @media (max-width: 500px) {
   header {
-    background: url("./bg-img.jpg") no-repeat 40% center / cover;
+    background: url("./bgTOP.jpg") no-repeat 40% center / cover;
   }
   .menu-wrap .toggler:checked ~ .menu {
     width: 65vw;
