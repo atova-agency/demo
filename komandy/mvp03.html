@@ -221,8 +221,10 @@ id="toc-tableau-de-bord-reporting">5. Tableau de bord reporting</a></li>
 Authentification</a></li>
 </ul></li>
 <li><a href="#stack-technique" id="toc-stack-technique">Stack
-Technique</a>
+Technique</a></li>
+<li><a href="#estimation" id="toc-estimation">Estimation</a>
 <ul>
+<li><a href="#temps-coût" id="toc-temps-coût">Temps &amp; Coût</a></li>
 <li><a href="#hypothèses-risques" id="toc-hypothèses-risques">Hypothèses
 &amp; Risques</a></li>
 </ul></li>
@@ -585,63 +587,104 @@ cours.</li>
 <li>Rôles : Admin, Superviseur, Opérateur.</li>
 </ul>
 <h1 id="stack-technique">Stack Technique</h1>
-<p>Composant Choix</p>
 <table>
-<colgroup>
-<col style="width: 21%" />
-<col style="width: 63%" />
-<col style="width: 10%" />
-<col style="width: 5%" />
-</colgroup>
 <thead>
 <tr class="header">
-<th style="text-align: left;">Backend Rust (Ax Frontend Web Ne Mobile
-React Na Base de données PostgreS Cartes Mapbox G Styling Tailwind</th>
-<th style="text-align: center;">um) + SQLx (Postgres) + Tokio xt.js 15
-(App Router, Server Actions, Shadcn/ui) tive (Expo) pour MVP léger sur
-iOS/Android QL (modèle relationnel pour machines, contrats, personnel,
-etc.) L JS / Leaflet CSS</th>
-<th style="text-align: center;">Temps</th>
-<th style="text-align: right;">Coût (TJM 600€)</th>
+<th style="text-align: left;">Composant</th>
+<th style="text-align: center;">Choix</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td style="text-align: left;">Conception Backend (Rust) Frontend Web
-(Next.js) Mobile (React Native) Tests &amp; Déploiement</td>
-<td style="text-align: center;">Architecture, modélisation DB, UX/UI API
-REST (machines, contrats, personnel), alertes, intégration VisionLink
-Tableau de bord, cartes, gestion contrats, planning Vues simplifiées :
-fiche machine, planning, réservation Tests E2E (Playwright), déploiement
-VPS (Fly.io/Docker)</td>
-<td style="text-align: center;">3 semaines 8 semaines 6 semaines 4
-semaines 3 semaines</td>
-<td style="text-align: right;">3 000 € 8 000 € 6 000 € 4 000 € 3 000
-€</td>
+<td style="text-align: left;">Backend</td>
+<td style="text-align: center;">Rust (Axum) + SQLx (Postgres) +
+Tokio</td>
 </tr>
 <tr class="even">
-<td style="text-align: left;">Total MVP 24 semaine</td>
-<td style="text-align: center;">s 24 000 €</td>
-<td style="text-align: center;"></td>
-<td style="text-align: right;"></td>
+<td style="text-align: left;">Frontend</td>
+<td style="text-align: center;">Web Next.js 15 (App Router, Server
+Actions, Shadcn/ui)</td>
 </tr>
 <tr class="odd">
-<td style="text-align: left;">&lt;div style=“display:none;” Phase</td>
-<td style="text-align: center;">&gt; Détails</td>
-<td style="text-align: center;">Temps</td>
-<td style="text-align: right;">Coût (TJM 600€)</td>
+<td style="text-align: left;">Mobile</td>
+<td style="text-align: center;">React Native (Expo) pour MVP léger sur
+iOS/Android</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Base de données</td>
+<td style="text-align: center;">PostgreSQL (modèle relationnel pour
+machines, contrats, personnel, etc.)</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Cartes</td>
+<td style="text-align: center;">Mapbox GL JS / Leaflet</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Styling</td>
+<td style="text-align: center;">Tailwind CSS</td>
 </tr>
 </tbody>
 </table>
-<p>Conception Architecture, modélisation DB, UX/UI 3 semaines 9 000 €
-Backend (Rust) API REST (machines, contrats, personnel), alertes,
-intégration VisionLink 8 semaines 24 000 € Frontend Web (Next.js)
-Tableau de bord, cartes, gestion contrats, planning 6 semaines 18 000 €
-Mobile (React Native) Vues simplifiées : fiche machine, planning,
-réservation 4 semaines 12 000 € Tests &amp; Déploiement Tests E2E
-(Playwright), déploiement VPS (Fly.io/Docker) 3 semaines 9 000 €</p>
-Total MVP 24 semaines 72 000 €
-</div>
+<h1 id="estimation">Estimation</h1>
+<h2 id="temps-coût">Temps &amp; Coût</h2>
+<table>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Phase</th>
+<th style="text-align: center;">Temps</th>
+<th style="text-align: right;">Coût (TJM 10</th>
+<th style="text-align: left;">0€) Détails</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Conception</td>
+<td style="text-align: center;">3 semaines</td>
+<td style="text-align: right;">3 000 €</td>
+<td style="text-align: left;">Architecture, modélisation DB, UX/UI</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Backend (Rust)</td>
+<td style="text-align: center;">8 semaines</td>
+<td style="text-align: right;">8 000 €</td>
+<td style="text-align: left;">API REST (machines, contrats, personnel),
+alertes, intégration VisionLink</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Frontend Web (Next.js)</td>
+<td style="text-align: center;">6 semaines</td>
+<td style="text-align: right;">6 000 €</td>
+<td style="text-align: left;">Tableau de bord, cartes, gestion contrats,
+planning</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Mobile (React Native)</td>
+<td style="text-align: center;">4 semaines</td>
+<td style="text-align: right;">4 000 €</td>
+<td style="text-align: left;">Vues simplifiées : fiche machine,
+planning, réservation</td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">Tests &amp; Déploiement</td>
+<td style="text-align: center;">3 semaines</td>
+<td style="text-align: right;">3 000 €</td>
+<td style="text-align: left;">Tests E2E (Playwright), déploiement VPS
+(Fly.io/Docker)</td>
+</tr>
+</tbody>
+</table>
+<p>Total MVP 24 semaines 24 000 €</p>
+<!-- 
+Phase                       Détails                                                                     Temps         Coût (TJM 600€)
+------------              --------------------------                                                  ---------   -----
+Conception                Architecture, modélisation DB, UX/UI                                        3 semaines     9 000 €
+Backend (Rust)            API REST (machines, contrats, personnel), alertes, intégration VisionLink   8 semaines    24 000 €
+Frontend Web (Next.js)    Tableau de bord, cartes, gestion contrats, planning                           6 semaines  18 000 €
+Mobile (React Native)       Vues simplifiées : fiche machine, planning, réservation                     4 semaines  12 000 €
+Tests & Déploiement       Tests E2E (Playwright), déploiement VPS (Fly.io/Docker)                       3 semaines  9 000 €
+
+Total MVP       24 semaines 72 000 €
+-->
 <h2 id="hypothèses-risques">Hypothèses &amp; Risques</h2>
 <p>Intégrations externes :</p>
 <ul>

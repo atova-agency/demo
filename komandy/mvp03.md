@@ -323,7 +323,6 @@ Fonctionnalités Prioritaires du MVP
 # Stack Technique
 
 Composant	        Choix
-
 ----------------  ----------------------------------
 Backend	          Rust (Axum) + SQLx (Postgres) + Tokio
 Frontend          Web	Next.js 15 (App Router, Server Actions, Shadcn/ui)
@@ -336,17 +335,18 @@ Styling	          Tailwind CSS
 
 ## Temps & Coût
 
-Phase	                    Détails	                                                                    Temps	      Coût (TJM 600€)
-------------              --------------------------                                                  ---------   -----
-Conception	              Architecture, modélisation DB, UX/UI	                                      3 semaines	3 000 €
-Backend (Rust)	          API REST (machines, contrats, personnel), alertes, intégration VisionLink	  8 semaines	8 000 €
-Frontend Web (Next.js)	  Tableau de bord, cartes, gestion contrats, planning	                        6 semaines	6 000 €
-Mobile (React Native)	    Vues simplifiées : fiche machine, planning, réservation	                    4 semaines	4 000 €
-Tests & Déploiement	      Tests E2E (Playwright), déploiement VPS (Fly.io/Docker)	                    3 semaines	3 000 €
+Phase	                    Temps	      Coût (TJM 100€) Détails	
+-----------------------   ----------- --------------- -------------------------------------------------------------------------
+Conception	              3 semaines	3 000 €         Architecture, modélisation DB, UX/UI	
+Backend (Rust)	          8 semaines	8 000 €         API REST (machines, contrats, personnel), alertes, intégration VisionLink	
+Frontend Web (Next.js)	  6 semaines	6 000 €         Tableau de bord, cartes, gestion contrats, planning	
+Mobile (React Native)	    4 semaines	4 000 €         Vues simplifiées : fiche machine, planning, réservation
+Tests & Déploiement	      3 semaines	3 000 €         Tests E2E (Playwright), déploiement VPS (Fly.io/Docker)
 
 Total MVP		24 semaines	24 000 €
 
-<div style="display:none;">
+
+<!-- 
 Phase	                    Détails	                                                                    Temps	      Coût (TJM 600€)
 ------------              --------------------------                                                  ---------   -----
 Conception	              Architecture, modélisation DB, UX/UI	                                      3 semaines	 9 000 €
@@ -356,7 +356,7 @@ Mobile (React Native)	    Vues simplifiées : fiche machine, planning, réservat
 Tests & Déploiement	      Tests E2E (Playwright), déploiement VPS (Fly.io/Docker)	                    3 semaines	9 000 €
 
 Total MVP		24 semaines	72 000 €
-</div>
+-->
 
 ## Hypothèses & Risques
 
