@@ -99,6 +99,7 @@ Rapports mensuels sur :
 - Indicateurs de performance etc
 
 2.6 CRM
+
 - Suivi client avec les opportunités etc
 - Fiche client
 
@@ -107,7 +108,9 @@ Rapports mensuels sur :
 - Interface intuitive et accessible depuis mobile et desktop
 - Automatisation des relances et alertes
 - Sécurisation des données
-- Intégration avec les outils existants4. Déploiement et Accompagnement
+- Intégration avec les outils existants
+
+## 4. Déploiement et Accompagnement
 
 - Phase de développement et tests
 - Formation des utilisateurs
