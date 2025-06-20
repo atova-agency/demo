@@ -335,13 +335,13 @@ Styling	          Tailwind CSS
 
 ## Temps & Coût
 
-Phase	                    Temps	      Coût (TJM 100€) Détails	
------------------------   ----------- --------------- -------------------------------------------------------------------------
-Conception	              3 semaines	3 000 €         Architecture, modélisation DB, UX/UI	
-Backend (Rust)	          8 semaines	8 000 €         API REST (machines, contrats, personnel), alertes, intégration VisionLink	
-Frontend Web (Next.js)	  6 semaines	6 000 €         Tableau de bord, cartes, gestion contrats, planning	
-Mobile (React Native)	    4 semaines	4 000 €         Vues simplifiées : fiche machine, planning, réservation
-Tests & Déploiement	      3 semaines	3 000 €         Tests E2E (Playwright), déploiement VPS (Fly.io/Docker)
+Phase	                    Temps	      Coût (TJM 100€)     Détails	
+-----------------------   ----------- -----------------   -------------------------------------------------------------------------
+Conception	              3 semaines	3 000 €             Architecture, modélisation DB, UX/UI	
+Backend (Rust)	          8 semaines	8 000 €             API REST (machines, contrats, personnel), alertes, intégration VisionLink	
+Frontend Web (Next.js)	  6 semaines	6 000 €             Tableau de bord, cartes, gestion contrats, planning	
+Mobile (React Native)	    4 semaines	4 000 €             Vues simplifiées : fiche machine, planning, réservation
+Tests & Déploiement	      3 semaines	3 000 €             Tests E2E (Playwright), déploiement VPS (Fly.io/Docker)
 
 Total MVP		24 semaines	24 000 €
 
