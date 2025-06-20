@@ -231,6 +231,7 @@ id="toc-recommandations">Recommandations</a></li>
 </ul>
 </nav>
 <main>
+<pre>NOTE: <code>RFC: Document interne à commenter</code></pre>
 <p>On nous demande de faire un MVP et donner une estimation du temps et
 coût pour une application web et mobile en Rust Axum, Postgres sqlx,
 frontend Nextjs15 ou react native à partir du cahiers des charge
@@ -261,44 +262,72 @@ avec rappels automatiques pour les concernées</p>
 <p>Devis réalisé sur Odoo – envoyé pour signature par docuware – besoin
 de communication entre docuware et Odoo pour le suivi des devis
 (statuts)</p>
-<p>Création et suivi des devis (en cours, validé, refusé etc) Relances
-automatiques pour les clients non-répondants Intégration de la grille
-tarifaire par type de machine et client afin de créer des devis
-automatiquement en quelques clics. Génération et envoi automatique des
-devis via nos mails Conversion des devis en contrat validé Possibilité
-d’envoyer le contrat au DG pour signature électronique (via docuware) +
-envoi au client en direct pour signature (docuware) Création de facture
-chaque fin de mois selon les contrats (voir API irum)</p>
+<p>Création et suivi des devis (en cours, validé, refusé etc)</p>
+<ul>
+<li>Relances automatiques pour les clients non-répondants</li>
+<li>Intégration de la grille tarifaire par type de machine et client
+afin de créer des devis automatiquement en quelques clics.</li>
+<li>Génération et envoi automatique des devis via nos mails</li>
+<li>Conversion des devis en contrat validé</li>
+<li>Possibilité d’envoyer le contrat au DG pour signature électronique
+(via docuware) + envoi au client en direct pour signature
+(docuware)</li>
+<li>Création de facture chaque fin de mois selon les contrats (voir API
+irum)</li>
+</ul>
 <p>2.3 Planification et Gestion Logistique</p>
-<p>Planning interactif/simple des machines Gestion des demandes de
-véhicules en interne sans nécessité d’e- mails à l’aide d’un planning
-ouvert avec possibilité de réserver automatiquement son véhicule, pour
-tel trajet ; avec tel marchandises etc.. Vision globale du planning
-logistique</p>
+<p>Planning interactif/simple des machines</p>
+<ul>
+<li>Gestion des demandes de véhicules en interne sans nécessité d’e-
+mails à l’aide d’un planning ouvert avec possibilité de réserver
+automatiquement son véhicule, pour tel trajet ; avec tel marchandises
+etc..</li>
+<li>Vision globale du planning logistique</li>
+</ul>
 <p>2.4 Gestion du Personnel Rental</p>
-<p>Fiche du personnel avec : - Permis de conduire - Visite médicale -
-Alertes pour mises à jour - Sanctions enregistré - Les congés etc</p>
-<p>Planning et statut en temps réel des employés Affectation automatique
-des opérateurs disponible avec les compétences aux machines (pour les
-remplacement) Mettre les opérateurs sur leur machine attitrée
-automatiquement Demande de congé + pointage réalisé par les superviseurs
-facilement, en sélectionnent et filtrant selon leur chantier</p>
+<p>Fiche du personnel avec :</p>
+<ul>
+<li>Permis de conduire</li>
+<li>Visite médicale</li>
+<li>Alertes pour mises à jour</li>
+<li>Sanctions enregistré</li>
+<li>Les congés etc</li>
+</ul>
+<p>Planning et statut en temps réel des employés</p>
+<ul>
+<li>Affectation automatique des opérateurs disponible avec les
+compétences aux machines (pour les remplacement)</li>
+<li>Mettre les opérateurs sur leur machine attitrée automatiquement</li>
+<li>Demande de congé + pointage réalisé par les superviseurs facilement,
+en sélectionnent et filtrant selon leur chantier</li>
+</ul>
 <p>2.5 Reporting et Suivi des Performances</p>
-<p>Rapports mensuels sur : - État de la flotte - Nombre de machines en
-location - Suivi des contrats - Situation du personnel - Indicateurs de
-performance etc</p>
+<p>Rapports mensuels sur :</p>
+<ul>
+<li>État de la flotte</li>
+<li>Nombre de machines en location</li>
+<li>Suivi des contrats</li>
+<li>Situation du personnel</li>
+<li>Indicateurs de performance etc</li>
+</ul>
 <p>2.6 CRM - Suivi client avec les opportunités etc - Fiche client</p>
 <h2 id="exigences-techniques">3. Exigences Techniques</h2>
-<p>Interface intuitive et accessible depuis mobile et desktop
-Automatisation des relances et alertes Sécurisation des données
-Intégration avec les outils existants4. Déploiement et
-Accompagnement</p>
-<p>Phase de développement et tests Formation des utilisateurs
-Maintenance et support</p>
-<p>Nous allons définir un MVP (Minimum Viable Product) qui couvre les
-fonctionnalités essentielles du cahier des charges, en se concentrant
-sur un development modulaire permettant une base solide et
-extensible.</p>
+<ul>
+<li><p>Interface intuitive et accessible depuis mobile et
+desktop</p></li>
+<li><p>Automatisation des relances et alertes</p></li>
+<li><p>Sécurisation des données</p></li>
+<li><p>Intégration avec les outils existants4. Déploiement et
+Accompagnement</p></li>
+<li><p>Phase de développement et tests</p></li>
+<li><p>Formation des utilisateurs</p></li>
+<li><p>Maintenance et support</p></li>
+</ul>
+<hr />
+<p>Dans cette partie, nous allons définir un MVP (Minimum Viable
+Product) qui couvre les fonctionnalités essentielles du cahier des
+charges, en se concentrant sur un development modulaire permettant une
+base solide et extensible.</p>
 <h1 id="analyse-du-cahier-des-charges">Analyse du Cahier des
 Charges</h1>
 <p>Le projet est complexe et implique plusieurs modules :</p>
@@ -325,11 +354,11 @@ accès asynchrone et sécurisé)</li>
 <li><strong>Frontend Web</strong>: Next.js 15 (avec App Router et Server
 Components pour une meilleure performance)</li>
 <li><strong>Mobile</strong>: React Native (pour une application mobile
-cross-platform) OU une application web responsive. Étant donné que le
-cahier des charges mentionne l’accessibilité depuis mobile et desktop,
-nous pouvons commencer par une application web responsive (Next.js) et
-développer plus tard une application React Native si nécessaire.</li>
+cross-platform) OU une application web responsive.</li>
 </ul>
+<p>Nous proposons de commencer par une application web responsive
+(Next.js) et développer plus tard une application React Native si
+nécessaire.</p>
 <h2 id="mvp---fonctionnalités-prioritaires">MVP - Fonctionnalités
 Prioritaires</h2>
 <ol type="1">

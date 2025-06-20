@@ -6,7 +6,9 @@ header-includes:
   <link rel="stylesheet" href="./static/css/lang.css" />
 ---
 
+ 
 <main>
+<pre>NOTE: <code>RFC: Document interne à commenter</code></pre>
 
 On nous demande de faire un MVP et donner une estimation du temps et coût 
 pour une application web et mobile en Rust Axum, Postgres sqlx, frontend Nextjs15 
@@ -49,28 +51,29 @@ Devis réalisé sur Odoo – envoyé pour signature par docuware – besoin de
 communication entre docuware et Odoo pour le suivi des devis (statuts)
 
 Création et suivi des devis (en cours, validé, refusé etc)
-Relances automatiques pour les clients non-répondants
-Intégration de la grille tarifaire par type de machine et client afin de
+
+- Relances automatiques pour les clients non-répondants
+- Intégration de la grille tarifaire par type de machine et client afin de
 créer des devis automatiquement en quelques clics.
-Génération et envoi automatique des devis via nos mails
-Conversion des devis en contrat validé
-Possibilité d’envoyer le contrat au DG pour signature électronique
-(via docuware) + envoi au client en direct pour signature
-(docuware)
-Création de facture chaque fin de mois selon les contrats (voir API irum)
+- Génération et envoi automatique des devis via nos mails
+- Conversion des devis en contrat validé
+- Possibilité d’envoyer le contrat au DG pour signature électronique
+(via docuware) + envoi au client en direct pour signature (docuware)
+- Création de facture chaque fin de mois selon les contrats (voir API irum)
 
 2.3 Planification et Gestion Logistique
 
 Planning interactif/simple des machines
-Gestion des demandes de véhicules en interne sans nécessité d’e-
+
+- Gestion des demandes de véhicules en interne sans nécessité d’e-
 mails à l’aide d’un planning ouvert avec possibilité de réserver
-automatiquement son véhicule, pour tel trajet ; avec tel
-marchandises etc..
-Vision globale du planning logistique
+automatiquement son véhicule, pour tel trajet ; avec tel marchandises etc..
+- Vision globale du planning logistique
 
 2.4 Gestion du Personnel Rental
 
 Fiche du personnel avec :
+
 - Permis de conduire
 - Visite médicale
 - Alertes pour mises à jour
@@ -78,15 +81,17 @@ Fiche du personnel avec :
 - Les congés etc
 
 Planning et statut en temps réel des employés
-Affectation automatique des opérateurs disponible avec les
+
+- Affectation automatique des opérateurs disponible avec les
 compétences aux machines (pour les remplacement)
-Mettre les opérateurs sur leur machine attitrée automatiquement
-Demande de congé + pointage réalisé par les superviseurs
+- Mettre les opérateurs sur leur machine attitrée automatiquement
+- Demande de congé + pointage réalisé par les superviseurs
 facilement, en sélectionnent et filtrant selon leur chantier
 
 2.5 Reporting et Suivi des Performances
 
 Rapports mensuels sur :
+
 - État de la flotte
 - Nombre de machines en location
 - Suivi des contrats
@@ -99,17 +104,18 @@ Rapports mensuels sur :
 
 ## 3. Exigences Techniques
 
-Interface intuitive et accessible depuis mobile et desktop
-Automatisation des relances et alertes
-Sécurisation des données
-Intégration avec les outils existants4. Déploiement et Accompagnement
+- Interface intuitive et accessible depuis mobile et desktop
+- Automatisation des relances et alertes
+- Sécurisation des données
+- Intégration avec les outils existants4. Déploiement et Accompagnement
 
-Phase de développement et tests
-Formation des utilisateurs
-Maintenance et support
+- Phase de développement et tests
+- Formation des utilisateurs
+- Maintenance et support
  
+---
 
-Nous allons définir un MVP (Minimum Viable Product) qui couvre les fonctionnalités essentielles 
+Dans cette partie, nous allons définir un MVP (Minimum Viable Product) qui couvre les fonctionnalités essentielles 
 du cahier des charges, en se concentrant sur un development modulaire permettant une base solide et extensible.
 
 # Analyse du Cahier des Charges
@@ -134,8 +140,8 @@ qui peuvent être partiellement simulées en MVP.
 - **Base de données**: PostgreSQL avec sqlx (pour un accès asynchrone et sécurisé)
 - **Frontend Web**: Next.js 15 (avec App Router et Server Components pour une meilleure performance)
 - **Mobile**: React Native (pour une application mobile cross-platform) OU une application web responsive. 
-Étant donné que le cahier des charges mentionne l'accessibilité depuis mobile et desktop, 
-nous pouvons commencer par une application web responsive (Next.js) 
+
+Nous proposons de commencer par une application web responsive (Next.js) 
 et développer plus tard une application React Native si nécessaire.
 
 ## MVP - Fonctionnalités Prioritaires
