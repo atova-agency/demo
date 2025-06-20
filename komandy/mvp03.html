@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html color-mode="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <!--meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" /-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MVP</title>
+  <!--style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+  </style-->
+  <link rel="icon" href="./static/img/favicon.svg">
+  <link rel="stylesheet" href="./static/css/vpkely.css" />
+  <link rel="stylesheet" href="./static/css/lang.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">MVP</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#cahier-des-charges-hff"
+id="toc-cahier-des-charges-hff">Cahier des Charges HFF</a>
+<ul>
+<li><a href="#contexte-et-objectifs" id="toc-contexte-et-objectifs">1.
+Contexte et Objectifs</a></li>
+<li><a href="#périmètre-fonctionnel" id="toc-périmètre-fonctionnel">2.
+Périmètre Fonctionnel</a></li>
+<li><a href="#exigences-techniques" id="toc-exigences-techniques">3.
+Exigences Techniques</a></li>
+</ul></li>
+<li><a href="#analyse-du-cahier-des-charges"
+id="toc-analyse-du-cahier-des-charges">Analyse du Cahier des Charges</a>
+<ul>
+<li><a href="#choix-technologiques" id="toc-choix-technologiques">Choix
+Technologiques</a></li>
+<li><a href="#mvp---fonctionnalités-prioritaires"
+id="toc-mvp---fonctionnalités-prioritaires">MVP - Fonctionnalités
+Prioritaires</a></li>
+<li><a href="#fonctionnalités-à-reporter-post-mvp"
+id="toc-fonctionnalités-à-reporter-post-mvp">Fonctionnalités à reporter
+(post-MVP)</a></li>
+<li><a href="#estimation-du-temps-et-coût"
+id="toc-estimation-du-temps-et-coût">Estimation du Temps et
+Coût</a></li>
+<li><a href="#recommandation"
+id="toc-recommandation">Recommandation</a></li>
+<li><a href="#risques" id="toc-risques">Risques</a></li>
+<li><a href="#conclusion" id="toc-conclusion">Conclusion</a></li>
+</ul></li>
+<li><a href="#mvp" id="toc-mvp">MVP</a>
+<ul>
+<li><a href="#suivi-de-la-flotte-machines"
+id="toc-suivi-de-la-flotte-machines">1. Suivi de la flotte
+machines</a></li>
+<li><a href="#gestion-des-devis-et-contrats"
+id="toc-gestion-des-devis-et-contrats">2. Gestion des devis et
+contrats</a></li>
+<li><a href="#planification-logistique"
+id="toc-planification-logistique">3. Planification logistique</a></li>
+<li><a href="#gestion-du-personnel" id="toc-gestion-du-personnel">4.
+Gestion du personnel</a></li>
+<li><a href="#tableau-de-bord-reporting"
+id="toc-tableau-de-bord-reporting">5. Tableau de bord reporting</a></li>
+<li><a href="#authentification" id="toc-authentification">6.
+Authentification</a></li>
+</ul></li>
+<li><a href="#stack-technique" id="toc-stack-technique">Stack
+Technique</a>
+<ul>
+<li><a href="#hypothèses-risques" id="toc-hypothèses-risques">Hypothèses
+&amp; Risques</a></li>
+</ul></li>
+<li><a href="#recommandations"
+id="toc-recommandations">Recommandations</a></li>
+</ul>
+</nav>
+<main>
+<p>On nous demande de faire un MVP et donner une estimation du temps et
+coût pour une application web et mobile en Rust Axum, Postgres sqlx,
+frontend Nextjs15 ou react native à partir du cahiers des charge
+suivant:</p>
+<h1 id="cahier-des-charges-hff">Cahier des Charges HFF</h1>
+<h2>
+Gestion du Service HFF Rental
+</h2>
+<h2 id="contexte-et-objectifs">1. Contexte et Objectifs</h2>
+<p>L’objectif de ce projet est de mettre en place un système de gestion
+optimisé pour le service de location de nos machines. La solution devra
+permettre un suivi précis et en temps réel de la flotte, des contrats,
+des clients, du personnel et des opérations de maintenance.</p>
+<h2 id="périmètre-fonctionnel">2. Périmètre Fonctionnel</h2>
+<p>2.1 Suivi de la Flotte Machines</p>
+<p>Localisation en temps réel des machines sur une carte (rouge/vert
+OFF/ON) (source de données : TAGIP ; MTEC ; VisionLink) En cliquant sur
+une machine, savoir chez qui elle est, sous quel contrat (avec contrat
+relié automatiquement) et le chauffeur qui la conduit (une partie des
+données venant d’irium et une partie saisie manuelle) Distinction des
+machines en location, disponibles, en maintenance etc sur un planning
+vivant (relié avec docuware pour le suivi de BADM qui est le casier
+(localisation) de nos machines)</p>
+<p>Fiche machine détaillée : - Photo - Fiche technique - Assurance avec
+alerte pour renouvellement - Contrôle technique, CNAVT- contrôle levage
+avec rappels automatiques pour les concernées</p>
+<p>2.2 Gestion des Devis et Contrats</p>
+<p>Devis réalisé sur Odoo – envoyé pour signature par docuware – besoin
+de communication entre docuware et Odoo pour le suivi des devis
+(statuts)</p>
+<p>Création et suivi des devis (en cours, validé, refusé etc) Relances
+automatiques pour les clients non-répondants Intégration de la grille
+tarifaire par type de machine et client afin de créer des devis
+automatiquement en quelques clics. Génération et envoi automatique des
+devis via nos mails Conversion des devis en contrat validé Possibilité
+d’envoyer le contrat au DG pour signature électronique (via docuware) +
+envoi au client en direct pour signature (docuware) Création de facture
+chaque fin de mois selon les contrats (voir API irum)</p>
+<p>2.3 Planification et Gestion Logistique</p>
+<p>Planning interactif/simple des machines Gestion des demandes de
+véhicules en interne sans nécessité d’e- mails à l’aide d’un planning
+ouvert avec possibilité de réserver automatiquement son véhicule, pour
+tel trajet ; avec tel marchandises etc.. Vision globale du planning
+logistique</p>
+<p>2.4 Gestion du Personnel Rental</p>
+<p>Fiche du personnel avec : - Permis de conduire - Visite médicale -
+Alertes pour mises à jour - Sanctions enregistré - Les congés etc</p>
+<p>Planning et statut en temps réel des employés Affectation automatique
+des opérateurs disponible avec les compétences aux machines (pour les
+remplacement) Mettre les opérateurs sur leur machine attitrée
+automatiquement Demande de congé + pointage réalisé par les superviseurs
+facilement, en sélectionnent et filtrant selon leur chantier</p>
+<p>2.5 Reporting et Suivi des Performances</p>
+<p>Rapports mensuels sur : - État de la flotte - Nombre de machines en
+location - Suivi des contrats - Situation du personnel - Indicateurs de
+performance etc</p>
+<p>2.6 CRM - Suivi client avec les opportunités etc - Fiche client</p>
+<h2 id="exigences-techniques">3. Exigences Techniques</h2>
+<p>Interface intuitive et accessible depuis mobile et desktop
+Automatisation des relances et alertes Sécurisation des données
+Intégration avec les outils existants4. Déploiement et
+Accompagnement</p>
+<p>Phase de développement et tests Formation des utilisateurs
+Maintenance et support</p>
+<p>Nous allons définir un MVP (Minimum Viable Product) qui couvre les
+fonctionnalités essentielles du cahier des charges, en se concentrant
+sur un development modulaire permettant une base solide et
+extensible.</p>
+<h1 id="analyse-du-cahier-des-charges">Analyse du Cahier des
+Charges</h1>
+<p>Le projet est complexe et implique plusieurs modules :</p>
+<ol type="1">
+<li>Suivi de la flotte de machines (avec intégrations externes)</li>
+<li>Gestion des devis et contrats (intégration Odoo et Docuware)</li>
+<li>Planification et gestion logistique</li>
+<li>Gestion du personnel</li>
+<li>Reporting</li>
+<li>CRM</li>
+</ol>
+<p>Pour le MVP, nous mettrons en priorité les fonctionnalités qui
+apportent le plus de valeur et qui sont réalisables sans ajouté trop de
+complexité, notement à cause de l’intégration externe, et possible
+“legacy system”. Nous devons aussi tenir compte des intégrations
+nécessaires (Odoo, Docuware, TAGIP, MTEC, VisionLink, Irium) qui peuvent
+être partiellement simulées en MVP.</p>
+<h2 id="choix-technologiques">Choix Technologiques</h2>
+<ul>
+<li><strong>Backend</strong>: Rust avec Axum (pour la performance et la
+sécurité)</li>
+<li><strong>Base de données</strong>: PostgreSQL avec sqlx (pour un
+accès asynchrone et sécurisé)</li>
+<li><strong>Frontend Web</strong>: Next.js 15 (avec App Router et Server
+Components pour une meilleure performance)</li>
+<li><strong>Mobile</strong>: React Native (pour une application mobile
+cross-platform) OU une application web responsive. Étant donné que le
+cahier des charges mentionne l’accessibilité depuis mobile et desktop,
+nous pouvons commencer par une application web responsive (Next.js) et
+développer plus tard une application React Native si nécessaire.</li>
+</ul>
+<h2 id="mvp---fonctionnalités-prioritaires">MVP - Fonctionnalités
+Prioritaires</h2>
+<ol type="1">
+<li><strong>Suivi de la flotte de machines</strong>:</li>
+</ol>
+<ul>
+<li>Carte montrant l’état des machines (ON/OFF) avec une couleur
+(rouge/vert). Pour le MVP, nous utiliserons des données simulées ou une
+intégration basique avec une source de données (par exemple, VisionLink
+via une API mock).</li>
+<li>Fiche machine détaillée (photo, fiche technique, assurance,
+contrôles techniques) avec alertes pour renouvellement (à définir par
+une date et un système de notification simple).</li>
+</ul>
+<ol start="2" type="1">
+<li><strong>Gestion des devis et contrats</strong>:</li>
+</ol>
+<ul>
+<li>Création manuelle d’un devis (sans intégration Odoo/Docuware dans un
+premier temps, mais en prévoyant l’architecture pour plus tard).</li>
+<li>Conversion du devis en contrat.</li>
+<li>Génération d’une facture à la fin du mois (pour un contrat donné,
+sans intégration avec Irium dans le MVP).</li>
+</ul>
+<ol start="3" type="1">
+<li><strong>Gestion du personnel</strong>:</li>
+</ol>
+<ul>
+<li>Fiche personnel avec informations de base (permis, visite médicale)
+et alertes pour renouvellement.</li>
+<li>Planning des employés (affichage simple, sans affectation
+automatique dans le MVP).</li>
+</ul>
+<ol start="4" type="1">
+<li><strong>Authentification et autorisation</strong>:</li>
+</ol>
+<ul>
+<li>Système de connexion avec rôles (admin, superviseur,
+opérateur).</li>
+</ul>
+<ol start="5" type="1">
+<li><strong>Tableau de bord</strong>:</li>
+</ol>
+<ul>
+<li>Vue d’ensemble de l’état de la flotte, des contrats en cours, et du
+personnel.</li>
+</ul>
+<h2 id="fonctionnalités-à-reporter-post-mvp">Fonctionnalités à reporter
+(post-MVP)</h2>
+<ul>
+<li>Intégrations complexes (Odoo, Docuware, TAGIP, MTEC, VisionLink,
+Irium) : ces intégrations nécessitent des développements spécifiques et
+des accords avec les fournisseurs. En MVP, nous allons simuler les
+données ou permettre une saisie manuelle.</li>
+<li>Planification logistique avancée (réservation automatique de
+véhicules, gestion des demandes sans email).</li>
+<li>Affectation automatique des opérateurs aux machines.</li>
+<li>CRM complet (fiche client et suivi des opportunités) : une version
+simplifiée (fiche client) peut être incluse dans le MVP.</li>
+<li>Reporting avancé : dans le MVP, on se limite à un tableau de bord
+simple.</li>
+</ul>
+<h2 id="estimation-du-temps-et-coût">Estimation du Temps et Coût</h2>
+<h3 id="hypothèses">Hypothèses</h3>
+<p>L’équipe est composée de :</p>
+<ul>
+<li>1 chef de projet (20% du temps)</li>
+<li>1 développeur Rust backend</li>
+<li>1 développeur frontend Next.js</li>
+<li>1 développeur React Native (si on fait le mobile en même temps) ou
+on utilise le responsive web d’abord.</li>
+</ul>
+<p>NOTE: Les intégrations externes sont complexes et seront
+partiellement mockées en MVP (simulation).</p>
+<h3 id="détail-des-tâches">Détail des Tâches</h3>
+<h4 id="phase-1-conception-et-setup-2-semaines">Phase 1: Conception et
+setup (2 semaines)</h4>
+<ul>
+<li>Conception détaillée de l’architecture et des modèles de
+données</li>
+<li>Setup des environnements de développement et de production</li>
+<li>Mise en place CI/CD</li>
+</ul>
+<h4 id="phase-2-développement-backend-rust-8-semaines">Phase 2:
+Développement Backend (Rust) (8 semaines)</h4>
+<ul>
+<li>Module d’authentification et autorisation</li>
+<li>CRUD pour les machines (avec gestion des alertes d’assurance et
+contrôles techniques)</li>
+<li>CRUD pour les devis, contrats, factures (simplifié)</li>
+<li>CRUD pour le personnel (avec gestion des alertes de permis et visite
+médicale)</li>
+<li>CRUD clients (simplifié pour le CRM)</li>
+<li>Endpoints pour le tableau de bord (statistiques de base)</li>
+</ul>
+<h4 id="phase-3-développement-frontend-web-next.js-6-semaines">Phase 3:
+Développement Frontend Web (Next.js) (6 semaines)</h4>
+<ul>
+<li>Pages d’authentification</li>
+<li>Tableau de bord (carte des machines, indicateurs clés)</li>
+<li>Liste et fiche détaillée des machines</li>
+<li>Gestion des devis et contrats (création, visualisation)</li>
+<li>Gestion du personnel (fiches, planning simple)</li>
+<li>Gestion des clients (fiche)</li>
+</ul>
+<h4
+id="phase-4-développement-mobile-react-native-6-semaines-optionnel-pour-mvp">Phase
+4: Développement Mobile (React Native) (6 semaines) [Optionnel pour
+MVP]</h4>
+<ul>
+<li>Nous pourrions décider de ne faire que le web responsive pour le MVP
+et de développer l’app mobile après. Cela réduirait le temps de
+MVP.</li>
+</ul>
+<h4 id="phase-5-tests-déploiement-et-formation-2-semaines">Phase 5:
+Tests, Déploiement et Formation (2 semaines)</h4>
+<ul>
+<li>Tests manuels et automatiques</li>
+<li>Déploiement en préproduction et production</li>
+<li>Formation des utilisateurs clés</li>
+</ul>
+<h3 id="estimation-totale-mvp-sans-mobile">Estimation Totale MVP (sans
+mobile)</h3>
+<p><strong>Temps total</strong>:</p>
+<ul>
+<li>2 (setup) + 8 (backend) + 6 (frontend web) + 2 (tests/déploiement) =
+18 semaines.</li>
+</ul>
+<p><strong>Coût</strong>:</p>
+<ul>
+<li>Taux journalier moyen (pour Madagascar) : 100 € (varie selon
+l’expérience)</li>
+<li>Nombre de jours : 18 semaines * 5 jours/semaine = 90 jours.</li>
+<li>Coût développement : 90 jours * 100 €/jour = 9 000 €.</li>
+</ul>
+<p>À cela s’ajoutent les coûts de gestion de projet (chef de projet 20%
+du temps) et d’autres frais (hébergement, outils). On peut estimer
+environ 15% de plus, soit un total d’environ <strong>10 350
+€</strong>.</p>
+<p>Pour information</p>
+<ul>
+<li>Taux journalier moyen (pour la France) : 500 € (varie selon
+l’expérience et la localisation)</li>
+<li>Nombre de jours : 18 semaines * 5 jours/semaine = 90 jours.</li>
+<li>Coût développement : 90 jours * 500 €/jour = 45 000 €.</li>
+</ul>
+<h3 id="estimation-mvp-avec-application-mobile-react-native">Estimation
+MVP avec application mobile (React Native)</h3>
+<ul>
+<li><strong>Temps total</strong>: 18 semaines (sans mobile) + 6 semaines
+(mobile) = 24 semaines.</li>
+<li><strong>Coût</strong>: 24 semaines * 5 jours/semaine * 100 €/jour =
+12 000 € + 15% = <strong>13 800 €</strong>.</li>
+</ul>
+<p>pour information</p>
+<ul>
+<li><strong>Coût</strong> en France: 24 semaines * 5 jours/semaine * 500
+€/jour = 60 000 € + 10% = <strong>66 000 €</strong>.</li>
+</ul>
+<h2 id="recommandation">Recommandation</h2>
+<p>Pour le MVP, nous recommandons de commencer par l’application web
+responsive (Next.js) et de différer le développement natif mobile (React
+Native) à une phase ultérieure. Cela permettra de valider le produit
+plus rapidement et à moindre coût.</p>
+<h2 id="risques">Risques</h2>
+<ul>
+<li>Les intégrations avec les systèmes externes (Odoo, Docuware, etc.)
+sont un risque majeur. En MVP, nous les mockerons, mais il faudra
+prévoir du temps supplémentaire pour les intégrations réelles.</li>
+<li>La complexité de la gestion des alertes et des plannings peut
+entraîner des dépassements.</li>
+</ul>
+<h2 id="conclusion">Conclusion</h2>
+<p>MVP proposé (sans mobile) : <strong>12 000 €</strong> et <strong>18
+semaines</strong>.</p>
+<p>pour information MVP proposé en France (sans mobile) : <strong>50 000
+€</strong> et <strong>18 semaines</strong>.</p>
+<h1 id="mvp">MVP</h1>
+<h2>
+Minimum Viable Product - HFF Rental Management
+</h2>
+<p>Objectif : Livrer une version minimale fonctionnelle en 4 mois,
+couvrant les modules critiques avec des intégrations simplifiées.
+Fonctionnalités Prioritaires du MVP</p>
+<h2 id="suivi-de-la-flotte-machines">1. Suivi de la flotte machines</h2>
+<ul>
+<li>Carte interactive (Leaflet/Mapbox) montrant l’état ON/OFF des
+machines (données mockées ou API VisionLink simplifiée).</li>
+<li>Fiche machine : photo, fiche technique, alertes pour
+assurance/contrôles (sans Docuware intégré).</li>
+<li>Exclu du MVP : Intégration Docuware complète, TAGIP/MTEC.</li>
+</ul>
+<h2 id="gestion-des-devis-et-contrats">2. Gestion des devis et
+contrats</h2>
+<ul>
+<li>Création manuelle (mocks) de devis (grille tarifaire
+préconfigurée).</li>
+<li>Conversion devis → contrat + génération de PDF pour signature.</li>
+<li>Exclu du MVP : Intégration Odoo/Docuware, relances automatiques,
+facturation auto via Irium.</li>
+</ul>
+<h2 id="planification-logistique">3. Planification logistique</h2>
+<ul>
+<li>Planning simple des machines (disponible/en location) avec
+calendrier (FullCalendar.io).</li>
+<li>Réservation manuelle de véhicules pour trajets internes.</li>
+</ul>
+<h2 id="gestion-du-personnel">4. Gestion du personnel</h2>
+<ul>
+<li><p>Fiche employé : permis, visite médicale, alertes de
+renouvellement.</p></li>
+<li><p>Planning des opérateurs (statut
+disponible/indisponible).</p></li>
+<li><p>Exclu du MVP : Affectation automatique des opérateurs,
+pointage.</p></li>
+</ul>
+<h2 id="tableau-de-bord-reporting">5. Tableau de bord reporting</h2>
+<ul>
+<li>Indicateurs clés : % machines en location, état du parc, contrats en
+cours.</li>
+</ul>
+<h2 id="authentification">6. Authentification</h2>
+<ul>
+<li>Rôles : Admin, Superviseur, Opérateur.</li>
+</ul>
+<h1 id="stack-technique">Stack Technique</h1>
+<p>Composant Choix</p>
+<table>
+<colgroup>
+<col style="width: 21%" />
+<col style="width: 63%" />
+<col style="width: 10%" />
+<col style="width: 5%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">Backend Rust (Ax Frontend Web Ne Mobile
+React Na Base de données PostgreS Cartes Mapbox G Styling Tailwind</th>
+<th style="text-align: center;">um) + SQLx (Postgres) + Tokio xt.js 15
+(App Router, Server Actions, Shadcn/ui) tive (Expo) pour MVP léger sur
+iOS/Android QL (modèle relationnel pour machines, contrats, personnel,
+etc.) L JS / Leaflet CSS</th>
+<th style="text-align: center;">Temps</th>
+<th style="text-align: right;">Coût (TJM 600€)</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">Conception Backend (Rust) Frontend Web
+(Next.js) Mobile (React Native) Tests &amp; Déploiement</td>
+<td style="text-align: center;">Architecture, modélisation DB, UX/UI API
+REST (machines, contrats, personnel), alertes, intégration VisionLink
+Tableau de bord, cartes, gestion contrats, planning Vues simplifiées :
+fiche machine, planning, réservation Tests E2E (Playwright), déploiement
+VPS (Fly.io/Docker)</td>
+<td style="text-align: center;">3 semaines 8 semaines 6 semaines 4
+semaines 3 semaines</td>
+<td style="text-align: right;">3 000 € 8 000 € 6 000 € 4 000 € 3 000
+€</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">Total MVP 24 semaine</td>
+<td style="text-align: center;">s 24 000 €</td>
+<td style="text-align: center;"></td>
+<td style="text-align: right;"></td>
+</tr>
+<tr class="odd">
+<td style="text-align: left;">&lt;div style=“display:none;” Phase</td>
+<td style="text-align: center;">&gt; Détails</td>
+<td style="text-align: center;">Temps</td>
+<td style="text-align: right;">Coût (TJM 600€)</td>
+</tr>
+</tbody>
+</table>
+<p>Conception Architecture, modélisation DB, UX/UI 3 semaines 9 000 €
+Backend (Rust) API REST (machines, contrats, personnel), alertes,
+intégration VisionLink 8 semaines 24 000 € Frontend Web (Next.js)
+Tableau de bord, cartes, gestion contrats, planning 6 semaines 18 000 €
+Mobile (React Native) Vues simplifiées : fiche machine, planning,
+réservation 4 semaines 12 000 € Tests &amp; Déploiement Tests E2E
+(Playwright), déploiement VPS (Fly.io/Docker) 3 semaines 9 000 €</p>
+Total MVP 24 semaines 72 000 €
+</div>
+<h2 id="hypothèses-risques">Hypothèses &amp; Risques</h2>
+<p>Intégrations externes :</p>
+<ul>
+<li>VisionLink (localisation machines) via API REST mockée pour le
+MVP.</li>
+<li>Odoo/Docuware/Irium reportées à la V2 (coût additionnel estimé :
++5000€ <span style="display:none;">+15 000€</span>).</li>
+</ul>
+<p>Équipe :</p>
+<ul>
+<li>1 dev Rust, 1 dev Next.js, 1 dev React Native, 1 chef de projet
+(mi-temps).</li>
+</ul>
+<p>Coûts annexes :</p>
+<ul>
+<li>Hébergement (Postgres + VPS) : ~200€/mois.</li>
+<li>Licences (googlemap? tagIP?): à prevoir : ~500€/an si à
+l’étranger.</li>
+</ul>
+<h1 id="recommandations">Recommandations</h1>
+<ul>
+<li>Démarrer sans mobile : Utiliser Next.js PWA pour réduire coûts de 12
+000€ (délai -4 semaines).</li>
+<li>Mock initial : Simuler Docuware/Odoo via webhooks basiques pour
+valider les flux.</li>
+</ul>
+<p>Étapes post-MVP :</p>
+<ul>
+<li>Intégration Odoo/Docuware (Python middleware).</li>
+<li>Facturation automatique (API Irium).</li>
+<li>Système de pointage personnel (Near Field Communication, biométrie
+mobile?).</li>
+</ul>
+Livrable MVP : Application web (Next.js) + app mobile légère (React
+Native) avec modules cœur opérationnels en 6 mois.
+</main>
+</body>
+</html>
