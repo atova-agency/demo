@@ -239,13 +239,13 @@ Cela réduirait le temps de MVP.
 
 **Coût**:  
 
-- Taux journalier moyen (pour Madagascar) : 100 € (varie selon l'expérience)
+- Taux journalier moyen (pour Madagascar) : 240 € (varie selon l'expérience)
 - Nombre de jours : 18 semaines * 5 jours/semaine = 90 jours.
-- Coût développement : 90 jours * 100 €/jour = 9 000 €.
+- Coût développement : 90 jours * 240 €/jour = 21 600 €.
 
 À cela s'ajoutent les coûts de gestion de projet (chef de projet 20% du temps) 
 et d'autres frais (hébergement, outils). 
-On peut estimer environ 15% de plus, soit un total d'environ **10 350 €**.
+On peut estimer environ 15% de plus, soit un total d'environ **24 840 €**.
 
 
 Pour information
@@ -258,7 +258,7 @@ Pour information
 ### Estimation MVP avec application mobile (React Native)
 
 - **Temps total**: 18 semaines (sans mobile) + 6 semaines (mobile) = 24 semaines.
-- **Coût**: 24 semaines * 5 jours/semaine * 100 €/jour = 12 000 € + 15% = **13 800 €**.
+- **Coût**: 24 semaines * 5 jours/semaine * 240 €/jour = 28 800 € + 15% = **33 120 €**.
 
 pour information
 
@@ -277,7 +277,7 @@ Cela permettra de valider le produit plus rapidement et à moindre coût.
 
 ## Conclusion
 
-MVP proposé (sans mobile) : **12 000 €** et **18 semaines**.
+MVP proposé (sans mobile) : **25 000 €** et **18 semaines**.
 
 pour information 
 MVP proposé en France (sans mobile) : **50 000 €** et **18 semaines**.
