@@ -338,15 +338,15 @@ Styling	          Tailwind CSS
 
 ## Temps & Coût
 
-Phase	                    Temps	      Coût (TJM 100€)     Détails	
+Phase	                    Temps	      Coût (TJM 240€)     Détails	
 -----------------------   ----------- -----------------   -------------------------------------------------------------------------
-Conception	              3 semaines	3 000 €             Architecture, modélisation DB, UX/UI	
-Backend (Rust)	          8 semaines	8 000 €             API REST (machines, contrats, personnel), alertes, intégration VisionLink	
-Frontend Web (Next.js)	  6 semaines	6 000 €             Tableau de bord, cartes, gestion contrats, planning	
-Mobile (React Native)	    4 semaines	4 000 €             Vues simplifiées : fiche machine, planning, réservation
-Tests & Déploiement	      3 semaines	3 000 €             Tests E2E (Playwright), déploiement VPS (Fly.io/Docker)
+Conception	              3 semaines	3 600 €             Architecture, modélisation DB, UX/UI	
+Backend (Rust)	          8 semaines	9 600 €             API REST (machines, contrats, personnel), alertes, intégration VisionLink	
+Frontend Web (Next.js)	  6 semaines	7 200 €             Tableau de bord, cartes, gestion contrats, planning	
+Mobile (React Native)	    4 semaines	4 800 €             Vues simplifiées : fiche machine, planning, réservation
+Tests & Déploiement	      3 semaines	3 600 €             Tests E2E (Playwright), déploiement VPS (Fly.io/Docker)
 
-Total MVP		24 semaines	24 000 €
+Total MVP		24 semaines	28 800 €
 
 
 <!-- 
@@ -379,7 +379,7 @@ Coûts annexes :
 
 # Recommandations
 
-- Démarrer sans mobile : Utiliser Next.js PWA pour réduire coûts de 12 000€ (délai -4 semaines).
+- Démarrer sans mobile : Utiliser Next.js PWA pour réduire coûts à 25 000€ (délai -4 semaines).
 - Mock initial : Simuler Docuware/Odoo via webhooks basiques pour valider les flux.
 
 Étapes post-MVP :
