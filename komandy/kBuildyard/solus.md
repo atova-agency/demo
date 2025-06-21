@@ -1,11 +1,17 @@
 ---
-title: Application Multi-Solution
+title: Application Solus
+header-includes:
+  <link rel="icon" href="./static/img/logo.svg">
+  <link rel="stylesheet" href="../static/css/vpkely.css" />
 ---
+
 <main>
 
+Nous allons extraire les fonctionalités de kBuildyard pour répondre à la demande suivante.
+Nous aurons au final un produit nommé "Solus" dérivé de kBuildyard, 
+exploiter sous licence, par la société Multi-Solution.
+ 
 <article>
-
-
 
 # Liens utiles
 

@@ -1,11 +1,153 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" color-mode="" lang="" xml:lang="">
+<html color-mode="">
 <head>
   <meta charset="utf-8" />
   <meta name="generator" content="pandoc" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
-  <title>Kômandy: Vision conceptuelle</title>
-  <style>
+  <!--meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" /-->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>kBuildyard: Vision conceptuelle</title>
+  <!--style>
+    html {
+      color: #1a1a1a;
+      background-color: #fdfdfd;
+    }
+    body {
+      margin: 0 auto;
+      max-width: 36em;
+      padding-left: 50px;
+      padding-right: 50px;
+      padding-top: 50px;
+      padding-bottom: 50px;
+      hyphens: auto;
+      overflow-wrap: break-word;
+      text-rendering: optimizeLegibility;
+      font-kerning: normal;
+    }
+    @media (max-width: 600px) {
+      body {
+        font-size: 0.9em;
+        padding: 12px;
+      }
+      h1 {
+        font-size: 1.8em;
+      }
+    }
+    @media print {
+      html {
+        background-color: white;
+      }
+      body {
+        background-color: transparent;
+        color: black;
+        font-size: 12pt;
+      }
+      p, h2, h3 {
+        orphans: 3;
+        widows: 3;
+      }
+      h2, h3, h4 {
+        page-break-after: avoid;
+      }
+    }
+    p {
+      margin: 1em 0;
+    }
+    a {
+      color: #1a1a1a;
+    }
+    a:visited {
+      color: #1a1a1a;
+    }
+    img {
+      max-width: 100%;
+    }
+    h1, h2, h3, h4, h5, h6 {
+      margin-top: 1.4em;
+    }
+    h5, h6 {
+      font-size: 1em;
+      font-style: italic;
+    }
+    h6 {
+      font-weight: normal;
+    }
+    ol, ul {
+      padding-left: 1.7em;
+      margin-top: 1em;
+    }
+    li > ol, li > ul {
+      margin-top: 0;
+    }
+    blockquote {
+      margin: 1em 0 1em 1.7em;
+      padding-left: 1em;
+      border-left: 2px solid #e6e6e6;
+      color: #606060;
+    }
+    code {
+      font-family: Menlo, Monaco, Consolas, 'Lucida Console', monospace;
+      font-size: 85%;
+      margin: 0;
+      hyphens: manual;
+    }
+    pre {
+      margin: 1em 0;
+      overflow: auto;
+    }
+    pre code {
+      padding: 0;
+      overflow: visible;
+      overflow-wrap: normal;
+    }
+    .sourceCode {
+     background-color: transparent;
+     overflow: visible;
+    }
+    hr {
+      background-color: #1a1a1a;
+      border: none;
+      height: 1px;
+      margin: 1em 0;
+    }
+    table {
+      margin: 1em 0;
+      border-collapse: collapse;
+      width: 100%;
+      overflow-x: auto;
+      display: block;
+      font-variant-numeric: lining-nums tabular-nums;
+    }
+    table caption {
+      margin-bottom: 0.75em;
+    }
+    tbody {
+      margin-top: 0.5em;
+      border-top: 1px solid #1a1a1a;
+      border-bottom: 1px solid #1a1a1a;
+    }
+    th {
+      border-top: 1px solid #1a1a1a;
+      padding: 0.25em 0.5em 0.25em 0.5em;
+    }
+    td {
+      padding: 0.125em 0.5em 0.25em 0.5em;
+    }
+    header {
+      margin-bottom: 4em;
+      text-align: center;
+    }
+    #TOC li {
+      list-style: none;
+    }
+    #TOC ul {
+      padding-left: 1.3em;
+    }
+    #TOC > ul {
+      padding-left: 0;
+    }
+    #TOC a:not(:hover) {
+      text-decoration: none;
+    }
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     div.columns{display: flex; gap: min(4vw, 1.5em);}
@@ -21,12 +163,13 @@
       vertical-align: middle;
     }
     .display.math{display: block; text-align: center; margin: 0.5rem auto;}
-  </style>
-  <link rel="stylesheet" href="static/css/vpkely.css" />
+  </style-->
+  <link rel="icon" href="./static/img/logo.svg">
+  <link rel="stylesheet" href="../static/css/vpkely.css" />
 </head>
 <body>
 <header id="title-block-header">
-<h1 class="title">Kômandy: Vision conceptuelle</h1>
+<h1 class="title">kBuildyard: Vision conceptuelle</h1>
 </header>
 <nav id="TOC" role="doc-toc">
 <ul>
@@ -71,9 +214,11 @@ sur les rôles (RBA)</a></li>
 </ul>
 </nav>
 <main>
-<p>Kômandy est une plateforme de gestion de projets terrain axée sur la
-simplicité et l’efficacité.</p>
-<p>Kômandy organise votre travail grâce aux rubriques clés
+<p><strong>kBuildyard</strong> est une plateforme de gestion de projets
+terrain axée sur la simplicité et l’efficacité qui fait partie de la
+suite de produit <strong>Kômandy</strong> dévelopé par
+<strong>Atova</strong>.</p>
+<p>kBuildyard organise votre travail grâce aux rubriques clés
 suivantes :</p>
 <ol type="1">
 <li>Chantiers : Unité organisationnelle de niveau supérieur contenant
@@ -86,7 +231,7 @@ des projets.</li>
 terrain.</li>
 </ol>
 <h1 id="flux-de-travail-de-base">Flux de travail de base</h1>
-<p>Un flux de travail typique dans Kômandy ressemble à ceci :</p>
+<p>Un flux de travail typique dans kBuildyard ressemble à ceci :</p>
 <ul>
 <li>Créer un chantier</li>
 <li>Inviter des membres de l’équipe à y participer ou assigner des
@@ -99,7 +244,7 @@ terrain.</li>
 <h2 id="chantier">1. Chantier</h2>
 <h3 id="quest-ce-quun-chantier">Qu’est-ce qu’un chantier?</h3>
 <p>Le chantier est une unité organisationnelle de niveau supérieur de
-Kômandy. Il sert de conteneur pour les projets, les tâches et les
+kBuildyard. Il sert de conteneur pour les projets, les tâches et les
 membres d’une équipe. Un chantier est un espace dédié à une équipe, un
 service ou un domaine de travail spécifique.</p>
 <h4 id="créer-un-chantier">Créer un chantier</h4>
@@ -145,7 +290,7 @@ définitive de tous les projets, tâches et données qui lui sont associés.
 Cette action est irréversible. (Solution possible: git)</p>
 <h2 id="projets">2. Projets</h2>
 <h3 id="que-sont-les-projets">Que sont les projets ?</h3>
-<p>Dans Kômandy, les projets regroupent des tâches liées au sein d’un
+<p>Dans kBuildyard, les projets regroupent des tâches liées au sein d’un
 chantier. Ils vous aident à organiser votre travail en groupes logiques.
 Un projet peut représenter un espace de travail, un client, un service,
 une flotte de véhicules ou toute autre organisation de vos tâches.</p>
@@ -162,7 +307,7 @@ projet.</li>
 <p>Le projet sera créé et vous serez redirigé vers la vue tableau.
 🎉</p>
 <h4 id="vues-des-projets">Vues des projets</h4>
-<p>Dans Kômandy, chaque projet peut être visualisé de différentes
+<p>Dans kBuildyard, chaque projet peut être visualisé de différentes
 manières :</p>
 <ul>
 <li>Vue Liste : affiche les tâches sous forme de liste simple</li>
@@ -197,7 +342,7 @@ liste des projets actifs</li>
 projet et faites défiler la page jusqu’en bas.</p>
 <h2 id="tâches">3. Tâches</h2>
 <h3 id="quest-ce-quune-tâche">Qu’est-ce qu’une tâche?</h3>
-<p>Les tâches sont les éléments de travail fondamentaux de Kômandy.
+<p>Les tâches sont les éléments de travail fondamentaux de kBuildyard.
 Elles représentent des actions spécifiques à réaliser dans le cadre d’un
 projet. Chaque tâche peut avoir différents attributs, tels que des
 responsables, des dates d’échéance, un statut et un suivi du temps.</p>
@@ -212,7 +357,7 @@ responsables, des dates d’échéance, un statut et un suivi du temps.</p>
 </ul>
 <p>La tâche sera ajoutée à la liste des tâches du projet. 🎉</p>
 <h4 id="propriétés-des-tâches">Propriétés des tâches</h4>
-<p>Les tâches dans Kômandy possèdent plusieurs propriétés qui vous
+<p>Les tâches dans kBuildyard possèdent plusieurs propriétés qui vous
 aident à suivre et à gérer votre travail :</p>
 <ul>
 <li>Titre : Brève description de la tâche</li>
@@ -243,8 +388,9 @@ enregistrer la durée du travail.</li>
 <li>Tâche parente (NOTE: find better wording)</li>
 </ul>
 <h2 id="équipes">4. Équipes</h2>
-<h3 id="gestion-déquipe-dans-kômandy">Gestion d’équipe dans Kômandy</h3>
-<p>Kômandy vous permet de collaborer avec les membres de votre équipe
+<h3 id="gestion-déquipe-dans-kbuildyard">Gestion d’équipe dans
+kBuildyard</h3>
+<p>kBuildyard vous permet de collaborer avec les membres de votre équipe
 sur différents chantiers et projets. Une gestion d’équipe efficace est
 essentielle à une collaboration réussie.</p>
 <h4 id="inviter-des-membres-de-léquipe">Inviter des membres de
@@ -286,7 +432,7 @@ productivité de votre équipe. Suivez facilement les arrivées tardives ou
 les départs anticipés.</p>
 <p>Le système vous aide à maintenir la productivité de votre équipe,
 même sans connexion. Exploitez la prise en charge réseau hors ligne de
-Kômandy pour un accès et une capture de données continus, avec une
+kBuildyard pour un accès et une capture de données continus, avec une
 synchronisation automatique une fois le réseau rétabli.</p>
 <table>
 <thead>
@@ -324,7 +470,7 @@ que vous jongliez avec différents plannings de travail, ces
 fonctionnalités vous aident à éliminer les incertitudes et vous
 permettent de vous concentrer sur l’avancement de vos projets sans les
 tracas de la gestion manuelle des feuilles de temps.</p>
-<p>L’application de pointage Kômandy pour les travailleurs de terrain
+<p>L’application de pointage kBuildyard pour les travailleurs de terrain
 présente les fonctionnalités suivantes :</p>
 <ul>
 <li>Fonctionnalité hors ligne : La possibilité de suivre le temps de
@@ -355,7 +501,7 @@ heures dépassant les limites de travail normales.</li>
 </ul>
 <p>Par défaut, l’intégration avec les systèmes de paie n’est pas
 disponible. Notre objectif principal est de garantir l’indépendance, la
-petite taille et la réactivité de Kômandy. Cependant, la possibilité
+petite taille et la réactivité de kBuildyard. Cependant, la possibilité
 d’exporter les données de temps vers les systèmes de paie pour une
 intégration transparente pourrait être ajoutée.</p>
 <h1 id="à-propos-des-tâches">À propos des tâches</h1>
@@ -460,7 +606,7 @@ communication dans l’exécution des projets.</p>
 projets sur la bonne voie et garantir que les membres de l’équipe sont
 informés de leurs responsabilités et des modifications apportées à leur
 travail.</p>
-<p>Le système de notifications complet de Kômandy comprend :</p>
+<p>Le système de notifications complet de kBuildyard comprend :</p>
 <ul>
 <li>Rappels d’échéance (horaires configurables)</li>
 <li>Notifications d’attribution de tâches</li>
@@ -515,8 +661,8 @@ travail.</p>
 utilisateurs. Cela permet de partager des tableaux avec des intervenants
 externes ou de limiter les opérations sensibles à certains membres de
 l’équipe.</p>
-<p>Kômandy met en œuvre un système complet de contrôle d’accès basé sur
-les rôles, comprenant :</p>
+<p>kBuildyard met en œuvre un système complet de contrôle d’accès basé
+sur les rôles, comprenant :</p>
 <ul>
 <li>Paramètres d’autorisations au niveau du projet</li>
 <li>Contrôles d’accès au niveau des tâches</li>

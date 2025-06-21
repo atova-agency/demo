@@ -1,5 +1,5 @@
 ---
-title: Application Multi-Solution
+title: Application suite - Kômandy
 ---
 <main>
 MOVED TO Komandy INDEX

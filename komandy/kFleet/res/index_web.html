@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kFleet - Tableau de bord</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        .construction-bg {
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPgo8ZGVmcz4KPHBhdHRlcm4gaWQ9ImNvbnN0cnVjdGlvbi1wYXR0ZXJuIiB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHBhdHRlcm5Vbml0cz0idXNlclNwYWNlT25Vc2UiIHBhdHRlcm5UcmFuc2Zvcm09InJvdGF0ZSg0NSkiPgo8cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZmRmMGM3IiBmaWxsLW9wYWNpdHk9IjAuMSIvPgo8cGF0aCBkPSJNMCAwTDIwIDIwTDQwIDBaIiBmaWxsPSJub25lIiBzdHJva2U9IiNmZGFhMDAiIHN0cm9rZS13aWR0aD0iMSIvPgo8L3BhdHRlcm4+CjwvZGVmcz4KPHJlY3Qgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgZmlsbD0idXJsKCNjb25zdHJ1Y3Rpb24tcGF0dGVybikiLz4KPC9zdmc+');
+        }
+        
+        .card-shadow {
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+        
+        .card-hover:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
+        }
+    </style>
+</head>
+<body class="onstruction-bg bg-amber-50 min-h-screen">
+    <!-- Barre de navigation -->
+    <nav class="bg-amber-700 text-white shadow-lg">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <div class="flex-shrink-0 flex items-center">
+                        <div class="bg-yellow-500 text-amber-900 font-bold text-xl p-2 rounded-lg">kFleet</div>
+                        <span class="ml-3 text-xl font-semibold">Tableau de bord</span>
+                    </div>
+                    <div class="hidden sm:ml-6 sm:flex sm:space-x-8">
+                        <a href="#" class="border-b-2 border-yellow-400 px-1 pt-1 text-sm font-medium">Tableau de bord</a>
+                        <a href="#" class="text-amber-200 hover:text-white px-1 pt-1 text-sm font-medium">Flotte</a>
+                        <a href="#" class="text-amber-200 hover:text-white px-1 pt-1 text-sm font-medium">Locations</a>
+                        <a href="#" class="text-amber-200 hover:text-white px-1 pt-1 text-sm font-medium">Maintenance</a>
+                        <a href="#" class="text-amber-200 hover:text-white px-1 pt-1 text-sm font-medium">Clients</a>
+                    </div>
+                </div>
+                <div class="flex items-center">
+                    <div class="ml-3 relative">
+                        <div class="flex items-center space-x-3">
+                            <div class="bg-amber-600 p-2 rounded-full">
+                                <span class="text-white font-bold">AD</span>
+                            </div>
+                            <span class="text-sm font-medium">Admin</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <!-- En-tête -->
+        <div class="mb-8">
+            <h1 class="text-3xl font-bold text-amber-900">Gestion de flotte de construction</h1>
+            <p class="text-amber-700 mt-2">Tableau de bord administrateur - Suivi des équipements et locations</p>
+        </div>
+
+        <!-- Cartes de résumé -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <div class="bg-white card-shadow rounded-xl overflow-hidden card-hover">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="bg-amber-100 p-3 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-gray-500 text-sm font-medium">Total des équipements</h3>
+                            <p class="text-2xl font-bold text-amber-800">142</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white card-shadow rounded-xl overflow-hidden card-hover">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="bg-amber-100 p-3 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7h12m0 0l-4-4m4 4l-4 4m0 6H4m0 0l4 4m-4-4l4-4" />
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-gray-500 text-sm font-medium">En location</h3>
+                            <p class="text-2xl font-bold text-amber-800">89</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white card-shadow rounded-xl overflow-hidden card-hover">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="bg-amber-100 p-3 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-gray-500 text-sm font-medium">En maintenance</h3>
+                            <p class="text-2xl font-bold text-amber-800">15</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="bg-white card-shadow rounded-xl overflow-hidden card-hover">
+                <div class="p-5">
+                    <div class="flex items-center">
+                        <div class="bg-amber-100 p-3 rounded-lg">
+                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                            </svg>
+                        </div>
+                        <div class="ml-4">
+                            <h3 class="text-gray-500 text-sm font-medium">Revenu mensuel</h3>
+                            <p class="text-2xl font-bold text-amber-800">€128,750</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Graphiques et catégories -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8">
+            <!-- Graphique 1 -->
+            <div class="bg-white card-shadow rounded-xl overflow-hidden card-hover">
+                <div class="p-5">
+                    <h2 class="text-xl font-bold text-amber-800 mb-4">Utilisation par catégorie</h2>
+                    <div class="h-80">
+                        <canvas id="categoryChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Graphique 2 -->
+            <div class="bg-white card-shadow rounded-xl overflow-hidden card-hover">
+                <div class="p-5">
+                    <h2 class="text-xl font-bold text-amber-800 mb-4">Revenus mensuels</h2>
+                    <div class="h-80">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Catégories de machines -->
+        <div class="mb-8">
+            <h2 class="text-2xl font-bold text-amber-800 mb-4">Catégories d'équipements</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <!-- Engins de chantier -->
+                <div class="bg-white card-shadow rounded-xl overflow-hidden card-hover">
+                    <div class="p-5">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-amber-100 p-2 rounded-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-amber-800 ml-3">Engins de chantier</h3>
+                        </div>
+                        <p class="text-gray-600 mb-3">Pelles, bulldozers, chargeurs, etc.</p>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-amber-700 font-medium">42 équipements</span>
+                            <span class="text-green-600">85% utilisés</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Grues -->
+                <div class="bg-white card-shadow rounded-xl overflow-hidden card-hover">
+                    <div class="p-5">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-amber-100 p-2 rounded-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7l4-4m0 0l4 4m-4-4v18m0 0l-4-4m4 4l4-4" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-amber-800 ml-3">Grues</h3>
+                        </div>
+                        <p class="text-gray-600 mb-3">Grues mobiles, grues à tour, etc.</p>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-amber-700 font-medium">28 équipements</span>
+                            <span class="text-green-600">92% utilisés</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Bétonnières -->
+                <div class="bg-white card-shadow rounded-xl overflow-hidden card-hover">
+                    <div class="p-5">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-amber-100 p-2 rounded-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-amber-800 ml-3">Bétonnières</h3>
+                        </div>
+                        <p class="text-gray-600 mb-3">Camions malaxeurs, pompes à béton</p>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-amber-700 font-medium">35 équipements</span>
+                            <span class="text-green-600">78% utilisés</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Groupes électrogènes -->
+                <div class="bg-white card-shadow rounded-xl overflow-hidden card-hover">
+                    <div class="p-5">
+                        <div class="flex items-center mb-4">
+                            <div class="bg-amber-100 p-2 rounded-lg">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-amber-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                                </svg>
+                            </div>
+                            <h3 class="text-lg font-bold text-amber-800 ml-3">Groupes électrogènes</h3>
+                        </div>
+                        <p class="text-gray-600 mb-3">De 10kVA à 500kVA</p>
+                        <div class="flex justify-between text-sm">
+                            <span class="text-amber-700 font-medium">37 équipements</span>
+                            <span class="text-yellow-600">65% utilisés</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Liste des équipements nécessitant une maintenance -->
+        <div class="bg-white card-shadow rounded-xl overflow-hidden card-hover mb-8">
+            <div class="p-5">
+                <h2 class="text-xl font-bold text-amber-800 mb-4">Équipements nécessitant une maintenance</h2>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-amber-50">
+                            <tr>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-amber-800 uppercase tracking-wider">ID</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-amber-800 uppercase tracking-wider">Équipement</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-amber-800 uppercase tracking-wider">Catégorie</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-amber-800 uppercase tracking-wider">Dernière maintenance</th>
+                                <th class="px-6 py-3 text-left text-xs font-medium text-amber-800 uppercase tracking-wider">Statut</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#EXC-023</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Pelle hydraulique CAT 320</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Engins de chantier</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">15/05/2023</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-red-100 text-red-800">Maintenance urgente</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#CRN-012</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Grue mobile LTM 1050</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Grues</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">10/06/2023</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Contrôle requis</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#GEN-045</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Groupe électrogène 200kVA</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Groupes électrogènes</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">22/04/2023</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-orange-100 text-orange-800">Révision nécessaire</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">#MIX-018</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">Camion malaxeur 9m³</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">Bétonnières</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">30/05/2023</td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">Contrôle requis</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialiser les graphiques
+        document.addEventListener('DOMContentLoaded', function() {
+            // Graphique des catégories
+            const categoryCtx = document.getElementById('categoryChart').getContext('2d');
+            const categoryChart = new Chart(categoryCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Engins de chantier', 'Grues', 'Bétonnières', 'Groupes électrogènes', 'Autres'],
+                    datasets: [{
+                        data: [30, 20, 25, 15, 10],
+                        backgroundColor: [
+                            'rgba(245, 158, 11, 0.8)',
+                            'rgba(249, 115, 22, 0.8)',
+                            'rgba(251, 191, 36, 0.8)',
+                            'rgba(252, 211, 77, 0.8)',
+                            'rgba(253, 230, 138, 0.8)'
+                        ],
+                        borderColor: [
+                            'rgba(245, 158, 11, 1)',
+                            'rgba(249, 115, 22, 1)',
+                            'rgba(251, 191, 36, 1)',
+                            'rgba(252, 211, 77, 1)',
+                            'rgba(253, 230, 138, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        },
+                        title: {
+                            display: false
+                        }
+                    }
+                }
+            });
+
+            // Graphique des revenus
+            const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+            const revenueChart = new Chart(revenueCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Août', 'Sep', 'Oct', 'Nov', 'Déc'],
+                    datasets: [{
+                        label: 'Revenus (en milliers €)',
+                        data: [85, 92, 105, 98, 110, 128, 135, 140, 132, 125, 138, 150],
+                        backgroundColor: 'rgba(245, 158, 11, 0.6)',
+                        borderColor: 'rgba(245, 158, 11, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

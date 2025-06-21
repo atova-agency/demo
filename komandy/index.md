@@ -26,7 +26,11 @@ header-includes:
 
 voir aussi:  
 
-- [Kconstruction (fr) produit sous licence pour Solus](./dashboard/concept_fr.html)
+- [kFleet mobile](./kFleet/index.html)
+- [kFleet web](./kFleet/index_web.html)
+- [kBuildyard](./kBuildyard/index.html)
+- [Solus une version customized et sous licence de kBuildyard pour MultiSolution](./kBuildyard/solus.html)
+
 
 
 # Concept Kômandy 

@@ -1,7 +1,7 @@
 filename=$1
 TARGET=${filename%.*}
 #STYLE="./static/css/vpkely.css"
-TEMPLATE=./templates/rpg.tpl
+TEMPLATE=./static/md_tpl/vpkely.tpl
 DEPTH=$2
 shift;
 

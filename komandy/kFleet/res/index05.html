@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kFleet - Construction Fleet Management</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #FFA500;
+            --primary-dark: #FF8C00;
+            --secondary: #FFD700;
+            --accent: #FF4500;
+            --dark: #333333;
+            --light: #F5F5F5;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFF3E0 100%);
+            min-height: 100vh;
+        }
+        
+        .construction-bg {
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="%23FFA500" opacity="0.05"/><path d="M0,0 L100,100 M100,0 L0,100" stroke="%23FF8C00" stroke-width="1" stroke-opacity="0.1"/></svg>');
+            background-size: 300px;
+        }
+        
+        .card {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 165, 0, 0.15);
+        }
+        
+        .card:hover {
+            box-shadow: 0 6px 25px rgba(0,0,0,0.12);
+            transform: translateY(-3px);
+        }
+        
+        .status-badge {
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: 8px;
+            padding: 8px 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(255, 140, 0, 0.3);
+        }
+        
+        .dashboard-header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--accent) 100%);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.15);
+        }
+        
+        .sidebar {
+            background: rgba(255, 255, 255, 0.9);
+            box-shadow: 4px 0 15px rgba(0,0,0,0.08);
+        }
+        
+        .nav-item {
+            transition: all 0.2s;
+            border-radius: 8px;
+        }
+        
+        .nav-item:hover, .nav-item.active {
+            background: rgba(255, 165, 0, 0.15);
+        }
+        
+        .stats-card {
+            border-top: 4px solid var(--primary);
+        }
+        
+        .chart-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+        }
+        
+        .vehicle-icon {
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            background: rgba(255, 165, 0, 0.1);
+            color: var(--primary-dark);
+            font-size: 24px;
+        }
+        
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: #e0e0e0;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary) 0%, var(--accent) 100%);
+            border-radius: 4px;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body class="construction-bg font-sans">
+    <div class="flex h-screen">
+        <!-- Sidebar -->
+        <div class="sidebar w-64 flex-shrink-0 py-6 px-4">
+            <div class="flex items-center justify-center mb-10">
+                <div class="w-10 h-10 bg-orange-500 rounded-lg flex items-center justify-center text-white font-bold text-xl mr-2">KF</div>
+                <h1 class="text-2xl font-bold text-orange-600">kFleet</h1>
+            </div>
+            
+            <nav>
+                <ul class="space-y-2">
+                    <li><a href="#" class="nav-item active flex items-center py-3 px-4 text-orange-700 font-medium"><i class="fas fa-tachometer-alt mr-3"></i> Dashboard</a></li>
+                    <li><a href="#" class="nav-item flex items-center py-3 px-4 text-gray-600 hover:text-orange-600"><i class="fas fa-truck mr-3"></i> Vehicles</a></li>
+                    <li><a href="#" class="nav-item flex items-center py-3 px-4 text-gray-600 hover:text-orange-600"><i class="fas fa-calendar-alt mr-3"></i> Reservations</a></li>
+                    <li><a href="#" class="nav-item flex items-center py-3 px-4 text-gray-600 hover:text-orange-600"><i class="fas fa-wrench mr-3"></i> Maintenance</a></li>
+                    <li><a href="#" class="nav-item flex items-center py-3 px-4 text-gray-600 hover:text-orange-600"><i class="fas fa-users mr-3"></i> Clients</a></li>
+                    <li><a href="#" class="nav-item flex items-center py-3 px-4 text-gray-600 hover:text-orange-600"><i class="fas fa-chart-line mr-3"></i> Reports</a></li>
+                    <li><a href="#" class="nav-item flex items-center py-3 px-4 text-gray-600 hover:text-orange-600"><i class="fas fa-cog mr-3"></i> Settings</a></li>
+                </ul>
+            </nav>
+            
+            <div class="mt-auto pt-6 border-t border-gray-200">
+                <div class="flex items-center p-3 bg-orange-50 rounded-lg">
+                    <div class="avatar mr-3">KF</div>
+                    <div>
+                        <p class="font-medium text-gray-800">iKoto Fetsy</p>
+                        <p class="text-xs text-gray-600">Fleet Manager</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Main Content -->
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header -->
+            <header class="dashboard-header py-4 px-6 text-white">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h2 class="text-2xl font-bold">Fleet Dashboard</h2>
+                        <p class="text-orange-100">Welcome back, iKoto. Here's your fleet overview</p>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="relative mr-4">
+                            <input type="text" placeholder="Search..." class="bg-orange-700 bg-opacity-30 border border-orange-400 rounded-full py-2 px-4 text-white placeholder-orange-200 focus:outline-none focus:ring-2 focus:ring-orange-300">
+                            <i class="fas fa-search absolute right-3 top-2.5 text-orange-200"></i>
+                        </div>
+                        <button class="bg-orange-800 bg-opacity-30 p-2 rounded-full mr-2 hover:bg-opacity-50">
+                            <i class="fas fa-bell"></i>
+                        </button>
+                        <button class="bg-orange-800 bg-opacity-30 p-2 rounded-full hover:bg-opacity-50">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Main Content -->
+            <main class="flex-1 overflow-y-auto p-6">
+                <!-- Stats Overview -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <div class="card stats-card p-5">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-gray-500 text-sm font-medium">Total Vehicles</h3>
+                                <p class="text-3xl font-bold mt-1">142</p>
+                            </div>
+                            <div class="bg-orange-100 p-3 rounded-lg">
+                                <i class="fas fa-truck text-orange-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex justify-between text-sm text-gray-500 mb-1">
+                                <span>Available</span>
+                                <span>78%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 78%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card stats-card p-5">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-gray-500 text-sm font-medium">Active Rentals</h3>
+                                <p class="text-3xl font-bold mt-1">86</p>
+                            </div>
+                            <div class="bg-orange-100 p-3 rounded-lg">
+                                <i class="fas fa-calendar-check text-orange-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex justify-between text-sm text-gray-500 mb-1">
+                                <span>Utilization</span>
+                                <span>64%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 64%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card stats-card p-5">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-gray-500 text-sm font-medium">Maintenance</h3>
+                                <p class="text-3xl font-bold mt-1">22</p>
+                            </div>
+                            <div class="bg-orange-100 p-3 rounded-lg">
+                                <i class="fas fa-wrench text-orange-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex justify-between text-sm text-gray-500 mb-1">
+                                <span>On Schedule</span>
+                                <span>92%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 92%"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="card stats-card p-5">
+                        <div class="flex justify-between items-start">
+                            <div>
+                                <h3 class="text-gray-500 text-sm font-medium">Revenue</h3>
+                                <p class="text-3xl font-bold mt-1">$128K</p>
+                            </div>
+                            <div class="bg-orange-100 p-3 rounded-lg">
+                                <i class="fas fa-dollar-sign text-orange-600 text-xl"></i>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <div class="flex justify-between text-sm text-gray-500 mb-1">
+                                <span>This Month</span>
+                                <span>+12%</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 65%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Charts and Data -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                    <!-- Vehicle Status Chart -->
+                    <div class="card p-5">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-bold text-gray-800">Vehicle Status Distribution</h3>
+                            <select class="bg-gray-100 border-0 rounded-lg py-1 px-3 text-sm focus:ring-2 focus:ring-orange-300">
+                                <option>This Month</option>
+                                <option>Last Month</option>
+                                <option>Quarter</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="statusChart" height="250"></canvas>
+                        </div>
+                    </div>
+                    
+                    <!-- Rental Trends -->
+                    <div class="card p-5">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-bold text-gray-800">Rental Trends</h3>
+                            <select class="bg-gray-100 border-0 rounded-lg py-1 px-3 text-sm focus:ring-2 focus:ring-orange-300">
+                                <option>Last 30 Days</option>
+                                <option>Last 90 Days</option>
+                                <option>Year</option>
+                            </select>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="rentalChart" height="250"></canvas>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Vehicle Types and Recent Activity -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                    <!-- Vehicle Types -->
+                    <div class="card p-5">
+                        <h3 class="text-lg font-bold text-gray-800 mb-4">Vehicle / Machinery Types</h3>
+                        <div class="space-y-4">
+                            <div class="flex items-center p-3 bg-orange-50 rounded-lg">
+                                <div class="vehicle-icon mr-4">
+                                    <i class="fas fa-truck-pickup"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-medium">Heavy Trucks</h4>
+                                    <p class="text-sm text-gray-600">Dump trucks, tankers, mixers</p>
+                                </div>
+                                <div>
+                                    <p class="font-bold">42</p>
+                                    <p class="text-xs text-gray-500">Vehicles</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center p-3 bg-orange-50 rounded-lg">
+                                <div class="vehicle-icon mr-4">
+                                    <i class="fas fa-crane"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-medium">Cranes</h4>
+                                    <p class="text-sm text-gray-600">Mobile, tower, crawler cranes</p>
+                                </div>
+                                <div>
+                                    <p class="font-bold">28</p>
+                                    <p class="text-xs text-gray-500">Vehicles</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center p-3 bg-orange-50 rounded-lg">
+                                <div class="vehicle-icon mr-4">
+                                    <i class="fas fa-tools"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-medium">Earthmoving</h4>
+                                    <p class="text-sm text-gray-600">Excavators, bulldozers, loaders</p>
+                                </div>
+                                <div>
+                                    <p class="font-bold">35</p>
+                                    <p class="text-xs text-gray-500">Vehicles</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center p-3 bg-orange-50 rounded-lg">
+                                <div class="vehicle-icon mr-4">
+                                    <i class="fas fa-bolt"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-medium">Power Systems</h4>
+                                    <p class="text-sm text-gray-600">Generators, compressors</p>
+                                </div>
+                                <div>
+                                    <p class="font-bold">24</p>
+                                    <p class="text-xs text-gray-500">Units</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-center p-3 bg-orange-50 rounded-lg">
+                                <div class="vehicle-icon mr-4">
+                                    <i class="fas fa-truck-loading"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <h4 class="font-medium">Specialty Equipment</h4>
+                                    <p class="text-sm text-gray-600">Concrete pumps, pavers</p>
+                                </div>
+                                <div>
+                                    <p class="font-bold">13</p>
+                                    <p class="text-xs text-gray-500">Vehicles</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Recent Activity -->
+                    <div class="card p-5">
+                        <div class="flex justify-between items-center mb-4">
+                            <h3 class="text-lg font-bold text-gray-800">Recent Activity</h3>
+                            <button class="btn-primary text-sm">View All</button>
+                        </div>
+                        <div class="space-y-4">
+                            <div class="flex p-3 border-b border-gray-100">
+                                <div class="mr-3 text-orange-500">
+                                    <i class="fas fa-calendar-plus"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium">New rental booked</p>
+                                    <p class="text-sm text-gray-600">Crane #CR-142 reserved for City Tower project</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm text-gray-500">2 hours ago</p>
+                                    <span class="status-badge bg-green-100 text-green-800">Confirmed</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex p-3 border-b border-gray-100">
+                                <div class="mr-3 text-orange-500">
+                                    <i class="fas fa-wrench"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium">Maintenance completed</p>
+                                    <p class="text-sm text-gray-600">Excavator #EX-078 service completed</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm text-gray-500">5 hours ago</p>
+                                    <span class="status-badge bg-blue-100 text-blue-800">Ready</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex p-3 border-b border-gray-100">
+                                <div class="mr-3 text-orange-500">
+                                    <i class="fas fa-truck-moving"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium">Vehicle dispatched</p>
+                                    <p class="text-sm text-gray-600">Generator #GN-045 sent to Harbor Site</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm text-gray-500">Yesterday</p>
+                                    <span class="status-badge bg-purple-100 text-purple-800">In Transit</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex p-3 border-b border-gray-100">
+                                <div class="mr-3 text-orange-500">
+                                    <i class="fas fa-exclamation-triangle"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium">Maintenance alert</p>
+                                    <p class="text-sm text-gray-600">Bulldozer #BD-011 requires service</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm text-gray-500">Yesterday</p>
+                                    <span class="status-badge bg-yellow-100 text-yellow-800">Pending</span>
+                                </div>
+                            </div>
+                            
+                            <div class="flex p-3">
+                                <div class="mr-3 text-orange-500">
+                                    <i class="fas fa-check-circle"></i>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="font-medium">Rental completed</p>
+                                    <p class="text-sm text-gray-600">Mixer Truck #MT-025 returned from Bridge Project</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-sm text-gray-500">2 days ago</p>
+                                    <span class="status-badge bg-green-100 text-green-800">Returned</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+    
+    <script>
+        // Initialize charts when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            // Vehicle Status Chart (Doughnut)
+            const statusCtx = document.getElementById('statusChart').getContext('2d');
+            const statusChart = new Chart(statusCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Available', 'Rented', 'Maintenance', 'Out of Service'],
+                    datasets: [{
+                        data: [78, 86, 22, 6],
+                        backgroundColor: [
+                            'rgba(75, 192, 192, 0.7)',
+                            'rgba(255, 165, 0, 0.7)',
+                            'rgba(54, 162, 235, 0.7)',
+                            'rgba(255, 99, 132, 0.7)'
+                        ],
+                        borderColor: [
+                            'rgb(75, 192, 192)',
+                            'rgb(255, 165, 0)',
+                            'rgb(54, 162, 235)',
+                            'rgb(255, 99, 132)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        },
+                        title: {
+                            display: false
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+            
+            // Rental Trends Chart (Line)
+            const rentalCtx = document.getElementById('rentalChart').getContext('2d');
+            const rentalChart = new Chart(rentalCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                    datasets: [{
+                        label: 'Rental Revenue',
+                        data: [85, 92, 105, 98, 112, 120, 128],
+                        fill: true,
+                        backgroundColor: 'rgba(255, 165, 0, 0.1)',
+                        borderColor: 'rgb(255, 165, 0)',
+                        borderWidth: 3,
+                        tension: 0.3,
+                        pointBackgroundColor: 'rgb(255, 165, 0)',
+                        pointRadius: 5
+                    }, {
+                        label: 'Active Rentals',
+                        data: [72, 75, 80, 78, 82, 84, 86],
+                        fill: false,
+                        borderColor: 'rgb(255, 69, 0)',
+                        borderWidth: 3,
+                        tension: 0.3,
+                        pointBackgroundColor: 'rgb(255, 69, 0)',
+                        pointRadius: 5
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>

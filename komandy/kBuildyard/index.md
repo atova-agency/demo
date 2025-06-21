@@ -1,14 +1,16 @@
 ---
-title: "Kômandy: Vision conceptuelle"
+title: "kBuildyard: Vision conceptuelle"
 header-includes:
   <link rel="icon" href="./static/img/logo.svg">
-  <link rel="stylesheet" href="./static/css/style.css" />
+  <link rel="stylesheet" href="../static/css/vpkely.css" />
 ---
 
 <main>
-Kômandy est une plateforme de gestion de projets terrain axée sur la simplicité et l'efficacité.
+**kBuildyard** est une plateforme de gestion de projets terrain axée sur la simplicité et l'efficacité
+qui fait partie de la suite de produit **Kômandy** dévelopé par **Atova**.
 
-Kômandy organise votre travail grâce aux rubriques clés suivantes :
+
+kBuildyard organise votre travail grâce aux rubriques clés suivantes :
 
 1. Chantiers : Unité organisationnelle de niveau supérieur contenant les projets et les membres de l'équipe.
 2. Projets : Ensemble de tâches connexes au sein d'un chantier.
@@ -18,7 +20,7 @@ Kômandy organise votre travail grâce aux rubriques clés suivantes :
 
 # Flux de travail de base
 
-Un flux de travail typique dans Kômandy ressemble à ceci :
+Un flux de travail typique dans kBuildyard ressemble à ceci :
 
 - Créer un chantier
 - Inviter des membres de l'équipe à y participer ou assigner des équipiers
@@ -31,7 +33,7 @@ Un flux de travail typique dans Kômandy ressemble à ceci :
 
 ### Qu'est-ce qu'un chantier?
 
-Le chantier est une unité organisationnelle de niveau supérieur de Kômandy.
+Le chantier est une unité organisationnelle de niveau supérieur de kBuildyard.
 Il sert de conteneur pour les projets, les tâches et les membres d'une équipe.
 Un chantier est un espace dédié à une équipe, un service ou un domaine de travail spécifique.
 
@@ -81,7 +83,7 @@ tâches et données qui lui sont associés. Cette action est irréversible. (Sol
 
 ### Que sont les projets ?
 
-Dans Kômandy, les projets regroupent des tâches liées au sein d'un chantier.
+Dans kBuildyard, les projets regroupent des tâches liées au sein d'un chantier.
 Ils vous aident à organiser votre travail en groupes logiques.
 Un projet peut représenter un espace de travail, un client, un service, 
 une flotte de véhicules ou toute autre organisation de vos tâches.
@@ -100,7 +102,7 @@ Le projet sera créé et vous serez redirigé vers la vue tableau. 🎉
 
 #### Vues des projets
 
-Dans Kômandy, chaque projet peut être visualisé de différentes manières :
+Dans kBuildyard, chaque projet peut être visualisé de différentes manières :
 
 - Vue Liste : affiche les tâches sous forme de liste simple
 - Vue Tableau : affiche les tâches organisées par statut dans un tableau de type Kanban
@@ -134,7 +136,7 @@ Pour archiver ou supprimer un projet, accédez aux paramètres du projet et fait
 
 ### Qu'est-ce qu'une tâche?
 
-Les tâches sont les éléments de travail fondamentaux de Kômandy. 
+Les tâches sont les éléments de travail fondamentaux de kBuildyard. 
 Elles représentent des actions spécifiques à réaliser dans le cadre d'un projet. 
 Chaque tâche peut avoir différents attributs, tels que des responsables, 
 des dates d'échéance, un statut et un suivi du temps.
@@ -153,7 +155,7 @@ La tâche sera ajoutée à la liste des tâches du projet. 🎉
 
 #### Propriétés des tâches
 
-Les tâches dans Kômandy possèdent plusieurs propriétés 
+Les tâches dans kBuildyard possèdent plusieurs propriétés 
 qui vous aident à suivre et à gérer votre travail :
 
 - Titre : Brève description de la tâche
@@ -177,9 +179,9 @@ Vous pouvez gérer les tâches de plusieurs manières :
 
 ## 4. Équipes
 
-### Gestion d'équipe dans Kômandy
+### Gestion d'équipe dans kBuildyard
 
-Kômandy vous permet de collaborer avec les membres de votre équipe sur différents chantiers et projets. 
+kBuildyard vous permet de collaborer avec les membres de votre équipe sur différents chantiers et projets. 
 Une gestion d'équipe efficace est essentielle à une collaboration réussie.
 
 #### Inviter des membres de l'équipe
@@ -225,7 +227,7 @@ Assurez-vous d'avoir un aperçu de la disponibilité et de la productivité de v
 Suivez facilement les arrivées tardives ou les départs anticipés.
 
 Le système vous aide à maintenir la productivité de votre équipe, même sans connexion.
-Exploitez la prise en charge réseau hors ligne de Kômandy pour un accès 
+Exploitez la prise en charge réseau hors ligne de kBuildyard pour un accès 
 et une capture de données continus, avec une synchronisation automatique une fois le réseau rétabli.
 
 
@@ -246,7 +248,7 @@ Que vous gériez plusieurs sites ou que vous jongliez avec différents plannings
 ces fonctionnalités vous aident à éliminer les incertitudes et vous permettent de vous concentrer 
 sur l'avancement de vos projets sans les tracas de la gestion manuelle des feuilles de temps.
 
-L'application de pointage Kômandy pour les travailleurs de terrain présente les fonctionnalités suivantes :
+L'application de pointage kBuildyard pour les travailleurs de terrain présente les fonctionnalités suivantes :
 
 - Fonctionnalité hors ligne : La possibilité de suivre le temps de travail, même sans connexion internet, est essentielle pour les travailleurs de terrain.
 - Pointage d'entrée et de sortie facile : Une interface simple et intuitive permet aux employés d'enregistrer leurs heures de travail.
@@ -264,7 +266,7 @@ L'application de pointage Kômandy pour les travailleurs de terrain présente le
 - Suivi des heures supplémentaires : signalez automatiquement les heures dépassant les limites de travail normales.
 
 Par défaut, l'intégration avec les systèmes de paie n'est pas disponible.
-Notre objectif principal est de garantir l'indépendance, la petite taille et la réactivité de Kômandy.
+Notre objectif principal est de garantir l'indépendance, la petite taille et la réactivité de kBuildyard.
 Cependant, la possibilité d'exporter les données de temps vers les systèmes de paie pour une intégration transparente pourrait être ajoutée.
 
 # À propos des tâches
@@ -349,7 +351,7 @@ Des notifications ponctuelles sont essentielles pour maintenir les projets sur l
 et garantir que les membres de l'équipe sont informés de leurs responsabilités 
 et des modifications apportées à leur travail.
 
-Le système de notifications complet de Kômandy comprend :
+Le système de notifications complet de kBuildyard comprend :
 
 - Rappels d'échéance (horaires configurables)
 - Notifications d'attribution de tâches
@@ -401,7 +403,7 @@ Les équipes ont besoin de niveaux d'autorisation différents selon les utilisat
 Cela permet de partager des tableaux avec des intervenants externes
 ou de limiter les opérations sensibles à certains membres de l'équipe.
 
-Kômandy met en œuvre un système complet de contrôle d'accès basé sur les rôles, comprenant :
+kBuildyard met en œuvre un système complet de contrôle d'accès basé sur les rôles, comprenant :
 
 - Paramètres d'autorisations au niveau du projet
 - Contrôles d'accès au niveau des tâches

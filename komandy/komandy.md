@@ -84,7 +84,7 @@ Une page dédiée à la gestion des travailleurs sera disponible sur la platefor
 * Contact
 
 ---
-
+<!--
 ## Proforma pour la réalisation du projet
 
 | Item          | description         | cout        
@@ -107,6 +107,6 @@ Une page dédiée à la gestion des travailleurs sera disponible sur la platefor
 
 Debut projet: 1400 &#8364;  
 Payment mensuelle 12 mois: 233 &#8364;  
-
+-->
 
 </main>

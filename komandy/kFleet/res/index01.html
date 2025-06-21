@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FleetVision - Vehicle Fleet Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            200: '#bae6fd',
+                            300: '#7dd3fc',
+                            400: '#38bdf8',
+                            500: '#0ea5e9',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 280px 1fr;
+            grid-template-rows: 80px 1fr;
+            height: 100vh;
+        }
+        .sidebar {
+            grid-row: 1 / -1;
+        }
+        .header {
+            grid-column: 2 / -1;
+        }
+        .main-content {
+            grid-column: 2 / -1;
+        }
+        .card {
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+        }
+        .card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .status-badge {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .vehicle-card:hover .vehicle-image {
+            transform: scale(1.05);
+        }
+        .vehicle-image {
+            transition: transform 0.4s ease;
+        }
+        .map-container {
+            background: linear-gradient(135deg, #4f46e5, #7c3aed);
+        }
+        .progress-bar {
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div class="dashboard-grid">
+        <!-- Sidebar -->
+        <aside class="sidebar bg-primary-900 text-white p-6">
+            <div class="flex items-center mb-10">
+                <i class="fas fa-truck-moving text-3xl text-primary-300 mr-3"></i>
+                <h1 class="text-2xl font-bold">FleetVision</h1>
+            </div>
+            
+            <nav>
+                <ul class="space-y-2">
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 bg-primary-800 rounded-lg font-medium">
+                            <i class="fas fa-tachometer-alt mr-3"></i>
+                            Dashboard
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-primary-200 hover:bg-primary-800 rounded-lg">
+                            <i class="fas fa-truck mr-3"></i>
+                            Vehicles
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-primary-200 hover:bg-primary-800 rounded-lg">
+                            <i class="fas fa-users mr-3"></i>
+                            Drivers
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-primary-200 hover:bg-primary-800 rounded-lg">
+                            <i class="fas fa-route mr-3"></i>
+                            Routes
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-primary-200 hover:bg-primary-800 rounded-lg">
+                            <i class="fas fa-wrench mr-3"></i>
+                            Maintenance
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-primary-200 hover:bg-primary-800 rounded-lg">
+                            <i class="fas fa-gas-pump mr-3"></i>
+                            Fuel
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#" class="flex items-center px-4 py-3 text-primary-200 hover:bg-primary-800 rounded-lg">
+                            <i class="fas fa-chart-bar mr-3"></i>
+                            Analytics
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+            
+            <div class="mt-auto pt-6 border-t border-primary-700">
+                <div class="flex items-center">
+                    <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="User" class="w-10 h-10 rounded-full">
+                    <div class="ml-3">
+                        <p class="font-medium">Robert Johnson</p>
+                        <p class="text-sm text-primary-300">Fleet Manager</p>
+                    </div>
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Header -->
+        <header class="header bg-white border-b border-gray-200 px-8 py-4 flex items-center justify-between">
+            <div class="flex items-center">
+                <h2 class="text-2xl font-bold text-gray-800">Dashboard</h2>
+                <span class="ml-4 px-3 py-1 bg-primary-100 text-primary-800 rounded-full text-sm font-medium">Live</span>
+            </div>
+            
+            <div class="flex items-center space-x-6">
+                <div class="relative">
+                    <i class="fas fa-bell text-gray-500 text-xl"></i>
+                    <span class="absolute top-0 right-0 w-3 h-3 bg-red-500 rounded-full"></span>
+                </div>
+                <div class="relative">
+                    <input type="text" placeholder="Search..." class="pl-10 pr-4 py-2 bg-gray-100 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500">
+                    <i class="fas fa-search absolute left-3 top-2.5 text-gray-400"></i>
+                </div>
+            </div>
+        </header>
+        
+        <!-- Main Content -->
+        <main class="main-content overflow-auto p-8">
+            <!-- Summary Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+                <div class="card bg-white rounded-xl p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500 mb-1">Total Vehicles</p>
+                            <h3 class="text-3xl font-bold text-gray-800">42</h3>
+                        </div>
+                        <div class="p-3 bg-blue-100 rounded-lg">
+                            <i class="fas fa-truck text-blue-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100 flex items-center">
+                        <span class="text-green-500 mr-2"><i class="fas fa-arrow-up"></i> 12%</span>
+                        <span class="text-gray-500 text-sm">from last month</span>
+                    </div>
+                </div>
+                
+                <div class="card bg-white rounded-xl p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500 mb-1">Active Now</p>
+                            <h3 class="text-3xl font-bold text-gray-800">28</h3>
+                        </div>
+                        <div class="p-3 bg-green-100 rounded-lg">
+                            <i class="fas fa-road text-green-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <div class="flex items-center justify-between text-sm mb-1">
+                            <span class="text-gray-500">In transit</span>
+                            <span class="font-medium">18</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-green-500 h-2 rounded-full" style="width: 65%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card bg-white rounded-xl p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500 mb-1">Maintenance Due</p>
+                            <h3 class="text-3xl font-bold text-gray-800">7</h3>
+                        </div>
+                        <div class="p-3 bg-yellow-100 rounded-lg">
+                            <i class="fas fa-wrench text-yellow-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100">
+                        <div class="flex items-center justify-between text-sm mb-1">
+                            <span class="text-gray-500">Critical</span>
+                            <span class="font-medium">2</span>
+                        </div>
+                        <div class="w-full bg-gray-200 rounded-full h-2">
+                            <div class="bg-red-500 h-2 rounded-full" style="width: 30%"></div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card bg-white rounded-xl p-6">
+                    <div class="flex justify-between items-start">
+                        <div>
+                            <p class="text-gray-500 mb-1">Fuel Efficiency</p>
+                            <h3 class="text-3xl font-bold text-gray-800">8.2</h3>
+                            <span class="text-gray-500 text-sm">miles per gallon</span>
+                        </div>
+                        <div class="p-3 bg-purple-100 rounded-lg">
+                            <i class="fas fa-gas-pump text-purple-600 text-xl"></i>
+                        </div>
+                    </div>
+                    <div class="mt-4 pt-4 border-t border-gray-100 flex items-center">
+                        <span class="text-red-500 mr-2"><i class="fas fa-arrow-down"></i> 3%</span>
+                        <span class="text-gray-500 text-sm">from last month</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-8">
+                <!-- Vehicle Status Chart -->
+                <div class="card bg-white rounded-xl p-6 lg:col-span-2">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold text-gray-800">Vehicle Status Overview</h3>
+                        <div class="flex space-x-2">
+                            <button class="px-3 py-1 bg-gray-100 rounded-lg text-sm">Day</button>
+                            <button class="px-3 py-1 bg-primary-500 text-white rounded-lg text-sm">Week</button>
+                            <button class="px-3 py-1 bg-gray-100 rounded-lg text-sm">Month</button>
+                        </div>
+                    </div>
+                    
+                    <div class="flex items-end h-48 gap-4 mt-8">
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="flex-1 w-full flex items-end">
+                                <div class="w-full bg-blue-500 rounded-t-lg" style="height: 80%"></div>
+                            </div>
+                            <p class="mt-2 text-gray-600 text-sm">Active</p>
+                        </div>
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="flex-1 w-full flex items-end">
+                                <div class="w-full bg-green-500 rounded-t-lg" style="height: 65%"></div>
+                            </div>
+                            <p class="mt-2 text-gray-600 text-sm">Idle</p>
+                        </div>
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="flex-1 w-full flex items-end">
+                                <div class="w-full bg-yellow-500 rounded-t-lg" style="height: 30%"></div>
+                            </div>
+                            <p class="mt-2 text-gray-600 text-sm">Maintenance</p>
+                        </div>
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="flex-1 w-full flex items-end">
+                                <div class="w-full bg-purple-500 rounded-t-lg" style="height: 50%"></div>
+                            </div>
+                            <p class="mt-2 text-gray-600 text-sm">Offline</p>
+                        </div>
+                        <div class="flex flex-col items-center flex-1">
+                            <div class="flex-1 w-full flex items-end">
+                                <div class="w-full bg-red-500 rounded-t-lg" style="height: 20%"></div>
+                            </div>
+                            <p class="mt-2 text-gray-600 text-sm">Critical</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Live Map -->
+                <div class="card bg-white rounded-xl p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold text-gray-800">Vehicle Locations</h3>
+                        <button class="text-primary-600 font-medium text-sm">
+                            <i class="fas fa-expand mr-1"></i> View Full Map
+                        </button>
+                    </div>
+                    
+                    <div class="map-container rounded-xl h-64 relative overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-b from-transparent to-black opacity-30"></div>
+                        <div class="absolute top-4 left-4 bg-white rounded-lg px-3 py-2 shadow">
+                            <p class="font-medium text-sm">Chicago Area</p>
+                        </div>
+                        
+                        <!-- Vehicle markers -->
+                        <div class="absolute top-1/3 left-1/4 w-8 h-8 bg-red-500 rounded-full border-4 border-white shadow-lg flex items-center justify-center">
+                            <i class="fas fa-truck text-white text-xs"></i>
+                        </div>
+                        <div class="absolute top-1/2 left-1/3 w-8 h-8 bg-green-500 rounded-full border-4 border-white shadow-lg flex items-center justify-center">
+                            <i class="fas fa-truck text-white text-xs"></i>
+                        </div>
+                        <div class="absolute top-1/4 left-1/2 w-8 h-8 bg-blue-500 rounded-full border-4 border-white shadow-lg flex items-center justify-center">
+                            <i class="fas fa-truck text-white text-xs"></i>
+                        </div>
+                        <div class="absolute top-3/4 left-3/4 w-8 h-8 bg-yellow-500 rounded-full border-4 border-white shadow-lg flex items-center justify-center">
+                            <i class="fas fa-truck text-white text-xs"></i>
+                        </div>
+                    </div>
+                    
+                    <div class="mt-4 grid grid-cols-2 gap-2">
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 bg-red-500 rounded-full mr-2"></div>
+                            <span class="text-gray-600 text-sm">Critical (2)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 bg-green-500 rounded-full mr-2"></div>
+                            <span class="text-gray-600 text-sm">Active (18)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 bg-blue-500 rounded-full mr-2"></div>
+                            <span class="text-gray-600 text-sm">Idle (8)</span>
+                        </div>
+                        <div class="flex items-center">
+                            <div class="w-3 h-3 bg-yellow-500 rounded-full mr-2"></div>
+                            <span class="text-gray-600 text-sm">Maintenance (7)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Activity & Vehicle List -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Recent Activity -->
+                <div class="card bg-white rounded-xl p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold text-gray-800">Recent Activity</h3>
+                        <button class="text-primary-600 font-medium text-sm">View All</button>
+                    </div>
+                    
+                    <div class="space-y-4">
+                        <div class="flex">
+                            <div class="mr-4">
+                                <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center">
+                                    <i class="fas fa-gas-pump text-blue-600"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium">Fuel refill completed</p>
+                                <p class="text-gray-600 text-sm">Vehicle #VH-2819 at Shell Station</p>
+                                <p class="text-gray-500 text-xs mt-1">10 minutes ago</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="status-badge bg-green-100 text-green-800">Completed</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="mr-4">
+                                <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center">
+                                    <i class="fas fa-exclamation-triangle text-yellow-600"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium">Maintenance alert</p>
+                                <p class="text-gray-600 text-sm">Vehicle #VH-3207 needs oil change</p>
+                                <p class="text-gray-500 text-xs mt-1">45 minutes ago</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="status-badge bg-red-100 text-red-800">Urgent</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="mr-4">
+                                <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+                                    <i class="fas fa-route text-purple-600"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium">Route completed</p>
+                                <p class="text-gray-600 text-sm">Driver #DR-104 finished route #RT-89</p>
+                                <p class="text-gray-500 text-xs mt-1">2 hours ago</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="status-badge bg-green-100 text-green-800">Completed</span>
+                            </div>
+                        </div>
+                        
+                        <div class="flex">
+                            <div class="mr-4">
+                                <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center">
+                                    <i class="fas fa-truck-loading text-green-600"></i>
+                                </div>
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-medium">New vehicle added</p>
+                                <p class="text-gray-600 text-sm">Ford Transit 2023 added to fleet</p>
+                                <p class="text-gray-500 text-xs mt-1">5 hours ago</p>
+                            </div>
+                            <div class="text-right">
+                                <span class="status-badge bg-blue-100 text-blue-800">New</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Vehicle List -->
+                <div class="card bg-white rounded-xl p-6">
+                    <div class="flex justify-between items-center mb-6">
+                        <h3 class="text-lg font-bold text-gray-800">Vehicle List</h3>
+                        <button class="text-primary-600 font-medium text-sm">Manage Fleet</button>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-left text-gray-500 text-sm border-b">
+                                    <th class="pb-3">Vehicle ID</th>
+                                    <th class="pb-3">Type</th>
+                                    <th class="pb-3">Driver</th>
+                                    <th class="pb-3">Status</th>
+                                    <th class="pb-3 text-right">Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="py-3 font-medium">#VH-2819</td>
+                                    <td class="py-3">Delivery Van</td>
+                                    <td class="py-3">Michael R.</td>
+                                    <td class="py-3">
+                                        <span class="status-badge bg-green-100 text-green-800">Active</span>
+                                    </td>
+                                    <td class="py-3 text-right">
+                                        <button class="text-primary-600">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 font-medium">#VH-3207</td>
+                                    <td class="py-3">Refrigerated</td>
+                                    <td class="py-3">Sarah T.</td>
+                                    <td class="py-3">
+                                        <span class="status-badge bg-red-100 text-red-800">Critical</span>
+                                    </td>
+                                    <td class="py-3 text-right">
+                                        <button class="text-primary-600">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 font-medium">#VH-4012</td>
+                                    <td class="py-3">Box Truck</td>
+                                    <td class="py-3">James K.</td>
+                                    <td class="py-3">
+                                        <span class="status-badge bg-blue-100 text-blue-800">Idle</span>
+                                    </td>
+                                    <td class="py-3 text-right">
+                                        <button class="text-primary-600">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="py-3 font-medium">#VH-5561</td>
+                                    <td class="py-3">Flatbed</td>
+                                    <td class="py-3">David M.</td>
+                                    <td class="py-3">
+                                        <span class="status-badge bg-yellow-100 text-yellow-800">Maintenance</span>
+                                    </td>
+                                    <td class="py-3 text-right">
+                                        <button class="text-primary-600">
+                                            <i class="fas fa-ellipsis-h"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
