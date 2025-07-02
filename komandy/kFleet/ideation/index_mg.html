@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="mg">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>kFleet - Tabilao fiandraiketana</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,line-clamp"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #f59e0b;
+            --primary-dark: #d97706;
+            --secondary: #ea580c;
+            --dark: #1e293b;
+            --light: #f8fafc;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            transition: all 0.3s ease;
+        }
+        
+        .construction-bg {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23f59e0b' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+        }
+        
+        .language-selector {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .language-dropdown {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 160px;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.15);
+            z-index: 1000;
+            border-radius: 8px;
+            overflow: hidden;
+            right: 0;
+            top: 100%;
+            margin-top: 8px;
+            animation: fadeIn 0.2s ease-out;
+            border: 1px solid #e5e7eb;
+        }
+        
+        .language-dropdown.show {
+            display: block;
+        }
+        
+        .language-dropdown a {
+            color: #4b5563;
+            padding: 10px 16px;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s;
+            font-size: 14px;
+        }
+        
+        .language-dropdown a:hover {
+            background-color: #f3f4f6;
+            color: #f59e0b;
+        }
+        
+        .language-dropdown a i {
+            margin-right: 10px;
+            font-size: 1.1rem;
+            width: 20px;
+            text-align: center;
+        }
+        
+        .active-language {
+            background-color: #fffbeb;
+            color: #f59e0b !important;
+            font-weight: 500;
+        }
+        
+        .language-btn {
+            display: flex;
+            align-items: center;
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        .language-btn:hover {
+            background-color: #f3f4f6;
+        }
+        
+        .language-btn.active {
+            background-color: #fffbeb;
+            color: #f59e0b;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .stats-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        .notification-badge {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+        
+        .chart-container {
+            transition: all 0.3s ease;
+        }
+        
+        .chart-container:hover {
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <div class="flex flex-col min-h-screen">
+        <!-- Header -->
+        <header class="bg-white shadow-sm">
+            <div class="container mx-auto px-4 py-3 flex items-center justify-between">
+                <div class="flex items-center">
+                    <div class="bg-yellow-500 w-10 h-10 rounded-lg flex items-center justify-center mr-3">
+                        <i class="fas fa-hard-hat text-white text-xl"></i>
+                    </div>
+                    <h1 class="text-2xl font-bold text-gray-800">
+                        <span class="text-yellow-500">k</span>Fleet
+                    </h1>
+                </div>
+                
+                <div class="flex items-center space-x-6">
+                    <!-- Fixed Language Selector -->
+                    <div class="language-selector">
+                        <div class="language-btn" id="languageBtn">
+                            <i class="fas fa-globe mr-2"></i>
+                            Malagasy
+                            <i class="fas fa-chevron-down ml-2 text-xs"></i>
+                        </div>
+                        <div class="language-dropdown" id="languageDropdown">
+                            <a href="index_en.html">
+                                <i class="fas fa-language text-blue-500"></i> English
+                            </a>
+                            <a href="index_fr.html">
+                                <i class="fas fa-language text-yellow-500"></i> Français
+                            </a>
+                            <a href="index_mg.html" class="active-language">
+                                <i class="fas fa-language text-green-500"></i> Malagasy
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <div class="relative">
+                        <button class="text-gray-500 hover:text-gray-700">
+                            <i class="fas fa-bell text-xl"></i>
+                            <span class="notification-badge absolute top-0 right-0 bg-red-500 text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">3</span>
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <img src="https://ui-avatars.com/api/?name=Admin+kFleet&background=f59e0b&color=fff" alt="Admin" class="w-10 h-10 rounded-full border-2 border-yellow-500">
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="flex-grow container mx-auto px-4 py-6 construction-bg">
+            <!-- Page Title -->
+            <div class="mb-6">
+                <h2 class="text-2xl font-bold text-gray-800">Tabilao fiandraiketana</h2>
+                <p class="text-gray-600">Fijerena ny flotinao sy ny fanofana mbola mitohy</p>
+            </div>
+            
+            <!-- Stats Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                <div class="stats-card bg-white rounded-xl shadow-md p-5 border-l-4 border-yellow-500">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-yellow-100 rounded-lg mr-4">
+                            <i class="fas fa-truck-pickup text-yellow-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Fitaovana totaly</p>
+                            <h3 class="text-2xl font-bold text-gray-800">142</h3>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded-full">+8% amin'ity volana ity</span>
+                    </div>
+                </div>
+                
+                <div class="stats-card bg-white rounded-xl shadow-md p-5 border-l-4 border-orange-500">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-orange-100 rounded-lg mr-4">
+                            <i class="fas fa-tools text-orange-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Am-panofana</p>
+                            <h3 class="text-2xl font-bold text-gray-800">87</h3>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <span class="bg-orange-100 text-orange-800 text-xs px-2 py-1 rounded-full">Fifanarahana vaovao 12</span>
+                    </div>
+                </div>
+                
+                <div class="stats-card bg-white rounded-xl shadow-md p-5 border-l-4 border-amber-500">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-amber-100 rounded-lg mr-4">
+                            <i class="fas fa-wrench text-amber-600 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Eo am-pikojakojana</p>
+                            <h3 class="text-2xl font-bold text-gray-800">15</h3>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <span class="bg-amber-100 text-amber-800 text-xs px-2 py-1 rounded-full">3 tokony hohamboarina</span>
+                    </div>
+                </div>
+                
+                <div class="stats-card bg-white rounded-xl shadow-md p-5 border-l-4 border-amber-700">
+                    <div class="flex items-center">
+                        <div class="p-3 bg-amber-200 rounded-lg mr-4">
+                            <i class="fas fa-coins text-amber-800 text-xl"></i>
+                        </div>
+                        <div>
+                            <p class="text-gray-500 text-sm">Volamidra isam-bolana</p>
+                            <h3 class="text-2xl font-bold text-gray-800">€245,620</h3>
+                        </div>
+                    </div>
+                    <div class="mt-4">
+                        <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded-full">+15% raha oharina amin'ny volana lasa</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Charts Section -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+                <!-- Location Chart -->
+                <div class="chart-container bg-white rounded-xl shadow-md p-5">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold text-gray-800">Fiovan'ny fanofana</h3>
+                        <div class="flex space-x-2">
+                            <button class="text-xs px-2 py-1 bg-yellow-100 text-yellow-800 rounded">Volana</button>
+                            <button class="text-xs px-2 py-1 bg-gray-100 text-gray-800 rounded">Telovolana</button>
+                            <button class="text-xs px-2 py-1 bg-gray-100 text-gray-800 rounded">Taona</button>
+                        </div>
+                    </div>
+                    <div class="h-72">
+                        <canvas id="locationsChart"></canvas>
+                    </div>
+                </div>
+                
+                <!-- Equipment Distribution -->
+                <div class="chart-container bg-white rounded-xl shadow-md p-5">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold text-gray-800">Fizarana araka ny sokajy</h3>
+                        <div class="text-sm text-gray-500">Totaly: 142 fitaovana</div>
+                    </div>
+                    <div class="h-72">
+                        <canvas id="distributionChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Recent Activity & Equipment -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Recent Activity -->
+                <div class="bg-white rounded-xl shadow-md p-5">
+                    <h3 class="font-semibold text-gray-800 mb-4">Asa vao haingana</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-start border-b pb-3">
+                            <div class="p-2 bg-green-100 rounded-full mr-3">
+                                <i class="fas fa-check-circle text-green-600"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">Nohamafisina ny fanofana</p>
+                                <p class="text-sm text-gray-600">Nofanofana ny mpamokatra simenitra MX450 ho an'ny BTP Iarivo</p>
+                                <p class="text-xs text-gray-500">2 ora lasa izay</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start border-b pb-3">
+                            <div class="p-2 bg-blue-100 rounded-full mr-3">
+                                <i class="fas fa-shipping-fast text-blue-600"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">Nandrindrana ny fandefasana</p>
+                                <p class="text-sm text-gray-600">Mpanova herinaratra 150kVA ho an'ny toeram-piasana Antsirabe</p>
+                                <p class="text-xs text-gray-500">Anio, 10:30</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start border-b pb-3">
+                            <div class="p-2 bg-yellow-100 rounded-full mr-3">
+                                <i class="fas fa-exclamation-triangle text-yellow-600"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">Mila fikojakojana</p>
+                                <p class="text-sm text-gray-600">Bulldozer #BD-011 - Olana amin'ny hydraulique</p>
+                                <p class="text-xs text-gray-500">Omaly, 16:45</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-start">
+                            <div class="p-2 bg-purple-100 rounded-full mr-3">
+                                <i class="fas fa-file-invoice-dollar text-purple-600"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">Nalefa ny faktiora</p>
+                                <p class="text-sm text-gray-600">Fanofana ny Caterpillar D6T Dozer ho an'ny Constructions Numerobis</p>
+                                <p class="text-xs text-gray-500">Omaly, 14:20</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Equipment List -->
+                <div class="bg-white rounded-xl shadow-md p-5">
+                    <div class="flex justify-between items-center mb-4">
+                        <h3 class="font-semibold text-gray-800">Fitaovana vao nampiana</h3>
+                        <button class="text-sm text-yellow-600 font-medium flex items-center">
+                            Jereo ny rehetra <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                        </button>
+                    </div>
+                    <div class="overflow-x-auto">
+                        <table class="w-full">
+                            <thead>
+                                <tr class="text-left text-xs text-gray-500 border-b">
+                                    <th class="pb-2">Fitaovana</th>
+                                    <th class="pb-2">Sokajy</th>
+                                    <th class="pb-2">Sata</th>
+                                    <th class="pb-2">Daty</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y">
+                                <tr>
+                                    <td class="py-3">
+                                        <div class="font-medium">Grue mobile LTM 1100</div>
+                                        <div class="text-xs text-gray-500">Ref: GR-2245</div>
+                                    </td>
+                                    <td class="py-3">
+                                        <span class="bg-yellow-100 text-yellow-800 px-2 py-1 rounded-full text-xs">Grue</span>
+                                    </td>
+                                    <td class="py-3">
+                                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Misy</span>
+                                    </td>
+                                    <td class="py-3 text-sm text-gray-500">15/06/2023</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td class="py-3">
+                                        <div class="font-medium">Mpamokatra simenitra MX650</div>
+                                        <div class="text-xs text-gray-500">Ref: BT-7821</div>
+                                    </td>
+                                    <td class="py-3">
+                                        <span class="bg-orange-100 text-orange-800 px-2 py-1 rounded-full text-xs">Mpamokatra simenitra</span>
+                                    </td>
+                                    <td class="py-3">
+                                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">Am-panofana</span>
+                                    </td>
+                                    <td class="py-3 text-sm text-gray-500">14/06/2023</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td class="py-3">
+                                        <div class="font-medium">Mpanova herinaratra 200kVA</div>
+                                        <div class="text-xs text-gray-500">Ref: GE-3350</div>
+                                    </td>
+                                    <td class="py-3">
+                                        <span class="bg-amber-100 text-amber-800 px-2 py-1 rounded-full text-xs">Angovo</span>
+                                    </td>
+                                    <td class="py-3">
+                                        <span class="bg-green-100 text-green-800 px-2 py-1 rounded-full text-xs">Misy</span>
+                                    </td>
+                                    <td class="py-3 text-sm text-gray-500">12/06/2023</td>
+                                </tr>
+                                
+                                <tr>
+                                    <td class="py-3">
+                                        <div class="font-medium">Pelle hydraulique PC210</div>
+                                        <div class="text-xs text-gray-500">Ref: PH-4412</div>
+                                    </td>
+                                    <td class="py-3">
+                                        <span class="bg-amber-200 text-amber-900 px-2 py-1 rounded-full text-xs">Milina</span>
+                                    </td>
+                                    <td class="py-3">
+                                        <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-xs">Am-panofana</span>
+                                    </td>
+                                    <td class="py-3 text-sm text-gray-500">10/06/2023</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <!-- Footer -->
+        <footer class="bg-gray-800 text-white py-6 mt-10">
+            <div class="container mx-auto px-4">
+                <div class="flex flex-col md:flex-row justify-between items-center">
+                    <div class="mb-4 md:mb-0">
+                        <div class="flex items-center">
+                            <div class="bg-yellow-500 w-8 h-8 rounded-lg flex items-center justify-center mr-2">
+                                <i class="fas fa-hard-hat text-white"></i>
+                            </div>
+                            <span class="font-bold text-xl"><span class="text-yellow-500">k</span>Fleet</span>
+                        </div>
+                        <p class="text-gray-400 text-sm mt-2">Fitantanana flotila ho an'ny matihanina momba ny fanorenana</p>
+                    </div>
+                    <div class="text-gray-400 text-sm">
+                        &copy; 2023 kFleet. Zo rehetra voatokana.
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script>
+        // Language selector functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const languageBtn = document.getElementById('languageBtn');
+            const languageDropdown = document.getElementById('languageDropdown');
+            
+            // Toggle dropdown visibility
+            languageBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                languageDropdown.classList.toggle('show');
+            });
+            
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!languageDropdown.contains(e.target) && !languageBtn.contains(e.target)) {
+                    languageDropdown.classList.remove('show');
+                }
+            });
+            
+            // Close dropdown when selecting an option
+            const languageLinks = languageDropdown.querySelectorAll('a');
+            languageLinks.forEach(link => {
+                link.addEventListener('click', function() {
+                    languageDropdown.classList.remove('show');
+                });
+            });
+            
+            // Chart initialization
+            // Locations Chart
+            const locationsCtx = document.getElementById('locationsChart').getContext('2d');
+            const locationsChart = new Chart(locationsCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mey', 'Jon', 'Jol', 'Aog', 'Sep', 'Okt', 'Nov', 'Des'],
+                    datasets: [{
+                        label: 'Fanofana mavitrika',
+                        data: [45, 52, 48, 55, 58, 62, 70, 75, 68, 72, 80, 87],
+                        borderColor: '#f59e0b',
+                        backgroundColor: 'rgba(245, 158, 11, 0.1)',
+                        borderWidth: 3,
+                        tension: 0.3,
+                        fill: true
+                    }, {
+                        label: 'Volamidra (x1000)',
+                        data: [120, 135, 125, 142, 155, 165, 185, 200, 190, 205, 225, 246],
+                        borderColor: '#ea580c',
+                        borderWidth: 3,
+                        tension: 0.3,
+                        borderDash: [5, 5]
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            grid: {
+                                color: 'rgba(0, 0, 0, 0.05)'
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Distribution Chart
+            const distributionCtx = document.getElementById('distributionChart').getContext('2d');
+            const distributionChart = new Chart(distributionCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Milina fanorenana', 'Grue', 'Mpamokatra simenitra', 'Mpanova herinaratra', 'Hafa'],
+                    datasets: [{
+                        data: [42, 28, 19, 32, 21],
+                        backgroundColor: [
+                            '#f59e0b',
+                            '#ea580c',
+                            '#f97316',
+                            '#fbbf24',
+                            '#fcd34d'
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                        }
+                    },
+                    cutout: '65%'
+                }
+            });
+        });
+    </script>
+</body>
+</html>

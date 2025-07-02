@@ -26,8 +26,8 @@ header-includes:
 
 voir aussi:  
 
-- [kFleet mobile](./kFleet/index.html)
-- [kFleet web](./kFleet/index_web.html)
+- [kFleet fr](./kFleet/ideation/index_fr.html)
+- [kFleet en](./kFleet/ideation/index_en.html)
 - [kBuildyard](./kBuildyard/index.html)
 - [Solus une version customized et sous licence de kBuildyard pour MultiSolution](./kBuildyard/solus.html)
 
