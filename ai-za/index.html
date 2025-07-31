@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-za.mg - Madagascar's Search Engine</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇲🇬</text></svg>">
+    <style>
+        /* CSS Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        /* Base Styles */
+        :root {
+            --primary: #d85829;
+            --primary-dark: #b34a22;
+            --secondary: #8a3a0f;
+            --text-dark: #7f4c2c;
+            --text-light: #fff;
+            --bg-light: rgba(255, 255, 255, 0.95);
+            --shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #99491eb3 0%, #ca7220ba 51%, #d85829b0 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 15px;
+            position: relative;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+        
+        /* Beta Banner */
+        .beta-banner {
+            position: absolute;
+            top: 20px;
+            left: -65px;
+            background: var(--primary);
+            color: var(--text-light);
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 8px 65px;
+            transform: rotate(-45deg);
+            box-shadow: var(--shadow);
+            font-size: 0.9rem;
+            z-index: 100;
+            border: 2px solid #fff;
+            letter-spacing: 1px;
+        }
+        
+        /* Main Container */
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: var(--bg-light);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.5);
+        }
+        
+        /* Logo Area */
+        .logo {
+            margin-bottom: 25px;
+        }
+        
+        .logo h1 {
+            font-size: 2.4rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .logo p {
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        /* Search Box */
+        .search-box {
+            width: 100%;
+            margin: 0 auto 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1rem;
+            border: 2px solid var(--primary);
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 8px rgba(216, 88, 41, 0.15);
+            background: rgba(255, 255, 255, 0.9);
+            -webkit-appearance: none;
+        }
+        
+        .search-input:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 3px 12px rgba(138, 58, 15, 0.25);
+        }
+        
+        .search-btn {
+            background: var(--primary);
+            color: var(--text-light);
+            border: none;
+            border-radius: 50px;
+            padding: 16px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 100%;
+        }
+        
+        .search-btn:hover, .search-btn:active {
+            background: var(--primary-dark);
+            transform: scale(1.02);
+        }
+        
+        /* Language Selector - Hamburger Menu */
+        .language-selector {
+            position: relative;
+            margin-bottom: 25px;
+            z-index: 10;
+        }
+        
+        .lang-menu-toggle {
+            background: var(--primary);
+            color: var(--text-light);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 200px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+        
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 24px;
+        }
+        
+        .hamburger span {
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-light);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            padding: 15px;
+            width: 100%;
+            max-width: 300px;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+            border: 1px solid rgba(216, 88, 41, 0.2);
+            z-index: 1000;
+        }
+        
+        .lang-menu.show {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+            width: 100%;
+        }
+        
+        .lang-btn.active, .lang-btn:hover, .lang-btn:active {
+            background: var(--primary);
+            color: var(--text-light);
+        }
+        
+        /* Features */
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 20px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+            border: 1px solid rgba(216, 88, 41, 0.15);
+        }
+        
+        .feature div {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+        
+        .feature h3 {
+            margin-bottom: 8px;
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+        
+        .feature p {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+        
+        /* Footer */
+        footer {
+            margin-top: 25px;
+            color: white;
+            text-align: center;
+            font-size: 0.85rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            width: 100%;
+            padding: 0 15px;
+        }
+        
+        footer p {
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+        
+        /* Animations */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        /* Responsive Design */
+        @media (min-width: 480px) {
+            .container {
+                padding: 35px 30px;
+            }
+            
+            .beta-banner {
+                top: 25px;
+                left: -75px;
+                padding: 10px 75px;
+                font-size: 1rem;
+            }
+            
+            .logo h1 {
+                font-size: 2.8rem;
+            }
+            
+            .search-box {
+                flex-direction: row;
+                gap: 0;
+            }
+            
+            .search-input {
+                border-radius: 50px 0 0 50px;
+                padding-left: 25px;
+            }
+            
+            .search-btn {
+                width: auto;
+                padding: 16px 30px;
+                border-radius: 0 50px 50px 0;
+            }
+            
+            .lang-menu-toggle {
+                display: none;
+            }
+            
+            .lang-menu {
+                position: static;
+                transform: none;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                max-width: 100%;
+                box-shadow: none;
+                padding: 0;
+                background: transparent;
+                border: none;
+                animation: none;
+            }
+            
+            .lang-btn {
+                padding: 10px 25px;
+                width: auto;
+            }
+            
+            .features {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .feature {
+                flex: 1;
+                min-width: 150px;
+                max-width: 220px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 700px;
+                padding: 40px;
+            }
+            
+            .logo h1 {
+                font-size: 3rem;
+            }
+            
+            .search-input {
+                font-size: 1.1rem;
+                padding: 18px 30px;
+            }
+        }
+        
+        /* Touch Feedback */
+        .search-btn:active, .lang-btn:active {
+            transform: scale(0.97);
+        }
+        
+        /* Focus states */
+        :focus-visible {
+            outline: 2px solid var(--secondary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Beta Banner -->
+    <div class="beta-banner">Beta</div>
+    
+    <div class="container">
+        <!-- Logo & Title -->
+        <div class="logo">
+            <h1><span class="floating">🇲🇬</span> AI-za<span>Search</span></h1>
+            <p>Madagascar's goto Search Engine</p>
+        </div>
+        
+        <!-- Language Selector with Hamburger Menu -->
+        <div class="language-selector">
+            <button class="lang-menu-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span>Choose Language</span>
+            </button>
+            <div class="lang-menu">
+                <button class="lang-btn active" data-lang="mg">Malagasy</button>
+                <button class="lang-btn" data-lang="fr">Français</button>
+                <button class="lang-btn" data-lang="en">English</button>
+            </div>
+        </div>
+        
+        <!-- Search Box -->
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="Hikaroka eto Madagasikara..." aria-label="Search">
+            <button class="search-btn">Hikaroka</button>
+        </div>
+        
+        <!-- Features -->
+        <div class="features">
+            <div class="feature">
+                <div>⚡</div>
+                <h3>Hafainganana</h3>
+                <p>Hafainganana sy fahombiazana</p>
+            </div>
+            <div class="feature">
+                <div>🔍</div>
+                <h3>Fahamarinana</h3>
+                <p>Valiny marina avy any Madagasikara</p>
+            </div>
+            <div class="feature">
+                <div>🌐</div>
+                <h3>Fitambarana</h3>
+                <p>Malagasy, frantsay, Anglisy</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Footer -->
+    <footer>
+        <p>© 2023 AI-za - Search Engine for Madagascar & beyond</p>
+        <p>by Atova</p>
+    </footer>
+    
+    <script>
+        // Language switching functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const searchInput = document.querySelector('.search-input');
+            const searchButton = document.querySelector('.search-btn');
+            const langMenu = document.querySelector('.lang-menu');
+            const langToggle = document.querySelector('.lang-menu-toggle');
+            
+            // Toggle language menu
+            langToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                langMenu.classList.toggle('show');
+            });
+            
+            // Close menu when clicking outside
+            document.addEventListener('click', function(e) {
+                // Only close if click is outside language selector
+                if (!e.target.closest('.language-selector') && langMenu.classList.contains('show')) {
+                    langMenu.classList.remove('show');
+                }
+            });
+            
+            // Prevent closing when clicking inside menu
+            langMenu.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+            
+            // Language placeholders and button text
+            const languages = {
+                'mg': {
+                    placeholder: 'Hikaroka eto Madagasikara...',
+                    button: 'Hikaroka',
+                    features: [
+                        {title: 'Hafainganana', desc: 'Hafainganana sy fahombiazana'},
+                        {title: 'Fahamarinana', desc: 'Valiny marina avy any Madagasikara'},
+                        {title: 'Fitambarana', desc: 'Malagasy, frantsay, Anglisy'}
+                    ]
+                },
+                'fr': {
+                    placeholder: 'Rechercher à Madagascar...',
+                    button: 'Rechercher',
+                    features: [
+                        {title: 'Rapidité', desc: 'Rapide et efficace'},
+                        {title: 'Précision', desc: 'Résultats précis de Madagascar'},
+                        {title: 'Multilingue', desc: 'Malagasy, Français, Anglais'}
+                    ]
+                },
+                'en': {
+                    placeholder: 'Search in Madagascar...',
+                    button: 'Search',
+                    features: [
+                        {title: 'Speed', desc: 'Fast and efficient results'},
+                        {title: 'Accuracy', desc: 'Relevant results from Madagascar'},
+                        {title: 'Multilingual', desc: 'Malagasy, French, English'}
+                    ]
+                }
+            };
+            
+            // Set initial language
+            setLanguage('mg');
+            
+            // Add click event to language buttons
+            langButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    
+                    // Update active button
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    // Update language content
+                    setLanguage(lang);
+                    
+                    // Close menu on mobile
+                    if(window.innerWidth < 480) {
+                        langMenu.classList.remove('show');
+                    }
+                });
+            });
+            
+            function setLanguage(lang) {
+                const langData = languages[lang];
+                
+                // Update search elements
+                searchInput.placeholder = langData.placeholder;
+                searchButton.textContent = langData.button;
+                
+                // Update feature boxes
+                const features = document.querySelectorAll('.feature');
+                features.forEach((feature, index) => {
+                    const title = feature.querySelector('h3');
+                    const desc = feature.querySelector('p');
+                    
+                    title.textContent = langData.features[index].title;
+                    desc.textContent = langData.features[index].desc;
+                });
+            }
+            
+            // Search functionality
+            document.querySelector('.search-btn').addEventListener('click', function() {
+                const query = searchInput.value.trim();
+                if(query) {
+                    alert(`Searching for: "${query}"\nThis feature will be available in the full version!`);
+                    searchInput.focus();
+                }
+            });
+            
+            // Allow search with Enter key
+            searchInput.addEventListener('keypress', function(e) {
+                if(e.key === 'Enter') {
+                    document.querySelector('.search-btn').click();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
