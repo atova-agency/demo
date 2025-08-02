@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI-za.mg - Madagascar's Search Engine</title>
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇲🇬</text></svg>">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        :root {
+            --primary: #d85829;
+            --primary-dark: #b34a22;
+            --secondary: #8a3a0f;
+            --text-dark: #7f4c2c;
+            --text-light: #fff;
+            --bg-light: rgba(255, 255, 255, 0.95);
+            --shadow: 0 4px 12px rgba(0,0,0,0.15);
+            --success: #2e7d32;
+            --error: #d32f2f;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #99491eb3 0%, #ca7220ba 51%, #d85829b0 100%);
+            color: #333;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            position: relative;
+            overflow-x: hidden;
+            line-height: 1.5;
+        }
+        
+        .beta-banner {
+            position: absolute;
+            top: 20px;
+            left: -65px;
+            background: var(--primary);
+            color: var(--text-light);
+            font-weight: bold;
+            text-transform: uppercase;
+            padding: 8px 65px;
+            transform: rotate(-45deg);
+            box-shadow: var(--shadow);
+            font-size: 0.9rem;
+            z-index: 100;
+            border: 2px solid #fff;
+            letter-spacing: 1px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 700px;
+            background: var(--bg-light);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 30px 20px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.5);
+            margin-bottom: 20px;
+        }
+        
+        .logo {
+            margin-bottom: 25px;
+        }
+        
+        .logo h1 {
+            font-size: 2.4rem;
+            color: var(--primary);
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .logo span {
+            color: var(--secondary);
+        }
+        
+        .logo p {
+            color: var(--text-dark);
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+        
+        .search-box {
+            width: 100%;
+            margin: 0 auto 25px;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .search-input {
+            width: 100%;
+            padding: 16px 20px;
+            font-size: 1rem;
+            border: 2px solid var(--primary);
+            border-radius: 50px;
+            outline: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 3px 8px rgba(216, 88, 41, 0.15);
+            background: rgba(255, 255, 255, 0.9);
+            -webkit-appearance: none;
+        }
+        
+        .search-input:focus {
+            border-color: var(--secondary);
+            box-shadow: 0 3px 12px rgba(138, 58, 15, 0.25);
+        }
+        
+        .search-btn {
+            background: var(--primary);
+            color: var(--text-light);
+            border: none;
+            border-radius: 50px;
+            padding: 16px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 600;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        
+        .search-btn:hover, .search-btn:active {
+            background: var(--primary-dark);
+            transform: scale(1.02);
+        }
+        
+        .language-selector {
+            position: relative;
+            margin-bottom: 25px;
+            z-index: 10;
+        }
+        
+        .lang-menu-toggle {
+            background: var(--primary);
+            color: var(--text-light);
+            border: none;
+            border-radius: 50px;
+            padding: 12px 20px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin: 0 auto;
+            width: 100%;
+            max-width: 200px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+        }
+        
+        .hamburger {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            width: 24px;
+        }
+        
+        .hamburger span {
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+        
+        .lang-menu {
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--bg-light);
+            border-radius: 14px;
+            box-shadow: var(--shadow);
+            padding: 15px;
+            width: 100%;
+            max-width: 300px;
+            display: none;
+            flex-direction: column;
+            gap: 10px;
+            margin-top: 10px;
+            border: 1px solid rgba(216, 88, 41, 0.2);
+            z-index: 1000;
+        }
+        
+        .lang-menu.show {
+            display: flex;
+            animation: fadeIn 0.3s ease-out;
+        }
+        
+        .lang-btn {
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 12px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.2s ease;
+            font-size: 1rem;
+            width: 100%;
+        }
+        
+        .lang-btn.active, .lang-btn:hover, .lang-btn:active {
+            background: var(--primary);
+            color: var(--text-light);
+        }
+        
+        .features {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        
+        .feature {
+            background: rgba(255, 255, 255, 0.85);
+            padding: 20px;
+            border-radius: 14px;
+            text-align: center;
+            box-shadow: 0 3px 5px rgba(0,0,0,0.05);
+            transition: transform 0.2s ease;
+            border: 1px solid rgba(216, 88, 41, 0.15);
+        }
+        
+        .feature div {
+            font-size: 2.2rem;
+            margin-bottom: 12px;
+            color: var(--primary);
+        }
+        
+        .feature h3 {
+            margin-bottom: 8px;
+            color: var(--secondary);
+            font-size: 1.2rem;
+        }
+        
+        .feature p {
+            color: var(--text-dark);
+            font-size: 0.95rem;
+        }
+        
+        footer {
+            margin-top: 25px;
+            color: white;
+            text-align: center;
+            font-size: 0.85rem;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            width: 100%;
+            padding: 0 15px;
+        }
+        
+        footer p {
+            margin-top: 8px;
+            opacity: 0.9;
+        }
+        
+        .search-results {
+            width: 100%;
+            max-width: 700px;
+            background: var(--bg-light);
+            border-radius: 16px;
+            box-shadow: var(--shadow);
+            padding: 25px;
+            margin-bottom: 20px;
+            display: none;
+        }
+        
+        .results-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .results-title {
+            font-size: 1.2rem;
+            color: var(--secondary);
+            font-weight: 600;
+        }
+        
+        .results-count {
+            color: var(--text-dark);
+            font-size: 0.9rem;
+        }
+        
+        .result-item {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.05);
+            text-align: left;
+        }
+        
+        .result-item:last-child {
+            border-bottom: none;
+        }
+        
+        .result-title {
+            font-size: 1.1rem;
+            color: #1a0dab;
+            margin-bottom: 5px;
+            text-decoration: none;
+            display: block;
+            font-weight: 500;
+        }
+        
+        .result-title:hover {
+            text-decoration: underline;
+        }
+        
+        .result-url {
+            color: var(--success);
+            font-size: 0.85rem;
+            margin-bottom: 5px;
+            display: block;
+        }
+        
+        .result-snippet {
+            color: #4d5156;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        
+        .no-results {
+            padding: 30px 0;
+            text-align: center;
+            color: var(--text-dark);
+        }
+        
+        .error-message {
+            padding: 30px 0;
+            text-align: center;
+            color: var(--error);
+            font-weight: 500;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-6px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(-50%) translateY(-10px); }
+            to { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .floating {
+            animation: float 3s ease-in-out infinite;
+        }
+        
+        @media (min-width: 480px) {
+            .container {
+                padding: 35px 30px;
+            }
+            
+            .beta-banner {
+                top: 25px;
+                left: -75px;
+                padding: 10px 75px;
+                font-size: 1rem;
+            }
+            
+            .logo h1 {
+                font-size: 2.8rem;
+            }
+            
+            .search-box {
+                flex-direction: row;
+                gap: 0;
+            }
+            
+            .search-input {
+                border-radius: 50px 0 0 50px;
+                padding-left: 25px;
+            }
+            
+            .search-btn {
+                width: auto;
+                padding: 16px 30px;
+                border-radius: 0 50px 50px 0;
+            }
+            
+            .lang-menu-toggle {
+                display: none;
+            }
+            
+            .lang-menu {
+                position: static;
+                transform: none;
+                display: flex;
+                flex-direction: row;
+                justify-content: center;
+                max-width: 100%;
+                box-shadow: none;
+                padding: 0;
+                background: transparent;
+                border: none;
+                animation: none;
+            }
+            
+            .lang-btn {
+                padding: 10px 25px;
+                width: auto;
+            }
+            
+            .features {
+                flex-direction: row;
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .feature {
+                flex: 1;
+                min-width: 150px;
+                max-width: 220px;
+            }
+        }
+        
+        @media (min-width: 768px) {
+            .container {
+                max-width: 700px;
+                padding: 40px;
+            }
+            
+            .logo h1 {
+                font-size: 3rem;
+            }
+            
+            .search-input {
+                font-size: 1.1rem;
+                padding: 18px 30px;
+            }
+        }
+        
+        .search-btn:active, .lang-btn:active {
+            transform: scale(0.97);
+        }
+        
+        :focus-visible {
+            outline: 2px solid var(--secondary);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="beta-banner">Beta</div>
+    
+    <div class="container">
+        <div class="logo">
+            <h1><span class="floating">🇲🇬</span> AI-za<span>Search</span></h1>
+            <p>Madagascar's goto Search Engine</p>
+        </div>
+        
+        <div class="language-selector">
+            <button class="lang-menu-toggle">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <span>Choose Language</span>
+            </button>
+            <div class="lang-menu">
+                <button class="lang-btn active" data-lang="mg">Malagasy</button>
+                <button class="lang-btn" data-lang="fr">Français</button>
+                <button class="lang-btn" data-lang="en">English</button>
+            </div>
+        </div>
+        
+        <div class="search-box">
+            <input type="text" class="search-input" placeholder="Hikaroka eto Madagasikara..." aria-label="Search" id="searchInput">
+            <button class="search-btn" id="searchButton">Hikaroka</button>
+        </div>
+        
+        <div class="features">
+            <div class="feature">
+                <div>⚡</div>
+                <h3>Hafainganana</h3>
+                <p>Hafainganana sy fahombiazana</p>
+            </div>
+            <div class="feature">
+                <div>🔍</div>
+                <h3>Fahamarinana</h3>
+                <p>Valiny marina avy any Madagasikara</p>
+            </div>
+            <div class="feature">
+                <div>🌐</div>
+                <h3>Fitambarana</h3>
+                <p>Malagasy, frantsay, Anglisy</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="search-results" id="searchResults">
+        <div class="results-header">
+            <div class="results-title" id="resultsTitle">Search Results</div>
+            <div class="results-count" id="resultsCount">About 5 results</div>
+        </div>
+        <div id="resultsContainer"></div>
+    </div>
+    
+    <footer>
+        <p>© 2023 AI-za - Search Engine for Madagascar & beyond</p>
+        <p>by Atova</p>
+    </footer>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const langButtons = document.querySelectorAll('.lang-btn');
+            const searchInput = document.querySelector('#searchInput');
+            const searchButton = document.querySelector('#searchButton');
+            const langMenu = document.querySelector('.lang-menu');
+            const langToggle = document.querySelector('.lang-menu-toggle');
+            const searchResults = document.getElementById('searchResults');
+            const resultsContainer = document.getElementById('resultsContainer');
+            const resultsTitle = document.getElementById('resultsTitle');
+            const resultsCount = document.getElementById('resultsCount');
+            
+            // Language data
+            const languages = {
+                'mg': {
+                    placeholder: 'Hikaroka eto Madagasikara...',
+                    button: 'Hikaroka',
+                    features: [
+                        {title: 'Hafainganana', desc: 'Hafainganana sy fahombiazana'},
+                        {title: 'Fahamarinana', desc: 'Valiny marina avy any Madagasikara'},
+                        {title: 'Fitambarana', desc: 'Malagasy, frantsay, Anglisy'}
+                    ],
+                    results: {
+                        title: 'Valin\'ny fikarohana',
+                        count: 'Valiny {count} hita',
+                        noResults: 'Tsy nahitana valiny mifandraika amin\'ny fikarohana.'
+                    }
+                },
+                'fr': {
+                    placeholder: 'Rechercher à Madagascar...',
+                    button: 'Rechercher',
+                    features: [
+                        {title: 'Rapidité', desc: 'Rapide et efficace'},
+                        {title: 'Précision', desc: 'Résultats précis de Madagascar'},
+                        {title: 'Multilingue', desc: 'Malagasy, Français, Anglais'}
+                    ],
+                    results: {
+                        title: 'Résultats de recherche',
+                        count: '{count} résultats trouvés',
+                        noResults: 'Aucun résultat trouvé pour votre recherche.'
+                    }
+                },
+                'en': {
+                    placeholder: 'Search in Madagascar...',
+                    button: 'Search',
+                    features: [
+                        {title: 'Speed', desc: 'Fast and efficient results'},
+                        {title: 'Accuracy', desc: 'Relevant results from Madagascar'},
+                        {title: 'Multilingual', desc: 'Malagasy, French, English'}
+                    ],
+                    results: {
+                        title: 'Search Results',
+                        count: '{count} results found',
+                        noResults: 'No results found for your search.'
+                    }
+                }
+            };
+            
+            // Set initial language
+            let currentLang = 'mg';
+            setLanguage(currentLang);
+            
+            // Language toggle functionality
+            langToggle.addEventListener('click', function(e) {
+                e.stopPropagation();
+                langMenu.classList.toggle('show');
+            });
+            
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.language-selector') && langMenu.classList.contains('show')) {
+                    langMenu.classList.remove('show');
+                }
+            });
+            
+            langMenu.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+            
+            langButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    currentLang = lang;
+                    
+                    langButtons.forEach(btn => btn.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    setLanguage(lang);
+                    
+                    if(window.innerWidth < 480) {
+                        langMenu.classList.remove('show');
+                    }
+                });
+            });
+            
+            function setLanguage(lang) {
+                const langData = languages[lang];
+                
+                searchInput.placeholder = langData.placeholder;
+                searchButton.textContent = langData.button;
+                
+                const features = document.querySelectorAll('.feature');
+                features.forEach((feature, index) => {
+                    const title = feature.querySelector('h3');
+                    const desc = feature.querySelector('p');
+                    
+                    title.textContent = langData.features[index].title;
+                    desc.textContent = langData.features[index].desc;
+                });
+                
+                if (searchResults.style.display === 'block') {
+                    resultsTitle.textContent = langData.results.title;
+                    if (resultsContainer.querySelector('.result-item')) {
+                        const count = resultsContainer.querySelectorAll('.result-item').length;
+                        resultsCount.textContent = langData.results.count.replace('{count}', count);
+                    }
+                }
+            }
+            
+            // Search functionality
+            searchButton.addEventListener('click', function() {
+                const query = searchInput.value.trim();
+                if(query) {
+                    const originalText = searchButton.textContent;
+                    searchButton.innerHTML = `<span class="loading"></span> ${originalText}`;
+                    searchButton.disabled = true;
+                    
+                    performSearch(query, currentLang);
+                }
+            });
+            
+            searchInput.addEventListener('keypress', function(e) {
+                if(e.key === 'Enter') {
+                    document.querySelector('#searchButton').click();
+                }
+            });
+            
+            // Real search function
+            async function performSearch(query, lang) {
+                try {
+                    // Using a search API to get real .mg domain results
+                    const apiUrl = `https://api.search.mg/search?q=${encodeURIComponent(query)}&lang=${lang}&limit=5`;
+                    
+                    const response = await fetch(apiUrl);
+                    
+                    if (!response.ok) {
+                        throw new Error(`HTTP error! status: ${response.status}`);
+                    }
+                    
+                    const data = await response.json();
+                    
+                    // Display real results
+                    displayResults(data.results, lang);
+                } catch (error) {
+                    console.error('Error fetching results:', error);
+                    displayError(lang);
+                } finally {
+                    const originalText = languages[currentLang].button;
+                    searchButton.textContent = originalText;
+                    searchButton.disabled = false;
+                }
+            }
+            
+            // Display search results
+            function displayResults(results, lang) {
+                const langData = languages[lang];
+                
+                searchResults.style.display = 'block';
+                resultsContainer.innerHTML = '';
+                
+                resultsTitle.textContent = langData.results.title;
+                resultsCount.textContent = langData.results.count.replace('{count}', results.length);
+                
+                if (results.length === 0) {
+                    const noResultsElement = document.createElement('div');
+                    noResultsElement.className = 'no-results';
+                    noResultsElement.textContent = langData.results.noResults;
+                    resultsContainer.appendChild(noResultsElement);
+                } else {
+                    results.forEach(result => {
+                        const resultElement = document.createElement('div');
+                        resultElement.className = 'result-item';
+                        resultElement.innerHTML = `
+                            <a href="${result.url}" class="result-title" target="_blank">${result.title}</a>
+                            <span class="result-url">${result.displayUrl}</span>
+                            <p class="result-snippet">${result.snippet}</p>
+                        `;
+                        resultsContainer.appendChild(resultElement);
+                    });
+                }
+                
+                searchResults.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Display error message
+            function displayError(lang) {
+                const langData = languages[lang];
+                
+                searchResults.style.display = 'block';
+                resultsContainer.innerHTML = '';
+                
+                resultsTitle.textContent = langData.results.title;
+                resultsCount.textContent = '';
+                
+                const errorElement = document.createElement('div');
+                errorElement.className = 'error-message';
+                if (lang === 'mg') {
+                    errorElement.textContent = 'Nisy olana tamin\'ny fikarohana. Andramo indray azafady.';
+                } else if (lang === 'fr') {
+                    errorElement.textContent = 'Un problème est survenu lors de la recherche. Veuillez réessayer.';
+                } else {
+                    errorElement.textContent = 'A problem occurred during search. Please try again.';
+                }
+                resultsContainer.appendChild(errorElement);
+                
+                searchResults.scrollIntoView({ behavior: 'smooth' });
+            }
+            
+            // Simulated search API response for demonstration
+            function getSimulatedResults(query, lang) {
+                const baseResults = [
+                    {
+                        title: lang === 'mg' ? 'Vaovao eto Madagasikara' : 
+                               lang === 'fr' ? 'Actualités de Madagascar' : 
+                               'Madagascar News',
+                        url: 'https://www.news.mg',
+                        displayUrl: 'www.news.mg',
+                        snippet: lang === 'mg' ? 'Ny vaovao farany sy mazava tsara momba ny politika, toekarena, kolontsaina ary fialamboly eto Madagasikara.' : 
+                               lang === 'fr' ? 'Les dernières nouvelles sur la politique, l\'économie, la culture et le divertissement à Madagascar.' : 
+                               'Latest updates on politics, economy, culture and entertainment in Madagascar.'
+                    },
+                    {
+                        title: lang === 'mg' ? 'Toeram-piasana malagasy' : 
+                               lang === 'fr' ? 'Emploi à Madagascar' : 
+                               'Jobs in Madagascar',
+                        url: 'https://www.jobs.mg',
+                        displayUrl: 'www.jobs.mg',
+                        snippet: lang === 'mg' ? 'Toeram-piasana malagasy manome asa ho an\'ny Malagasy. Misy asa maromaro ao amin\'ny sehatra samihafa.' : 
+                               lang === 'fr' ? 'Portail d\'emploi malgache offrant des opportunités dans divers secteurs pour les chercheurs d\'emploi.' : 
+                               'Malagasy job portal offering opportunities across various industries for job seekers.'
+                    },
+                    {
+                        title: lang === 'mg' ? 'Fitsangatsanganana eto Madagasikara' : 
+                               lang === 'fr' ? 'Tourisme à Madagascar' : 
+                               'Travel Madagascar',
+                        url: 'https://www.tour.mg',
+                        displayUrl: 'www.tour.mg',
+                        snippet: lang === 'mg' ? 'Torolàlana momba ny fitsangatsanganana eto Madagasikara: toerana mahafinaritra, trano fandraisam-bahiny, ary fahitana voajanahary.' : 
+                               lang === 'fr' ? 'Guide de voyage pour Madagascar : sites magnifiques, hébergements et expériences nature uniques.' : 
+                               'Travel guide to Madagascar: beautiful sites, accommodations and unique nature experiences.'
+                    },
+                    {
+                        title: lang === 'mg' ? 'Fampandrosoana ny tanindrazana' : 
+                               lang === 'fr' ? 'Développement national' : 
+                               'National Development',
+                        url: 'https://www.dev.mg',
+                        displayUrl: 'www.dev.mg',
+                        snippet: lang === 'mg' ? 'Fikambanana mampiroborobo ny fampandrosoana eto Madagasikara amin\'ny alàlan\'ny teknolojia sy fampianarana.' : 
+                               lang === 'fr' ? 'Organisation promouvant le développement à Madagascar par la technologie et l\'éducation.' : 
+                               'Organization promoting development in Madagascar through technology and education.'
+                    },
+                    {
+                        title: lang === 'mg' ? 'Fikarohana eto Madagasikara' : 
+                               lang === 'fr' ? 'Moteur de recherche à Madagascar' : 
+                               'Madagascar Search Engine',
+                        url: 'https://www.search.mg',
+                        displayUrl: 'www.search.mg',
+                        snippet: lang === 'mg' ? 'Ny fikarohana malagasy voalohany eto Madagasikara. Hikaroka araka ny tianao amin\'ny teny malagasy, frantsay na anglisy.' : 
+                               lang === 'fr' ? 'Le premier moteur de recherche malgache. Recherchez ce que vous voulez en malgache, français ou anglais.' : 
+                               'The first Malagasy search engine. Search anything in Malagasy, French or English.'
+                    }
+                ];
+                
+                // Filter results based on query
+                const filteredResults = baseResults.filter(result => 
+                    result.title.toLowerCase().includes(query.toLowerCase()) || 
+                    result.snippet.toLowerCase().includes(query.toLowerCase())
+                );
+                
+                return {
+                    results: filteredResults.slice(0, 5)
+                };
+            }
+            
+            // For demonstration purposes, we'll use simulated results
+            function performSearch(query, lang) {
+                const originalText = searchButton.textContent;
+                searchButton.innerHTML = `<span class="loading"></span> ${originalText}`;
+                searchButton.disabled = true;
+                
+                // Simulate API delay
+                setTimeout(() => {
+                    const data = getSimulatedResults(query, lang);
+                    displayResults(data.results, lang);
+                    
+                    searchButton.textContent = originalText;
+                    searchButton.disabled = false;
+                }, 800);
+            }
+        });
+    </script>
+</body>
+</html>
