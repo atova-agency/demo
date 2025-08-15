@@ -1,0 +1,919 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NRN: Neural-Recall Node Lock Screen</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #e0e0e0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 400px;
+            background: rgba(25, 35, 45, 0.85);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            overflow: hidden;
+            border: 1px solid #4a6572;
+            position: relative;
+        }
+        
+        .header {
+            background: rgba(15, 30, 45, 0.95);
+            padding: 10px 20px 10px 20px;
+            text-align: center;
+            border-bottom: 2px solid #00c6ff;
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+            color: #00c6ff;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .header p {
+            font-size: 0.9rem;
+            color: #89cff0;
+            opacity: 0.8;
+        }
+        
+        .status-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 15px;
+            background: rgba(10, 20, 30, 0.7);
+            font-size: 0.9rem;
+            color: #89cff0;
+            border-bottom: 1px solid #2a4a5f;
+        }
+        
+        .time-display {
+            text-align: center;
+            padding: 15px 0;
+            background: rgba(20, 40, 60, 0.4);
+        }
+        
+        .time-display .time {
+            font-size: 3.5rem;
+            font-weight: 300;
+            letter-spacing: -1px;
+            color: #ffffff;
+        }
+        
+        .time-display .date {
+            font-size: 1.1rem;
+            color: #89cff0;
+            margin-top: -5px;
+        }
+        
+        .tag-container {
+            padding: 2px 20px 10px 20px;
+        }
+        
+        .tag-row {
+            display: flex;
+            margin-bottom: 2px;
+            align-items: center;
+            border-bottom: 1px solid #30475e;
+            padding-bottom: 12px;
+        }
+        
+        .tag-label {
+            width: 70px;
+            font-weight: bold;
+            text-align: center;
+            padding: 8px 5px;
+            border-radius: 8px;
+            margin-right: 15px;
+            background: rgba(0, 123, 255, 0.15);
+            border: 1px solid #0088cc;
+            color: #00a8ff;
+            font-size: 0.9rem;
+            flex-shrink: 0;
+        }
+        
+        .tag-content {
+            flex: 1;
+            padding: 10px 15px;
+            background: rgba(40, 60, 80, 0.3);
+            border-radius: 10px;
+            border: 1px solid #3a5f7a;
+            min-height: 45px;
+            display: flex;
+            align-items: center;
+            font-size: 1.05rem;
+            color: #e0f7fa;
+            position: relative;
+        }
+        
+        .tag-content.editable {
+            cursor: text;
+        }
+        
+        .tag-content.editable:hover {
+            border-color: #00c6ff;
+            background: rgba(0, 198, 255, 0.1);
+        }
+        
+        .time-tags {
+            display: flex;
+            justify-content: space-between;
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .time-tag {
+            flex: 1;
+            text-align: center;
+            padding: 12px;
+            border-radius: 10px;
+            background: rgba(40, 60, 80, 0.4);
+            border: 1px solid #3a5f7a;
+        }
+        
+        .time-tag-label {
+            font-size: 0.9rem;
+            color: #00c6ff;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        
+        .time-tag-value {
+            font-size: 1.2rem;
+            color: #ffffff;
+        }
+        
+        .controls {
+            display: flex;
+            justify-content: center;
+            padding: 10px 20px 20px 20px;
+            gap: 15px;
+        }
+        
+        .btn {
+            padding: 12px 25px;
+            border-radius: 30px;
+            border: none;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            color: white;
+            box-shadow: 0 4px 15px rgba(0, 114, 255, 0.4);
+        }
+        
+        .btn-secondary {
+            background: rgba(60, 80, 100, 0.5);
+            color: #89cff0;
+            border: 1px solid #4a6572;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 114, 255, 0.6);
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 20px;
+            font-size: 0.9rem;
+            color: #89cff0;
+            border-top: 1px solid #2a4a5f;
+            background: rgba(15, 30, 45, 0.7);
+        }
+        
+        .urgent-indicator {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: #ff416c;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.7; }
+            50% { opacity: 1; }
+            100% { opacity: 0.7; }
+        }
+        
+        .tag-description {
+            font-size: 0.8rem;
+            color: #89cff0;
+            margin-top: 3px;
+            opacity: 0.8;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: rgba(60, 80, 100, 0.5);
+            border-radius: 3px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            background: linear-gradient(to right, #00c6ff, #0072ff);
+            width: 65%;
+            border-radius: 3px;
+            transition: width 0.3s ease;
+        }
+        
+        .config-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .edit-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        
+        .config-modal {
+            background: rgba(25, 35, 45, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #00c6ff;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .config-modal h3 {
+            color: #00c6ff;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        
+        .config-section {
+            margin-bottom: 20px;
+            padding: 15px;
+            background: rgba(40, 60, 80, 0.2);
+            border-radius: 10px;
+            border: 1px solid #3a5f7a;
+        }
+        
+        .config-section h4 {
+            color: #89cff0;
+            margin-bottom: 10px;
+            font-size: 1rem;
+        }
+        
+        .config-row {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            gap: 15px;
+        }
+        
+        .config-label {
+            flex: 1;
+            color: #e0f7fa;
+            font-size: 0.9rem;
+        }
+        
+        .config-input {
+            flex: 0 0 80px;
+            padding: 8px 12px;
+            background: rgba(40, 60, 80, 0.5);
+            border: 1px solid #3a5f7a;
+            border-radius: 6px;
+            color: #e0f7fa;
+            font-size: 1rem;
+            text-align: center;
+        }
+        
+        .config-input:focus {
+            outline: none;
+            border-color: #00c6ff;
+            box-shadow: 0 0 8px rgba(0, 198, 255, 0.3);
+        }
+        
+        .config-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        .edit-modal {
+            background: rgba(25, 35, 45, 0.95);
+            padding: 30px;
+            border-radius: 15px;
+            border: 2px solid #00c6ff;
+            max-width: 400px;
+            width: 90%;
+        }
+        
+        .edit-modal h4 {
+            color: #00c6ff;
+            margin-bottom: 15px;
+            text-align: center;
+        }
+        
+        .edit-modal input,
+        .edit-modal textarea {
+            width: 100%;
+            padding: 12px;
+            background: rgba(40, 60, 80, 0.3);
+            border: 1px solid #3a5f7a;
+            border-radius: 8px;
+            color: #e0f7fa;
+            font-size: 1rem;
+            margin: 15px 0px 15px 0px;
+            resize: vertical;
+        }
+        
+        .edit-modal input:focus,
+        .edit-modal textarea:focus {
+            outline: none;
+            border-color: #00c6ff;
+            box-shadow: 0 0 10px rgba(0, 198, 255, 0.3);
+        }
+        
+        .edit-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        
+        .mission-active {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+        }
+        
+        .mission-timer {
+            position: absolute;
+            top: 50px;
+            right: 10px;
+            background: rgba(0, 198, 255, 0.2);
+            border: 1px solid #00c6ff;
+            padding: 8px 12px;
+            border-radius: 15px;
+            font-size: 0.9rem;
+            color: #00c6ff;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 480px) {
+            .container {
+                border-radius: 15px;
+            }
+            
+            .header h1 {
+                font-size: 1.5rem;
+            }
+            
+            .tag-label {
+                width: 60px;
+                font-size: 0.85rem;
+                padding: 6px 4px;
+            }
+            
+            .tag-content {
+                padding: 8px 12px;
+                font-size: 1rem;
+            }
+            
+            .btn {
+                padding: 10px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="urgent-indicator">
+            <i class="fas fa-bell"></i> URGENT: PTM EXPIRING
+        </div>
+                
+        <div class="status-bar">
+            <div>Neural Recall Node v0.1.0</div>
+            <div id="ops-mode">Ops Mode: ACTIVE</div>
+        </div>
+        
+        <div class="header">  
+          <div class="time-display">
+              <div class="time">14:25</div>
+              <div class="date">Friday, August 15, 2025</div>
+          </div>
+        </div>
+
+        <div class="mission-timer" style="display: none;">
+            <i class="fas fa-clock"></i> <span id="mission-time">00:00</span>
+        </div>
+        
+        <div class="tag-container">
+            <div class="tag-row">
+                <div class="tag-label">CTX</div>
+                <div class="tag-content editable" data-field="context">
+                    <div class="tag-text">Home Office - Primary Workstation</div>
+                    <div class="tag-description">Physical/Phase Context</div>
+                </div>
+            </div>
+            
+            <div class="tag-row">
+                <div class="tag-label">TPC</div>
+                <div class="tag-content editable" data-field="topic">
+                    <div class="tag-text">Auth API Bug #72 - Token Refresh Failure</div>
+                    <div class="tag-description">Active Subject</div>
+                </div>
+            </div>
+            
+            <div class="tag-row">
+                <div class="tag-label">OBJ</div>
+                <div class="tag-content editable" data-field="objective">
+                    <div class="tag-text">Testing token expiration handling</div>
+                    <div class="tag-description">Current Action-Verb</div>
+                </div>
+            </div>
+            
+            <div class="tag-row">
+                <div class="tag-label">PUR</div>
+                <div class="tag-content editable" data-field="purpose">
+                    <div class="tag-text">Prevent user lockouts during peak traffic</div>
+                    <div class="tag-description">Strategic Why</div>
+                </div>
+            </div>
+            
+            <div class="time-tags">
+                <div class="time-tag">
+                    <div class="time-tag-label">PTM</div>
+                    <div class="time-tag-value" id="ptm-value">45 min</div>
+                    <div class="tag-description">Time Budget</div>
+                    <div class="progress-bar">
+                        <div class="progress"></div>
+                    </div>
+                </div>
+                
+                <div class="time-tag">
+                    <div class="time-tag-label">ECT</div>
+                    <div class="time-tag-value" id="ect-value">15:00</div>
+                    <div class="tag-description">Flex Completion Target</div>
+                </div>
+            </div>
+            
+            <div class="tag-row">
+                <div class="tag-label">NXT</div>
+                <div class="tag-content editable" data-field="next">
+                    <div class="tag-text">Open network console and run diagnostic</div>
+                    <div class="tag-description">Next Physical Step</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="controls">
+            <button class="btn btn-primary" id="start-btn">
+                <i class="fas fa-play"></i> Start Mission
+            </button>
+            <button class="btn btn-secondary" id="config-btn">
+                <i class="fas fa-cog"></i> Configure
+            </button>
+        </div>
+        
+        <div class="footer">
+            Ops Mode: <span id="footer-mode">Active</span> | <span id="protocol-status">Active Protocol Engaged</span>
+        </div>
+    </div>
+
+    <!-- Config Modal -->
+    <div class="config-overlay" id="config-overlay">
+        <div class="config-modal">
+            <h3><i class="fas fa-cog"></i> System Configuration</h3>
+            
+            <div class="config-section">
+                <h4><i class="fas fa-bell"></i> Alert Settings</h4>
+                <div class="config-row">
+                    <label class="config-label">PTM Warning Threshold (minutes):</label>
+                    <input type="number" id="ptm-warning" class="config-input" min="1" max="60" value="10">
+                </div>
+                <div class="config-row">
+                    <label class="config-label">Total PTM Duration (minutes):</label>
+                    <input type="number" id="ptm-total" class="config-input" min="5" max="480" value="45">
+                </div>
+                <div class="config-row">
+                    <label class="config-label">ECT Duration (minutes):</label>
+                    <input type="number" id="ect-minutes" class="config-input" min="1" max="480" value="15">
+                </div>
+            </div>
+            
+            <div class="config-section">
+                <h4><i class="fas fa-info-circle"></i> Current Status</h4>
+                <div class="config-row">
+                    <span class="config-label">Mission Active:</span>
+                    <span id="mission-status" style="color: #ff6b6b;">No</span>
+                </div>
+                <div class="config-row">
+                    <span class="config-label">PTM Remaining:</span>
+                    <span id="ptm-remaining" style="color: #00c6ff;">45:00</span>
+                </div>
+                <div class="config-row">
+                    <span class="config-label">ECT Duration:</span>
+                    <span id="ect-status" style="color: #4ecdc4;">15 min</span>
+                </div>
+                <div class="config-row">
+                    <span class="config-label">Alert Status:</span>
+                    <span id="alert-status" style="color: #4ecdc4;">Normal</span>
+                </div>
+            </div>
+            
+            <div class="config-buttons">
+                <button class="btn btn-primary" id="config-save-btn">
+                    <i class="fas fa-save"></i> Save Configuration
+                </button>
+                <button class="btn btn-secondary" id="config-cancel-btn">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+
+            <div class="footer">
+                Neural Recall Node © 2025
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit Modal -->
+    <div class="edit-overlay" id="edit-overlay">
+        <div class="edit-modal">
+            <h4 id="edit-title">Edit Field</h4>
+            <textarea id="edit-input" rows="3" placeholder="Enter new value..."></textarea>
+            <div class="edit-buttons">
+                <button class="btn btn-primary" id="save-btn">
+                    <i class="fas fa-save"></i> Save
+                </button>
+                <button class="btn btn-secondary" id="cancel-btn">
+                    <i class="fas fa-times"></i> Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // In-memory data store (replaces localStorage)
+        const dataStore = {
+            context: "Home Office - Primary Workstation",
+            topic: "Auth API Bug #72 - Token Refresh Failure",
+            objective: "Testing token expiration handling",
+            purpose: "Prevent user lockouts during peak traffic",
+            next: "Open network console and run diagnostic",
+            missionActive: false,
+            missionStartTime: null,
+            progressPercentage: 65,
+            ptmTotalMinutes: 45,
+            ectMinutes: 15,
+            ptmWarningMinutes: 10
+        };
+        
+        let missionTimer = null;
+        let currentEditField = null;
+        
+        // Helper function to format minutes as time string
+        function formatMinutesAsTime(minutes) {
+            const hours = Math.floor(minutes / 60);
+            const mins = minutes % 60;
+            return `${hours.toString().padStart(2, '0')}:${mins.toString().padStart(2, '0')}`;
+        }
+        
+        function updateUrgentIndicator() {
+            const urgentIndicator = document.querySelector('.urgent-indicator');
+            
+            if (dataStore.missionActive && dataStore.missionStartTime) {
+                const elapsed = Date.now() - dataStore.missionStartTime;
+                const elapsedMinutes = elapsed / 60000;
+                const remainingMinutes = dataStore.ptmTotalMinutes - elapsedMinutes;
+                
+                // Show urgent indicator only when within warning threshold
+                if (remainingMinutes <= dataStore.ptmWarningMinutes && remainingMinutes > 0) {
+                    urgentIndicator.style.display = 'block';
+                    urgentIndicator.innerHTML = `<i class="fas fa-bell"></i> PTM: ${Math.ceil(remainingMinutes)}min left`;
+                } else {
+                    urgentIndicator.style.display = 'none';
+                }
+            } else {
+                // Default state - show based on initial PTM
+                if (dataStore.ptmTotalMinutes <= dataStore.ptmWarningMinutes) {
+                    urgentIndicator.style.display = 'block';
+                    urgentIndicator.innerHTML = `<i class="fas fa-bell"></i> PTM: ${dataStore.ptmTotalMinutes}min`;
+                } else {
+                    urgentIndicator.style.display = 'none';
+                }
+            }
+        }
+        
+        // Update time display
+        function updateTime() {
+            const now = new Date();
+            const timeElement = document.querySelector('.time');
+            const dateElement = document.querySelector('.date');
+            
+            // Format time
+            const hours = now.getHours().toString().padStart(2, '0');
+            const minutes = now.getMinutes().toString().padStart(2, '0');
+            timeElement.textContent = `${hours}:${minutes}`;
+            
+            // Format date
+            const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+            dateElement.textContent = now.toLocaleDateString('en-US', options);
+        }
+        
+        // Save data to memory
+        function saveData(field, value) {
+            dataStore[field] = value;
+            console.log('Data saved:', field, value);
+        }
+        
+        // Load data from memory
+        function loadData() {
+            // Update all text fields
+            document.querySelector('[data-field="context"] .tag-text').textContent = dataStore.context;
+            document.querySelector('[data-field="topic"] .tag-text').textContent = dataStore.topic;
+            document.querySelector('[data-field="objective"] .tag-text').textContent = dataStore.objective;
+            document.querySelector('[data-field="purpose"] .tag-text').textContent = dataStore.purpose;
+            document.getElementById('ptm-value').textContent = `${dataStore.ptmTotalMinutes} min`;
+            document.getElementById('ect-value').textContent = `<${formatMinutesAsTime(dataStore.ectMinutes)}`;
+            document.querySelector('[data-field="next"] .tag-text').textContent = dataStore.next;
+            
+            // Update progress bar
+            const progressBar = document.querySelector('.progress');
+            progressBar.style.width = dataStore.progressPercentage + '%';
+            
+            // Restore mission state
+            if (dataStore.missionActive) {
+                startMission();
+            }
+        }
+        
+        // Edit functionality
+        function setupEditHandlers() {
+            const editableElements = document.querySelectorAll('.editable');
+            const editOverlay = document.getElementById('edit-overlay');
+            const editInput = document.getElementById('edit-input');
+            const editTitle = document.getElementById('edit-title');
+            const saveBtn = document.getElementById('save-btn');
+            const cancelBtn = document.getElementById('cancel-btn');
+            
+            editableElements.forEach(element => {
+                element.addEventListener('click', function() {
+                    const field = this.dataset.field;
+                    currentEditField = field;
+                    
+                    let currentValue = '';
+                    let title = '';
+                    
+                    switch(field) {
+                        case 'context':
+                            currentValue = dataStore.context;
+                            title = 'Context (CTX): Where/When is this happening?';
+                            break;
+                        case 'topic':
+                            currentValue = dataStore.topic;
+                            title = 'Topic (TPC): What is the main subject?';
+                            break;
+                        case 'objective':
+                            currentValue = dataStore.objective;
+                            title = 'Objective (OBJ): The target is to <ACTION>';
+                            break;
+                        case 'purpose':
+                            currentValue = dataStore.purpose;
+                            title = 'Purpose (PUR): Why was this important?';
+                            break;
+                        case 'next':
+                            currentValue = dataStore.next;
+                            title = 'Next Step (NXT): What action comes next?';
+                            break;
+                    }
+                    
+                    editTitle.textContent = title;
+                    editInput.value = currentValue;
+                    editOverlay.style.display = 'flex';
+                    editInput.focus();
+                });
+            });
+            
+            saveBtn.addEventListener('click', function() {
+                const newValue = editInput.value.trim();
+                if (newValue && currentEditField) {
+                    saveData(currentEditField, newValue);
+                    loadData();
+                    editOverlay.style.display = 'none';
+                }
+            });
+            
+            cancelBtn.addEventListener('click', function() {
+                editOverlay.style.display = 'none';
+            });
+            
+            editOverlay.addEventListener('click', function(e) {
+                if (e.target === editOverlay) {
+                    editOverlay.style.display = 'none';
+                }
+            });
+        }
+        
+        function updateMissionTimer() {
+            if (dataStore.missionStartTime) {
+                const elapsed = Date.now() - dataStore.missionStartTime;
+                const minutes = Math.floor(elapsed / 60000);
+                const seconds = Math.floor((elapsed % 60000) / 1000);
+                const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                document.getElementById('mission-time').textContent = timeString;
+                
+                // Update urgent indicator and progress
+                updateUrgentIndicator();
+                
+                // Update progress bar based on time elapsed
+                const progressPercentage = Math.min(100, (elapsed / (dataStore.ptmTotalMinutes * 60000)) * 100);
+                document.querySelector('.progress').style.width = progressPercentage + '%';
+            }
+        }
+        
+        // Mission functionality
+        function startMission() {
+            dataStore.missionActive = true;
+            dataStore.missionStartTime = Date.now();
+            
+            document.body.classList.add('mission-active');
+            document.querySelector('.mission-timer').style.display = 'block';
+            document.getElementById('ops-mode').textContent = 'Ops Mode: MISSION';
+            document.getElementById('footer-mode').textContent = 'Mission';
+            document.getElementById('protocol-status').textContent = 'Mission Protocol Active';
+            document.getElementById('start-btn').innerHTML = '<i class="fas fa-stop"></i> End Mission';
+            
+            // Start mission timer
+            missionTimer = setInterval(updateMissionTimer, 1000);
+            updateMissionTimer();
+        }
+        
+        function endMission() {
+            dataStore.missionActive = false;
+            dataStore.missionStartTime = null;
+            
+            document.body.classList.remove('mission-active');
+            document.querySelector('.mission-timer').style.display = 'none';
+            document.getElementById('ops-mode').textContent = 'Ops Mode: ACTIVE';
+            document.getElementById('footer-mode').textContent = 'Active';
+            document.getElementById('protocol-status').textContent = 'Active Protocol Engaged';
+            document.getElementById('start-btn').innerHTML = '<i class="fas fa-play"></i> Start Mission';
+            
+            if (missionTimer) {
+                clearInterval(missionTimer);
+                missionTimer = null;
+            }
+        }
+        
+        // Configuration functionality
+        function setupConfigHandlers() {
+            const configOverlay = document.getElementById('config-overlay');
+            const configSaveBtn = document.getElementById('config-save-btn');
+            const configCancelBtn = document.getElementById('config-cancel-btn');
+            const ptmWarningInput = document.getElementById('ptm-warning');
+            const ptmTotalInput = document.getElementById('ptm-total');
+            const ectMinutesInput = document.getElementById('ect-minutes');
+            
+            function openConfigModal() {
+                ptmWarningInput.value = dataStore.ptmWarningMinutes;
+                ptmTotalInput.value = dataStore.ptmTotalMinutes;
+                ectMinutesInput.value = dataStore.ectMinutes;
+                updateConfigStatus();
+                configOverlay.style.display = 'flex';
+            }
+            
+            function updateConfigStatus() {
+                document.getElementById('mission-status').textContent = dataStore.missionActive ? 'Yes' : 'No';
+                document.getElementById('mission-status').style.color = dataStore.missionActive ? '#4ecdc4' : '#ff6b6b';
+                document.getElementById('ect-status').textContent = `${dataStore.ectMinutes} min`;
+                
+                let remainingText = '45:00';
+                let alertText = 'Normal';
+                let alertColor = '#4ecdc4';
+                
+                if (dataStore.missionActive && dataStore.missionStartTime) {
+                    const elapsed = Date.now() - dataStore.missionStartTime;
+                    const elapsedMinutes = elapsed / 60000;
+                    const remainingMinutes = Math.max(0, dataStore.ptmTotalMinutes - elapsedMinutes);
+                    const remainingMins = Math.floor(remainingMinutes);
+                    const remainingSecs = Math.floor((remainingMinutes - remainingMins) * 60);
+                    remainingText = `${remainingMins}:${remainingSecs.toString().padStart(2, '0')}`;
+                    
+                    if (remainingMinutes <= dataStore.ptmWarningMinutes) {
+                        alertText = 'WARNING - PTM Expiring';
+                        alertColor = '#ff6b6b';
+                    }
+                }
+                
+                document.getElementById('ptm-remaining').textContent = remainingText;
+                document.getElementById('alert-status').textContent = alertText;
+                document.getElementById('alert-status').style.color = alertColor;
+            }
+            
+            configSaveBtn.addEventListener('click', function() {
+                const newWarning = parseInt(ptmWarningInput.value);
+                const newTotal = parseInt(ptmTotalInput.value);
+                const newEctMinutes = parseInt(ectMinutesInput.value);
+                
+                if (newWarning > 0 && newWarning <= 60 && 
+                    newTotal >= 5 && newTotal <= 480 &&
+                    newEctMinutes >= 1 && newEctMinutes <= 480) {
+                    
+                    dataStore.ptmWarningMinutes = newWarning;
+                    dataStore.ptmTotalMinutes = newTotal;
+                    dataStore.ectMinutes = newEctMinutes;
+                    
+                    loadData();
+                    updateUrgentIndicator();
+                    configOverlay.style.display = 'none';
+                    
+                    alert(`Configuration saved!\nPTM Warning: ${newWarning} minutes\nPTM Duration: ${newTotal} minutes\nECT: ${newEctMinutes} minutes`);
+                } else {
+                    alert('Invalid values! Please check your input ranges.');
+                }
+            });
+            
+            configCancelBtn.addEventListener('click', function() {
+                configOverlay.style.display = 'none';
+            });
+            
+            configOverlay.addEventListener('click', function(e) {
+                if (e.target === configOverlay) {
+                    configOverlay.style.display = 'none';
+                }
+            });
+            
+            return { openConfigModal, updateConfigStatus };
+        }
+        
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateTime();
+            setInterval(updateTime, 60000);
+            loadData();
+            setupEditHandlers();
+            
+            const configHandlers = setupConfigHandlers();
+            
+            // Initial urgent indicator update
+            updateUrgentIndicator();
+            
+            // Start/End Mission button
+            document.getElementById('start-btn').addEventListener('click', function() {
+                if (dataStore.missionActive) {
+                    endMission();
+                    alert('Mission completed! Neural recall data logged.');
+                } else {
+                    startMission();
+                    alert('Mission started! Neuro-recall system activated.');
+                }
+            });
+            
+            // Configuration button
+            document.getElementById('config-btn').addEventListener('click', function() {
+                configHandlers.openConfigModal();
+            });
+        });
+    </script>
+</body>
+</html>

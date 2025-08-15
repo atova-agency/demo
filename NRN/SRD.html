@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" color-mode="" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>SRD</title>
+  <style>
+    code{white-space: pre-wrap;}
+    span.smallcaps{font-variant: small-caps;}
+    div.columns{display: flex; gap: min(4vw, 1.5em);}
+    div.column{flex: auto; overflow-x: auto;}
+    div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+    /* The extra [class] is a hack that increases specificity enough to
+       override a similar rule in reveal.js */
+    ul.task-list[class]{list-style: none;}
+    ul.task-list li input[type="checkbox"] {
+      font-size: inherit;
+      width: 0.8em;
+      margin: 0 0.8em 0.2em -1.6em;
+      vertical-align: middle;
+    }
+    .display.math{display: block; text-align: center; margin: 0.5rem auto;}
+    /* CSS for syntax highlighting */
+    pre > code.sourceCode { white-space: pre; position: relative; }
+    pre > code.sourceCode > span { line-height: 1.25; }
+    pre > code.sourceCode > span:empty { height: 1.2em; }
+    .sourceCode { overflow: visible; }
+    code.sourceCode > span { color: inherit; text-decoration: inherit; }
+    div.sourceCode { margin: 1em 0; }
+    pre.sourceCode { margin: 0; }
+    @media screen {
+    div.sourceCode { overflow: auto; }
+    }
+    @media print {
+    pre > code.sourceCode { white-space: pre-wrap; }
+    pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+    }
+    pre.numberSource code
+      { counter-reset: source-line 0; }
+    pre.numberSource code > span
+      { position: relative; left: -4em; counter-increment: source-line; }
+    pre.numberSource code > span > a:first-child::before
+      { content: counter(source-line);
+        position: relative; left: -1em; text-align: right; vertical-align: baseline;
+        border: none; display: inline-block;
+        -webkit-touch-callout: none; -webkit-user-select: none;
+        -khtml-user-select: none; -moz-user-select: none;
+        -ms-user-select: none; user-select: none;
+        padding: 0 4px; width: 4em;
+        color: #aaaaaa;
+      }
+    pre.numberSource { margin-left: 3em; border-left: 1px solid #aaaaaa;  padding-left: 4px; }
+    div.sourceCode
+      {   }
+    @media screen {
+    pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+    }
+    code span.al { color: #ff0000; font-weight: bold; } /* Alert */
+    code span.an { color: #60a0b0; font-weight: bold; font-style: italic; } /* Annotation */
+    code span.at { color: #7d9029; } /* Attribute */
+    code span.bn { color: #40a070; } /* BaseN */
+    code span.bu { color: #008000; } /* BuiltIn */
+    code span.cf { color: #007020; font-weight: bold; } /* ControlFlow */
+    code span.ch { color: #4070a0; } /* Char */
+    code span.cn { color: #880000; } /* Constant */
+    code span.co { color: #60a0b0; font-style: italic; } /* Comment */
+    code span.cv { color: #60a0b0; font-weight: bold; font-style: italic; } /* CommentVar */
+    code span.do { color: #ba2121; font-style: italic; } /* Documentation */
+    code span.dt { color: #902000; } /* DataType */
+    code span.dv { color: #40a070; } /* DecVal */
+    code span.er { color: #ff0000; font-weight: bold; } /* Error */
+    code span.ex { } /* Extension */
+    code span.fl { color: #40a070; } /* Float */
+    code span.fu { color: #06287e; } /* Function */
+    code span.im { color: #008000; font-weight: bold; } /* Import */
+    code span.in { color: #60a0b0; font-weight: bold; font-style: italic; } /* Information */
+    code span.kw { color: #007020; font-weight: bold; } /* Keyword */
+    code span.op { color: #666666; } /* Operator */
+    code span.ot { color: #007020; } /* Other */
+    code span.pp { color: #bc7a00; } /* Preprocessor */
+    code span.sc { color: #4070a0; } /* SpecialChar */
+    code span.ss { color: #bb6688; } /* SpecialString */
+    code span.st { color: #4070a0; } /* String */
+    code span.va { color: #19177c; } /* Variable */
+    code span.vs { color: #4070a0; } /* VerbatimString */
+    code span.wa { color: #60a0b0; font-weight: bold; font-style: italic; } /* Warning */
+  </style>
+  <link rel="stylesheet" href="https://atova-agency.github.io/start/komandy/static/css/vp_komandy.css" />
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">SRD</h1>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#software-requirements-document-srd"
+id="toc-software-requirements-document-srd"><strong>Software
+Requirements Document (SRD)</strong></a>
+<ul>
+<li><a href="#purpose" id="toc-purpose">1.
+<strong>Purpose</strong></a></li>
+<li><a href="#scope" id="toc-scope">2. <strong>Scope</strong></a></li>
+<li><a href="#definitions" id="toc-definitions">3.
+<strong>Definitions</strong></a></li>
+<li><a href="#functional-requirements"
+id="toc-functional-requirements">4. <strong>Functional
+Requirements</strong></a></li>
+<li><a href="#non-functional-requirements"
+id="toc-non-functional-requirements">5. <strong>Non-functional
+Requirements</strong></a></li>
+<li><a href="#user-interface-design" id="toc-user-interface-design">6.
+<strong>User Interface Design</strong></a></li>
+<li><a href="#data-model" id="toc-data-model">7. <strong>Data
+Model</strong></a></li>
+<li><a href="#constraints" id="toc-constraints">8.
+<strong>Constraints</strong></a></li>
+<li><a href="#future-enhancements" id="toc-future-enhancements">9.
+<strong>Future Enhancements</strong></a></li>
+</ul></li>
+<li><a href="#readme" id="toc-readme">Readme</a></li>
+</ul>
+</nav>
+<main>
+<h1 id="software-requirements-document-srd"><strong>Software
+Requirements Document (SRD)</strong></h1>
+<p><strong>System Name:</strong> Neural Recall Node (NRN) – Lock Screen
+Interface<br />
+<strong>Version:</strong> 0.1.0<br />
+<strong>Date:</strong> 2025-08-15</p>
+<hr />
+<h2 id="purpose">1. <strong>Purpose</strong></h2>
+<p>The Neural Recall Node Lock Screen (NRN-LS) is a task-focused
+operational display designed to present key mission context, timing, and
+objectives for high-focus work sessions. It provides an interactive UI
+for editing mission parameters, managing a mission timer, and receiving
+alerts when time budgets approach expiration.</p>
+<hr />
+<h2 id="scope">2. <strong>Scope</strong></h2>
+<p>The NRN-LS runs as a standalone HTML/JS/CSS application in modern
+browsers. Its main functions are:</p>
+<ul>
+<li>Displaying <strong>contextual mission tags</strong> (CTX, TPC, OBJ,
+PUR, NXT)</li>
+<li>Showing <strong>current time</strong> and <strong>date</strong></li>
+<li>Managing <strong>time budgets</strong> (PTM, ECT) with visual
+progress</li>
+<li>Alerting when PTM (Primary Time Management) approaches
+expiration</li>
+<li>Providing <strong>edit modals</strong> for field updates</li>
+<li>Allowing configuration of alert thresholds and mission
+durations</li>
+<li>Switching between <strong>Active Mode</strong> and <strong>Mission
+Mode</strong></li>
+</ul>
+<hr />
+<h2 id="definitions">3. <strong>Definitions</strong></h2>
+<table>
+<thead>
+<tr class="header">
+<th>Acronym</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>CTX</td>
+<td>Context — where/when the activity is happening</td>
+</tr>
+<tr class="even">
+<td>TPC</td>
+<td>Topic — main subject of focus</td>
+</tr>
+<tr class="odd">
+<td>OBJ</td>
+<td>Objective — actionable mission goal</td>
+</tr>
+<tr class="even">
+<td>PUR</td>
+<td>Purpose — strategic reason</td>
+</tr>
+<tr class="odd">
+<td>NXT</td>
+<td>Next Step — immediate following action</td>
+</tr>
+<tr class="even">
+<td>PTM</td>
+<td>Provisioned Time ( time budgeted in minutes)</td>
+</tr>
+<tr class="odd">
+<td>ECT</td>
+<td>Estimated Completion Time (target)</td>
+</tr>
+<tr class="even">
+<td>Ops Mode</td>
+<td>Current operational state of the system</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="functional-requirements">4. <strong>Functional
+Requirements</strong></h2>
+<h3 id="display-requirements">4.1 Display Requirements</h3>
+<ul>
+<li><p><strong>Header</strong></p>
+<ul>
+<li>Show current system time (HH:MM) updated every minute</li>
+<li>Show current date in format:
+<code>Weekday, Month Day, Year</code></li>
+</ul></li>
+<li><p><strong>Status Bar</strong></p>
+<ul>
+<li>Show system name and version</li>
+<li>Show current Ops Mode (<code>Active</code> or
+<code>Mission</code>)</li>
+</ul></li>
+<li><p><strong>Urgent Indicator</strong></p>
+<ul>
+<li>Visible when PTM ≤ configured warning threshold</li>
+<li>Blinks (pulse animation) and shows minutes remaining</li>
+</ul></li>
+<li><p><strong>Mission Timer</strong></p>
+<ul>
+<li>Shows elapsed mission time (MM:SS) once mission starts</li>
+</ul></li>
+<li><p><strong>Tags Section</strong></p>
+<ul>
+<li>Editable fields: CTX, TPC, OBJ, PUR, NXT</li>
+<li>Each field has a short label, value, and description</li>
+</ul></li>
+<li><p><strong>Time Tags</strong></p>
+<ul>
+<li>PTM with remaining minutes and progress bar</li>
+<li>ECT with target time</li>
+</ul></li>
+<li><p><strong>Footer</strong></p>
+<ul>
+<li>Current Ops Mode + Protocol status</li>
+</ul></li>
+</ul>
+<hr />
+<h3 id="editing-requirements">4.2 Editing Requirements</h3>
+<ul>
+<li><p>Clicking a <code>.tag-content</code> opens the <strong>Edit
+Overlay</strong>:</p>
+<ul>
+<li>Title specifies which tag is being edited</li>
+<li>Textarea pre-filled with current value</li>
+<li>Save button updates value in memory (<code>dataStore</code>)</li>
+<li>Cancel closes modal without saving</li>
+</ul></li>
+</ul>
+<hr />
+<h3 id="mission-control">4.3 Mission Control</h3>
+<ul>
+<li><p><strong>Start Mission Button</strong></p>
+<ul>
+<li>Switches Ops Mode to “Mission”</li>
+<li>Records start timestamp</li>
+<li>Starts timer updating every second</li>
+<li>Changes button to “End Mission”</li>
+</ul></li>
+<li><p><strong>End Mission Button</strong></p>
+<ul>
+<li>Switches Ops Mode to “Active”</li>
+<li>Stops timer</li>
+<li>Resets UI state</li>
+</ul></li>
+<li><p>Mission status is stored in memory</p></li>
+</ul>
+<hr />
+<h3 id="configuration">4.4 Configuration</h3>
+<ul>
+<li><p><strong>Config Overlay</strong></p>
+<ul>
+<li><p>Fields to adjust:</p>
+<ul>
+<li>PTM Warning Threshold (minutes)</li>
+<li>PTM Total Duration (minutes)</li>
+<li>ECT Duration (minutes)</li>
+</ul></li>
+<li><p>Shows current mission status, remaining PTM, and alert
+status</p></li>
+<li><p>Validates inputs:</p>
+<ul>
+<li>PTM Warning: 1–60 min</li>
+<li>PTM Total: 5–480 min</li>
+<li>ECT: 1–480 min</li>
+</ul></li>
+<li><p>Save updates <code>dataStore</code> and reloads data</p></li>
+<li><p>Cancel closes modal without saving</p></li>
+</ul></li>
+</ul>
+<hr />
+<h2 id="non-functional-requirements">5. <strong>Non-functional
+Requirements</strong></h2>
+<ul>
+<li><strong>Performance</strong>: UI updates must remain under 100ms
+latency for visible changes.</li>
+<li><strong>Browser Support</strong>: Latest stable Chrome, Firefox,
+Edge; fallback for Safari with possible style degradation.</li>
+<li><strong>Responsiveness</strong>: Adjust layout for max-width ≤ 480px
+(smaller fonts, reduced padding).</li>
+<li><strong>Data Persistence</strong>: Current version stores all
+mission data in-memory (<code>dataStore</code>) only; no backend or
+localStorage.</li>
+</ul>
+<hr />
+<h2 id="user-interface-design">6. <strong>User Interface
+Design</strong></h2>
+<ul>
+<li><p><strong>Theme</strong>: Cyber-ops aesthetic with deep blue
+gradients and neon cyan accents</p></li>
+<li><p><strong>Typography</strong>: Segoe UI or system
+sans-serif</p></li>
+<li><p><strong>Interactions</strong>:</p>
+<ul>
+<li>Hover effects for editable tags</li>
+<li>Pulsing alerts for urgent PTM status</li>
+<li>Smooth button hover transitions</li>
+</ul></li>
+<li><p><strong>Icons</strong>: Font Awesome v6 for status, alerts, and
+controls</p></li>
+</ul>
+<hr />
+<h2 id="data-model">7. <strong>Data Model</strong></h2>
+<div class="sourceCode" id="cb1"><pre
+class="sourceCode javascript"><code class="sourceCode javascript"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>dataStore <span class="op">=</span> {</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    <span class="dt">context</span><span class="op">:</span> string<span class="op">,</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    <span class="dt">topic</span><span class="op">:</span> string<span class="op">,</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">objective</span><span class="op">:</span> string<span class="op">,</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">purpose</span><span class="op">:</span> string<span class="op">,</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="dt">next</span><span class="op">:</span> string<span class="op">,</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    <span class="dt">missionActive</span><span class="op">:</span> boolean<span class="op">,</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">missionStartTime</span><span class="op">:</span> timestamp<span class="op">|</span><span class="kw">null</span><span class="op">,</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">progressPercentage</span><span class="op">:</span> number<span class="op">,</span> <span class="co">// 0–100</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">ptmTotalMinutes</span><span class="op">:</span> number<span class="op">,</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    <span class="dt">ectMinutes</span><span class="op">:</span> number<span class="op">,</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    <span class="dt">ptmWarningMinutes</span><span class="op">:</span> number</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<hr />
+<h2 id="constraints">8. <strong>Constraints</strong></h2>
+<ul>
+<li>All time values are in minutes.</li>
+<li>No server interaction; purely client-side.</li>
+<li>Mission timer is reset if page reloads.</li>
+<li>No authentication — assumed single-user local use.</li>
+</ul>
+<hr />
+<h2 id="future-enhancements">9. <strong>Future
+Enhancements</strong></h2>
+<ul>
+<li>Persist mission state to localStorage or backend</li>
+<li>Multi-mission history logs</li>
+<li>Audio alerts for PTM threshold</li>
+<li>Dark/light mode toggle</li>
+<li>Sync with external calendars or task systems</li>
+</ul>
+<hr />
+<figure>
+<img src="./NRN_SRD.png" alt="NRN-LS" />
+<figcaption aria-hidden="true">NRN-LS</figcaption>
+</figure>
+<p>Here’s the NRN-LS <strong>UI Component &amp; Function
+Mapping</strong> diagram — it visually links the interface’s sections
+(Header, Status Bar, Mission Tags, etc.) to their functional roles,
+matching the SRD’s structure.</p>
+<h1 id="readme">Readme</h1>
+<p>The reason for this app is detailed at <a href="./Readme.html">NRN:
+Neural Recall Node</a></p>
+</main>
+</body>
+</html>
