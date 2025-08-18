@@ -3,427 +3,437 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NRN: Neural-Recall Node Lock Screen</title>
+    <title>Soothing Mission Control</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-        
-        body {
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: #e0e0e0;
-            min-height: 100vh;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-        }
-        
-        .container {
-            width: 100%;
-            max-width: 400px;
-            background: rgba(25, 35, 45, 0.85);
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-            overflow: hidden;
-            border: 1px solid #4a6572;
-            position: relative;
-        }
-        
-        .header {
-            background: rgba(15, 30, 45, 0.95);
-            padding: 10px 20px 10px 20px;
-            text-align: center;
-            border-bottom: 2px solid #00c6ff;
-        }
-        
-        .header h1 {
-            font-size: 1.8rem;
-            margin-bottom: 5px;
-            color: #00c6ff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-        
-        .header p {
-            font-size: 0.9rem;
-            color: #89cff0;
-            opacity: 0.8;
-        }
-        
-        .status-bar {
-            display: flex;
-            justify-content: space-between;
-            padding: 10px 15px;
-            background: rgba(10, 20, 30, 0.7);
-            font-size: 0.9rem;
-            color: #89cff0;
-            border-bottom: 1px solid #2a4a5f;
-        }
-        
-        .time-display {
-            text-align: center;
-            padding: 15px 0;
-            background: rgba(20, 40, 60, 0.4);
-        }
-        
-        .time-display .time {
-            font-size: 3.5rem;
-            font-weight: 300;
-            letter-spacing: -1px;
-            color: #ffffff;
-        }
-        
-        .time-display .date {
-            font-size: 1.1rem;
-            color: #89cff0;
-            margin-top: -5px;
-        }
-        
-        .tag-container {
-            padding: 2px 20px 10px 20px;
-        }
-        
-        .tag-row {
-            display: flex;
-            margin-bottom: 2px;
-            align-items: center;
-            border-bottom: 1px solid #30475e;
-            padding-bottom: 12px;
-        }
-        
-        .tag-label {
-            width: 70px;
-            font-weight: bold;
-            text-align: center;
-            padding: 8px 5px;
-            border-radius: 8px;
-            margin-right: 15px;
-            background: rgba(0, 123, 255, 0.15);
-            border: 1px solid #0088cc;
-            color: #00a8ff;
-            font-size: 0.9rem;
-            flex-shrink: 0;
-        }
-        
-        .tag-content {
-            flex: 1;
-            padding: 10px 15px;
-            background: rgba(40, 60, 80, 0.3);
-            border-radius: 10px;
-            border: 1px solid #3a5f7a;
-            min-height: 45px;
-            display: flex;
-            align-items: center;
-            font-size: 1.05rem;
-            color: #e0f7fa;
-            position: relative;
-        }
-        
-        .tag-content.editable {
-            cursor: text;
-        }
-        
-        .tag-content.editable:hover {
-            border-color: #00c6ff;
-            background: rgba(0, 198, 255, 0.1);
-        }
-        
-        .time-tags {
-            display: flex;
-            justify-content: space-between;
-            gap: 15px;
-            margin: 20px 0;
-        }
-        
-        .time-tag {
-            flex: 1;
-            text-align: center;
-            padding: 12px;
-            border-radius: 10px;
-            background: rgba(40, 60, 80, 0.4);
-            border: 1px solid #3a5f7a;
-        }
-        
-        .time-tag-label {
-            font-size: 0.9rem;
-            color: #00c6ff;
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-        
-        .time-tag-value {
-            font-size: 1.2rem;
-            color: #ffffff;
-        }
-        
-        .controls {
+<style>
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+        background: linear-gradient(135deg, #1d2b3a, #2c3e50, #34495e);
+        color: #ecf0f1;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+    
+    .container {
+        width: 100%;
+        max-width: 400px;
+        background: rgba(30, 40, 53, 0.95);
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        overflow: hidden;
+        border: 1px solid #4a5c70;
+        position: relative;
+    }
+    
+    .header {
+        background: rgba(25, 35, 48, 0.95);
+        padding: 10px 20px 10px 20px;
+        text-align: center;
+        border-bottom: 2px solid #5d7a9e;
+    }
+    
+    .header h1 {
+        font-size: 1.8rem;
+        margin-bottom: 5px;
+        color: #a3b8cc;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 500;
+    }
+    
+    .header p {
+        font-size: 0.9rem;
+        color: #8a9ba8;
+        opacity: 0.8;
+    }
+    
+    .status-bar {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px 15px;
+        background: rgba(20, 28, 38, 0.8);
+        font-size: 0.9rem;
+        color: #89cff0;
+        border-bottom: 1px solid #3a4a5f;
+    }
+    
+    .time-display {
+        text-align: center;
+        padding: 15px 0;
+        background: rgba(25, 35, 48, 0.6);
+    }
+    
+    .time-display .time {
+        font-size: 3.5rem;
+        font-weight: 300;
+        letter-spacing: -1px;
+        color: #ecf0f1;
+    }
+    
+    .time-display .date {
+        font-size: 1.1rem;
+        color: #a3b8cc;
+        margin-top: -5px;
+    }
+    
+    .tag-container {
+        padding: 2px 20px 10px 20px;
+    }
+    
+    .tag-row {
+        display: flex;
+        margin-bottom: 2px;
+        align-items: center;
+        border-bottom: 1px solid #3a4a5f;
+        padding-bottom: 12px;
+    }
+    
+    .tag-label {
+        width: 70px;
+        font-weight: bold;
+        text-align: center;
+        padding: 8px 5px;
+        border-radius: 8px;
+        margin-right: 15px;
+        background: rgba(60, 80, 100, 0.3);
+        border: 1px solid #5d7a9e;
+        color: #a3b8cc;
+        font-size: 0.9rem;
+        flex-shrink: 0;
+    }
+    
+    .tag-content {
+        flex: 1;
+        padding: 10px 15px;
+        background: rgba(40, 50, 65, 0.4);
+        border-radius: 10px;
+        border: 1px solid #4a5c70;
+        min-height: 45px;
+        display: flex;
+        align-items: center;
+        font-size: 1.05rem;
+        color: #ecf0f1;
+        position: relative;
+    }
+    
+    .tag-content.editable {
+        cursor: text;
+    }
+    
+    .tag-content.editable:hover {
+        border-color: #5d7a9e;
+        background: rgba(60, 80, 100, 0.3);
+    }
+    
+    .time-tags {
+        display: flex;
+        justify-content: space-between;
+        gap: 15px;
+        margin: 20px 0;
+    }
+    
+    .time-tag {
+        flex: 1;
+        text-align: center;
+        padding: 12px;
+        border-radius: 10px;
+        background: rgba(40, 50, 65, 0.4);
+        border: 1px solid #4a5c70;
+    }
+    
+    .time-tag-label {
+        font-size: 0.9rem;
+        color: #a3b8cc;
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+    
+    .time-tag-value {
+        font-size: 1.2rem;
+        color: #ecf0f1;
+    }
+    
+    .controls {
             display: flex;
             justify-content: center;
             padding: 10px 20px 20px 20px;
             gap: 15px;
+            flex-wrap: wrap;
+    }
+
+    .btn {
+        padding: 12px 25px;
+        border-radius: 30px;
+        border: none;
+        font-weight: bold;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: all 0.3s ease;
+    }
+    
+    .btn-primary {
+        background: linear-gradient(to right, #5d7a9e, #4a6385);
+        color: white;
+        box-shadow: 0 4px 15px rgba(77, 96, 130, 0.3);
+    }
+    
+    .btn-secondary {
+        background: rgba(50, 65, 85, 0.5);
+        color: #a3b8cc;
+        border: 1px solid #5d7a9e;
+    }
+
+    .btn-analytics {
+        background: linear-gradient(to right, #8c5d57, #704a45);
+        color: white;
+    }
+    
+    .btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(77, 96, 130, 0.4);
+    }
+    
+    .footer {
+        text-align: center;
+        padding: 20px;
+        font-size: 0.9rem;
+        color: #a3b8cc;
+        border-top: 1px solid #3a4a5f;
+        background: rgba(25, 35, 48, 0.8);
+    }
+    
+    .urgent-indicator {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        background: #8c5d57;
+        color: #f8d7d4;
+        padding: 5px 10px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: bold;
+        animation: pulse 3s infinite;
+    }
+    
+    @keyframes pulse {
+        0% { opacity: 0.7; }
+        50% { opacity: 1; }
+        100% { opacity: 0.7; }
+    }
+    
+    .tag-description {
+        font-size: 0.8rem;
+        color: #a3b8cc;
+        margin-top: 3px;
+        opacity: 0.8;
+    }
+    
+    .progress-bar {
+        height: 6px;
+        background: rgba(60, 80, 100, 0.5);
+        border-radius: 3px;
+        margin-top: 8px;
+        overflow: hidden;
+    }
+    
+    .progress {
+        height: 100%;
+        background: linear-gradient(to right, #5d7a9e, #4a6385);
+        width: 65%;
+        border-radius: 3px;
+        transition: width 0.3s ease;
+    }
+    
+    .config-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    
+    .edit-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+    }
+    
+    .config-modal {
+        background: rgba(35, 45, 60, 0.95);
+        padding: 30px;
+        border-radius: 15px;
+        border: 2px solid #5d7a9e;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    
+    .config-modal h3 {
+        color: #a3b8cc;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+    
+    .config-section {
+        margin-bottom: 20px;
+        padding: 15px;
+        background: rgba(45, 55, 70, 0.5);
+        border-radius: 10px;
+        border: 1px solid #5d7a9e;
+    }
+    
+    .config-section h4 {
+        color: #a3b8cc;
+        margin-bottom: 10px;
+        font-size: 1rem;
+    }
+    
+    .config-row {
+        display: flex;
+        align-items: center;
+        margin-bottom: 10px;
+        gap: 15px;
+    }
+    
+    .config-label {
+        flex: 1;
+        color: #ecf0f1;
+        font-size: 0.9rem;
+    }
+    
+    .config-input {
+        flex: 0 0 80px;
+        padding: 8px 12px;
+        background: rgba(50, 65, 85, 0.6);
+        border: 1px solid #5d7a9e;
+        border-radius: 6px;
+        color: #ecf0f1;
+        font-size: 1rem;
+        text-align: center;
+    }
+    
+    .config-input:focus {
+        outline: none;
+        border-color: #89cff0;
+        box-shadow: 0 0 8px rgba(137, 207, 240, 0.3);
+    }
+    
+    .config-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+    
+    .edit-modal {
+        background: rgba(35, 45, 60, 0.95);
+        padding: 30px;
+        border-radius: 15px;
+        border: 2px solid #5d7a9e;
+        max-width: 400px;
+        width: 90%;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+    }
+    
+    .edit-modal h4 {
+        color: #a3b8cc;
+        margin-bottom: 15px;
+        text-align: center;
+    }
+    
+    .edit-modal input,
+    .edit-modal textarea {
+        width: 100%;
+        padding: 12px;
+        background: rgba(45, 55, 70, 0.6);
+        border: 1px solid #5d7a9e;
+        border-radius: 8px;
+        color: #ecf0f1;
+        font-size: 1rem;
+        margin: 15px 0px 15px 0px;
+        resize: vertical;
+    }
+    
+    .edit-modal input:focus,
+    .edit-modal textarea:focus {
+        outline: none;
+        border-color: #89cff0;
+        box-shadow: 0 0 10px rgba(137, 207, 240, 0.3);
+    }
+    
+    .edit-buttons {
+        display: flex;
+        gap: 10px;
+        justify-content: center;
+    }
+    
+    .mission-active {
+        background: linear-gradient(135deg, #2c3e50, #34495e);
+        border: 1px solid #5d7a9e;
+    }
+    
+    .mission-timer {
+        position: absolute;
+        top: 50px;
+        right: 10px;
+        background: rgba(93, 122, 158, 0.3);
+        border: 1px solid #5d7a9e;
+        padding: 8px 12px;
+        border-radius: 15px;
+        font-size: 0.9rem;
+        color: #a3b8cc;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 480px) {
+        .container {
+            border-radius: 15px;
+        }
+        
+        .header h1 {
+            font-size: 1.5rem;
+        }
+        
+        .tag-label {
+            width: 60px;
+            font-size: 0.85rem;
+            padding: 6px 4px;
+        }
+        
+        .tag-content {
+            padding: 8px 12px;
+            font-size: 1rem;
         }
         
         .btn {
-            padding: 12px 25px;
-            border-radius: 30px;
-            border: none;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(to right, #00c6ff, #0072ff);
-            color: white;
-            box-shadow: 0 4px 15px rgba(0, 114, 255, 0.4);
-        }
-        
-        .btn-secondary {
-            background: rgba(60, 80, 100, 0.5);
-            color: #89cff0;
-            border: 1px solid #4a6572;
-        }
-        
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(0, 114, 255, 0.6);
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 20px;
-            font-size: 0.9rem;
-            color: #89cff0;
-            border-top: 1px solid #2a4a5f;
-            background: rgba(15, 30, 45, 0.7);
-        }
-        
-        .urgent-indicator {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: #ff416c;
-            color: white;
-            padding: 5px 10px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: bold;
-            animation: pulse 2s infinite;
-        }
-        
-        @keyframes pulse {
-            0% { opacity: 0.7; }
-            50% { opacity: 1; }
-            100% { opacity: 0.7; }
-        }
-        
-        .tag-description {
-            font-size: 0.8rem;
-            color: #89cff0;
-            margin-top: 3px;
-            opacity: 0.8;
-        }
-        
-        .progress-bar {
-            height: 6px;
-            background: rgba(60, 80, 100, 0.5);
-            border-radius: 3px;
-            margin-top: 8px;
-            overflow: hidden;
-        }
-        
-        .progress {
-            height: 100%;
-            background: linear-gradient(to right, #00c6ff, #0072ff);
-            width: 65%;
-            border-radius: 3px;
-            transition: width 0.3s ease;
-        }
-        
-        .config-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        
-        .edit-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            display: none;
-            justify-content: center;
-            align-items: center;
-            z-index: 1000;
-        }
-        
-        .config-modal {
-            background: rgba(25, 35, 45, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            border: 2px solid #00c6ff;
-            max-width: 400px;
-            width: 90%;
-        }
-        
-        .config-modal h3 {
-            color: #00c6ff;
-            margin-bottom: 20px;
-            text-align: center;
-        }
-        
-        .config-section {
-            margin-bottom: 20px;
-            padding: 15px;
-            background: rgba(40, 60, 80, 0.2);
-            border-radius: 10px;
-            border: 1px solid #3a5f7a;
-        }
-        
-        .config-section h4 {
-            color: #89cff0;
-            margin-bottom: 10px;
-            font-size: 1rem;
-        }
-        
-        .config-row {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-            gap: 15px;
-        }
-        
-        .config-label {
-            flex: 1;
-            color: #e0f7fa;
+            padding: 10px 20px;
             font-size: 0.9rem;
         }
-        
-        .config-input {
-            flex: 0 0 80px;
-            padding: 8px 12px;
-            background: rgba(40, 60, 80, 0.5);
-            border: 1px solid #3a5f7a;
-            border-radius: 6px;
-            color: #e0f7fa;
-            font-size: 1rem;
-            text-align: center;
-        }
-        
-        .config-input:focus {
-            outline: none;
-            border-color: #00c6ff;
-            box-shadow: 0 0 8px rgba(0, 198, 255, 0.3);
-        }
-        
-        .config-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-            margin-top: 20px;
-        }
-        
-        .edit-modal {
-            background: rgba(25, 35, 45, 0.95);
-            padding: 30px;
-            border-radius: 15px;
-            border: 2px solid #00c6ff;
-            max-width: 400px;
-            width: 90%;
-        }
-        
-        .edit-modal h4 {
-            color: #00c6ff;
-            margin-bottom: 15px;
-            text-align: center;
-        }
-        
-        .edit-modal input,
-        .edit-modal textarea {
-            width: 100%;
-            padding: 12px;
-            background: rgba(40, 60, 80, 0.3);
-            border: 1px solid #3a5f7a;
-            border-radius: 8px;
-            color: #e0f7fa;
-            font-size: 1rem;
-            margin: 15px 0px 15px 0px;
-            resize: vertical;
-        }
-        
-        .edit-modal input:focus,
-        .edit-modal textarea:focus {
-            outline: none;
-            border-color: #00c6ff;
-            box-shadow: 0 0 10px rgba(0, 198, 255, 0.3);
-        }
-        
-        .edit-buttons {
-            display: flex;
-            gap: 10px;
-            justify-content: center;
-        }
-        
-        .mission-active {
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-        }
-        
-        .mission-timer {
-            position: absolute;
-            top: 50px;
-            right: 10px;
-            background: rgba(0, 198, 255, 0.2);
-            border: 1px solid #00c6ff;
-            padding: 8px 12px;
-            border-radius: 15px;
-            font-size: 0.9rem;
-            color: #00c6ff;
-        }
-        
-        /* Responsive adjustments */
-        @media (max-width: 480px) {
-            .container {
-                border-radius: 15px;
-            }
-            
-            .header h1 {
-                font-size: 1.5rem;
-            }
-            
-            .tag-label {
-                width: 60px;
-                font-size: 0.85rem;
-                padding: 6px 4px;
-            }
-            
-            .tag-content {
-                padding: 8px 12px;
-                font-size: 1rem;
-            }
-            
-            .btn {
-                padding: 10px 20px;
-                font-size: 0.9rem;
-            }
-        }
-    </style>
+    }
+</style>
 </head>
 <body>
     <div class="container">
@@ -513,8 +523,12 @@
             <button class="btn btn-secondary" id="config-btn">
                 <i class="fas fa-cog"></i> Configure
             </button>
+        <button class="btn btn-analytics" id="analytics-btn">
+                <i class="fas fa-chart-bar"></i> Analytics
+        </button>
         </div>
-        
+
+
         <div class="footer">
             Ops Mode: <span id="footer-mode">Active</span> | <span id="protocol-status">Active Protocol Engaged</span>
         </div>
@@ -545,19 +559,19 @@
                 <h4><i class="fas fa-info-circle"></i> Current Status</h4>
                 <div class="config-row">
                     <span class="config-label">Mission Active:</span>
-                    <span id="mission-status" style="color: #ff6b6b;">No</span>
+                    <span id="mission-status" style="color: #718096;">No</span>
                 </div>
                 <div class="config-row">
                     <span class="config-label">PTM Remaining:</span>
-                    <span id="ptm-remaining" style="color: #00c6ff;">45:00</span>
+                    <span id="ptm-remaining" style="color: #8a9ba8;">45:00</span>
                 </div>
                 <div class="config-row">
                     <span class="config-label">ECT Duration:</span>
-                    <span id="ect-status" style="color: #4ecdc4;">15 min</span>
+                    <span id="ect-status" style="color: #718096;">15 min</span>
                 </div>
                 <div class="config-row">
                     <span class="config-label">Alert Status:</span>
-                    <span id="alert-status" style="color: #4ecdc4;">Normal</span>
+                    <span id="alert-status" style="color: #718096;">Normal</span>
                 </div>
             </div>
             
@@ -593,7 +607,7 @@
     </div>
 
     <script>
-        // In-memory data store (replaces localStorage)
+        // In-memory data store
         const dataStore = {
             context: "Home Office - Primary Workstation",
             topic: "Auth API Bug #72 - Token Refresh Failure",
@@ -626,7 +640,6 @@
                 const elapsedMinutes = elapsed / 60000;
                 const remainingMinutes = dataStore.ptmTotalMinutes - elapsedMinutes;
                 
-                // Show urgent indicator only when within warning threshold
                 if (remainingMinutes <= dataStore.ptmWarningMinutes && remainingMinutes > 0) {
                     urgentIndicator.style.display = 'block';
                     urgentIndicator.innerHTML = `<i class="fas fa-bell"></i> PTM: ${Math.ceil(remainingMinutes)}min left`;
@@ -634,7 +647,6 @@
                     urgentIndicator.style.display = 'none';
                 }
             } else {
-                // Default state - show based on initial PTM
                 if (dataStore.ptmTotalMinutes <= dataStore.ptmWarningMinutes) {
                     urgentIndicator.style.display = 'block';
                     urgentIndicator.innerHTML = `<i class="fas fa-bell"></i> PTM: ${dataStore.ptmTotalMinutes}min`;
@@ -650,12 +662,10 @@
             const timeElement = document.querySelector('.time');
             const dateElement = document.querySelector('.date');
             
-            // Format time
             const hours = now.getHours().toString().padStart(2, '0');
             const minutes = now.getMinutes().toString().padStart(2, '0');
             timeElement.textContent = `${hours}:${minutes}`;
             
-            // Format date
             const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
             dateElement.textContent = now.toLocaleDateString('en-US', options);
         }
@@ -668,7 +678,6 @@
         
         // Load data from memory
         function loadData() {
-            // Update all text fields
             document.querySelector('[data-field="context"] .tag-text').textContent = dataStore.context;
             document.querySelector('[data-field="topic"] .tag-text').textContent = dataStore.topic;
             document.querySelector('[data-field="objective"] .tag-text').textContent = dataStore.objective;
@@ -677,11 +686,9 @@
             document.getElementById('ect-value').textContent = `<${formatMinutesAsTime(dataStore.ectMinutes)}`;
             document.querySelector('[data-field="next"] .tag-text').textContent = dataStore.next;
             
-            // Update progress bar
             const progressBar = document.querySelector('.progress');
             progressBar.style.width = dataStore.progressPercentage + '%';
             
-            // Restore mission state
             if (dataStore.missionActive) {
                 startMission();
             }
@@ -762,10 +769,8 @@
                 const timeString = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
                 document.getElementById('mission-time').textContent = timeString;
                 
-                // Update urgent indicator and progress
                 updateUrgentIndicator();
                 
-                // Update progress bar based on time elapsed
                 const progressPercentage = Math.min(100, (elapsed / (dataStore.ptmTotalMinutes * 60000)) * 100);
                 document.querySelector('.progress').style.width = progressPercentage + '%';
             }
@@ -783,7 +788,6 @@
             document.getElementById('protocol-status').textContent = 'Mission Protocol Active';
             document.getElementById('start-btn').innerHTML = '<i class="fas fa-stop"></i> End Mission';
             
-            // Start mission timer
             missionTimer = setInterval(updateMissionTimer, 1000);
             updateMissionTimer();
         }
@@ -824,12 +828,12 @@
             
             function updateConfigStatus() {
                 document.getElementById('mission-status').textContent = dataStore.missionActive ? 'Yes' : 'No';
-                document.getElementById('mission-status').style.color = dataStore.missionActive ? '#4ecdc4' : '#ff6b6b';
+                document.getElementById('mission-status').style.color = dataStore.missionActive ? '#718096' : '#8a9ba8';
                 document.getElementById('ect-status').textContent = `${dataStore.ectMinutes} min`;
                 
                 let remainingText = '45:00';
                 let alertText = 'Normal';
-                let alertColor = '#4ecdc4';
+                let alertColor = '#718096';
                 
                 if (dataStore.missionActive && dataStore.missionStartTime) {
                     const elapsed = Date.now() - dataStore.missionStartTime;
@@ -841,7 +845,7 @@
                     
                     if (remainingMinutes <= dataStore.ptmWarningMinutes) {
                         alertText = 'WARNING - PTM Expiring';
-                        alertColor = '#ff6b6b';
+                        alertColor = '#8a9ba8';
                     }
                 }
                 
@@ -895,7 +899,6 @@
             
             const configHandlers = setupConfigHandlers();
             
-            // Initial urgent indicator update
             updateUrgentIndicator();
             
             // Start/End Mission button
