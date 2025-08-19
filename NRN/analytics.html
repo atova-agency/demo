@@ -192,12 +192,12 @@
             
             .controls {
                 padding: 10px 12px;
-            }
-            
-            .btn {
-                padding: 10px 15px;
-                font-size: 0.85rem;
-            }
+            flex-direction: column;
+        }
+        
+        .btn {
+            width: 100%;
+        }
             
             .analytics-container {
                 padding: 12px;
@@ -505,8 +505,8 @@
             
             // Button event handlers
             document.getElementById('back-btn').addEventListener('click', function() {
-                alert('Returning to mission control...');
-                // In a real app, this would navigate back to the main screen
+                // NEW: Navigate back to index.html
+                window.location.href = './index.html';
             });
             
             document.getElementById('refresh-btn').addEventListener('click', function() {

@@ -68,12 +68,12 @@
     
     .time-display {
         text-align: center;
-        padding: 15px 0;
+        padding: 0px 0 5px 0; /*15px 0*/
         background: rgba(25, 35, 48, 0.6);
     }
     
     .time-display .time {
-        font-size: 3.5rem;
+        font-size: 3.1rem;
         font-weight: 300;
         letter-spacing: -1px;
         color: #ecf0f1;
@@ -915,6 +915,11 @@
             // Configuration button
             document.getElementById('config-btn').addEventListener('click', function() {
                 configHandlers.openConfigModal();
+            });
+            
+            // Analytics button - NEW CODE
+            document.getElementById('analytics-btn').addEventListener('click', function() {
+                window.location.href = './analytics.html';
             });
         });
     </script>
