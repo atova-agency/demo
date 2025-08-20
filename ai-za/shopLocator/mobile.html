@@ -3,35 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mobile Store Locator - Pavillon Analakely</title>
+    <title>Modern Store Locator - Pavillon Analakely</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <style>
         :root {
-            --tan: #D2B48C;
-            --copper: #B87333;
-            --light-brown: #C19A6B;
-            --yellow: #FFD700;
-            --light-grey: #f5f5f5;
-            --dark-brown: #5D4037;
-            --medium-brown: #8D6E63;
-            --shadow: 0 4px 12px rgba(93, 64, 55, 0.15);
-            --header-height: 70px;
-            --tab-height: 60px;
+            --primary: #2D5BFF;
+            --primary-dark: #1A46E0;
+            --secondary: #FF6B6B;
+            --accent: #FFD166;
+            --light: #F8F9FA;
+            --dark: #212529;
+            --gray: #6C757D;
+            --light-gray: #E9ECEF;
+            --card-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+            --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            transition: all 0.3s ease;
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: var(--light-grey);
-            color: var(--dark-brown);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', sans-serif;
+            background: var(--light);
+            color: var(--dark);
             line-height: 1.6;
             height: 100vh;
             overflow: hidden;
@@ -41,25 +40,16 @@
             display: flex;
             flex-direction: column;
             height: 100vh;
+            position: relative;
         }
 
-        /* Header Styles */
+        /* Header */
         .header {
-            background: linear-gradient(135deg, var(--tan) 0%, var(--light-brown) 100%);
-            padding: 15px;
-            box-shadow: var(--shadow);
+            background: white;
+            padding: 16px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
             position: relative;
             z-index: 100;
-        }
-
-        .header::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 4px;
-            background: linear-gradient(90deg, var(--copper), var(--yellow));
         }
 
         .header-content {
@@ -71,97 +61,93 @@
         .logo {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
 
         .logo-icon {
             font-size: 24px;
-            color: var(--dark-brown);
-        }
-
-        .logo-text {
-            font-size: 1.3rem;
-            font-weight: 700;
-            color: var(--dark-brown);
-        }
-
-        .search-toggle {
-            background: rgba(255, 255, 255, 0.3);
-            border: none;
+            color: var(--primary);
+            background: rgba(45, 91, 255, 0.1);
             width: 40px;
             height: 40px;
-            border-radius: 50%;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: var(--dark-brown);
-            font-size: 18px;
         }
 
-        /* Search Panel */
-        .search-panel {
+        .logo-text {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+
+        /* Search Bar */
+        .search-container {
+            padding: 0 16px 16px;
             background: white;
-            padding: 15px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            position: absolute;
-            top: var(--header-height);
-            left: 0;
-            right: 0;
             z-index: 90;
-            transform: translateY(-100%);
-            transition: transform 0.3s ease;
-        }
-
-        .search-panel.active {
-            transform: translateY(0);
         }
 
         .search-bar {
             display: flex;
-            gap: 10px;
-            margin-bottom: 15px;
+            gap: 12px;
+            position: relative;
+        }
+
+        .search-input-container {
+            flex: 1;
+            position: relative;
         }
 
         .search-input {
-            flex: 1;
-            padding: 12px 15px;
-            border: 2px solid var(--tan);
-            border-radius: 30px;
+            width: 100%;
+            padding: 16px 16px 16px 48px;
+            border: none;
+            border-radius: 16px;
             font-size: 16px;
-            background: white;
+            background: var(--light-gray);
+            color: var(--dark);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+            transition: var(--transition);
         }
 
         .search-input:focus {
             outline: none;
-            border-color: var(--copper);
+            background: white;
+            box-shadow: 0 4px 12px rgba(45, 91, 255, 0.15);
         }
 
-        .btn {
-            padding: 12px 20px;
+        .search-icon {
+            position: absolute;
+            left: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--gray);
+        }
+
+        .action-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
             border: none;
-            border-radius: 30px;
-            font-size: 16px;
-            font-weight: 600;
-            cursor: pointer;
+            background: var(--primary);
+            color: white;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            font-size: 18px;
+            box-shadow: 0 4px 12px rgba(45, 91, 255, 0.3);
+            cursor: pointer;
+            transition: var(--transition);
         }
 
-        .btn-primary {
-            background: linear-gradient(135deg, var(--copper), var(--light-brown));
-            color: white;
-            min-width: 50px;
+        .action-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 6px rgba(45, 91, 255, 0.2);
         }
 
-        .btn-icon {
-            padding: 12px;
-            min-width: auto;
-        }
-
-        /* Map Container */
+        /* Map */
         .map-container {
             flex: 1;
             position: relative;
@@ -170,6 +156,7 @@
         #map {
             width: 100%;
             height: 100%;
+            z-index: 1;
         }
 
         /* Store List Panel */
@@ -179,120 +166,147 @@
             left: 0;
             right: 0;
             background: white;
-            border-radius: 20px 20px 0 0;
-            box-shadow: 0 -4px 20px rgba(0,0,0,0.15);
+            border-radius: 24px 24px 0 0;
+            box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
             height: 40vh;
-            transform: translateY(calc(100% - 60px));
-            transition: transform 0.3s ease;
             z-index: 80;
             display: flex;
             flex-direction: column;
+            transform: translateY(calc(100% - 80px));
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
         }
 
-        .store-list-panel.active {
+        .store-list-panel.expanded {
             transform: translateY(0);
+            height: 70vh;
         }
 
         .panel-header {
-            padding: 15px;
-            border-bottom: 1px solid rgba(181, 155, 125, 0.2);
+            padding: 20px 20px 12px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            cursor: pointer;
+        }
+
+        .panel-drag-handle {
+            width: 40px;
+            height: 5px;
+            background: var(--light-gray);
+            border-radius: 3px;
+            position: absolute;
+            top: 10px;
+            left: 50%;
+            transform: translateX(-50%);
         }
 
         .panel-title {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            color: var(--dark-brown);
+            color: var(--dark);
+            margin-left: 8px;
         }
 
-        .close-panel {
-            background: none;
-            border: none;
-            font-size: 20px;
-            color: var(--medium-brown);
+        .stores-count {
+            background: var(--light-gray);
+            color: var(--gray);
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
         }
 
         .stores-container {
             flex: 1;
             overflow-y: auto;
-            padding: 10px;
+            padding: 0 16px 16px;
         }
 
         .store-item {
-            padding: 15px;
-            border-bottom: 1px solid rgba(181, 155, 125, 0.2);
-            border-radius: 10px;
-            margin-bottom: 10px;
-            background: #faf8f5;
+            padding: 16px;
+            border-radius: 16px;
+            margin-bottom: 12px;
+            background: white;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition);
+            border: 1px solid transparent;
         }
 
         .store-item.active {
-            background: rgba(184, 115, 51, 0.1);
-            border-left: 4px solid var(--copper);
+            border-color: var(--primary);
+            background: rgba(45, 91, 255, 0.03);
         }
 
         .store-name {
-            font-size: 1.1rem;
+            font-size: 1rem;
             font-weight: 600;
-            color: var(--dark-brown);
-            margin-bottom: 5px;
             display: flex;
             justify-content: space-between;
+            margin-bottom: 6px;
         }
 
         .store-distance {
-            background: var(--copper);
+            background: var(--primary);
             color: white;
-            padding: 3px 10px;
-            border-radius: 15px;
+            padding: 4px 10px;
+            border-radius: 12px;
             font-size: 0.8rem;
+            font-weight: 500;
         }
 
         .store-address {
-            color: var(--medium-brown);
-            margin-bottom: 8px;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
+            color: var(--gray);
+            margin-bottom: 12px;
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
         }
 
         .store-meta {
             display: flex;
-            gap: 15px;
-            color: var(--copper);
-            font-size: 0.9rem;
+            gap: 16px;
+            color: var(--gray);
+            font-size: 0.85rem;
             font-weight: 500;
+            margin-bottom: 16px;
         }
 
         .store-meta span {
             display: flex;
             align-items: center;
-            gap: 5px;
+            gap: 4px;
         }
 
         .store-actions {
             display: flex;
-            gap: 10px;
-            margin-top: 15px;
+            gap: 12px;
         }
 
-        .action-btn {
+        .action-button {
             flex: 1;
             padding: 10px;
-            border-radius: 10px;
-            background: rgba(210, 180, 140, 0.2);
+            border-radius: 12px;
+            background: var(--light-gray);
             border: none;
-            color: var(--dark-brown);
-            font-weight: 500;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 6px;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
         }
 
-        .action-btn.directions {
-            background: var(--copper);
+        .action-button.directions {
+            background: var(--primary);
             color: white;
+        }
+
+        .action-button:active {
+            transform: scale(0.98);
         }
 
         /* Filter Panel */
@@ -303,9 +317,9 @@
             left: 0;
             right: 0;
             background: white;
-            z-index: 110;
+            z-index: 200;
             transform: translateX(100%);
-            transition: transform 0.3s ease;
+            transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
             display: flex;
             flex-direction: column;
         }
@@ -315,8 +329,8 @@
         }
 
         .filter-header {
-            padding: 15px;
-            border-bottom: 1px solid rgba(181, 155, 125, 0.2);
+            padding: 20px;
+            border-bottom: 1px solid var(--light-gray);
             display: flex;
             justify-content: space-between;
             align-items: center;
@@ -325,94 +339,145 @@
         .filter-title {
             font-size: 1.3rem;
             font-weight: 600;
-            color: var(--dark-brown);
+            color: var(--dark);
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            color: var(--gray);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .close-btn:active {
+            background: var(--light-gray);
         }
 
         .filter-content {
             flex: 1;
             overflow-y: auto;
-            padding: 20px 15px;
+            padding: 20px;
         }
 
         .filter-group {
-            margin-bottom: 25px;
+            margin-bottom: 24px;
         }
 
         .filter-label {
             display: block;
-            margin-bottom: 12px;
+            font-size: 1rem;
             font-weight: 600;
-            color: var(--dark-brown);
+            color: var(--dark);
+            margin-bottom: 12px;
         }
 
-        .filter-select {
-            width: 100%;
-            padding: 12px 15px;
-            border: 2px solid var(--tan);
-            border-radius: 30px;
-            font-size: 16px;
-            background: white;
-            appearance: none;
-            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235D4037' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
-            background-repeat: no-repeat;
-            background-position: right 15px center;
-            background-size: 16px;
-        }
-
-        .checkbox-group {
+        .filter-options {
             display: flex;
             flex-wrap: wrap;
             gap: 10px;
         }
 
-        .checkbox-label {
-            display: flex;
-            align-items: center;
-            gap: 8px;
+        .filter-option {
+            padding: 10px 16px;
+            border-radius: 12px;
+            background: var(--light-gray);
+            border: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--dark);
             cursor: pointer;
-            padding: 10px 15px;
-            background: rgba(210, 180, 140, 0.2);
-            border-radius: 30px;
+            transition: var(--transition);
         }
 
-        .checkbox-label input {
-            display: none;
-        }
-
-        .custom-checkbox {
-            width: 20px;
-            height: 20px;
-            border: 2px solid var(--copper);
-            border-radius: 5px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        .filter-option.active {
+            background: var(--primary);
             color: white;
         }
 
-        .checkbox-label input:checked + .custom-checkbox {
-            background: var(--copper);
+        .filter-actions {
+            padding: 20px;
+            display: flex;
+            gap: 12px;
+            border-top: 1px solid var(--light-gray);
         }
 
-        .filter-actions {
-            padding: 15px;
+        .btn {
+            flex: 1;
+            padding: 16px;
+            border: none;
+            border-radius: 16px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
             display: flex;
-            gap: 10px;
-            border-top: 1px solid rgba(181, 155, 125, 0.2);
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: var(--transition);
         }
 
         .btn-outline {
             background: transparent;
-            border: 2px solid var(--copper);
-            color: var(--copper);
+            border: 1px solid var(--light-gray);
+            color: var(--gray);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            box-shadow: 0 4px 12px rgba(45, 91, 255, 0.3);
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* Map Controls */
+        .map-controls {
+            position: absolute;
+            bottom: 100px;
+            right: 16px;
+            z-index: 50;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .control-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: white;
+            border: none;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--dark);
+            cursor: pointer;
+            transition: var(--transition);
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
         }
 
         /* Bottom Navigation */
         .bottom-nav {
             display: flex;
-            height: var(--tab-height);
+            height: 70px;
             background: white;
-            box-shadow: 0 -4px 10px rgba(0,0,0,0.1);
+            box-shadow: 0 -4px 10px rgba(0, 0, 0, 0.05);
             z-index: 70;
         }
 
@@ -422,14 +487,15 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            color: var(--medium-brown);
-            font-size: 0.8rem;
+            font-size: 0.75rem;
+            color: var(--gray);
             border-top: 3px solid transparent;
+            transition: var(--transition);
         }
 
         .nav-item.active {
-            color: var(--copper);
-            border-top: 3px solid var(--copper);
+            color: var(--primary);
+            border-top: 3px solid var(--primary);
         }
 
         .nav-icon {
@@ -437,41 +503,53 @@
             margin-bottom: 4px;
         }
 
-        /* Map Controls */
-        .map-controls {
+        /* Loading indicator */
+        .loading {
             position: absolute;
-            bottom: calc(var(--tab-height) + 20px);
-            right: 15px;
-            z-index: 50;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background: white;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
             display: flex;
             flex-direction: column;
-            gap: 10px;
-        }
-
-        .control-btn {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
-            background: white;
-            border: none;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
-            display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 18px;
-            color: var(--dark-brown);
+            gap: 12px;
         }
 
-        /* Responsive adjustments */
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--light-gray);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        /* Desktop card mode */
         @media (min-width: 768px) {
             .app-container {
                 max-width: 500px;
                 margin: 0 auto;
                 height: 95vh;
                 margin-top: 2.5vh;
-                border-radius: 20px;
+                border-radius: 24px;
                 overflow: hidden;
-                box-shadow: 0 0 30px rgba(0,0,0,0.2);
+                box-shadow: 0 0 30px rgba(0, 0, 0, 0.15);
+            }
+            
+            .store-list-panel {
+                width: 400px;
+                right: unset;
+                border-radius: 0 24px 0 0;
             }
         }
     </style>
@@ -482,109 +560,67 @@
         <div class="header">
             <div class="header-content">
                 <div class="logo">
-                    <div class="logo-icon"><i class="fas fa-map-marked-alt"></i></div>
-                    <div class="logo-text">Store Locator</div>
+                    <div class="logo-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div class="logo-text">Store Finder</div>
                 </div>
-                <button class="search-toggle" id="searchToggle">
-                    <i class="fas fa-search"></i>
-                </button>
             </div>
         </div>
 
-        <!-- Search Panel -->
-        <div class="search-panel" id="searchPanel">
+        <!-- Search Container -->
+        <div class="search-container">
             <div class="search-bar">
-                <input type="text" class="search-input" id="locationInput" placeholder="Enter your location...">
-                <button class="btn btn-primary btn-icon" id="locateBtn">
-                    <i class="fas fa-location-arrow"></i>
-                </button>
+                <div class="search-input-container">
+                    <i class="fas fa-search search-icon"></i>
+                    <input type="text" class="search-input" id="locationInput" placeholder="Search for stores...">
+                </div>
+                <button class="action-btn" id="locateBtn"><i class="fas fa-location-arrow"></i></button>
             </div>
-            <button class="btn btn-outline" id="filterToggle">
-                <i class="fas fa-filter"></i> Filter Stores
-            </button>
         </div>
 
-        <!-- Map Container -->
+        <!-- Map -->
         <div class="map-container">
             <div id="map"></div>
-            
-            <!-- Map Controls -->
             <div class="map-controls">
-                <button class="control-btn" id="zoomInBtn">
-                    <i class="fas fa-plus"></i>
-                </button>
-                <button class="control-btn" id="zoomOutBtn">
-                    <i class="fas fa-minus"></i>
-                </button>
-                <button class="control-btn" id="locateBtn2">
-                    <i class="fas fa-location-arrow"></i>
-                </button>
+                <button class="control-btn" id="zoomInBtn"><i class="fas fa-plus"></i></button>
+                <button class="control-btn" id="zoomOutBtn"><i class="fas fa-minus"></i></button>
+                <button class="control-btn" id="locateBtn2"><i class="fas fa-location-arrow"></i></button>
             </div>
         </div>
 
-        <!-- Store List Panel -->
+        <!-- Store List -->
         <div class="store-list-panel" id="storeListPanel">
-            <div class="panel-header">
-                <div class="panel-title">Nearby Stores (5)</div>
-                <button class="close-panel" id="closePanelBtn">
-                    <i class="fas fa-times"></i>
-                </button>
+            <div class="panel-drag-handle"></div>
+            <div class="panel-header" id="panelHeader">
+                <div class="panel-title">Nearby Stores</div>
+                <div class="stores-count" id="storesCount">2 stores</div>
             </div>
-            <div class="stores-container" id="storesContainer">
-                <!-- Stores will be populated here -->
-            </div>
+            <div class="stores-container" id="storesContainer"></div>
         </div>
 
         <!-- Filter Panel -->
         <div class="filter-panel" id="filterPanel">
             <div class="filter-header">
                 <div class="filter-title">Filter Stores</div>
-                <button class="close-panel" id="closeFilterBtn">
-                    <i class="fas fa-times"></i>
-                </button>
+                <button class="close-btn" id="closeFilterBtn"><i class="fas fa-times"></i></button>
             </div>
             <div class="filter-content">
                 <div class="filter-group">
                     <label class="filter-label">Store Type</label>
-                    <select class="filter-select" id="storeTypeFilter">
-                        <option value="all">All Stores</option>
-                        <option value="fashion">Fashion & Apparel</option>
-                        <option value="food">Food & Grocery</option>
-                        <option value="electronics">Electronics & Tech</option>
-                        <option value="jewelry">Jewelry & Accessories</option>
-                    </select>
-                </div>
-                
-                <div class="filter-group">
-                    <label class="filter-label">Services</label>
-                    <div class="checkbox-group">
-                        <label class="checkbox-label">
-                            <input type="checkbox" value="curbside">
-                            <span class="custom-checkbox"><i class="fas fa-check" style="font-size: 12px;"></i></span>
-                            Curbside Pickup
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" value="delivery">
-                            <span class="custom-checkbox"><i class="fas fa-check" style="font-size: 12px;"></i></span>
-                            Delivery
-                        </label>
-                        <label class="checkbox-label">
-                            <input type="checkbox" value="repairs">
-                            <span class="custom-checkbox"><i class="fas fa-check" style="font-size: 12px;"></i></span>
-                            Repairs
-                        </label>
+                    <div class="filter-options">
+                        <button class="filter-option active" data-filter="all">All</button>
+                        <button class="filter-option" data-filter="fashion">Fashion</button>
+                        <button class="filter-option" data-filter="food">Food</button>
+                        <button class="filter-option" data-filter="electronics">Electronics</button>
+                        <button class="filter-option" data-filter="jewelry">Jewelry</button>
                     </div>
                 </div>
-                
                 <div class="filter-group">
                     <label class="filter-label">Distance</label>
-                    <select class="filter-select" id="distanceFilter">
-                        <option value="5">Within 5 km</option>
-                        <option value="10">Within 10 km</option>
-                        <option value="20">Within 20 km</option>
-                        <option value="50">Within 50 km</option>
-                        <option value="100">Any distance</option>
-                    </select>
+                    <div class="filter-options">
+                        <button class="filter-option active" data-distance="5">5 km</button>
+                        <button class="filter-option" data-distance="10">10 km</button>
+                        <button class="filter-option" data-distance="20">20 km</button>
+                    </div>
                 </div>
             </div>
             <div class="filter-actions">
@@ -593,7 +629,7 @@
             </div>
         </div>
 
-        <!-- Bottom Navigation -->
+        <!-- Bottom Nav -->
         <div class="bottom-nav">
             <div class="nav-item active">
                 <div class="nav-icon"><i class="fas fa-map-marker-alt"></i></div>
@@ -604,7 +640,7 @@
                 <div>Stores</div>
             </div>
             <div class="nav-item">
-                <div class="nav-icon"><i class="fas fa-star"></i></div>
+                <div class="nav-icon"><i class="fas fa-heart"></i></div>
                 <div>Favorites</div>
             </div>
             <div class="nav-item">
@@ -617,319 +653,325 @@
     <script>
         // Sample store data
         const stores = [
-            {
-                id: 1,
-                name: "Analakely Main Pavilion",
-                address: "123 Independence Avenue, Antananarivo",
-                type: "fashion",
-                distance: 0.5,
-                services: ["curbside", "delivery"],
-                lat: -18.9075,
-                lng: 47.5219,
-                hours: "9:00 AM - 8:00 PM",
+            { 
+                id: 1, 
+                name: "Analakely Main Pavilion", 
+                address: "123 Independence Avenue, Analakely", 
+                distance: 0.5, 
+                lat: -18.9075, 
+                lng: 47.5219, 
+                hours: "9 AM - 8 PM", 
                 phone: "+261 20 22 123 45",
-                description: "Our flagship location with the widest selection of products and services."
-            },
-            {
-                id: 2,
-                name: "Vanilla & Spices Outlet",
-                address: "45 Spice Market Road, Antananarivo",
-                type: "food",
-                distance: 1.2,
-                services: ["delivery"],
-                lat: -18.9082,
-                lng: 47.5235,
-                hours: "8:00 AM - 7:00 PM",
-                phone: "+261 20 22 456 78",
-                description: "Specializing in premium Madagascar vanilla and exotic spices."
-            },
-            {
-                id: 3,
-                name: "Tech Corner Analakely",
-                address: "78 Innovation Street, Antananarivo",
-                type: "electronics",
-                distance: 0.8,
-                services: ["repairs"],
-                lat: -18.9078,
-                lng: 47.5222,
-                hours: "10:00 AM - 9:00 PM",
-                phone: "+261 20 22 789 01",
-                description: "Your destination for electronics, gadgets, and tech support."
-            },
-            {
-                id: 4,
-                name: "Precious Stones Gallery",
-                address: "22 Gemstone Lane, Antananarivo",
-                type: "jewelry",
-                distance: 1.5,
-                services: [],
-                lat: -18.9065,
-                lng: 47.5241,
-                hours: "10:00 AM - 6:00 PM",
-                phone: "+261 20 22 234 56",
-                description: "Exquisite jewelry featuring Madagascar's unique gemstones."
-            },
-            {
-                id: 5,
-                name: "Lamba Textile Studio",
-                address: "56 Artisan Way, Antananarivo",
                 type: "fashion",
-                distance: 2.3,
-                services: ["delivery"],
-                lat: -18.9058,
-                lng: 47.5207,
-                hours: "9:30 AM - 7:30 PM",
-                phone: "+261 20 22 345 67",
-                description: "Traditional Malagasy textiles and custom fabric designs."
+                rating: 4.5
+            },
+            { 
+                id: 2, 
+                name: "Tech Corner Analakely", 
+                address: "78 Innovation Street, Analakely", 
+                distance: 0.8, 
+                lat: -18.9078, 
+                lng: 47.5222, 
+                hours: "10 AM - 9 PM", 
+                phone: "+261 20 22 789 01",
+                type: "electronics",
+                rating: 4.2
+            },
+            { 
+                id: 3, 
+                name: "Gourmet Delights", 
+                address: "45 Food Court, Analakely", 
+                distance: 1.2, 
+                lat: -18.9082, 
+                lng: 47.5230, 
+                hours: "8 AM - 10 PM", 
+                phone: "+261 20 22 456 78",
+                type: "food",
+                rating: 4.7
+            },
+            { 
+                id: 4, 
+                name: "Sparkle Jewelers", 
+                address: "9 Gem Avenue, Analakely", 
+                distance: 1.5, 
+                lat: -18.9068, 
+                lng: 47.5205, 
+                hours: "10 AM - 7 PM", 
+                phone: "+261 20 22 987 65",
+                type: "jewelry",
+                rating: 4.8
             }
         ];
 
-        // Initialize the map
+        // Initialize map
         const map = L.map('map').setView([-18.9075, 47.5219], 15);
-
-        // Add tile layer (OpenStreetMap)
         L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+            attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // Store markers
-        let markers = [];
+        // Custom icon for markers
+        const storeIcon = L.divIcon({
+            className: 'store-marker',
+            html: '<div style="background-color: #2D5BFF; width: 24px; height: 24px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"></div>',
+            iconSize: [24, 24],
+            iconAnchor: [12, 12]
+        });
+
+        const activeStoreIcon = L.divIcon({
+            className: 'active-store-marker',
+            html: '<div style="background-color: #FF6B6B; width: 32px; height: 32px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 10px rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center;"><i class="fas fa-store" style="color: white; font-size: 12px;"></i></div>',
+            iconSize: [32, 32],
+            iconAnchor: [16, 16]
+        });
+
         let activeStore = null;
-
-        // DOM Elements
-        const searchPanel = document.getElementById('searchPanel');
+        let markers = [];
         const storeListPanel = document.getElementById('storeListPanel');
-        const filterPanel = document.getElementById('filterPanel');
         const storesContainer = document.getElementById('storesContainer');
-        const searchToggle = document.getElementById('searchToggle');
-        const closePanelBtn = document.getElementById('closePanelBtn');
-        const filterToggle = document.getElementById('filterToggle');
-        const closeFilterBtn = document.getElementById('closeFilterBtn');
-        const locateBtn = document.getElementById('locateBtn');
-        const locateBtn2 = document.getElementById('locateBtn2');
-        const zoomInBtn = document.getElementById('zoomInBtn');
-        const zoomOutBtn = document.getElementById('zoomOutBtn');
-        const applyFiltersBtn = document.getElementById('applyFiltersBtn');
-        const resetFiltersBtn = document.getElementById('resetFiltersBtn');
+        const storesCount = document.getElementById('storesCount');
 
-        // Function to render stores in the list
-        function renderStores(storesToRender) {
+        // Render stores list
+        function renderStores(storeList = stores) {
             storesContainer.innerHTML = '';
+            storesCount.textContent = `${storeList.length} stores`;
             
-            storesToRender.forEach(store => {
-                const storeItem = document.createElement('div');
-                storeItem.className = 'store-item';
-                if (store.id === activeStore?.id) {
-                    storeItem.classList.add('active');
-                }
-                
-                storeItem.innerHTML = `
+            storeList.forEach(store => {
+                const div = document.createElement('div');
+                div.className = 'store-item' + (activeStore?.id === store.id ? ' active' : '');
+                div.innerHTML = `
                     <div class="store-name">
                         <span>${store.name}</span>
                         <span class="store-distance">${store.distance} km</span>
                     </div>
-                    <div class="store-address">${store.address}</div>
+                    <div class="store-address">
+                        <i class="fas fa-map-marker-alt" style="font-size: 12px;"></i>
+                        ${store.address}
+                    </div>
                     <div class="store-meta">
                         <span><i class="fas fa-clock"></i> ${store.hours}</span>
                         <span><i class="fas fa-phone"></i> ${store.phone}</span>
+                        <span><i class="fas fa-star"></i> ${store.rating}</span>
                     </div>
                     <div class="store-actions">
-                        <button class="action-btn">
-                            <i class="fas fa-info-circle"></i> Details
+                        <button class="action-button">
+                            <i class="fas fa-heart"></i> Save
                         </button>
-                        <button class="action-btn directions">
-                            <i class="fas fa-directions"></i> Directions
+                        <button class="action-button directions">
+                            <i class="fas fa-route"></i> Directions
                         </button>
                     </div>
                 `;
-                
-                storeItem.addEventListener('click', () => {
-                    // Set as active store
+                div.addEventListener('click', () => {
                     activeStore = store;
-                    
-                    // Center map on store
                     map.setView([store.lat, store.lng], 17);
-                    
-                    // Highlight store in list
-                    document.querySelectorAll('.store-item').forEach(item => {
-                        item.classList.remove('active');
-                    });
-                    storeItem.classList.add('active');
-                    
-                    // Close the store list panel
-                    storeListPanel.classList.remove('active');
+                    renderStores(storeList);
+                    updateMarkers(storeList);
                 });
-                
-                storesContainer.appendChild(storeItem);
+                storesContainer.appendChild(div);
             });
         }
 
-        // Function to add markers to the map
-        function addMarkers(storesToRender) {
-            // Clear previous markers
+        // Add markers to map
+        function addMarkers(storeList = stores) {
             markers.forEach(marker => map.removeLayer(marker));
             markers = [];
             
-            storesToRender.forEach(store => {
+            storeList.forEach(store => {
                 const marker = L.marker([store.lat, store.lng], {
-                    icon: L.divIcon({
-                        className: 'store-marker',
-                        html: `<div style="background: ${store.id === activeStore?.id ? 'var(--copper)' : 'var(--light-brown)'}; width: 24px; height: 24px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold;">${store.id}</div>`,
-                        iconSize: [24, 24],
-                        iconAnchor: [12, 12]
-                    })
+                    icon: activeStore?.id === store.id ? activeStoreIcon : storeIcon
                 }).addTo(map);
                 
                 marker.bindPopup(`
-                    <div style="min-width: 200px;">
-                        <b>${store.name}</b><br>
-                        <small>${store.address}</small><br>
-                        <div style="margin-top: 8px; display: flex; gap: 10px;">
-                            <button onclick="getDirections(${store.lat}, ${store.lng})" style="background: var(--copper); color: white; border: none; padding: 5px 10px; border-radius: 5px; cursor: pointer;">
-                                <i class="fas fa-directions"></i> Directions
-                            </button>
-                        </div>
+                    <div style="padding: 8px;">
+                        <strong>${store.name}</strong><br>
+                        ${store.address}<br>
+                        <small>${store.distance} km away</small>
                     </div>
                 `);
                 
                 marker.on('click', () => {
-                    // Set as active store
                     activeStore = store;
-                    
-                    // Update store list
-                    renderStores(stores);
-                    
-                    // Open store list panel
-                    storeListPanel.classList.add('active');
+                    renderStores(storeList);
+                    updateMarkers(storeList);
+                    storeListPanel.classList.add('expanded');
                 });
                 
                 markers.push(marker);
             });
         }
 
-        // Function to get user location
-        function getUserLocation() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(position => {
-                    const userLat = position.coords.latitude;
-                    const userLng = position.coords.longitude;
-                    
-                    // Add user marker
-                    const userMarker = L.marker([userLat, userLng], {
-                        icon: L.divIcon({
-                            className: 'user-location-marker',
-                            html: '<div style="background: #4A90E2; width: 24px; height: 24px; border-radius: 50%; border: 3px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.3);"></div>',
-                            iconSize: [24, 24],
-                            iconAnchor: [12, 12]
-                        })
-                    }).addTo(map);
-                    
-                    userMarker.bindPopup("<b>Your Location</b>").openPopup();
-                    
-                    // Center map on user location
-                    map.setView([userLat, userLng], 15);
-                    
-                    // Open store list panel
-                    storeListPanel.classList.add('active');
-                    
-                    // Update stores with distance from user
-                    const storesWithDistance = stores.map(store => {
-                        // Simple distance calculation (for demo)
-                        const distance = Math.sqrt(
-                            Math.pow(store.lat - userLat, 2) + 
-                            Math.pow(store.lng - userLng, 2)
-                        ) * 111; // approx km per degree
-                        
-                        return {
-                            ...store,
-                            distance: distance.toFixed(1)
-                        };
-                    });
-                    
-                    // Sort by distance
-                    storesWithDistance.sort((a, b) => a.distance - b.distance);
-                    
-                    // Render stores
-                    renderStores(storesWithDistance);
-                    addMarkers(storesWithDistance);
-                }, error => {
-                    alert('Unable to retrieve your location. Please enter your location manually.');
-                });
+        // Update markers without recreating them
+        function updateMarkers(storeList = stores) {
+            markers.forEach(marker => {
+                const store = storeList.find(s => 
+                    s.lat === marker.getLatLng().lat && 
+                    s.lng === marker.getLatLng().lng
+                );
+                
+                if (store) {
+                    marker.setIcon(activeStore?.id === store.id ? activeStoreIcon : storeIcon);
+                }
+            });
+        }
+
+        // Initialize
+        renderStores();
+        addMarkers();
+
+        // Panel drag functionality
+        const panelHeader = document.getElementById('panelHeader');
+        let startY = 0;
+        let initialTranslate = 0;
+
+        panelHeader.addEventListener('touchstart', function(e) {
+            startY = e.touches[0].clientY;
+            initialTranslate = storeListPanel.classList.contains('expanded') ? 0 : (storeListPanel.offsetHeight - 80);
+            e.preventDefault();
+        });
+
+        panelHeader.addEventListener('touchmove', function(e) {
+            const currentY = e.touches[0].clientY;
+            const diff = currentY - startY;
+            let newTranslate = initialTranslate + diff;
+            
+            // Constrain movement
+            newTranslate = Math.max(0, Math.min(newTranslate, storeListPanel.offsetHeight - 80));
+            
+            storeListPanel.style.transform = `translateY(${newTranslate}px)`;
+            e.preventDefault();
+        });
+
+        panelHeader.addEventListener('touchend', function(e) {
+            const currentTranslate = parseInt(storeListPanel.style.transform.replace('translateY(', '').replace('px)', '') || (storeListPanel.offsetHeight - 80));
+            
+            // Determine if we should expand or collapse based on movement velocity
+            if (currentTranslate < (storeListPanel.offsetHeight - 80) / 2) {
+                storeListPanel.classList.add('expanded');
+                storeListPanel.style.transform = 'translateY(0)';
             } else {
-                alert('Geolocation is not supported by your browser. Please enter your location manually.');
+                storeListPanel.classList.remove('expanded');
+                storeListPanel.style.transform = `translateY(${storeListPanel.offsetHeight - 80}px)`;
+            }
+            
+            e.preventDefault();
+        });
+
+        // Click to toggle panel
+        panelHeader.addEventListener('click', function(e) {
+            storeListPanel.classList.toggle('expanded');
+        });
+
+        // Map controls
+        document.getElementById('zoomInBtn').addEventListener('click', () => map.zoomIn());
+        document.getElementById('zoomOutBtn').addEventListener('click', () => map.zoomOut());
+        document.getElementById('locateBtn').addEventListener('click', locateUser);
+        document.getElementById('locateBtn2').addEventListener('click', locateUser);
+
+        // Filter functionality
+        document.querySelectorAll('.filter-option').forEach(option => {
+            option.addEventListener('click', function() {
+                // For store type options
+                if (this.parentElement.classList.contains('filter-options')) {
+                    this.parentElement.querySelectorAll('.filter-option').forEach(btn => {
+                        btn.classList.remove('active');
+                    });
+                    this.classList.add('active');
+                }
+            });
+        });
+
+        document.getElementById('applyFiltersBtn').addEventListener('click', function() {
+            const selectedFilter = document.querySelector('.filter-options .filter-option.active').dataset.filter;
+            let filteredStores = stores;
+            
+            if (selectedFilter !== 'all') {
+                filteredStores = stores.filter(store => store.type === selectedFilter);
+            }
+            
+            renderStores(filteredStores);
+            addMarkers(filteredStores);
+            document.getElementById('filterPanel').classList.remove('active');
+        });
+
+        document.getElementById('resetFiltersBtn').addEventListener('click', function() {
+            document.querySelectorAll('.filter-option').forEach(option => {
+                if (option.dataset.filter === 'all' || option.dataset.distance === '5') {
+                    option.classList.add('active');
+                } else {
+                    option.classList.remove('active');
+                }
+            });
+        });
+
+        document.getElementById('closeFilterBtn').addEventListener('click', function() {
+            document.getElementById('filterPanel').classList.remove('active');
+        });
+
+        // Open filter panel
+        document.getElementById('locateBtn').addEventListener('click', function() {
+            document.getElementById('filterPanel').classList.add('active');
+        });
+
+        // Locate user function
+        function locateUser() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        const userLat = position.coords.latitude;
+                        const userLng = position.coords.longitude;
+                        
+                        // Add user location marker
+                        L.marker([userLat, userLng], {
+                            icon: L.divIcon({
+                                className: 'user-marker',
+                                html: '<div style="background-color: #FF6B6B; width: 24px; height: 24px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"></div>',
+                                iconSize: [24, 24],
+                                iconAnchor: [12, 12]
+                            })
+                        }).addTo(map).bindPopup('Your location').openPopup();
+                        
+                        // Center map on user
+                        map.setView([userLat, userLng], 15);
+                    },
+                    function(error) {
+                        alert('Unable to get your location. Please make sure location services are enabled.');
+                    }
+                );
+            } else {
+                alert('Geolocation is not supported by your browser.');
             }
         }
 
-        // Function to get directions
-        function getDirections(lat, lng) {
-            const url = `https://www.google.com/maps/dir/?api=1&destination=${lat},${lng}&travelmode=driving`;
-            window.open(url, '_blank');
-        }
+        // Search functionality
+        const searchInput = document.getElementById('locationInput');
+        searchInput.addEventListener('input', function() {
+            const searchTerm = this.value.toLowerCase();
+            if (searchTerm.length > 2) {
+                const filteredStores = stores.filter(store => 
+                    store.name.toLowerCase().includes(searchTerm) || 
+                    store.address.toLowerCase().includes(searchTerm)
+                );
+                renderStores(filteredStores);
+                addMarkers(filteredStores);
+            } else if (searchTerm.length === 0) {
+                renderStores();
+                addMarkers();
+            }
+        });
 
-        // Initialize the page
-        document.addEventListener('DOMContentLoaded', function() {
-            // Render initial stores
-            const storesWithDistance = stores.map(store => ({
-                ...store,
-                distance: store.distance.toFixed(1)
-            }));
-            renderStores(storesWithDistance);
-            addMarkers(storesWithDistance);
-            
-            // Open store list panel by default
-            setTimeout(() => {
-                storeListPanel.classList.add('active');
-            }, 1000);
-            
-            // Event listeners
-            searchToggle.addEventListener('click', () => {
-                searchPanel.classList.toggle('active');
-            });
-            
-            closePanelBtn.addEventListener('click', () => {
-                storeListPanel.classList.remove('active');
-            });
-            
-            filterToggle.addEventListener('click', () => {
-                filterPanel.classList.add('active');
-            });
-            
-            closeFilterBtn.addEventListener('click', () => {
-                filterPanel.classList.remove('active');
-            });
-            
-            locateBtn.addEventListener('click', getUserLocation);
-            locateBtn2.addEventListener('click', getUserLocation);
-            
-            zoomInBtn.addEventListener('click', () => {
-                map.zoomIn();
-            });
-            
-            zoomOutBtn.addEventListener('click', () => {
-                map.zoomOut();
-            });
-            
-            applyFiltersBtn.addEventListener('click', () => {
-                filterPanel.classList.remove('active');
-                // In a real app, you would filter stores here
-            });
-            
-            resetFiltersBtn.addEventListener('click', () => {
-                document.getElementById('storeTypeFilter').value = 'all';
-                document.getElementById('distanceFilter').value = '5';
-                document.querySelectorAll('.checkbox-group input[type="checkbox"]').forEach(checkbox => {
-                    checkbox.checked = false;
+        // Bottom nav functionality
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(nav => {
+                    nav.classList.remove('active');
                 });
+                this.classList.add('active');
+                
+                // If stores tab is clicked, expand the panel
+                if (this.querySelector('.nav-icon').classList.contains('fa-list')) {
+                    storeListPanel.classList.add('expanded');
+                }
             });
-            
-            // Simulate loading stores
-            setTimeout(() => {
-                const loadingStores = document.querySelectorAll('.store-item');
-                loadingStores.forEach(store => {
-                    store.style.opacity = '1';
-                    store.style.transform = 'translateY(0)';
-                });
-            }, 500);
         });
     </script>
 </body>
