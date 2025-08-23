@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mindful Relief - Emotional First Aid</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #e0f7fa 0%, #bbdefb 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            color: #37474f;
+        }
+        
+        .container {
+            max-width: 900px;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            margin: 20px 0;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        h1 {
+            color: #1565c0;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+        
+        h2 {
+            color: #1976d2;
+            margin: 25px 0 15px;
+            font-weight: 500;
+        }
+        
+        p {
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        
+        .section {
+            margin-bottom: 40px;
+        }
+        
+        /* Overwhelm Reset Section */
+        .reset-protocol {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+        
+        .step {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .step:hover {
+            transform: translateY(-5px);
+        }
+        
+        .step-number {
+            display: inline-block;
+            width: 30px;
+            height: 30px;
+            background: #2196f3;
+            color: white;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 30px;
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        
+        .step-title {
+            font-weight: 600;
+            color: #1565c0;
+            margin-bottom: 10px;
+        }
+        
+        .breathing-circle {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            margin: 20px auto;
+            background: #e3f2fd;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 3px solid #bbdefb;
+            transition: all 0.4s ease-in-out;
+        }
+        
+        .breath-text {
+            font-size: 18px;
+            font-weight: 500;
+        }
+        
+        .btn {
+            background: #2196f3;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 50px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            display: inline-block;
+            margin-top: 10px;
+            align-self: center;
+        }
+        
+        .btn:hover {
+            background: #1565c0;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 10px rgba(21, 101, 192, 0.3);
+        }
+        
+        /* Timer Section */
+        .timer-container {
+            text-align: center;
+            padding: 20px;
+            background: #e3f2fd;
+            border-radius: 15px;
+            margin-top: 20px;
+        }
+        
+        .timer-display {
+            font-size: 80px;
+            font-weight: 300;
+            color: #1565c0;
+            margin: 20px 0;
+            font-variant-numeric: tabular-nums;
+        }
+        
+        .timer-controls {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .timer-btn {
+            padding: 12px 25px;
+            font-size: 16px;
+            border-radius: 50px;
+            cursor: pointer;
+            border: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .start-btn {
+            background: #4caf50;
+            color: white;
+        }
+        
+        .start-btn:hover {
+            background: #388e3c;
+        }
+        
+        .pause-btn {
+            background: #ff9800;
+            color: white;
+        }
+        
+        .pause-btn:hover {
+            background: #f57c00;
+        }
+        
+        .reset-btn {
+            background: #f44336;
+            color: white;
+        }
+        
+        .reset-btn:hover {
+            background: #d32f2f;
+        }
+        
+        .time-input {
+            padding: 10px;
+            border: 2px solid #bbdefb;
+            border-radius: 50px;
+            text-align: center;
+            font-size: 16px;
+            width: 100px;
+            margin: 0 10px;
+        }
+        
+        /* Checklist Styles */
+        .checklist {
+            margin: 15px 0;
+        }
+        
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        
+        .checklist-item input[type="checkbox"] {
+            margin-right: 10px;
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+        
+        .checklist-item label {
+            cursor: pointer;
+            font-size: 16px;
+        }
+        
+        /* Exercise Steps */
+        .exercise-steps {
+            margin-top: 15px;
+            text-align: center;
+            min-height: 80px;
+        }
+        
+        .step-indicator {
+            font-size: 18px;
+            font-weight: 500;
+            color: #1565c0;
+            margin-bottom: 10px;
+        }
+        
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .reset-protocol {
+                grid-template-columns: 1fr;
+            }
+            
+            .timer-display {
+                font-size: 60px;
+            }
+            
+            .timer-controls {
+                flex-wrap: wrap;
+            }
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 30px;
+            color: #546e7a;
+            font-size: 14px;
+        }
+        
+        .help-text {
+            background: #fff3e0;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 20px 0;
+            border-left: 4px solid #ff9800;
+        }
+        
+        .completed {
+            text-decoration: line-through;
+            color: #78909c;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Mindful Relief</h1>
+            <p>An interactive tool for emotional regulation and mindfulness practice</p>
+        </header>
+        
+        <div class="section">
+            <h2>Overwhelm Reset Protocol</h2>
+            <p>When you're feeling overwhelmed with intense emotions, follow these steps to regain balance:</p>
+            
+            <div class="help-text">
+                <p>💡 <strong>Remember:</strong> What you're feeling is temporary. This protocol can help you through intense moments.</p>
+            </div>
+            
+            <div class="reset-protocol">
+                <div class="step">
+                    <h3><span class="step-number">1</span> <span class="step-title">Breathe</span></h3>
+                    <p>4 in • 4 hold • 4 out • 4 hold (repeat 3 times)</p>
+                    <div class="breathing-circle" id="breathingCircle">
+                        <span class="breath-text" id="breathText">Click Start</span>
+                    </div>
+                    <button class="btn" id="startBreathing">Start Breathing</button>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">2</span> <span class="step-title">Ground</span></h3>
+                    <p>Name 3 things you can see, hear, and touch around you.</p>
+                    <div class="checklist">
+                        <div class="checklist-item">
+                            <input type="checkbox" id="see1">
+                            <label for="see1">3 things you see</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="hear1">
+                            <label for="hear1">3 things you hear</label>
+                        </div>
+                        <div class="checklist-item">
+                            <input type="checkbox" id="touch1">
+                            <label for="touch1">3 things you feel</label>
+                        </div>
+                    </div>
+                    <button class="btn" id="saveGrounding">Done</button>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">3</span> <span class="step-title">Body</span></h3>
+                    <p>Press your feet firmly into the floor. Squeeze and release your fists.</p>
+                    <button class="btn" id="startBodyExercise">Start Exercise</button>
+                    <div class="exercise-steps" id="bodyExerciseInfo">
+                        <p>Click "Start Exercise" to begin</p>
+                    </div>
+                </div>
+                
+                <div class="step">
+                    <h3><span class="step-number">4</span> <span class="step-title">Affirm</span></h3>
+                    <p>Repeat these phrases: "This will pass" / "I'm safe now"</p>
+                    <button class="btn" id="startAffirmation">Start Affirmation</button>
+                    <div class="exercise-steps" id="affirmationText"></div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <h2>Mindfulness Timer</h2>
+            <p>Set a timer for your mindfulness meditation practice. Default is 20 minutes.</p>
+            
+            <div class="timer-container">
+                <div class="timer-display" id="timer">20:00</div>
+                
+                <div class="timer-controls">
+                    <button class="timer-btn start-btn" id="startTimer">Start</button>
+                    <button class="timer-btn pause-btn" id="pauseTimer">Pause</button>
+                    <button class="timer-btn reset-btn" id="resetTimer">Reset</button>
+                </div>
+                
+                <div>
+                    <label for="minutes">Set minutes: </label>
+                    <input type="number" id="minutes" class="time-input" min="1" max="60" value="20">
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>This tool is designed to help with emotional regulation and mindfulness practice.</p>
+            <p>If you're in crisis, please reach out to a mental health professional or crisis hotline.</p>
+        </footer>
+    </div>
+
+    <script>
+        // Breathing Exercise
+        const breathingCircle = document.getElementById('breathingCircle');
+        const breathText = document.getElementById('breathText');
+        const startBreathingBtn = document.getElementById('startBreathing');
+        
+        let breathingInterval;
+        let isBreathingActive = false;
+        
+        startBreathingBtn.addEventListener('click', function() {
+            if (isBreathingActive) {
+                clearInterval(breathingInterval);
+                isBreathingActive = false;
+                startBreathingBtn.textContent = 'Start Breathing';
+                breathText.textContent = 'Click Start';
+                breathingCircle.style.transform = 'scale(1)';
+                return;
+            }
+            
+            isBreathingActive = true;
+            startBreathingBtn.textContent = 'Stop Breathing';
+            
+            const phases = [
+                {text: 'Breathe In', duration: 4000, scale: 1.5},
+                {text: 'Hold', duration: 4000, scale: 1.5},
+                {text: 'Breathe Out', duration: 4000, scale: 1},
+                {text: 'Hold', duration: 4000, scale: 1}
+            ];
+            
+            let phaseIndex = 0;
+            let cycleCount = 0;
+            
+            function runBreathingCycle() {
+                const phase = phases[phaseIndex];
+                breathText.textContent = phase.text;
+                
+                breathingCircle.style.transition = `all ${phase.duration}ms ease-in-out`;
+                breathingCircle.style.transform = `scale(${phase.scale})`;
+                
+                phaseIndex++;
+                
+                if (phaseIndex >= phases.length) {
+                    phaseIndex = 0;
+                    cycleCount++;
+                    
+                    if (cycleCount >= 3) {
+                        clearInterval(breathingInterval);
+                        isBreathingActive = false;
+                        startBreathingBtn.textContent = 'Start Breathing';
+                        breathText.textContent = 'Complete!';
+                        setTimeout(() => {
+                            breathText.textContent = 'Click Start';
+                            breathingCircle.style.transform = 'scale(1)';
+                        }, 2000);
+                        return;
+                    }
+                }
+            }
+            
+            runBreathingCycle();
+            breathingInterval = setInterval(runBreathingCycle, 4000);
+        });
+        
+        // Grounding Exercise
+        const saveGroundingBtn = document.getElementById('saveGrounding');
+        const checkboxes = document.querySelectorAll('.checklist-item input');
+        
+        saveGroundingBtn.addEventListener('click', function() {
+            let allChecked = true;
+            
+            checkboxes.forEach(checkbox => {
+                if (!checkbox.checked) {
+                    allChecked = false;
+                }
+            });
+            
+            if (allChecked) {
+                saveGroundingBtn.textContent = 'Completed!';
+                saveGroundingBtn.style.background = '#4caf50';
+                
+                // Add line-through to labels
+                document.querySelectorAll('.checklist-item label').forEach(label => {
+                    label.classList.add('completed');
+                });
+                
+                setTimeout(() => {
+                    saveGroundingBtn.textContent = 'Done';
+                    saveGroundingBtn.style.background = '#2196f3';
+                    
+                    // Uncheck checkboxes and remove line-through
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = false;
+                    });
+                    document.querySelectorAll('.checklist-item label').forEach(label => {
+                        label.classList.remove('completed');
+                    });
+                }, 3000);
+            } else {
+                saveGroundingBtn.textContent = 'Complete All Items';
+                saveGroundingBtn.style.background = '#f44336';
+                
+                setTimeout(() => {
+                    saveGroundingBtn.textContent = 'Done';
+                    saveGroundingBtn.style.background = '#2196f3';
+                }, 2000);
+            }
+        });
+        
+        // Body Exercise
+        const startBodyExerciseBtn = document.getElementById('startBodyExercise');
+        const bodyExerciseInfo = document.getElementById('bodyExerciseInfo');
+        
+        startBodyExerciseBtn.addEventListener('click', function() {
+            const steps = [
+                "Press your feet firmly into the floor",
+                "Hold for 5 seconds...",
+                "Release and notice the sensation",
+                "Clench your fists tightly",
+                "Hold for 5 seconds...",
+                "Release and notice the sensation",
+                "Repeat one more time",
+                "Press feet firmly again",
+                "Hold for 5 seconds...",
+                "Release and notice the sensation",
+                "Clench fists tightly again",
+                "Hold for 5 seconds...",
+                "Release and notice the sensation",
+                "Exercise complete! Notice how your body feels"
+            ];
+            
+            let index = 0;
+            bodyExerciseInfo.innerHTML = `<p class="step-indicator">Step ${index+1}/${steps.length}</p><p>${steps[index]}</p>`;
+            
+            startBodyExerciseBtn.textContent = 'Next';
+            startBodyExerciseBtn.disabled = true;
+            
+            const interval = setInterval(() => {
+                index++;
+                if (index >= steps.length) {
+                    clearInterval(interval);
+                    startBodyExerciseBtn.textContent = 'Start Exercise';
+                    startBodyExerciseBtn.disabled = false;
+                    return;
+                }
+                bodyExerciseInfo.innerHTML = `<p class="step-indicator">Step ${index+1}/${steps.length}</p><p>${steps[index]}</p>`;
+            }, 5000);
+        });
+        
+        // Affirmation Exercise
+        const startAffirmationBtn = document.getElementById('startAffirmation');
+        const affirmationText = document.getElementById('affirmationText');
+        
+        startAffirmationBtn.addEventListener('click', function() {
+            const affirmations = [
+                "This will pass",
+                "I'm safe now",
+                "I am in control of my breathing",
+                "This feeling is temporary",
+                "I am grounded in this moment",
+                "I am stronger than these emotions",
+                "I allow myself to feel without judgment"
+            ];
+            
+            let index = 0;
+            affirmationText.innerHTML = `<p class="step-indicator">${index+1}/${affirmations.length}</p><p>${affirmations[index]}</p>`;
+            
+            const interval = setInterval(() => {
+                index++;
+                if (index >= affirmations.length) {
+                    clearInterval(interval);
+                    startAffirmationBtn.textContent = 'Start Affirmation';
+                    setTimeout(() => {
+                        affirmationText.innerHTML = '';
+                    }, 3000);
+                    return;
+                }
+                affirmationText.innerHTML = `<p class="step-indicator">${index+1}/${affirmations.length}</p><p>${affirmations[index]}</p>`;
+            }, 3000);
+            
+            startAffirmationBtn.textContent = 'Affirming...';
+        });
+        
+        // Mindfulness Timer
+        const timerDisplay = document.getElementById('timer');
+        const startTimerBtn = document.getElementById('startTimer');
+        const pauseTimerBtn = document.getElementById('pauseTimer');
+        const resetTimerBtn = document.getElementById('resetTimer');
+        const minutesInput = document.getElementById('minutes');
+        
+        let timerInterval;
+        let totalSeconds = 20 * 60;
+        let isTimerRunning = false;
+        
+        function updateTimerDisplay() {
+            const minutes = Math.floor(totalSeconds / 60);
+            const seconds = totalSeconds % 60;
+            timerDisplay.textContent = `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        function startTimer() {
+            if (isTimerRunning) return;
+            
+            isTimerRunning = true;
+            timerInterval = setInterval(() => {
+                if (totalSeconds > 0) {
+                    totalSeconds--;
+                    updateTimerDisplay();
+                } else {
+                    clearInterval(timerInterval);
+                    isTimerRunning = false;
+                    timerDisplay.style.color = '#d32f2f';
+                    // Play a chime sound when timer completes (simulated with alert for this example)
+                    alert('Mindfulness session complete! Take a moment to notice how you feel.');
+                }
+            }, 1000);
+        }
+        
+        function pauseTimer() {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+        }
+        
+        function resetTimer() {
+            clearInterval(timerInterval);
+            isTimerRunning = false;
+            totalSeconds = parseInt(minutesInput.value) * 60;
+            timerDisplay.style.color = '#1565c0';
+            updateTimerDisplay();
+        }
+        
+        startTimerBtn.addEventListener('click', startTimer);
+        pauseTimerBtn.addEventListener('click', pauseTimer);
+        resetTimerBtn.addEventListener('click', resetTimer);
+        
+        minutesInput.addEventListener('change', function() {
+            if (!isTimerRunning) {
+                resetTimer();
+            }
+        });
+        
+        // Initialize timer display
+        updateTimerDisplay();
+    </script>
+</body>
+</html>
