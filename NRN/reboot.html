@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sense-Reset-Go Protocol</title>
+    <style>
+        :root {
+            --primary: #2c3e50;
+            --accent: #e74c3c;
+            --light: #ecf0f1;
+            --dark: #1a2530;
+            --success: #27ae60;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--dark);
+            color: var(--light);
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(to right, var(--primary), var(--dark));
+            padding: 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        
+        nav li {
+            margin: 0 15px;
+        }
+        
+        nav a {
+            color: var(--light);
+            text-decoration: none;
+            font-weight: bold;
+            padding: 5px 10px;
+            border-radius: 4px;
+            transition: background-color 0.3s;
+        }
+        
+        nav a:hover, nav a.active {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .page {
+            display: none;
+            animation: fadeIn 0.5s ease-in;
+        }
+        
+        .page.active {
+            display: block;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        h1, h2, h3 {
+            margin-bottom: 1rem;
+            color: var(--accent);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            margin: 2rem 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        h2 {
+            font-size: 2rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.5rem;
+            margin-top: 2rem;
+        }
+        
+        h3 {
+            font-size: 1.5rem;
+            color: var(--light);
+            margin-top: 1.5rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        .card {
+            background-color: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-left: 4px solid var(--accent);
+        }
+        
+        .protocol-step {
+            display: flex;
+            align-items: flex-start;
+            margin: 1.5rem 0;
+        }
+        
+        .step-number {
+            background-color: var(--accent);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin-right: 1rem;
+            flex-shrink: 0;
+        }
+        
+        .step-content {
+            flex: 1;
+        }
+        
+        .terminal {
+            background-color: black;
+            color: #00ff00;
+            font-family: 'Courier New', monospace;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+        }
+        
+        .command {
+            color: var(--accent);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--accent);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: #c0392b;
+        }
+        
+        .protocol-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin: 2rem 0;
+        }
+        
+        .protocol-card {
+            background: linear-gradient(to bottom right, var(--primary), var(--dark));
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+        }
+        
+        .protocol-card h3 {
+            color: var(--accent);
+            margin-top: 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding-bottom: 0.5rem;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            nav li {
+                margin: 5px 0;
+            }
+            
+            .protocol-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                <li><a href="#" class="nav-link" data-page="technical">Technical Guide</a></li>
+                <li><a href="#" class="nav-link" data-page="minimalist">Minimalist Version</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <!-- Home Page -->
+        <div id="home" class="page active">
+            <h1>TERMINATOR PROTOCOL: ACTIVATED</h1>
+            
+            <div class="terminal">
+                <p>SYSTEM BOOTING...</p>
+                <p>INITIALIZING SENSE-RESET-GO PROTOCOL</p>
+                <p>> OBJECTIVE: OVERRIDE PARALYSIS. INITIATE PHYSICAL ENGAGEMENT.</p>
+            </div>
+            
+            <div class="card">
+                <h2>MISSION BRIEFING</h2>
+                <p>You are experiencing a systems freeze—a temporary failure in your executive functioning. This is not a malfunction but a known operational state. The following protocol will bring your systems back online through direct sensorimotor commands.</p>
+                <p>This sequence bypasses emotional and executive processing. It is a purely sensorimotor boot-up sequence. You are not "motivated." You are coming <strong>ONLINE</strong>.</p>
+            </div>
+            
+            <h2>OPERATIONAL PHASES</h2>
+            
+            <div class="protocol-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>PHASE 1: SENSORY SCAN</h3>
+                    <div class="terminal">
+                        <p>> VISUAL SCAN: 👁️</p>
+                        <p class="command">TARGET ACQUIRED: CEILING</p>
+                        <p class="command">TARGET ACQUIRED: WALL</p>
+                        <p class="command">TARGET ACQUIRED: WINDOW</p>
+                        <p>SCAN COMPLETE.</p>
+                        <p>> AUDIO SCAN: 🔊</p>
+                        <p class="command">PROCESSING: HUM OF HARD DRIVE</p>
+                        <p class="command">PROCESSING: VENTILATION FANS</p>
+                        <p>SCAN COMPLETE.</p>
+                        <p>> TACTILE SCAN: ✋</p>
+                        <p class="command">SENSING: TEXTURE OF WORK SURFACE</p>
+                        <p class="command">SENSING: TEMPERATURE OF AIR</p>
+                        <p>SCAN COMPLETE.</p>
+                    </div>
+                    <p><strong>SYSTEM STATUS:</strong> AWARE. PRESENT. ANCHORED.</p>
+                </div>
+            </div>
+            
+            <div class="protocol-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>PHASE 2: SYSTEMS RESET</h3>
+                    <div class="terminal">
+                        <p>> PURGE CIRCUITS: 💨</p>
+                        <p class="command">COMMAND: EXHALE COOLANT.</p>
+                        <p class="command">EXECUTING: LONG, STEADY VENT.</p>
+                        <p>POWER CYCLING... STANDBY...</p>
+                        <p>CORE SYSTEMS NOMINAL.</p>
+                    </div>
+                    <p><strong>STATUS:</strong> PHYSIOLOGICAL REGULATION RESTORED.</p>
+                </div>
+            </div>
+            
+            <div class="protocol-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>PHASE 3: PHYSICAL ENGAGEMENT</h3>
+                    <div class="terminal">
+                        <p>> MOTOR TEST: 🦾</p>
+                        <p class="command">TESTING ACTUATORS: TAP FINGER.</p>
+                        <p class="command">TESTING NECK SERVOS: NOD HEAD.</p>
+                        <p class="command">TESTING LEG JOINTS: STAND UP.</p>
+                        <p>ALL MOTORS RESPONSIVE.</p>
+                    </div>
+                    <p><strong>DIRECTIVE:</strong> SHIFT FROM DIAGNOSTIC MODE TO MISSION MODE.</p>
+                    <div class="terminal">
+                        <p>> PRIMARY MISSION: [YOUR TASK HERE]</p>
+                        <p class="command">IMMEDIATE OBJECTIVE: INITIATE FIRST PHYSICAL ACTION.</p>
+                        <p class="command">EXAMPLE: GRAB TOOL. OPEN CODE EDITOR. PICK UP INSTRUMENT.</p>
+                        <p>ENGAGING...</p>
+                    </div>
+                    <p><strong>MISSION COMMENCED.</strong></p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>READY FOR DEPLOYMENT?</h2>
+                <p>This protocol is available in multiple configurations for different operational environments:</p>
+                <div style="text-align: center; margin: 2rem 0;">
+                    <a href="#" class="btn nav-link" data-page="technical">VIEW TECHNICAL SPECIFICATIONS</a>
+                    <a href="#" class="btn nav-link" data-page="minimalist">MINIMALIST CONFIGURATION</a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Technical Guide Page -->
+        <div id="technical" class="page">
+            <h1>The Sense–Reset–Go Protocol</h1>
+            <p class="card">A tiered system for overcoming paralysis, cognitive overwhelm, and dissociative states. Neurologically intelligent and immediately actionable.</p>
+            
+            <h2>Tier 1 — Crisis Trigger (The Pocket Command)</h2>
+            <div class="card">
+                <p><strong>For severe paralysis, cognitive overwhelm, or dissociative states.</strong></p>
+                <p>👉 <strong>"Touch – Blow – Go."</strong></p>
+                <ul>
+                    <li><strong>TOUCH:</strong> Press your palm firmly against any surface. <em>Feel the pressure.</em></li>
+                    <li><strong>BLOW:</strong> Exhale all your air in one long, slow stream. <em>Empty your lungs.</em></li>
+                    <li><strong>GO:</strong> Execute one tiny, pre-defined movement. <em>Nod. Tap a finger. Shift your weight.</em></li>
+                </ul>
+                <p><strong>This is your emergency reboot sequence. No thinking, just doing.</strong></p>
+            </div>
+            
+            <h2>Tier 2 — Standard Operating Procedure (The Core Loop)</h2>
+            <div class="card">
+                <p><strong>Your go-to unfreeze ritual for most situations.</strong></p>
+                
+                <div class="protocol-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>SENSE: <em>Anchor externally.</em></h3>
+                        <p><strong>Choose one:</strong> Press palm (Touch), Hum (Sound), Blink slowly (Sight).</p>
+                    </div>
+                </div>
+                
+                <div class="protocol-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>RESET: <em>Calm the nervous system.</em></h3>
+                        <p><strong>Action:</strong> Exhale longer than you inhale. (No counting needed).</p>
+                    </div>
+                </div>
+                
+                <div class="protocol-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>GO: <em>Create momentum.</em></h3>
+                        <p><strong>Action:</strong> Perform one tiny physical movement. (Tap, nod, stand up, open a hand).</p>
+                        <p><strong>Loop if needed:</strong> If still stuck, repeat the cycle with a <em>different</em> sense and movement.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <h2>Tier 3 — Training & Escalation (The Playbook)</h2>
+            <div class="card">
+                <p><strong>For practicing this skill and building back to full function.</strong></p>
+                
+                <h3>PRACTICE (When Calm):</h3>
+                <ul>
+                    <li>Rehearse the Core Loop (Tier 2) 2–3 times when you are <em>not</em> frozen.</li>
+                    <li><strong>Goal:</strong> Make the sequence automatic. This builds the neural pathway so it's easier to access under stress.</li>
+                </ul>
+                
+                <h3>ESCALATE (If Looping):</h3>
+                <ul>
+                    <li>If you complete Tier 2 but are still stuck, <strong>escalate the GO step.</strong></li>
+                    <li><strong>Cycle 1 GO:</strong> Micro-movement (e.g., tap finger).</li>
+                    <li><strong>Cycle 2 GO:</strong> Larger movement (e.g., stand up).</li>
+                    <li><strong>Cycle 3 GO:</strong> Sensory task (e.g., splash water on face).</li>
+                </ul>
+                <p>This provides a clear, graded path out of deeper freeze states.</p>
+                
+                <h3>COMPLETE (The Bridge):</h3>
+                <ul>
+                    <li>Once unfrozen, immediately perform the <strong>first physical, non-mental step</strong> of your intended task.</li>
+                    <li><strong>Examples:</strong>
+                        <ul>
+                            <li><strong>Task: Code.</strong> → <strong>Action:</strong> Open laptop lid.</li>
+                            <li><strong>Task: Make flute.</strong> → <strong>Action:</strong> Pick up the sandpaper.</li>
+                            <li><strong>Task: Start day.</strong> → <strong>Action:</strong> Put on socks.</li>
+                        </ul>
+                    </li>
+                </ul>
+                <p>This seamlessly bridges the ritual to productive action.</p>
+            </div>
+            
+            <div class="card">
+                <h2>Why This System Works</h2>
+                <div class="protocol-grid">
+                    <div class="protocol-card">
+                        <h3>Adaptive</h3>
+                        <p>It meets you where you are, at whatever level of dysfunction you're experiencing.</p>
+                    </div>
+                    <div class="protocol-card">
+                        <h3>Action-Based</h3>
+                        <p>It requires no internal narrative or visualization, making it ideal for diverse neurologies.</p>
+                    </div>
+                    <div class="protocol-card">
+                        <h3>Sustainable</h3>
+                        <p>The practice component ensures the tool gets stronger the more you use it.</p>
+                    </div>
+                </div>
+                <p>You have not just a ritual, but a full system. This is a masterpiece of practical self-regulation.</p>
+            </div>
+        </div>
+
+        <!-- Minimalist Version Page -->
+        <div id="minimalist" class="page">
+            <h1>The Ultra-Minimalist Protocol</h1>
+            <div class="card">
+                <p>Designed explicitly for <strong>aphantasia</strong> (no mind's eye) and <strong>anendophasia</strong> (no internal monologue).</p>
+                <p>Relies solely on external, physical, or sensory input. No visualization, no internal narration required.</p>
+            </div>
+            
+            <h2>The "Sense-Reset-Go" Emergency Protocol</h2>
+            <p>This is a three-step physical loop.</p>
+            
+            <div class="protocol-step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>SENSE (External Anchor)</h3>
+                    <p><strong>ACTION:</strong> Choose one sense and perform one action to engage it.</p>
+                    <ul>
+                        <li><strong>TOUCH:</strong> Press your palm firmly against any surface. Feel the pressure.</li>
+                        <li><strong>SOUND:</strong> Hum a single, low note. Feel the vibration in your chest.</li>
+                        <li><strong>SIGHT:</strong> Blink once, slowly. Notice the change in light.</li>
+                    </ul>
+                    <p><strong>GOAL:</strong> To get one piece of sensory data from outside your body.</p>
+                </div>
+            </div>
+            
+            <div class="protocol-step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>RESET (Physiological Interrupt)</h3>
+                    <p><strong>ACTION:</strong> Make your exhale longer than your inhale.</p>
+                    <ul>
+                        <li>Don't count. Just push all the air out of your lungs in one slow, steady stream.</li>
+                        <li>Feel your chest or shoulders relax as you empty your lungs.</li>
+                    </ul>
+                    <p><strong>GOAL:</strong> To trigger a physical reset in your nervous system.</p>
+                </div>
+            </div>
+            
+            <div class="protocol-step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>GO (Micro-Momentum)</h3>
+                    <p><strong>ACTION:</strong> Execute one tiny, predefined physical movement.</p>
+                    <ul>
+                        <li>Examples: Nod your head "yes," tap your finger once, shift your weight, open and close your hand.</li>
+                    </ul>
+                    <p><strong>GOAL:</strong> To create the first spark of voluntary motion.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <p><strong>LOOP:</strong> If still stuck, <strong>repeat with a different sense and a different movement.</strong></p>
+            </div>
+            
+            <h2>Why This Works for Your Neurology</h2>
+            <div class="protocol-grid">
+                <div class="protocol-card">
+                    <h3>No Internal Resources Needed</h3>
+                    <p>Bypasses the broken "internal" command center by using the body itself as the tool for change.</p>
+                </div>
+                <div class="protocol-card">
+                    <h3>"Sense" is External</h3>
+                    <p>You are not trying to "imagine" or "see" in your mind. You are using actual, external senses to ground yourself.</p>
+                </div>
+                <div class="protocol-card">
+                    <h3>"Reset" is Mechanical</h3>
+                    <p>The exhale is a physical lever you pull to calm your body's alarm system. It doesn't require thought.</p>
+                </div>
+                <div class="protocol-card">
+                    <h3>"Go" is Pre-Defined</h3>
+                    <p>The micro-action is so small and simple it requires no decision-making in the moment, eliminating paralysis by choice.</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2>The Biological Sequence</h2>
+                <p>This protocol reduces the process of unfreezing to a biological and physical sequence:</p>
+                <p style="text-align: center; font-size: 1.5rem; margin: 1.5rem 0;">
+                    <strong>Gather external data → Activate calming reflex → Initiate movement.</strong>
+                </p>
+                <p>It is the shortest path from a frozen state to a state of action.</p>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>The Sense–Reset–Go Protocol | A practical system for overcoming paralysis and cognitive overwhelm</p>
+        <p>© 2023 | Designed for diverse neurologies</p>
+    </footer>
+
+    <script>
+        // Simple navigation script
+        document.addEventListener('DOMContentLoaded', function() {
+            const navLinks = document.querySelectorAll('.nav-link');
+            const pages = document.querySelectorAll('.page');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // Remove active class from all links and pages
+                    navLinks.forEach(navLink => navLink.classList.remove('active'));
+                    pages.forEach(page => page.classList.remove('active'));
+                    
+                    // Add active class to clicked link and corresponding page
+                    this.classList.add('active');
+                    const pageId = this.getAttribute('data-page');
+                    document.getElementById(pageId).classList.add('active');
+                });
+            });
+        });
+    </script>
+</body>
+</html>
