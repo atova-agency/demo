@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCAN-COSS Framework: Structured Cognitive Processing</title>
+    <style>
+        :root {
+            /* Light theme variables (default) */
+            --bg-color: #b8b8b8;
+            --text-color: #333333;
+            --header-color: #333333;
+            --h2-color: #555555;
+            --border-color: #cccccc;
+            --accent-color: #b8860b;
+            --code-bg: #aba9a4;
+            --step-bg: #aba9a4;
+            --footer-color: #666666;
+        }
+
+        [data-theme="dark"] {
+            /* Dark theme variables */
+            --bg-color: #1a1a1a;
+            --text-color: #d9d9d9;
+            --header-color: #f0f0f0;
+            --h2-color: #b8b8b8;
+            --border-color: #444444;
+            --accent-color: #b8860b;
+            --code-bg: #2d2d2d;
+            --step-bg: #2d2d2d;
+            --footer-color: #888888;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Courier New', monospace;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 2rem;
+            max-width: 800px;
+            margin: 0 auto;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        
+        header {
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--accent-color);
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            color: var(--header-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        h2 {
+            font-size: 1.4rem;
+            color: var(--h2-color);
+            margin: 1.5rem 0 1rem 0;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        ul {
+            list-style-type: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+            padding-left: 1rem;
+        }
+        
+        li:before {
+            content: "-";
+            margin-right: 0.5rem;
+            color: var(--accent-color);
+        }
+        
+        .keyword {
+            color: var(--accent-color);
+            font-weight: bold;
+        }
+        
+        .code-block {
+            background-color: var(--code-bg);
+            padding: 1rem;
+            margin: 1rem 0;
+            border-left: 3px solid var(--accent-color);
+            font-family: 'Courier New', monospace;
+            white-space: pre-wrap;
+            overflow-x: auto;
+            transition: background-color 0.3s;
+        }
+        
+        .process-steps {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        
+        .step {
+            background-color: var(--step-bg);
+            padding: 1rem;
+            border-left: 3px solid var(--accent-color);
+            transition: background-color 0.3s;
+        }
+        
+        .step-title {
+            font-weight: bold;
+            color: var(--accent-color);
+            margin-bottom: 0.5rem;
+        }
+        
+        footer {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border-color);
+            text-align: center;
+            color: var(--footer-color);
+            font-size: 0.9rem;
+        }
+        
+        .theme-toggle {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .toggle-text {
+            color: var(--h2-color);
+            font-size: 0.9rem;
+        }
+        
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        
+        .switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: var(--border-color);
+            transition: .4s;
+            border-radius: 24px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 16px;
+            width: 16px;
+            left: 4px;
+            bottom: 4px;
+            background-color: var(--accent-color);
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+    </style>
+</head>
+<body>
+    <div class="theme-toggle">
+        <span class="toggle-text">Light</span>
+        <label class="switch">
+            <input type="checkbox" id="theme-toggle">
+            <span class="slider"></span>
+        </label>
+        <span class="toggle-text">Dark</span>
+    </div>
+
+    <header>
+        <h1>SCAN-COSS Framework: Neurodivergent Optimization</h1>
+        <p>The Kinetic-Data Format (KDF) transforms mental chaos into clear, actionable structure using a simple format designed for aphantasic and neurodivergent cognition.</p>
+    </header>
+    
+    <section>
+        <h2>Core Format: Keyword: Data</h2>
+        <p>Every thought follows this structure:</p>
+        <ul>
+            <li><span class="keyword">Keyword</span> + <span class="keyword">colon</span> + <span class="keyword">space</span> + <span class="keyword">Data</span></li>
+        </ul>
+    </section>
+    
+    <section>
+        <h2>Essential Keywords (The Four Quadrants)</h2>
+        <ul>
+            <li><span class="keyword">Context:</span> The situation or environment</li>
+            <li><span class="keyword">Object:</span> What you're focused on</li>
+            <li><span class="keyword">Status:</span> Observable, external facts</li>
+            <li><span class="keyword">State:</span> Your internal response and condition</li>
+        </ul>
+        
+        <h2>Extended Keywords</h2>
+        <ul>
+            <li><span class="keyword">Action:</span> What you're doing/will do</li>
+            <li><span class="keyword">Command:</span> Instructions to yourself</li>
+            <li><span class="keyword">Label:</span> Clarification or refinement</li>
+            <li><span class="keyword">Query:</span> Question requiring resolution</li>
+            <li><span class="keyword">Conclusion:</span> Validated result or decision</li>
+        </ul>
+    </section>
+    
+    <section>
+        <h2>The Label Modifier</h2>
+        <p><span class="keyword">Label:</span> resolves ambiguity or adds granular detail to a previous entry without creating a new category. It acts as a sub-tag or clarifying note.</p>
+        <div class="code-block">Object: metal rectangle
+Label: Object: cold, heavy, smooth</div>
+    </section>
+    
+    <section>
+        <h2>Processing Loop</h2>
+        <p>The SCAN-COSS framework follows a structured processing sequence:</p>
+        
+        <div class="process-steps">
+            <div class="step">
+                <div class="step-title">1. COMMAND: PAUSE</div>
+                <p>Halt and capture incoming data using the Four Quadrants</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">2. COMMAND: PROCESS</div>
+                <p>Parse information and apply appropriate labels using KDF format</p>
+            </div>
+            
+            <div class="step">
+                <div class="step-title">3. COMMAND: RESPONSE</div>
+                <p>Execute action, release tension, or clear buffer</p>
+            </div>
+        </div>
+        
+        <p>During high-stress operations, maintain <span class="keyword">Kinetic Anchoring</span> through subvocal rhythms, tactile tracing, or rhythmic motion to prevent sensory overload.</p>
+    </section>
+    
+    <section>
+        <h2>Example in Practice</h2>
+        <p><strong>Situation:</strong> Feeling overwhelmed in a noisy, crowded store.</p>
+        
+        <div class="code-block">Context: crowded grocery store on Sunday afternoon
+Object: sensory input from environment
+Status: fluorescent lights humming, loud conversations, crowded aisles
+State: sensory overload, anxiety intensity 8
+Command: initiate kinetic anchoring
+Action: focus on shopping list application on phone, practice deep breathing
+Object: shopping list
+Status: list requires eggs, milk, bread
+Action: navigate to dairy section, retrieve items, proceed to checkout</div>
+        
+        <p><strong>ACT:</strong> Follow the structured path you created. Use kinetic anchoring (e.g., rhythmic breathing) while executing the actions.</p>
+        
+        <p>The SCAN-COSS framework transforms overwhelm into manageable data through structured capture and clear next steps.</p>
+    </section>
+
+    <section>
+        <h2>Firewall Protocol</h2>
+        <p>In emergency or overload situations, use the Four Quadrants mandatory frame:</p>
+        <div class="code-block">Context: [Where is this occurring?]
+Object: [What is the focus?]
+Status: [What is externally true?]
+State: [What is my internal response?]</div>
+        <p>This protocol contains overwhelm and transforms chaos into structured data for processing.</p>
+    </section>
+    
+    <footer>
+        <p>SCAN-COSS Framework — Neurodivergent Cognitive Optimization</p>
+    </footer>
+
+    <script>
+        // Theme toggle functionality
+        const themeToggle = document.getElementById('theme-toggle');
+        const body = document.body;
+        
+        // Function to set theme
+        function setTheme(theme) {
+            body.setAttribute('data-theme', theme);
+            localStorage.setItem('theme', theme);
+            themeToggle.checked = (theme === 'dark');
+        }
+        
+        // Check for saved theme preference or respect OS preference
+        const savedTheme = localStorage.getItem('theme');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        
+        if (savedTheme) {
+            setTheme(savedTheme);
+        } else if (prefersDark) {
+            setTheme('dark');
+        } else {
+            setTheme('light');
+        }
+        
+        // Toggle theme when switch is clicked
+        themeToggle.addEventListener('change', function() {
+            const newTheme = this.checked ? 'dark' : 'light';
+            setTheme(newTheme);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Sense-Reset-Go Protocol</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            line-height: 1.6;
+            min-height: 100vh;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+        
+        header {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 1.8rem;
+            margin-bottom: 5px;
+        }
+        
+        .subtitle {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+        
+        .protocol-info {
+            padding: 15px 20px;
+            background: #f8f9fa;
+            border-bottom: 1px solid #e9ecef;
+            font-size: 0.9rem;
+        }
+        
+        .steps-container {
+            padding: 20px;
+        }
+        
+        .step {
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .step-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+        
+        .step-number {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #3498db;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-weight: bold;
+            margin-right: 12px;
+            flex-shrink: 0;
+        }
+        
+        .step-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #2c3e50;
+        }
+        
+        .step-description {
+            background: white;
+            padding: 15px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+            margin-bottom: 15px;
+            border-left: 4px solid #3498db;
+        }
+        
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+        
+        .action-btn {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: #e9ecef;
+            color: #495057;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        .action-btn:hover:not(:disabled) {
+            background: #dee2e6;
+        }
+        
+        .action-btn.selected {
+            background: #3498db;
+            color: white;
+        }
+        
+        .action-btn.done {
+            background: #adb5bd;
+            color: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .action-btn.done.enabled {
+            background: #28a745;
+            color: white;
+            cursor: pointer;
+        }
+        
+        .action-btn i {
+            font-size: 1.2rem;
+        }
+        
+        .reset-container {
+            padding: 20px;
+            text-align: center;
+            border-top: 1px solid #e9ecef;
+        }
+        
+        .reset-btn {
+            padding: 14px 28px;
+            background: #6c757d;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        
+        .reset-btn:hover {
+            background: #5a6268;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background: #e9ecef;
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 20px 0;
+        }
+        
+        .progress {
+            height: 100%;
+            background: #28a745;
+            width: 0%;
+            transition: width 0.5s;
+        }
+        
+        .completion-message {
+            text-align: center;
+            padding: 20px;
+            background: #d4edda;
+            color: #155724;
+            border-radius: 10px;
+            margin: 20px;
+            display: none;
+        }
+        
+        /* Breathing circle styles */
+        .breath-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            height: 120px;
+        }
+        
+        .breath-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: #3498db;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 1.5s ease-in-out;
+        }
+        
+        .breath-circle.breathing {
+            animation: breathe 12s ease-in-out; /* 3 breaths * 4s each */
+        }
+        
+        .breath-text {
+            font-size: 1rem;
+            text-align: center;
+            margin-top: 10px;
+            color: #495057;
+        }
+        
+        @keyframes breathe {
+            0%, 33.3%, 66.6%, 100% {
+                transform: scale(1);
+                background: #3498db;
+            }
+            12.5%, 45.8%, 79.1% {
+                transform: scale(1.5);
+                background: #2ecc71;
+            }
+            25%, 58.3%, 91.6% {
+                transform: scale(0.8);
+                background: #e74c3c;
+            }
+        }
+        
+        .step-complete {
+            text-align: center;
+            padding: 10px;
+            color: #28a745;
+            font-weight: bold;
+            display: none;
+        }
+        
+        .breath-instruction {
+            text-align: center;
+            font-size: 0.9rem;
+            color: #6c757d;
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 500px) {
+            body {
+                padding: 10px;
+            }
+            
+            .container {
+                border-radius: 15px;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .actions {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Sense-Reset-Go Protocol</h1>
+            <div class="subtitle">A minimalist approach for aphantasia & anendophasia</div>
+        </header>
+        
+        <div class="protocol-info">
+            <p>This app helps you track your progress through the protocol. Select actions and complete steps.</p>
+        </div>
+        
+        <div class="progress-bar">
+            <div class="progress" id="progress"></div>
+        </div>
+        
+        <div class="steps-container">
+            <div class="step" id="step1">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-title">SENSE (External Anchor)</div>
+                </div>
+                <div class="step-description">
+                    <p>Choose one sense and perform one action to engage it.</p>
+                </div>
+                <div class="actions">
+                    <button class="action-btn" data-step="1" data-action="touch">
+                        <i class="fas fa-hand-paper"></i> Touch
+                    </button>
+                    <button class="action-btn" data-step="1" data-action="sound">
+                        <i class="fas fa-volume-up"></i> Sound
+                    </button>
+                    <button class="action-btn" data-step="1" data-action="sight">
+                        <i class="fas fa-eye"></i> Sight
+                    </button>
+                    <button class="action-btn done" id="step1Done" data-step="1" data-action="done" disabled>
+                        <i class="fas fa-check"></i> Done
+                    </button>
+                </div>
+                <div class="step-complete" id="step1Complete">
+                    Step Complete!
+                </div>
+            </div>
+            
+            <div class="step" id="step2">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-title">RESET (Physiological Interrupt)</div>
+                </div>
+                <div class="step-description">
+                    <p>Make your exhale longer than your inhale. Push all air out slowly.</p>
+                </div>
+                <div class="breath-instruction">
+                    <p>Tap the circle below and follow the pattern:<br>Short inhale → Long exhale (3 times)</p>
+                </div>
+                <div class="breath-container">
+                    <div class="breath-circle" id="breathCircle">
+                        <span>Breathe</span>
+                    </div>
+                </div>
+                <div class="breath-text" id="breathText">Tap the circle to begin breathing exercise</div>
+                <div class="step-complete" id="step2Complete">
+                    Step Complete!
+                </div>
+            </div>
+            
+            <div class="step" id="step3">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-title">GO (Micro-Momentum)</div>
+                </div>
+                <div class="step-description">
+                    <p>Execute one tiny, predefined physical movement.</p>
+                </div>
+                <div class="actions">
+                    <button class="action-btn" data-step="3" data-action="nod">
+                        <i class="fas fa-arrow-alt-circle-up"></i> Nod
+                    </button>
+                    <button class="action-btn" data-step="3" data-action="tap">
+                        <i class="fas fa-hand-point-up"></i> Tap
+                    </button>
+                    <button class="action-btn" data-step="3" data-action="stand">
+                        <i class="fas fa-running"></i> Stand
+                    </button>
+                    <button class="action-btn done" id="step3Done" data-step="3" data-action="done" disabled>
+                        <i class="fas fa-check"></i> Done
+                    </button>
+                </div>
+                <div class="step-complete" id="step3Complete">
+                    Step Complete!
+                </div>
+            </div>
+        </div>
+        
+        <div class="completion-message" id="completionMessage">
+            <i class="fas fa-check-circle"></i>
+            <h3>Protocol Complete!</h3>
+            <p>You've successfully completed the Sense-Reset-Go protocol.</p>
+        </div>
+        
+        <div class="reset-container">
+            <button class="reset-btn" id="resetBtn">
+                <i class="fas fa-redo"></i> Reset Protocol
+            </button>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const actionButtons = document.querySelectorAll('.action-btn:not(.done)');
+            const doneButtons = document.querySelectorAll('.action-btn.done');
+            const resetBtn = document.getElementById('resetBtn');
+            const progressBar = document.getElementById('progress');
+            const completionMessage = document.getElementById('completionMessage');
+            const breathCircle = document.getElementById('breathCircle');
+            const breathText = document.getElementById('breathText');
+            const step1Done = document.getElementById('step1Done');
+            const step3Done = document.getElementById('step3Done');
+            
+            let completedSteps = 0;
+            const totalSteps = 3;
+            
+            // Track which steps are completed
+            const stepsCompleted = {
+                1: false,
+                2: false,
+                3: false
+            };
+            
+            // Track selected actions for steps 1 and 3
+            const selectedActions = {
+                1: false,
+                3: false
+            };
+            
+            // Action buttons for steps 1 and 3
+            actionButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const step = this.getAttribute('data-step');
+                    const action = this.getAttribute('data-action');
+                    
+                    // Remove selected class from all buttons in this step
+                    const stepButtons = document.querySelectorAll(`.action-btn[data-step="${step}"]:not(.done)`);
+                    stepButtons.forEach(btn => btn.classList.remove('selected'));
+                    
+                    // Add selected class to clicked button
+                    this.classList.add('selected');
+                    
+                    // Enable the Done button for this step
+                    selectedActions[step] = true;
+                    const doneButton = document.getElementById(`step${step}Done`);
+                    doneButton.disabled = false;
+                    doneButton.classList.add('enabled');
+                });
+            });
+            
+            // Done buttons
+            doneButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    if (this.disabled) return;
+                    
+                    const step = this.getAttribute('data-step');
+                    
+                    if (!stepsCompleted[step]) {
+                        stepsCompleted[step] = true;
+                        completedSteps++;
+                        updateProgress();
+                        document.getElementById(`step${step}Complete`).style.display = 'block';
+                    }
+                });
+            });
+            
+            // Breathing circle for step 2
+            breathCircle.addEventListener('click', function() {
+                if (!stepsCompleted[2]) {
+                    // Start breathing animation
+                    this.classList.add('breathing');
+                    breathText.textContent = "Inhale shortly...";
+                    
+                    // Update text during the animation
+                    setTimeout(() => {
+                        breathText.textContent = "Now exhale slowly... push all air out";
+                    }, 2000);
+                    
+                    setTimeout(() => {
+                        breathText.textContent = "Inhale shortly...";
+                    }, 6000);
+                    
+                    setTimeout(() => {
+                        breathText.textContent = "Now exhale slowly... push all air out";
+                    }, 8000);
+                    
+                    setTimeout(() => {
+                        breathText.textContent = "Inhale shortly...";
+                    }, 12000);
+                    
+                    setTimeout(() => {
+                        breathText.textContent = "Now exhale slowly... push all air out";
+                    }, 14000);
+                    
+                    // After animation completes (3 breaths)
+                    setTimeout(() => {
+                        this.classList.remove('breathing');
+                        breathText.textContent = "Breathing exercise complete!";
+                        
+                        // Mark step as complete
+                        stepsCompleted[2] = true;
+                        completedSteps++;
+                        updateProgress();
+                        document.getElementById('step2Complete').style.display = 'block';
+                    }, 18000); // 3 breaths * 6s each
+                }
+            });
+            
+            // Reset button
+            resetBtn.addEventListener('click', function() {
+                // Reset action buttons
+                actionButtons.forEach(button => {
+                    button.classList.remove('selected');
+                });
+                
+                // Reset done buttons
+                doneButtons.forEach(button => {
+                    button.disabled = true;
+                    button.classList.remove('enabled');
+                });
+                
+                // Reset breathing circle
+                breathCircle.classList.remove('breathing');
+                breathText.textContent = "Tap the circle to begin breathing exercise";
+                
+                // Reset completion messages
+                document.querySelectorAll('.step-complete').forEach(el => {
+                    el.style.display = 'none';
+                });
+                
+                // Reset progress
+                completedSteps = 0;
+                for (let key in stepsCompleted) {
+                    stepsCompleted[key] = false;
+                }
+                for (let key in selectedActions) {
+                    selectedActions[key] = false;
+                }
+                updateProgress();
+                
+                // Hide completion message
+                completionMessage.style.display = 'none';
+            });
+            
+            // Update progress bar
+            function updateProgress() {
+                const progressPercent = (completedSteps / totalSteps) * 100;
+                progressBar.style.width = `${progressPercent}%`;
+                
+                // Show completion message if all steps are done
+                if (completedSteps === totalSteps) {
+                    completionMessage.style.display = 'block';
+                } else {
+                    completionMessage.style.display = 'none';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
