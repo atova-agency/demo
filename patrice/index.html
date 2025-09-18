@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATOVA - Solutions de Gestion pour Entreprises</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: #334155;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: white;
+            margin-bottom: 2rem;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: var(--secondary);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            color: var(--secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .card-body ul {
+            list-style-type: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-body li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .card-body li:last-child {
+            border-bottom: none;
+        }
+        
+        .card-body li::before {
+            content: "✓";
+            color: var(--success);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        .price {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--dark);
+            margin: 1rem 0;
+        }
+        
+        .price span {
+            font-size: 1rem;
+            font-weight: normal;
+            color: var(--secondary);
+        }
+        
+        .card-footer {
+            padding: 0 1.5rem 1.5rem;
+            text-align: center;
+        }
+        
+        .comparison {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 4rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .comparison-table th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .package-name {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .faq {
+            margin-bottom: 4rem;
+        }
+        
+        .faq-item {
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+            overflow: hidden;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        }
+        
+        .faq-question {
+            padding: 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem;
+            color: var(--secondary);
+        }
+        
+        .cta {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .cta h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta p {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 2rem 0;
+        }
+        
+        .footer-links li {
+            margin: 0 1rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .cards {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">ATOVA</div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="offre.html">Notre Offre</a></li>
+                    <li><a href="comparaison.html">Comparaison</a></li>
+                    <li><a href="original.html">Proposition Originale</a></li>
+                    <li><a href="revised.html">Proposition Révisée</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Solutions de Gestion pour Votre Entreprise</h1>
+            <p>Découvrez notre système intégré de gestion d'inventaire, de facturation et de suivi conçu spécialement pour les PME malgaches.</p>
+            <a href="#offres" class="btn">Voir nos offres</a>
+        </section>
+
+        <section id="offres">
+            <div class="section-title">
+                <h2>Nos Solutions</h2>
+                <p>Choisissez la formule qui correspond le mieux à vos besoins et à votre budget</p>
+            </div>
+
+            <div class="cards">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>MVP - Système de Base</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Authentification sécurisée et gestion des rôles</li>
+                            <li>Gestion complète d'inventaire (CRUD, Recherche)</li>
+                            <li>Module de facturation avec génération PDF</li>
+                            <li>Rapports d'activité et de volume de ventes</li>
+                            <li>Installation sur votre serveur</li>
+                            <li>Support technique 30 jours</li>
+                        </ul>
+                        <div class="price">€4,500 <span>une fois</span></div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="offre.html" class="btn">Détails de l'offre</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Forfait Optionnel</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Gestion des fournisseurs (€1,200)</li>
+                            <li>CRM et ventes avancées (€1,000)</li>
+                            <li>Intégration comptable de base (€1,500)</li>
+                            <li>Accès mobile et codes-barres (€1,500)</li>
+                            <li>Chaque module est indépendant</li>
+                            <li>Payez seulement ce dont vous avez besoin</li>
+                        </ul>
+                        <div class="price">À partir de <span>€1,000</span></div>
+                    </div>
+                    <div class="card-footer">
+                        <a href="revised.html" class="btn btn-outline">Voir les forfaits</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="comparaison" class="comparison">
+            <div class="section-title">
+                <h2>Comparaison des Options</h2>
+                <p>Comprenez la différence entre notre proposition initiale et l'offre révisée plus flexible</p>
+            </div>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Caractéristique</th>
+                        <th>Proposition Originale</th>
+                        <th>Proposition Révisée</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Investissement total</td>
+                        <td class="package-name">€25,700</td>
+                        <td class="package-name">€4,500 + options</td>
+                    </tr>
+                    <tr>
+                        <td>Engagement initial</td>
+                        <td>Élevé</td>
+                        <td>Abordable</td>
+                    </tr>
+                    <tr>
+                        <td>Délai de livraison</td>
+                        <td>18 mois</td>
+                        <td>8 semaines (MVP)</td>
+                    </tr>
+                    <tr>
+                        <td>Flexibilité</td>
+                        <td>Plan rigide</td>
+                        <td>Modules optionnels</td>
+                    </tr>
+                    <tr>
+                        <td>Fonctionnalités de base</td>
+                        <td>✓</td>
+                        <td>✓</td>
+                    </tr>
+                    <tr>
+                        <td>Fonctionnalités avancées</td>
+                        <td>Toutes incluses</td>
+                        <td>En options séparées</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div style="text-align: center; margin-top: 2rem;">
+                <a href="original.html" class="btn" target="_blank">Voir la proposition originale</a>
+                <a href="revised.html" class="btn btn-outline" target="_blank">Voir la proposition révisée</a>
+            </div>
+        </section>
+
+        <section id="faq" class="faq">
+            <div class="section-title">
+                <h2>Questions Fréquentes</h2>
+                <p>Trouvez des réponses aux questions les plus courantes sur notre offre</p>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Que comprend exactement le MVP à €4,500 ?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Le MVP inclut l'authentification sécurisée, la gestion complète d'inventaire avec recherche, le module de facturation avec génération PDF, les rapports de base, et l'installation sur votre serveur. C'est un système complet et fonctionnel qui répond aux besoins essentiels de gestion.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Puis-je ajouter des fonctionnalités plus tard ?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Absolument ! Notre nouvelle approche modulaire vous permet d'ajouter des fonctionnalités à la carte, selon vos besoins et votre budget. Vous pouvez commencer avec le MVP de base et ajouter des modules optionnels plus tard.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Quelle est la différence entre les deux propositions ?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>La proposition originale était un package complet avec toutes les fonctionnalités pour €25,700. La proposition révisée offre la même qualité mais avec plus de flexibilité : vous payez €4,500 pour le système de base, puis vous pouvez ajouter des modules optionnels (€1,000-1,500 chacun) selon vos besoins réels.</p>
+                </div>
+            </div>
+
+            <div class="faq-item">
+                <div class="faq-question">
+                    <span>Proposez-vous un support après l'installation ?</span>
+                    <span>+</span>
+                </div>
+                <div class="faq-answer">
+                    <p>Oui, le MVP inclut 30 jours de support technique. Ensuite, nous proposons un contrat de maintenance optionnel à €150/mois qui inclut l'hébergement, les sauvegardes, les mises à jour de sécurité et le support technique prioritaire.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <h2>Prêt à moderniser votre gestion d'entreprise ?</h2>
+            <p>Contactez-nous dès aujourd'hui pour une consultation gratuite et une démonstration de notre système.</p>
+            <a href="#contact" class="btn">Nous contacter</a>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 ATOVA Software Agency. Tous droits réservés.</p>
+            <ul class="footer-links">
+                <li><a href="offre.html">Notre Offre</a></li>
+                <li><a href="original.html">Proposition Originale</a></li>
+                <li><a href="revised.html">Proposition Révisée</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <p>Antananarivo, Madagascar</p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple FAQ toggle functionality
+        document.querySelectorAll('.faq-question').forEach(question => {
+            question.addEventListener('click', () => {
+                const answer = question.nextElementSibling;
+                const isVisible = answer.style.display === 'block';
+                
+                answer.style.display = isVisible ? 'none' : 'block';
+                question.querySelector('span:last-child').textContent = isVisible ? '+' : '-';
+            });
+        });
+        
+        // Hide all answers by default
+        document.querySelectorAll('.faq-answer').forEach(answer => {
+            answer.style.display = 'none';
+        });
+    </script>
+</body>
+</html>

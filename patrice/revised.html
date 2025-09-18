@@ -1,0 +1,840 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATOVA - Proposition Révisée Modulaire</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: #334155;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: white;
+            margin-bottom: 2rem;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: var(--secondary);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .btn-small {
+            padding: 0.5rem 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            color: var(--secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .highlight-box {
+            background-color: #f1f5f9;
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .card-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .card-body {
+            padding: 1.5rem;
+        }
+        
+        .card-body ul {
+            list-style-type: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .card-body li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .card-body li:last-child {
+            border-bottom: none;
+        }
+        
+        .card-body li::before {
+            content: "✓";
+            color: var(--success);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        .card-body li.removed {
+            text-decoration: line-through;
+            color: var(--secondary);
+        }
+        
+        .card-body li.removed::before {
+            content: "✗";
+            color: var(--danger);
+        }
+        
+        .price {
+            font-size: 2rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--dark);
+            margin: 1rem 0;
+        }
+        
+        .price span {
+            font-size: 1rem;
+            font-weight: normal;
+            color: var(--secondary);
+        }
+        
+        .card-footer {
+            padding: 0 1.5rem 1.5rem;
+            text-align: center;
+        }
+        
+        .comparison {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 4rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .comparison-table th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .package-name {
+            font-weight: 600;
+            color: var(--primary);
+        }
+        
+        .code-block {
+            background-color: #1e293b;
+            color: #f1f5f9;
+            padding: 1rem;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 1rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        
+        .benefits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .benefit-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .benefit-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            margin: 2rem 0;
+        }
+        
+        .timeline-item {
+            display: flex;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-date {
+            min-width: 120px;
+            font-weight: 600;
+            color: var(--primary);
+            margin-right: 1.5rem;
+        }
+        
+        .timeline-content {
+            flex: 1;
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .support-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .support-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .support-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin: 1rem 0;
+        }
+        
+        .cta {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .cta h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta p {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 2rem 0;
+        }
+        
+        .footer-links li {
+            margin: 0 1rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .cards, .benefits-grid, .support-options {
+                grid-template-columns: 1fr;
+            }
+            
+            .timeline-item {
+                flex-direction: column;
+            }
+            
+            .timeline-date {
+                margin-right: 0;
+                margin-bottom: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+        <header>
+        <div class="container">
+            <nav>
+                <div class="logo">ATOVA</div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="offre.html">Notre Offre</a></li>
+                    <li><a href="comparaison.html">Comparaison</a></li>
+                    <li><a href="original.html">Proposition Originale</a></li>
+                    <li><a href="revised.html">Proposition Révisée</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Approche Modulaire et Abordable</h1>
+            <p>Découvrez notre nouvelle proposition révisée : un système de base complet avec des modules optionnels que vous pouvez ajouter à votre rythme.</p>
+            <a href="#packages" class="btn">Voir les packages</a>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>Nouvelle Vision du Projet</h2>
+                <p>Une approche pratique, abordable et évolutive pour les PME malgaches</p>
+            </div>
+
+            <div class="highlight-box">
+                <h3>Philosophie Tarifaire Révisée</h3>
+                <p>La portée précédente était trop extensive et coûteuse pour un engagement initial. Cette proposition révisée garde le <strong>MVP intact à €4,500</strong> mais décompose le développement ultérieur en <strong>packages optionnels</strong> plus petits et abordables qui peuvent être achetés individuellement selon les besoins évolutifs et le budget du client.</p>
+                
+                <ul>
+                    <li><strong>MVP (Phase 1) : €4,500</strong> - Système de base non-négociable</li>
+                    <li><strong>Packages Futurs : €1,000 - €1,500 chacun</strong> - Modules optionnels et autonomes</li>
+                </ul>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>MVP - Système de Base (€4,500)</h2>
+                <p>20 Septembre - Mi-Novembre 2025</p>
+            </div>
+
+            <div class="highlight-box">
+                <p>Cette phase reste inchangée et est essentielle. Elle livre le système fondamental qui remplace immédiatement les processus manuels.</p>
+            </div>
+
+            <div class="cards">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Fonctionnalités Incluses</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Authentification sécurisée avec gestion des rôles utilisateurs</li>
+                            <li>Gestion complète d'inventaire (CRUD, Recherche, Filtres, Alertes stock bas)</li>
+                            <li>Module de facturation avec génération PDF automatique</li>
+                            <li>Rapports de base : Journal d'activité et volumes de vente</li>
+                            <li>Installation sur serveur du client avec formation complète</li>
+                            <li>Support technique inclus : 30 jours</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="offre.html" class="btn">Voir les détails du MVP</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Spécifications Techniques</h3>
+                    </div>
+                    <div class="card-body">
+                        <ul>
+                            <li>Frontend : Next.js 15+ avec TypeScript</li>
+                            <li>Backend : API Routes Next.js</li>
+                            <li>Base de données : PostgreSQL 16</li>
+                            <li>Authentification : Next-Auth.js avec RBAC</li>
+                            <li>Styling : Tailwind CSS</li>
+                            <li>Déploiement : Docker + Docker Compose</li>
+                            <li>Formation : 2 heures incluses</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="packages">
+            <div class="section-title">
+                <h2>Packages Optionnels (Post-MVP)</h2>
+                <p>Ajoutez des fonctionnalités selon vos besoins et votre budget</p>
+            </div>
+
+            <div class="highlight-box">
+                <p>Les éléments suivants sont des <strong>ajouts optionnels</strong>. Le client peut choisir aucun, un, ou tous, dans n'importe quel ordre, selon ses priorités. Chaque package est conçu pour être développé indépendamment.</p>
+            </div>
+
+            <div class="cards">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Package A: Gestion des Fournisseurs</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="price">€1,200</div>
+                        <p><em>Développement estimé : 3-4 semaines</em></p>
+                        
+                        <h4>Fonctionnalités Principales</h4>
+                        <ul>
+                            <li>Base de données fournisseurs complète</li>
+                            <li>Bons de commande basiques liés aux articles d'inventaire</li>
+                            <li>Réception de stock avec mise à jour automatique</li>
+                            <li>Suivi des achats par fournisseur</li>
+                        </ul>
+                        
+                        <h4>Retiré de la Portée Originale</h4>
+                        <ul>
+                            <li class="removed">Systèmes complexes d'évaluation fournisseurs</li>
+                            <li class="removed">Workflows automatisés de procurement</li>
+                            <li class="removed">Rapprochement trois voies pour factures</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#contact" class="btn btn-small">Demander ce package</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Package B: Gestion Clients & Facturation Avancée</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="price">€1,000</div>
+                        <p><em>Développement estimé : 3 semaines</em></p>
+                        
+                        <h4>Fonctionnalités Principales</h4>
+                        <ul>
+                            <li>Base de données clients avec historique complet</li>
+                            <li>Devis convertibles en factures en un clic</li>
+                            <li>Suivi des paiements et relances automatiques</li>
+                            <li>Statistiques commerciales par client</li>
+                        </ul>
+                        
+                        <h4>Retiré de la Portée Originale</h4>
+                        <ul>
+                            <li class="removed">Programmes de fidélité complexes</li>
+                            <li class="removed">Analyses RFM avancées</li>
+                            <li class="removed">Outils de campagnes marketing</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#contact" class="btn btn-small">Demander ce package</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Package C: Intégration Comptable de Base</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="price">€1,500</div>
+                        <p><em>Développement estimé : 4 semaines</em></p>
+                        
+                        <h4>Fonctionnalités Principales</h4>
+                        <ul>
+                            <li>Dashboard Profit & Loss en temps réel</li>
+                            <li>Vue flux de trésorerie basique</li>
+                            <li>Rapport de TVA automatique</li>
+                            <li>Export données pour logiciels comptables</li>
+                        </ul>
+                        
+                        <h4>Retiré de la Portée Originale</h4>
+                        <ul>
+                            <li class="removed">Grand livre complet en partie double</li>
+                            <li class="removed">Plan comptable détaillé</li>
+                            <li class="removed">Rapprochement bancaire</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#contact" class="btn btn-small">Demander ce package</a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Package D: Accès Mobile & Scan Codes-Barres</h3>
+                    </div>
+                    <div class="card-body">
+                        <div class="price">€1,500</div>
+                        <p><em>Développement estimé : 4 semaines</em></p>
+                        
+                        <h4>Fonctionnalités Principales</h4>
+                        <ul>
+                            <li>Application Web Progressive (PWA) mobile</li>
+                            <li>Scan codes-barres pour gestion de stock</li>
+                            <li>Interface mobile optimisée</li>
+                            <li>Mode consultation offline</li>
+                        </ul>
+                        
+                        <h4>Retiré de la Portée Originale</h4>
+                        <ul>
+                            <li class="removed">Apps natives iOS/Android séparées</li>
+                            <li class="removed">Fonctionnalité offline complexe</li>
+                            <li class="removed">Rapports avec géolocalisation</li>
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <a href="#contact" class="btn btn-small">Demander ce package</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section class="comparison">
+            <div class="section-title">
+                <h2>Comparaison des Propositions</h2>
+                <p>Comprenez la différence entre notre approche originale et la nouvelle proposition modulaire</p>
+            </div>
+
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Aspect</th>
+                        <th>Proposition Originale</th>
+                        <th>Proposition Révisée</th>
+                        <th>Bénéfice Client</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Prix MVP</td>
+                        <td>€4,500</td>
+                        <td class="package-name">€4,500</td>
+                        <td>Aucun changement au point de départ convenu</td>
+                    </tr>
+                    <tr>
+                        <td>Investissement Futur</td>
+                        <td class="package-name">€19,500 (5 phases)</td>
+                        <td>€1,000 - €1,500 par package</td>
+                        <td>Coût d'entrée dramatiquement réduit pour nouvelles fonctionnalités</td>
+                    </tr>
+                    <tr>
+                        <td>Engagement</td>
+                        <td>Plan sur 18 mois</td>
+                        <td>Packages à la demande</td>
+                        <td>Flexibilité totale. Payez seulement ce dont vous avez besoin</td>
+                    </tr>
+                    <tr>
+                        <td>Complexité</td>
+                        <td>Fonctionnalités étendues et complexes</td>
+                        <td>Fonctionnalités ciblées et pratiques</td>
+                        <td>Plus facile à apprendre et utiliser. Plus rapide à implémenter</td>
+                    </tr>
+                    <tr>
+                        <td>Timeline</td>
+                        <td>Phases séquentielles fixes</td>
+                        <td>Développement à la demande</td>
+                        <td>Contrôle total du rythme et des priorités</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>Étapes Recommandées</h2>
+                <p>Un cheminement progressif pour moderniser votre gestion d'entreprise</p>
+            </div>
+
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">Sept-Nov 2025</div>
+                    <div class="timeline-content">
+                        <h3>Immédiat : MVP de Base</h3>
+                        <p>Procéder avec Phase 1 (MVP) pour €4,500. Livre le système de base dont vous avez besoin immédiatement.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">Déc 2025 - Fév 2026</div>
+                    <div class="timeline-content">
+                        <h3>Court Terme : Expérience Utilisateur</h3>
+                        <p>Utiliser le MVP pendant 2-3 mois. Identifier les plus gros points de friction ou opportunités d'efficacité après utilisation du nouveau système.</p>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">À partir de Mars 2026</div>
+                    <div class="timeline-content">
+                        <h3>Moyen Terme : Priorisation</h3>
+                        <p>Re-prioriser selon l'expérience réelle. Choisir le Package Optionnel le plus valuable à développer ensuite.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box">
+                <h3>Ordre de Priorité Recommandé</h3>
+                <ol>
+                    <li><strong>Package A - Fournisseurs (€1,200)</strong> : ROI immédiat sur optimisation des coûts d'achat</li>
+                    <li><strong>Package B - CRM (€1,000)</strong> : Améliore immédiatement la relation client</li>
+                    <li><strong>Package C ou D selon besoins</strong> : Package C pour conformité financière, Package D pour mobilité</li>
+                </ol>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>Avantages de Cette Approche</h2>
+                <p>Pourquoi notre nouvelle proposition est meilleure pour votre entreprise</p>
+            </div>
+
+            <div class="benefits-grid">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🎯</div>
+                    <h3>Dérisque le Projet</h3>
+                    <p>Investissement initial limité au strict nécessaire. Validation de chaque étape avant le prochain investissement.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h3>Contrôle Budgétaire Total</h3>
+                    <p>Pas d'engagement sur 18 mois. Packages individuels abordables. Paiement seulement quand valeur prouvée.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <h3>Résultats Rapides</h3>
+                    <p>Fonctionnalités ciblées et pratiques. Développement 3-4 semaines par package. Pas de sur-engineering.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔄</div>
+                    <h3>Flexibilité Maximale</h3>
+                    <p>Choix de l'ordre des packages selon priorités réelles. Possibilité de modifier les spécifications. Adaptation aux besoins évolutifs.</p>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>Support et Maintenance</h2>
+                <p>Options flexibles pour accompagner votre croissance</p>
+            </div>
+
+            <div class="support-options">
+                <div class="support-card">
+                    <h3>Support Inclus</h3>
+                    <ul>
+                        <li>MVP : 30 jours de support gratuit</li>
+                        <li>Chaque Package : 15 jours de support gratuit</li>
+                        <li>Documentation complète mise à jour</li>
+                        <li>Formation : 1 heure incluse par package</li>
+                    </ul>
+                </div>
+                
+                <div class="support-card">
+                    <h3>Maintenance Optionnelle</h3>
+                    <div class="support-price">€35/mois</div>
+                    <ul>
+                        <li>Sauvegardes automatiques</li>
+                        <li>Mises à jour de sécurité</li>
+                    </ul>
+                </div>
+                
+                <div class="support-card">
+                    <h3>Support Technique</h3>
+                    <div class="support-price">€50/mois</div>
+                    <ul>
+                        <li>Support technique prioritaire</li>
+                        <li>Sauvegardes et mises à jour</li>
+                        <li>Assistance par email</li>
+                    </ul>
+                </div>
+                
+                <div class="support-card">
+                    <h3>Support Complet</h3>
+                    <div class="support-price">€200/mois</div>
+                    <ul>
+                        <li>Support étendu + hébergement</li>
+                        <li>Monitoring 24/7</li>
+                        <li>Assistance téléphonique</li>
+                        <li>Formations supplémentaires</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <h2>Prêt à moderniser votre gestion d'entreprise?</h2>
+            <p>Contactez-nous dès aujourd'hui pour une consultation gratuite et discuter de la meilleure approche pour votre entreprise.</p>
+            <a href="#contact" class="btn">Nous contacter</a>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <h3>CONTACT</h3>
+            <p><strong>ATOVA Software Agency</strong></p>
+            <p>📍 Antananarivo, Madagascar</p>
+            <p>📧 atova_agency@proton.me</p>
+            <p>📞 034 13 782 71 (Eric Roby)</p>
+            
+            <ul class="footer-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="offre.html">Notre Offre</a></li>
+                <li><a href="original.html">Proposition Originale</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            
+            <p><em>Cette approche garantit que chaque Ariary/Euro dépensé résout un problème réel que vous expérimentez, tout en construisant progressivement le système de vos rêves.</em></p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple script for any interactive elements if needed
+        document.addEventListener('DOMContentLoaded', function() {
+            // You can add interactive functionality here if needed
+        });
+    </script>
+</body>
+</html>

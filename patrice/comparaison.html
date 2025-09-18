@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATOVA vs Sage - Comparaison des Solutions</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: #334155;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: white;
+            margin-bottom: 2rem;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: var(--secondary);
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 0.8rem 1.5rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+        
+        .section-title p {
+            color: var(--secondary);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .comparison {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 4rem;
+        }
+        
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+        }
+        
+        .comparison-table th,
+        .comparison-table td {
+            padding: 1.2rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .comparison-table th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+        
+        .comparison-table tr:last-child td {
+            border-bottom: none;
+        }
+        
+        .atova-badge {
+            background-color: var(--primary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .sage-badge {
+            background-color: var(--secondary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        
+        .price-tag {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+        }
+        
+        .savings-badge {
+            background-color: var(--success);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            font-weight: 600;
+            margin-left: 1rem;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .feature-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .feature-card-header {
+            background-color: var(--primary);
+            color: white;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .feature-card-body {
+            padding: 1.5rem;
+        }
+        
+        .feature-card-body ul {
+            list-style-type: none;
+            margin-bottom: 1.5rem;
+        }
+        
+        .feature-card-body li {
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .feature-card-body li:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-card-body li::before {
+            content: "✓";
+            color: var(--success);
+            font-weight: bold;
+            margin-right: 0.5rem;
+        }
+        
+        .price-comparison {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+        
+        .price-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .price-card.atova {
+            border-top: 5px solid var(--primary);
+        }
+        
+        .price-card.sage {
+            border-top: 5px solid var(--secondary);
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+            color: var(--dark);
+        }
+        
+        .price-details {
+            color: var(--secondary);
+            margin-bottom: 1.5rem;
+        }
+        
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .benefit-card {
+            background: white;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .benefit-icon {
+            font-size: 2.5rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+        
+        .cta {
+            text-align: center;
+            padding: 4rem 0;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+        
+        .cta h2 {
+            font-size: 2.2rem;
+            margin-bottom: 1rem;
+        }
+        
+        .cta p {
+            max-width: 700px;
+            margin: 0 auto 2rem;
+            font-size: 1.1rem;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 2rem 0;
+        }
+        
+        .footer-links li {
+            margin: 0 1rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2rem;
+            }
+            
+            .feature-grid, .price-comparison, .benefits {
+                grid-template-columns: 1fr;
+            }
+            
+            .comparison-table {
+                font-size: 0.9rem;
+            }
+            
+            .comparison-table th,
+            .comparison-table td {
+                padding: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">ATOVA</div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="offre.html">Notre Offre</a></li>
+                    <li><a href="comparaison.html">Comparaison</a></li>
+                    <li><a href="original.html">Proposition Originale</a></li>
+                    <li><a href="revised.html">Proposition Révisée</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>ATOVA vs Sage: Comparaison des Solutions</h1>
+            <p>Découvrez pourquoi ATOVA est la solution de gestion préférée des PME malgaches, avec des fonctionnalités similaires à Sage mais à un prix jusqu'à 78% inférieur.</p>
+            <a href="#comparaison" class="btn">Voir la comparaison</a>
+        </section>
+
+        <section id="comparaison">
+            <div class="section-title">
+                <h2>Comparaison Détaillée</h2>
+                <p>Découvrez comment ATOVA se compare aux solutions Sage en termes de fonctionnalités et de prix</p>
+            </div>
+
+            <div class="comparison">
+                <h3>Fonctionnalités Principales</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Fonctionnalité</th>
+                            <th><span class="atova-badge">ATOVA</span></th>
+                            <th><span class="sage-badge">Sage</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Gestion d'Inventaire</td>
+                            <td>✅ Complet</td>
+                            <td>✅ Complet</td>
+                        </tr>
+                        <tr>
+                            <td>Facturation & Devis</td>
+                            <td>✅ Complet</td>
+                            <td>✅ Complet</td>
+                        </tr>
+                        <tr>
+                            <td>Gestion des Fournisseurs</td>
+                            <td>✅ (Module optionnel)</td>
+                            <td>✅ Inclus</td>
+                        </tr>
+                        <tr>
+                            <td>Gestion Clients (CRM)</td>
+                            <td>✅ (Module optionnel)</td>
+                            <td>✅ (Module additionnel)</td>
+                        </tr>
+                        <tr>
+                            <td>Module Comptable</td>
+                            <td>✅ (Module optionnel)</td>
+                            <td>✅ Inclus</td>
+                        </tr>
+                        <tr>
+                            <td>Accès Mobile</td>
+                            <td>✅ (Module optionnel)</td>
+                            <td>✅ (Module additionnel)</td>
+                        </tr>
+                        <tr>
+                            <td>Support Initial</td>
+                            <td>✅ 30 jours inclus</td>
+                            <td>❌ Payant</td>
+                        </tr>
+                        <tr>
+                            <td>Installation & Formation</td>
+                            <td>✅ Inclus</td>
+                            <td>❌ Payant</td>
+                        </tr>
+                        <tr>
+                            <td>Adaptation PME Malgache</td>
+                            <td>✅ Sur mesure</td>
+                            <td>❌ Générique</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Analyse des Coûts</h3>
+                <table class="comparison-table">
+                    <thead>
+                        <tr>
+                            <th>Coût</th>
+                            <th><span class="atova-badge">ATOVA</span></th>
+                            <th><span class="sage-badge">Sage</span></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Investissement Initial</td>
+                            <td><span class="price-tag">€4,500</span></td>
+                            <td><span class="price-tag">€15,000+</span></td>
+                        </tr>
+                        <tr>
+                            <td>Solution Complète</td>
+                            <td><span class="price-tag">€5,200</span></td>
+                            <td><span class="price-tag">€23,000+</span></td>
+                        </tr>
+                        <tr>
+                            <td>Maintenance Annuelle</td>
+                            <td><span class="price-tag">€420-2,400</span></td>
+                            <td><span class="price-tag">€3,000-4,000</span></td>
+                        </tr>
+                        <tr>
+                            <td>Total Première Année</td>
+                            <td><span class="price-tag">€4,920-7,600</span></td>
+                            <td><span class="price-tag">€23,000-34,000</span></td>
+                        </tr>
+                        <tr>
+                            <td>Économies avec ATOVA</td>
+                            <td colspan="2" style="text-align: center;">
+                                <span class="savings-badge">Économie de 78%</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>Solutions Complètes</h2>
+                <p>Comparez nos packages avec les solutions équivalentes de Sage</p>
+            </div>
+
+            <div class="price-comparison">
+                <div class="price-card atova">
+                    <h3>ATOVA - Solution Complète</h3>
+                    <div class="price">€5,200</div>
+                    <p class="price-details">Tous les modules inclus</p>
+                    <ul>
+                        <li>Gestion d'Inventaire</li>
+                        <li>Facturation & Devis</li>
+                        <li>Gestion des Fournisseurs</li>
+                        <li>Gestion Clients (CRM)</li>
+                        <li>Module Comptable</li>
+                        <li>Accès Mobile</li>
+                        <li>Support 30 jours</li>
+                        <li>Installation & Formation</li>
+                    </ul>
+                    <a href="offre.html" class="btn">Choisir ATOVA</a>
+                </div>
+
+                <div class="price-card sage">
+                    <h3>Sage - Solution Équivalente</h3>
+                    <div class="price">€23,000+</div>
+                    <p class="price-details">Frais supplémentaires cachés</p>
+                    <ul>
+                        <li>Gestion d'Inventaire</li>
+                        <li>Facturation & Devis</li>
+                        <li>Gestion des Fournisseurs</li>
+                        <li>Gestion Clients (CRM) - supplément</li>
+                        <li>Module Comptable</li>
+                        <li>Accès Mobile - supplément</li>
+                        <li>Support - payant</li>
+                        <li>Installation & Formation - payant</li>
+                    </ul>
+                    <a href="#contact" class="btn btn-outline">Contacter Sage</a>
+                </div>
+            </div>
+        </section>
+
+        <section>
+            <div class="section-title">
+                <h2>Pourquoi Choisir ATOVA?</h2>
+                <p>Les avantages distinctifs de notre solution malgache</p>
+            </div>
+
+            <div class="benefits">
+                <div class="benefit-card">
+                    <div class="benefit-icon">💰</div>
+                    <h3>Prix Abordable</h3>
+                    <p>Investissement initial 78% moins cher que Sage, sans frais cachés.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔄</div>
+                    <h3>Modularité Flexible</h3>
+                    <p>Payez seulement ce dont vous avez besoin, ajoutez des fonctionnalités à votre rythme.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">🇲🇬</div>
+                    <h3>Adaptation Locale</h3>
+                    <p>Conçu spécifiquement pour les PME malgaches avec support local.</p>
+                </div>
+                
+                <div class="benefit-card">
+                    <div class="benefit-icon">⚡</div>
+                    <h3>Technologie Moderne</h3>
+                    <p>Next.js 15+, PostgreSQL 16, Docker - meilleures performances que les solutions legacy.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="cta">
+            <h2>Prêt à économiser jusqu'à 78% sur votre solution de gestion?</h2>
+            <p>Contactez-nous dès aujourd'hui pour une démonstration gratuite et une analyse d'économies personnalisée.</p>
+            <a href="#contact" class="btn">Nous contacter</a>
+        </section>
+    </main>
+
+    <footer id="contact">
+        <div class="container">
+            <h3>CONTACT</h3>
+            <p><strong>ATOVA Software Agency</strong></p>
+            <p>📍 Antananarivo, Madagascar</p>
+            <p>📧 atova_agency@proton.me</p>
+            <p>📞 034 13 782 71 (Eric Roby)</p>
+            
+            <ul class="footer-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="offre.html">Notre Offre</a></li>
+                <li><a href="comparaison.html">Comparaison</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            
+            <p><em>Choisissez la solution malgache moderne, adaptable et économiquement intelligente.</em></p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple script for any interactive elements if needed
+        document.addEventListener('DOMContentLoaded', function() {
+            // You can add interactive functionality here if needed
+        });
+    </script>
+</body>
+</html>

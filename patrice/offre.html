@@ -1,0 +1,831 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATOVA - Proposition de Système de Gestion</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: #334155;
+            line-height: 1.6;
+            counter-reset: section;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Navigation styles from index.html */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+        
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+        
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        }
+        
+        /* Hero section */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            background: white;
+            margin: 2rem 0;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+        
+        .hero p {
+            font-size: 1.2rem;
+            max-width: 800px;
+            margin: 0 auto 2rem;
+            color: var(--secondary);
+        }
+        
+        /* Rest of the existing styles */
+        .header-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .document-info {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .info-value {
+            font-weight: 500;
+        }
+        
+        .content {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+            counter-increment: section;
+        }
+        
+        h2::before {
+            content: counter(section) ". ";
+            color: var(--primary);
+        }
+        
+        h3 {
+            color: var(--dark);
+            margin: 1.5rem 0 0.8rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight {
+            background-color: #f1f5f9;
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-card {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .timeline {
+            position: relative;
+            margin: 2rem 0;
+            padding-left: 2rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background-color: var(--primary);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--primary);
+        }
+        
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-content {
+            background-color: #f8fafc;
+            padding: 1rem;
+            border-radius: 5px;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .pricing-box {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+        
+        .payment-plan {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .payment-phase {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .phase-percent {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .phase-amount {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+        
+        .responsibilities {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+        }
+        
+        .responsibility-card {
+            background-color: #f8fafc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+        }
+        
+        .responsibility-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .benefit-card {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .benefit-icon {
+            font-size: 2.5rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+        
+        .cta {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin: 0 0.5rem;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 2rem 0;
+        }
+        
+        .footer-links li {
+            margin: 0 1rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .feature-grid, .payment-plan, .responsibilities, .benefits {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">ATOVA</div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="offre.html">Notre Offre</a></li>
+                    <li><a href="comparaison.html">Comparaison</a></li>
+                    <li><a href="original.html">Proposition Originale</a></li>
+                    <li><a href="revised.html">Proposition Révisée</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <section class="hero">
+            <h1>Système de Gestion de Stock et Facturation sur Mesure</h1>
+            <p>Software Agency</p>
+        </section>
+
+        <div class="document-info">
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">CLIENT</span>
+                    <span class="info-value">[Nom du Client]</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">CONTACT</span>
+                    <span class="info-value">[Nom de la Personne de Contact]</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">PRÉPARÉ PAR</span>
+                    <span class="info-value">ATOVA Software Agency</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">DATE</span>
+                    <span class="info-value">18 Septembre 2025</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">LOCALISATION</span>
+                    <span class="info-value">Antananarivo, Madagascar</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="content">
+            <h2>RÉSUMÉ EXÉCUTIF</h2>
+            <p>ATOVA Software Agency vous propose le développement d'un système de gestion de stock et de facturation moderne, sécurisé et adapté à vos besoins spécifiques. Cette solution web vous permettra de remplacer efficacement vos méthodes actuelles de gestion manuelle par un système automatisé et fiable.</p>
+            
+            <div class="highlight">
+                <h3>Valeur Proposée</h3>
+                <p><strong>Prix Total :</strong> €4,500 (HT)</p>
+                <p><strong>Calendrier de Paiement :</strong> 30% à la signature (€1,350), 40% à la livraison des fonctionnalités principales (€1,800), 30% à l'installation finale (€1,350)</p>
+                <p><strong>Date de Début :</strong> 22 Septembre 2025</p>
+                <p><strong>Livraison Prévue :</strong> Mi-Novembre 2025 (8 semaines)</p>
+            </div>
+
+            <h2>OBJECTIFS DU PROJET</h2>
+            <p>Développer un système de gestion d'inventaire basé sur le web qui vous permettra de :</p>
+            <ul>
+                <li>✅ Suivre efficacement votre stock en temps réel</li>
+                <li>✅ Générer des factures professionnelles automatiquement</li>
+                <li>✅ Accéder à des rapports détaillés sur votre activité</li>
+                <li>✅ Gérer les accès utilisateurs avec différents niveaux de permissions</li>
+                <li>✅ Remplacer définitivement vos processus manuels actuels</li>
+            </ul>
+
+            <h2>FONCTIONNALITÉS INCLUSES</h2>
+            
+            <div class="feature-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Système d'Authentification Sécurisé</h3>
+                    <ul>
+                        <li>Connexion avec nom d'utilisateur et mot de passe</li>
+                        <li>Gestion des rôles (Administrateur, Manager, Utilisateur)</li>
+                        <li>Contrôle d'accès basé sur les permissions</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📦</div>
+                    <h3>Gestion Complète de l'Inventaire</h3>
+                    <ul>
+                        <li>Ajout, modification, suppression de produits</li>
+                        <li>Champs détaillés : Nom, Code SKU, Description, Catégorie, Prix d'achat, Prix de vente, Quantité</li>
+                        <li>Recherche avancée et filtres par catégorie</li>
+                        <li>Alertes de stock faible</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">🧾</div>
+                    <h3>Module de Facturation</h3>
+                    <ul>
+                        <li>Interface intuitive pour créer des factures</li>
+                        <li>Sélection automatique des produits depuis l'inventaire</li>
+                        <li>Calcul automatique des sous-totaux, taxes et totaux</li>
+                        <li>Génération de factures PDF téléchargeables</li>
+                        <li>Historique complet de toutes les factures</li>
+                    </ul>
+                </div>
+                
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Rapports et Analyses</h3>
+                    <ul>
+                        <li>Journal d'activité de toutes les actions importantes</li>
+                        <li>Rapports de volume de ventes par période</li>
+                        <li>Export des données en format CSV</li>
+                        <li>Tableaux de bord visuels</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>TECHNOLOGIE MODERNE ET FIABLE</h2>
+            <p>Nous utilisons des technologies éprouvées et modernes :</p>
+            <ul>
+                <li><strong>Interface Utilisateur :</strong> Next.js 15+ avec TypeScript pour une expérience fluide</li>
+                <li><strong>Base de Données :</strong> PostgreSQL 16 pour une sécurité et performance optimales</li>
+                <li><strong>Sécurité :</strong> Authentification robuste avec Next-Auth.js</li>
+                <li><strong>Design :</strong> Interface moderne и responsive avec Tailwind CSS</li>
+                <li><strong>Déploiement :</strong> Conteneurisation avec Docker pour une installation simple</li>
+            </ul>
+
+            <h2>CALENDRIER DE LIVRAISON</h2>
+            
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-date">22 Sept - 6 Oct 2025</div>
+                    <div class="timeline-content">
+                        <h3>Phase 1 : Fondations</h3>
+                        <ul>
+                            <li>Configuration de l'environnement de développement</li>
+                            <li>Conception et mise en place de la base de données</li>
+                            <li>Système d'authentification fonctionnel</li>
+                            <li>Interface de base avec navigation</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">6 Oct - 3 Nov 2025</div>
+                    <div class="timeline-content">
+                        <h3>Phase 2 : Développement Principal</h3>
+                        <ul>
+                            <li>Module d'inventaire complet</li>
+                            <li>Système de facturation avec génération PDF</li>
+                            <li>Module de rapports de base</li>
+                            <li><strong>Livrable :</strong> Version complète pour vos tests</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">3 Nov - 10 Nov 2025</div>
+                    <div class="timeline-content">
+                        <h3>Phase 3 : Tests et Préparation</h3>
+                        <ul>
+                            <li>Conteneurisation de l'application</li>
+                            <li>Tests approfondis de toutes les fonctionnalités</li>
+                            <li><strong>Démonstration complète</strong> pour approbation</li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div class="timeline-item">
+                    <div class="timeline-date">10 Nov - 17 Nov 2025</div>
+                    <div class="timeline-content">
+                        <h3>Phase 4 : Installation et Formation</h3>
+                        <ul>
+                            <li>Installation sur votre serveur</li>
+                            <li>Formation de vos équipes</li>
+                            <li>Remise du code source</li>
+                            <li><strong>Livraison finale MVP:</strong> Mi-Novembre 2025</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <h2>EXIGENCES DE VOTRE SERVEUR</h2>
+            <p>Pour garantir le bon fonctionnement du système :</p>
+            
+            <h3>Configuration Minimale Requise</h3>
+            <table>
+                <tr>
+                    <th>Composant</th>
+                    <th>Exigence</th>
+                </tr>
+                <tr>
+                    <td>Système</td>
+                    <td>Ubuntu 22.04 LTS ou plus récent</td>
+                </tr>
+                <tr>
+                    <td>Processeur</td>
+                    <td>2 Cœurs minimum</td>
+                </tr>
+                <tr>
+                    <td>Mémoire</td>
+                    <td>4 GB RAM minimum</td>
+                </tr>
+                <tr>
+                    <td>Stockage</td>
+                    <td>20 GB SSD minimum</td>
+                </tr>
+                <tr>
+                    <td>Logiciels</td>
+                    <td>Docker et Docker Compose (nous pouvons vous aider à l'installation)</td>
+                </tr>
+                <tr>
+                    <td>Réseau</td>
+                    <td>Adresse IP statique et connexion internet stable</td>
+                </tr>
+            </table>
+
+            <h2>RESPONSABILITÉS</h2>
+            
+            <div class="responsibilities">
+                <div class="responsibility-card">
+                    <div class="responsibility-title">ATOVA Software Agency s'engage à :</div>
+                    <ul>
+                        <li>Développer le système selon les spécifications</li>
+                        <li>Fournir une formation complète à vos équipes</li>
+                        <li>Installer le système sur votre serveur</li>
+                        <li>Assurer 30 jours de support technique gratuit après installation</li>
+                        <li>Livrer le code source complet</li>
+                    </ul>
+                </div>
+                
+                <div class="responsibility-card">
+                    <div class="responsibility-title">Votre responsabilité :</div>
+                    <ul>
+                        <li>Fournir l'accès à votre serveur (IP), pour installation</li>
+                        <li>S'assurer que le serveur respecte les exigences techniques</li>
+                        <li>Maintenir l'infrastructure matérielle (matériel, alimentation, réseau)</li>
+                        <li>Fournir un echantillon base de donnée (déjà fait)</li>
+                        <li>Systeme de code complet</li>
+                        <li>Example usege du systeme en place</li>
+                        <li>Photo capture d'ecrant systeme en place.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <h2>SUPPORT ET MAINTENANCE</h2>
+            
+            <h3>Support Initial Inclus</h3>
+            <ul>
+                <li>30 jours de correction de bugs gratuite après livraison</li>
+                <li>Formation de vos équipes à l'utilisation du système</li>
+                <li>Documentation complète du système</li>
+            </ul>
+            
+            <h3>Support Étendu (Optionnel)</h3>
+            <p>Un contrat de maintenance séparé peut être établi pour :</p>
+            <ul>
+                <li>Support technique continu</li>
+                <li>Mises à jour et améliorations</li>
+                <li>Sauvegarde automatisée des données</li>
+                <li>Monitoring du système</li>
+            </ul>
+
+            <h2>AVANTAGES POUR VOTRE ENTREPRISE</h2>
+            
+            <h3>Immédiat</h3>
+            <div class="benefits">
+                <div class="benefit-card">
+                    <div class="benefit-icon">✅</div>
+                    <h4>Élimination des erreurs</h4>
+                    <p>Élimination des erreurs de saisie manuelle</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">⏱️</div>
+                    <h4>Gain de temps</h4>
+                    <p>Gain de temps considérable dans la gestion quotidienne</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🧾</div>
+                    <h4>Factures professionnelles</h4>
+                    <p>Factures professionnelles générées automatiquement</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📦</div>
+                    <h4>Accès instantané</h4>
+                    <p>Accès instantané à l'état de votre stock</p>
+                </div>
+            </div>
+            
+            <h3>À Long Terme</h3>
+            <div class="benefits">
+                <div class="benefit-card">
+                    <div class="benefit-icon">🔍</div>
+                    <h4>Traçabilité complète</h4>
+                    <p>Traçabilité complète de toutes les opérations</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">📈</div>
+                    <h4>Analyses détaillées</h4>
+                    <p>Analyses détaillées pour optimiser votre activité</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🚀</div>
+                    <h4>Évolutivité</h4>
+                    <p>Évolutivité : possibilité d'ajouter de nouvelles fonctionnalités</p>
+                </div>
+                <div class="benefit-card">
+                    <div class="benefit-icon">🏢</div>
+                    <h4>Indépendance</h4>
+                    <p>Indépendance totale avec votre propre serveur</p>
+                </div>
+            </div>
+
+            <h2>CONDITIONS COMMERCIALES</h2>
+            
+            <h3>Prix et Paiement</h3>
+            <div class="pricing-box">
+                <div class="price">€4,500 <small>(Hors Taxes)</small></div>
+                <p>Montant Total</p>
+            </div>
+            
+            <div class="payment-plan">
+                <div class="payment-phase">
+                    <div class="phase-percent">30%</div>
+                    <div class="phase-amount">€1,350</div>
+                    <p>À la signature du contrat</p>
+                </div>
+                <div class="payment-phase">
+                    <div class="phase-percent">40%</div>
+                    <div class="phase-amount">€1,800</div>
+                    <p>À la livraison des fonctionnalités principales</p>
+                </div>
+                <div class="payment-phase">
+                    <div class="phase-percent">30%</div>
+                    <div class="phase-amount">€1,350</div>
+                    <p>À l'installation finale</p>
+                </div>
+            </div>
+            
+            <h3>Modalités</h3>
+            <ul>
+                <li>Paiement par virement bancaire, cash</li>
+                <li>Devise : Euro (€) 10% en moins sur le montant total, Ariary</li>
+                <li>Délai de règlement : 15 jours après réception de facture</li>
+            </ul>
+
+            <h2>PROCHAINES ÉTAPES</h2>
+            <p>Pour démarrer ce projet :</p>
+            <ol>
+                <li><strong>Validation de cette proposition</strong> par votre équipe</li>
+                <li><strong>Signature du contrat</strong> et premier versement</li>
+                <li><strong>Début du développement</strong> le 22 Septembre 2025</li>
+                <li><strong>Points réguliers</strong> pour suivre l'avancement</li>
+                <li><strong>Livraison</strong> prévue pour mi-novembre 2025</li>
+            </ol>
+
+            <div class="cta">
+                <a href="#contact" class="btn">Nous contacter</a>
+                <a href="index.html" class="btn btn-outline">Retour à l'accueil</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <h3>CONTACT</h3>
+            <p><strong>ATOVA Software Agency</strong></p>
+            <p>📍 Antananarivo, Madagascar</p>
+            <p>📧 atova_agency@proton.me</p>
+            <p>📞 034 13 782 71 (Eric Roby)</p>
+            
+            <ul class="footer-links">
+                <li><a href="index.html">Accueil</a></li>
+                <li><a href="offre.html">Notre Offre</a></li>
+                <li><a href="comparaison.html">Comparaison</a></li>
+                <li><a href="original.html">Proposition Originale</a></li>
+                <li><a href="revised.html">Proposition Révisée</a></li>
+            </ul>
+            
+            <p><em>Cette proposition est valable 30 jours à compter de la date d'émission.</em></p>
+        </div>
+    </footer>
+
+    <script>
+        // Simple script to handle FAQ toggles if needed
+        document.addEventListener('DOMContentLoaded', function() {
+            // You can add interactive functionality here if needed
+        });
+    </script>
+</body>
+</html>

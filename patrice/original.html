@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATOVA - Proposition Originale Complète</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --secondary: #64748b;
+            --light: #f8fafc;
+            --dark: #1e293b;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f1f5f9;
+            color: #334155;
+            line-height: 1.6;
+            counter-reset: phase;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Navigation Styles */
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            color: white;
+            text-decoration: none;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+        }
+        
+        .nav-links a:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .nav-links a.active {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+        
+        .menu-toggle {
+            display: none;
+            flex-direction: column;
+            justify-content: space-between;
+            width: 30px;
+            height: 21px;
+            cursor: pointer;
+        }
+        
+        .menu-toggle span {
+            height: 3px;
+            width: 100%;
+            background-color: white;
+            border-radius: 3px;
+            transition: all 0.3s;
+        }
+        
+        /* Header Content */
+        .header-content {
+            text-align: center;
+            padding: 2rem 0;
+        }
+        
+        .header-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            margin-top: 0.5rem;
+        }
+        
+        .document-info {
+            background-color: white;
+            padding: 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin: 2rem auto;
+            max-width: 800px;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .info-label {
+            font-weight: 600;
+            color: var(--secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.3rem;
+        }
+        
+        .info-value {
+            font-weight: 500;
+        }
+        
+        .content {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            margin-bottom: 3rem;
+        }
+        
+        h1 {
+            color: var(--dark);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--primary);
+        }
+        
+        h2 {
+            color: var(--primary);
+            margin: 2rem 0 1rem;
+            counter-increment: phase;
+        }
+        
+        h2::before {
+            content: "Phase " counter(phase) " : ";
+            color: var(--primary);
+        }
+        
+        h3 {
+            color: var(--dark);
+            margin: 1.5rem 0 0.8rem;
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        ul, ol {
+            margin-left: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        .highlight {
+            background-color: #f1f5f9;
+            border-left: 4px solid var(--primary);
+            padding: 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 5px 5px 0;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        
+        .feature-card {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            color: var(--primary);
+        }
+        
+        .timeline {
+            position: relative;
+            margin: 2rem 0;
+            padding-left: 2rem;
+        }
+        
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 7px;
+            top: 0;
+            height: 100%;
+            width: 2px;
+            background-color: var(--primary);
+        }
+        
+        .timeline-item {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+        
+        .timeline-item::before {
+            content: '';
+            position: absolute;
+            left: -2rem;
+            top: 5px;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--primary);
+        }
+        
+        .timeline-date {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .timeline-content {
+            background-color: #f8fafc;
+            padding: 1rem;
+            border-radius: 5px;
+            border-left: 3px solid var(--primary);
+        }
+        
+        .pricing-box {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+            color: white;
+            padding: 2rem;
+            border-radius: 10px;
+            text-align: center;
+            margin: 2rem 0;
+        }
+        
+        .price {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+        
+        .payment-plan {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .payment-phase {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .phase-percent {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+        }
+        
+        .phase-amount {
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+        }
+        
+        th, td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        
+        th {
+            background-color: #f1f5f9;
+            font-weight: 600;
+        }
+        
+        .budget-table {
+            width: 100%;
+            margin: 2rem 0;
+        }
+        
+        .budget-table th {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        .budget-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+        
+        .code-block {
+            background-color: #1e293b;
+            color: #f1f5f9;
+            padding: 1.5rem;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            font-family: monospace;
+            font-size: 0.9rem;
+        }
+        
+        .benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .benefit-card {
+            background-color: white;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .benefit-icon {
+            font-size: 2.5rem;
+            color: var(--success);
+            margin-bottom: 1rem;
+        }
+        
+        .phase-benefits {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .phase-benefit {
+            background-color: #f8fafc;
+            border-radius: 8px;
+            padding: 1.5rem;
+            border-left: 4px solid var(--primary);
+        }
+        
+        .cta {
+            text-align: center;
+            padding: 3rem 0;
+        }
+        
+        .btn {
+            display: inline-block;
+            background-color: var(--primary);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            margin: 0 0.5rem;
+        }
+        
+        .btn:hover {
+            background-color: var(--primary-dark);
+        }
+        
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+        
+        .btn-outline:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+        
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+            margin-top: 3rem;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            margin: 2rem 0;
+        }
+        
+        .footer-links li {
+            margin: 0 1rem;
+        }
+        
+        .footer-links a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        .footer-links a:hover {
+            text-decoration: underline;
+        }
+        
+        @media (max-width: 768px) {
+            .feature-grid, .payment-plan, .benefits, .phase-benefits {
+                grid-template-columns: 1fr;
+            }
+            
+            .info-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .footer-links li {
+                margin: 0.5rem 0;
+            }
+            
+            /* Mobile Navigation */
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+                flex-direction: column;
+                align-items: center;
+                padding: 2rem 0;
+                gap: 1.5rem;
+                clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+                transition: clip-path 0.4s ease-in-out;
+                z-index: 999;
+            }
+            
+            .nav-links.active {
+                clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+            }
+            
+            .menu-toggle.active span:nth-child(1) {
+                transform: rotate(45deg) translate(5px, 5px);
+            }
+            
+            .menu-toggle.active span:nth-child(2) {
+                opacity: 0;
+            }
+            
+            .menu-toggle.active span:nth-child(3) {
+                transform: rotate(-45deg) translate(7px, -6px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <nav>
+                <a href="index.html" class="logo">ATOVA</a>
+                <div class="menu-toggle" id="mobile-menu">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="index.html">Accueil</a></li>
+                    <li><a href="offre.html">Notre Offre</a></li>
+                    <li><a href="comparaison.html">Comparaison</a></li>
+                    <li><a href="original.html" class="active">Proposition Originale</a></li>
+                    <li><a href="revised.html">Proposition Révisée</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <main class="container">
+        <div class="document-info">
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">PROJET</span>
+                    <span class="info-value">Système de Gestion Intégré Complet</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">CLIENT</span>
+                    <span class="info-value">[Nom du Client]</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">DÉVELOPPEUR</span>
+                    <span class="info-value">ATOVA Software Agency</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">VERSION</span>
+                    <span class="info-value">1.0</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">DATE</span>
+                    <span class="info-value">18 Septembre 2025</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Le reste du contenu reste inchangé -->
+        <div class="content">
+            <h2>VISION DU PROJET</h2>
+            <p>Développer un écosystème complet de gestion d'entreprise couvrant l'ensemble de la chaîne d'approvisionnement, de la gestion des fournisseurs à la vente finale, en passant par l'inventaire, les achats, et la comptabilité. Le système évoluera en phases pour devenir une solution ERP complète adaptée aux PME malgaches.</p>
+<h2>MVP - FONDATIONS (Septembre - Novembre 2025)</h2>
+            
+            <div class="highlight">
+                <h3>Objectif Phase 1</h3>
+                <p>Créer le socle fonctionnel pour la gestion d'inventaire et de facturation, remplaçant immédiatement les processus manuels actuels.</p>
+                <p><strong>Budget Phase 1 :</strong> €4,500 (8 semaines)</p>
+            </div>
+
+            <h3>Module d'Authentification et Sécurité</h3>
+            <h4>Fonctionnalités MVP</h4>
+            <ul>
+                <li><strong>Connexion sécurisée</strong> avec nom d'utilisateur/mot de passe</li>
+                <li><strong>Gestion des rôles</strong> : Administrateur, Manager, Utilisateur</li>
+                <li><strong>Contrôle d'accès</strong> basé sur les permissions (RBAC)</li>
+                <li><strong>Sessions sécurisées</strong> avec expiration automatique</li>
+                <li><strong>Journal d'audit</strong> des connexions</li>
+            </ul>
+            
+            <h4>Spécifications Techniques</h4>
+            <ul>
+                <li>Next-Auth.js avec fournisseur Credentials</li>
+                <li>Hachage bcrypt pour mots de passe</li>
+                <li>JWT tokens sécurisés</li>
+                <li>Middleware de protection des routes</li>
+            </ul>
+
+            <h3>Module de Gestion d'Inventaire</h3>
+            <h4>Fonctionnalités MVP</h4>
+            <ul>
+                <li><strong>CRUD Produits</strong> : Créer, Lire, Modifier, Supprimer</li>
+                <li><strong>Champs produit</strong> : Nom, SKU, Description, Catégorie, Prix achat/vente, Quantité</li>
+                <li><strong>Recherche avancée</strong> par nom, SKU, catégorie</li>
+                <li><strong>Filtres</strong> : Stock faible, par catégorie, par prix</li>
+                <li><strong>Alertes stock</strong> : Notifications automatiques stock &lt; 10 unités</li>
+                <li><strong>Historique des mouvements</strong> de stock basique</li>
+            </ul>
+
+            <h4>Structure de Données</h4>
+            <div class="code-block">
+                Products Table:
+                - id (UUID)
+                - name (VARCHAR, Required)
+                - sku (VARCHAR, Unique, Required)
+                - description (TEXT)
+                - category (VARCHAR)
+                - buy_price (DECIMAL)
+                - sell_price (DECIMAL, Required)
+                - current_quantity (INTEGER, Default 0)
+                - min_stock_alert (INTEGER, Default 10)
+                - created_at, updated_at (TIMESTAMP)
+            </div>
+
+            <h3>Module de Facturation</h3>
+            <h4>Fonctionnalités MVP</h4>
+            <ul>
+                <li><strong>Création de factures</strong> avec sélection produits depuis inventaire</li>
+                <li><strong>Calculs automatiques</strong> : sous-totaux, total TTC</li>
+                <li><strong>Décrémentation automatique</strong> des stocks</li>
+                <li><strong>Numérotation séquentielle</strong> : FAC-2025-0001</li>
+                <li><strong>Génération PDF</strong> avec logo et informations légales</li>
+                <li><strong>Liste et recherche</strong> des factures historiques</li>
+                <li><strong>Statuts factures</strong> : Brouillon, Validée, Payée</li>
+            </ul>
+
+            <h4>Structure de Données</h4>
+            <div class="code-block">
+                Invoices Table:
+                - id (UUID)
+                - invoice_number (VARCHAR, Unique)
+                - customer_name (VARCHAR, Required)
+                - customer_address (TEXT)
+                - invoice_date (DATE)
+                - due_date (DATE)
+                - subtotal, tax_amount, total_amount (DECIMAL)
+                - status (ENUM)
+                - notes (TEXT)
+                - created_by (UUID, FK Users)
+
+                Invoice_Items Table:
+                - invoice_id (FK), product_id (FK)
+                - quantity, unit_price, line_total (DECIMAL)
+            </div>
+
+            <h3>Module de Rapports Basiques</h3>
+            <h4>Fonctionnalités MVP</h4>
+            <ul>
+                <li><strong>Journal d'activité</strong> : Traçabilité complète des actions utilisateurs</li>
+                <li><strong>Rapports de ventes</strong> : Volume par période (jour/semaine/mois)</li>
+                <li><strong>Statistiques produits</strong> : Top ventes, rotation stock</li>
+                <li><strong>Tableaux de bord</strong> : KPIs essentiels</li>
+                <li><strong>Export CSV</strong> de tous les rapports</li>
+                <li><strong>Graphiques simples</strong> : Histogrammes, courbes temporelles</li>
+            </ul>
+
+            <h4>KPIs Inclus</h4>
+            <ul>
+                <li>Chiffre d'affaires par période</li>
+                <li>Nombre de factures générées</li>
+                <li>Produits les plus/moins vendus</li>
+                <li>Évolution des stocks</li>
+                <li>Activite utilisateurs</li>
+            </ul>
+
+            <h2>GESTION DES FOURNISSEURS (Décembre 2025 - Février 2026)</h2>
+            
+            <div class="highlight">
+                <h3>Objectif Phase 2</h3>
+                <p>Intégrer la gestion complète des fournisseurs et des achats pour automatiser l'approvisionnement.</p>
+                <p><strong>Budget Estimé Phase 2 :</strong> €3,500 (6 semaines)</p>
+            </div>
+
+            <h3>Module de Gestion des Fournisseurs</h3>
+            <h4>Fonctionnalités Avancées</h4>
+            <ul>
+                <li><strong>Base de données fournisseurs</strong> complète</li>
+                <li><strong>Profils fournisseurs</strong> : Coordonnées, conditions, historique</li>
+                <li><strong>Évaluation fournisseurs</strong> : Notes qualité, délais, fiabilité</li>
+                <li><strong>Gestion des contacts</strong> multiples par fournisseur</li>
+                <li><strong>Documents fournisseurs</strong> : Contrats, certifications, assurances</li>
+                <li><strong>Alertes fournisseurs</strong> : Renouvellement contrats, évaluations</li>
+            </ul>
+
+            <h4>Structure de Données</h4>
+            <div class="code-block">
+                Suppliers Table:
+                - id (UUID)
+                - company_name (VARCHAR, Required)
+                - contact_person (VARCHAR)
+                - email, phone (VARCHAR)
+                - address (TEXT)
+                - tax_number (VARCHAR)
+                - payment_terms (VARCHAR)
+                - rating (INTEGER 1-5)
+                - status (ENUM: active, inactive, blacklisted)
+                - created_at, updated_at (TIMESTAMP)
+
+                Supplier_Contacts Table:
+                - supplier_id (FK)
+                - name, position, email, phone (VARCHAR)
+                - is_primary (BOOLEAN)
+
+                Supplier_Products Table:
+                - supplier_id (FK), product_id (FK)
+                - supplier_sku (VARCHAR)
+                - cost_price (DECIMAL)
+                - min_order_qty (INTEGER)
+                - lead_time_days (INTEGER)
+            </div>
+
+            <h3>Module de Procurement (Achats)</h3>
+            <h4>Fonctionnalités Avancées</h4>
+            <ul>
+                <li><strong>Demandes d'achat</strong> avec workflow d'approbation</li>
+                <li><strong>Bons de commande</strong> automatiques ou manuels</li>
+                <li><strong>Comparaison fournisseurs</strong> : Prix, délais, conditions</li>
+                <li><strong>Réception des marchandises</strong> avec contrôle qualité</li>
+                <li><strong>Factures fournisseurs</strong> et rapprochement 3-way matching</li>
+                <li><strong>Planification automatique</strong> des réapprovisionnements</li>
+            </ul>
+
+            <h4>Workflows Intégrés</h4>
+            <ol>
+                <li><strong>Détection automatique</strong> stock bas → Alerte procurement</li>
+                <li><strong>Création demande d'achat</strong> → Approbation manager</li>
+                <li><strong>Génération bon de commande</strong> → Envoi fournisseur (email/PDF)</li>
+                <li><strong>Réception marchandises</strong> → Mise à jour stock</li>
+                <li><strong>Validation facture fournisseur</strong> → Intégration comptable</li>
+            </ol>
+
+            <h4>Structure de Données</h4>
+            <div class="code-block">
+                Purchase_Requests Table:
+                - id (UUID)
+                - product_id (FK)
+                - requested_quantity (INTEGER)
+                - reason (TEXT)
+                - status (ENUM: pending, approved, rejected)
+                - requested_by, approved_by (FK Users)
+                - created_at, approved_at (TIMESTAMP)
+
+                Purchase_Orders Table:
+                - po_number (VARCHAR, Unique)
+                - supplier_id (FK)
+                - order_date, expected_date (DATE)
+                - status (ENUM: draft, sent, confirmed, received, closed)
+                - total_amount (DECIMAL)
+                - notes (TEXT)
+
+                Purchase_Order_Items Table:
+                - po_id (FK), product_id (FK)
+                - ordered_qty, received_qty (INTEGER)
+                - unit_cost, line_total (DECIMAL)
+
+                Stock_Receipts Table:
+                - po_id (FK), product_id (FK)
+                - received_qty (INTEGER)
+                - received_date (TIMESTAMP)
+                - quality_check (ENUM: pass, fail, pending)
+                - received_by (FK Users)
+            </div>
+
+            <h2>CRM ET VENTES AVANCÉES (Mars - Mai 2026)</h2>
+            
+            <div class="highlight">
+                <h3>Objectif Phase 3</h3>
+                <p>Améliorer la gestion client avec des fonctionnalités CRM essentielles et des processus de vente simplifiés.</p>
+                <p><strong>Budget Estimé Phase 3 :</strong> €2,800 (6 semaines)</p>
+            </div>
+
+            <h3>Module CRM Simplifié</h3>
+            <h4>Fonctionnalités Essentielles</h4>
+            <ul>
+                <li><strong>Fiche client complète</strong> : Coordonnées, historique achats</li>
+                <li><strong>Historique des ventes</strong> par client avec statistiques</li>
+                <li><strong>Clients fidèles</strong> : Identification gros clients, fréquence d'achat</li>
+                <li><strong>Relances impayés</strong> : Suivi factures en retard</li>
+                <li><strong>Liste de diffusion</strong> : Emails promotionnels basiques</li>
+                <li><strong>Notes client</strong> : Commentaires et préférences</li>
+            </ul>
+
+            <h4>Structure de Données Simplifiée</h4>
+            <div class="code-block">
+                Customers Table:
+                - id (UUID)
+                - customer_code (VARCHAR, Unique)
+                - name, company_name (VARCHAR)
+                - phone, email (VARCHAR)
+                - address (TEXT)
+                - customer_type (ENUM: individual, company, vip)
+                - credit_limit (DECIMAL)
+                - total_purchases (DECIMAL)
+                - last_purchase_date (DATE)
+                - status (ENUM: active, inactive)
+                - notes (TEXT)
+            </div>
+
+            <h3>Module de Ventes Simplifiées</h3>
+            <h4>Fonctionnalités Pratiques</h4>
+            <ul>
+                <li><strong>Devis rapides</strong> avec conversion facture en 1 clic</li>
+                <li><strong>Remises clients</strong> : Pourcentages fixes par type de client</li>
+                <li><strong>Historique négociations</strong> : Prix accordés précédemment</li>
+                <li><strong>Bons de livraison</strong> basiques</li>
+                <li><strong>Suivi des paiements</strong> avec relances automatiques</li>
+                <li><strong>Statistiques commerciales</strong> : CA par client, période</li>
+            </ul>
+
+            <h4>Fonctionnalités Retirées (trop complexes pour PME)</h4>
+            <ul>
+                <li><del>Pipeline de vente complexe</del></li>
+                <li><del>Campagnes marketing avancées</del></li>
+                <li><del>Segmentation automatique</del></li>
+                <li><del>Grilles tarifaires multiples</del></li>
+            </ul>
+
+            <h2>COMPTABILITÉ ET FINANCES (Juin - Septembre 2026)</h2>
+            
+            <div class="highlight">
+                <h3>Objectif Phase 4</h3>
+                <p>Intégrer la comptabilité générale et la gestion financière pour une conformité fiscale complète.</p>
+                <p><strong>Budget Estimé Phase 4 :</strong> €5,200 (10 semaines)</p>
+            </div>
+
+            <h3>Module de Comptabilité Adaptée PME</h3>
+            <h4>Fonctionnalités Avancées</h4>
+            <ul>
+                <li><strong>Plan comptable</strong> malgache standard</li>
+                <li><strong>Écritures automatiques</strong> depuis ventes/achats</li>
+                <li><strong>Grand livre</strong> et balances comptables</li>
+                <li><strong>Rapprochement bancaire</strong> semi-automatique</li>
+                <li><strong>Déclarations fiscales</strong> : TVA, impôts, charges</li>
+                <li><strong>Clôture d'exercice</strong> avec reports à nouveau</li>
+            </ul>
+
+            <h4>Structure de Données</h4>
+            <div class="code-block">
+                Chart_Of_Accounts Table:
+                - account_code (VARCHAR, Primary Key)
+                - account_name (VARCHAR, Required)
+                - account_type (ENUM: asset, liability, equity, revenue, expense)
+                - parent_account (FK nullable)
+                - is_active (BOOLEAN)
+
+                Journal_Entries Table:
+                - entry_number (VARCHAR, Unique)
+                - entry_date (DATE)
+                - description (TEXT)
+                - reference (VARCHAR)
+                - total_debit, total_credit (DECIMAL)
+                - status (ENUM: draft, posted, reversed)
+                - created_by (FK Users)
+
+                Journal_Entry_Lines Table:
+                - entry_id (FK)
+                - account_code (FK)
+                - description (TEXT)
+                - debit_amount, credit_amount (DECIMAL)
+                - line_number (INTEGER)
+            </div>
+
+            <h3>Module de Gestion Financière Simplifiée</h3>
+            <h4>Fonctionnalités Adaptées</h4>
+            <ul>
+                <li><strong>Suivi factures clients</strong> : Échéances, relances, paiements</li>
+                <li><strong>Suivi factures fournisseurs</strong> : Planning paiements, alertes</li>
+                <li><strong>Caisse et banque</strong> : Rapprochements simples</li>
+                <li><strong>Budget annuel</strong> : Prévisions vs réalisé</li>
+                <li><strong>Tableau de bord financier</strong> : Ratios essentiels (CA, marges, trésorerie)</li>
+            </ul>
+
+            <h2>BUSINESS INTELLIGENCE ET ANALYTICS (Octobre - Décembre 2026)</h2>
+            
+            <div class="highlight">
+                <h3>Objectif Phase 5</h3>
+                <p>Transformer les données en insights stratégiques avec des outils d'analyse pratiques.</p>
+                <p><strong>Budget Estimé Phase 5 :</strong> €3,800 (8 semaines)</p>
+            </div>
+
+            <h3>Module de Business Intelligence Adaptée</h3>
+            <h4>Fonctionnalités Pratiques</h4>
+            <ul>
+                <li><strong>Tableaux de bord intuitifs</strong> avec métriques essentielles</li>
+                <li><strong>Analyses de ventes</strong> : Tendances, saisonnalité, top produits</li>
+                <li><strong>Prévisions simples</strong> : Stock, ventes basées sur historique</li>
+                <li><strong>Alertes automatiques</strong> : Stock bas, factures impayées, objectifs</li>
+                <li><strong>Rapports périodiques</strong> automatisés (mensuel, trimestriel)</li>
+                <li><strong>Export données</strong> : CSV, PDF pour comptable externe</li>
+            </ul>
+
+            <h4>KPIs et Analyses</h4>
+            <ul>
+                <li><strong>Ventes</strong> : CA par période, produit, client, vendeur</li>
+                <li><strong>Marge</strong> : Analyse de rentabilité multi-dimensionnelle</li>
+                <li><strong>Stock</strong> : Rotation, obsolescence, ruptures</li>
+                <li><strong>Clients</strong> : RFM analysis, lifetime value, churn prediction</li>
+                <li><strong>Fournisseurs</strong> : Performance, fiabilité, coûts</li>
+                <li><strong>Financier</strong> : Cash-flow, DSO, DPO, ratios financiers</li>
+            </ul>
+
+            <h2>MOBILITÉ ET INTÉGRATIONS (Janvier - Mars 2027)</h2>
+            
+            <div class="highlight">
+                <h3>Objectif Phase 6</h3>
+                <p>Étendre l'accès mobile et créer des intégrations essentielles.</p>
+                <p><strong>Budget Estimé Phase 6 :</strong> €4,200 (8 semaines)</p>
+            </div>
+
+            <h3>Application Web Mobile (PWA)</h3>
+            <h4>Fonctionnalités Mobiles Essentielles</h4>
+            <ul>
+                <li><strong>Version mobile optimisée</strong> (Progressive Web App)</li>
+                <li><strong>Consultation stock</strong> en temps réel sur smartphone</li>
+                <li><strong>Création factures rapides</strong> sur tablette</li>
+                <li><strong>Scan codes-barres</strong> pour recherche produits</li>
+                <li><strong>Mode offline</strong> pour consultation données essentielles</li>
+                <li><strong>Notifications push</strong> : Alertes stock, nouveaux clients</li>
+            </ul>
+
+            <h3>Intégrations Prioritaires</h3>
+            <h4>Connecteurs Locaux</h4>
+            <ul>
+                <li><strong>Mobile Money</strong> : Orange Money, MVola, Airtel Money</li>
+                <li><strong>Export comptable</strong> : Format standard pour experts-comptables</li>
+                <li><strong>SMS Madagascar</strong> : Notifications clients automatiques</li>
+                <li><strong>Email</strong> : SMTP local pour factures automatiques</li>
+                <li><strong>Sauvegarde cloud</strong> : Google Drive, Dropbox synchronisation</li>
+            </ul>
+
+            <h2>RÉCAPITULATIF BUDGÉTAIRE GLOBAL</h2>
+            
+            <table class="budget-table">
+                <thead>
+                    <tr>
+                        <th>Phase</th>
+                        <th>Période</th>
+                        <th>Durée</th>
+                        <th>Budget</th>
+                        <th>Fonctionnalités Principales</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Phase 1 - MVP</strong></td>
+                        <td>Sept-Nov 2025</td>
+                        <td>8 sem</td>
+                        <td><strong>€4,500</strong></td>
+                        <td>Auth, Inventaire, Facturation, Rapports de base</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Phase 2 - Fournisseurs</strong></td>
+                        <td>Déc 2025-Fév 2026</td>
+                        <td>6 sem</td>
+                        <td><strong>€3,500</strong></td>
+                        <td>Gestion fournisseurs, Achats, Procurement</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Phase 3 - CRM Simple</strong></td>
+                        <td>Mars-Mai 2026</td>
+                        <td>6 sem</td>
+                        <td><strong>€2,800</strong></td>
+                        <td>Clients, Devis, Relances, Historique ventes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Phase 4 - Comptabilité</strong></td>
+                        <td>Juin-Sept 2026</td>
+                        <td>10 sem</td>
+                        <td><strong>€5,200</strong></td>
+                        <td>Comptabilité générale, Gestion financière</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Phase 5 - BI/Analytics</strong></td>
+                        <td>Oct-Déc 2026</td>
+                        <td>8 sem</td>
+                        <td><strong>€3,800</strong></td>
+                        <td>Tableaux de bord, Analyses, Prévisions</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Phase 6 - Mobile/API</strong></td>
+                        <td>Jan-Mars 2027</td>
+                        <td>8 sem</td>
+                        <td><strong>€4,200</strong></td>
+                        <td>PWA Mobile, Intégrations locales</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><strong>TOTAL</strong></td>
+                        <td><strong>€24,000</strong></td>
+                        <td colspan="2">sur 18 mois</td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <h2>MODÈLE D'IMPLÉMENTATION</h2>
+            
+            <h3>Approche Agile par Phases</h3>
+            <ul>
+                <li><strong>Livraisons incrémentales</strong> : Chaque phase apporte une valeur immédiate</li>
+                <li><strong>Feedback continu</strong> : Validation client à chaque étape</li>
+                <li><strong>ROI progressif</strong> : Retour sur investissement dès la Phase 1</li>
+                <li><strong>Flexibilité</strong> : Possibilité d'adapter les phases suivantes selon les besoins</li>
+            </ul>
+
+            <h3>Support et Maintenance</h3>
+            <ul>
+                <li><strong>Support inclus</strong> : 30 jours par phase</li>
+                <li><strong>Contrat maintenance</strong> : €200/mois (optionnel) incluant :</li>
+                <ul>
+                    <li>Hébergement et monitoring</li>
+                    <li>Sauvegardes automatiques</li>
+                    <li>Mises à jour sécurité</li>
+                    <li>Support technique prioritaire</li>
+                    <li>Formations utilisateurs</li>
+                </ul>
+            </ul>
+
+            <h3>Formation et Accompagnement</h3>
+            <ul>
+                <li><strong>Formation initiale</strong> : Incluse dans chaque phase</li>
+                <li><strong>Documentation complète</strong> : Mise à jour continue</li>
+                <li><strong>Webinaires réguliers</strong> : Nouvelles fonctionnalités</li>
+                <li><strong>Accompagnement au changement</strong> : Support organisationnel</li>
+            </ul>
+
+            <h2>BÉNÉFICES ATTENDUS PAR PHASE</h2>
+            
+            <div class="phase-benefits">
+                <div class="phase-benefit">
+                    <h3>Phase 1 (MVP) - ROI Immédiat</h3>
+                    <ul>
+                        <li>✅ Élimination des processus manuels</li>
+                        <li>✅ Réduction des erreurs de 80%</li>
+                        <li>✅ Gain de temps : 10h/semaine</li>
+                        <li>✅ Traçabilité complète des opérations</li>
+                    </ul>
+                </div>
+                
+                <div class="phase-benefit">
+                    <h3>Phases 2-3 - Optimisation</h3>
+                    <ul>
+                        <li>📈 Réduction coûts d'achat : 5-15%</li>
+                        <li>📈 Optimisation relation clients : Fidélisation améliorée</li>
+                        <li>📈 Processus de vente : Devis → Facture accélérés</li>
+                    </ul>
+                </div>
+                
+                <div class="phase-benefit">
+                    <h3>Phases 4-5 - Croissance</h3>
+                    <ul>
+                        <li>🚀 Augmentation CA : Meilleur suivi commercial</li>
+                        <li>🚀 Amélioration marges : Analyse fine de rentabilité</li>
+                        <li>🚀 Conformité fiscale : Réduction risques</li>
+                    </ul>
+                </div>
+                
+                <div class="phase-benefit">
+                    <h3>Phases 6 - Innovation</h3>
+                    <ul>
+                        <li>🎯 Accès mobile pour flexibilité terrain</li>
+                        <li>🎯 Intégrations locales (Mobile Money, SMS)</li>
+                        <li>🎯 Décisions basées sur données fiables</li>
+                        <li>🎯 Automatisation des processus répétitifs</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cta">
+                <a href="file:///media/tac/Sikidy1/2025/WORK/working_on/ATOVA/ONLINE/static_github/demo/patrice/index.html" class="btn">Retour à l'accueil</a>
+                <a href="file:///media/tac/Sikidy1/2025/WORK/working_on/ATOVA/ONLINE/static_github/demo/patrice/offre.html" class="btn btn-outline">Voir l'offre simplifiée</a>
+            </div>
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <h3>CONTACT</h3>
+            <p><strong>ATOVA Software Agency</strong></p>
+            <p>📍 Antananarivo, Madagascar</p>
+            <p>📧 atova_agency@proton.me</p>
+            <p>📞 034 13 782 71 (Eric Roby)</p>
+            
+            <ul class="footer-links">
+                <li><a href="file:///media/tac/Sikidy1/2025/WORK/working_on/ATOVA/ONLINE/static_github/demo/patrice/index.html">Accueil</a></li>
+                <li><a href="file:///media/tac/Sikidy1/2025/WORK/working_on/ATOVA/ONLINE/static_github/demo/patrice/offre.html">Notre Offre</a></li>
+                <li><a href="file:///media/tac/Sikidy1/2025/WORK/working_on/ATOVA/ONLINE/static_github/demo/patrice/original.html#contact">Contact</a></li>
+            </ul>
+            
+            <p><em>Ce roadmap adaptée correspond aux réalités d'une PME malgache avec un seul point de vente.<br>
+            Chaque phase apporte une valeur concrète et le budget reste raisonnable.</em></p>
+        </div>
+    </footer>
+
+    <script>
+        // Script pour le menu mobile
+        const mobileMenu = document.getElementById('mobile-menu');
+        const navLinks = document.querySelector('.nav-links');
+        
+        mobileMenu.addEventListener('click', function() {
+            this.classList.toggle('active');
+            navLinks.classList.toggle('active');
+        });
+        
+        // Fermer le menu quand on clique sur un lien
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.remove('active');
+                navLinks.classList.remove('active');
+            });
+        });
+    </script>
+</body>
+</html>
