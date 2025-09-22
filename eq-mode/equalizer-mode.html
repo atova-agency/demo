@@ -1,0 +1,436 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ID Shift Protocol</title>
+    <style>
+        :root {
+            --dark-bg: #0d1b2a;
+            --darker-bg: #070f16;
+            --accent: #e63946;
+            --text: #f1faee;
+            --highlight: #a8dadc;
+            --border: #1b263b;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Courier New', monospace;
+        }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text);
+            line-height: 1.6;
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 30px;
+            padding: 20px;
+            border-bottom: 1px solid var(--accent);
+        }
+        
+        h1 {
+            color: var(--accent);
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        h2 {
+            color: var(--highlight);
+            margin: 25px 0 15px;
+            border-left: 3px solid var(--accent);
+            padding-left: 10px;
+        }
+        
+        .tagline {
+            font-style: italic;
+            margin-bottom: 20px;
+            color: var(--highlight);
+        }
+        
+        .rules-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+            margin-bottom: 40px;
+        }
+        
+        @media (min-width: 768px) {
+            .rules-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+        
+        .rule-card {
+            background-color: var(--darker-bg);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .rule-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: var(--accent);
+        }
+        
+        .rule-number {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--accent);
+            color: var(--dark-bg);
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        
+        .timer-display {
+            text-align: center;
+            font-size: 1.8rem;
+            margin: 15px 0;
+            font-family: monospace;
+            color: var(--highlight);
+        }
+        
+        .track-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 20px 0;
+        }
+        
+        .track {
+            text-align: center;
+            padding: 10px;
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            flex: 1;
+            margin: 0 5px;
+        }
+        
+        .track.active {
+            border-color: var(--accent);
+            background-color: rgba(230, 57, 70, 0.1);
+        }
+        
+        .mccall-protocol {
+            background-color: var(--darker-bg);
+            border: 1px solid var(--border);
+            border-radius: 5px;
+            padding: 20px;
+            margin-top: 30px;
+        }
+        
+        .phase {
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px dashed var(--border);
+        }
+        
+        .phase:last-child {
+            border-bottom: none;
+        }
+        
+        .phase-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 10px;
+            color: var(--highlight);
+        }
+        
+        .phase-number {
+            background-color: var(--accent);
+            color: var(--dark-bg);
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            margin-right: 10px;
+        }
+        
+        .btn {
+            background-color: var(--accent);
+            color: var(--text);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 3px;
+            cursor: pointer;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            margin: 5px;
+            transition: all 0.2s;
+        }
+        
+        .btn:hover {
+            background-color: #f94144;
+        }
+        
+        .btn:disabled {
+            background-color: #6c757d;
+            cursor: not-allowed;
+        }
+        
+        .input-field {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid var(--border);
+            color: var(--text);
+            padding: 8px;
+            border-radius: 3px;
+            width: 100%;
+            margin: 10px 0;
+        }
+        
+        .status-display {
+            padding: 10px;
+            margin: 10px 0;
+            border-radius: 3px;
+            background-color: rgba(255, 255, 255, 0.05);
+            font-size: 0.9rem;
+        }
+        
+        .victory {
+            background-color: rgba(56, 176, 0, 0.1);
+            border-left: 3px solid #38b000;
+        }
+        
+        .condition-yellow {
+            background-color: rgba(255, 193, 7, 0.1);
+            border-left: 3px solid #ffc107;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border);
+            font-size: 0.9rem;
+            color: var(--highlight);
+        }
+        a {text-decoration: none;}
+    </style>
+</head>
+<body>
+    <header><a href="./index.html">
+        <h1>ID Shift Protocol</h1>
+        <p class="tagline">Two rules for operational efficiency</p></a>
+    </header>
+    
+    <div class="rules-container">
+        <div class="rule-card">
+            <div class="rule-number">1</div>
+            <h2>Be Done By 11:30</h2>
+            <p>Whatever you are doing, you must stop at 11:30. No exceptions.</p>
+            
+            <div class="timer-display" id="current-time">00:00:00</div>
+            
+            <div class="track-container">
+                <div class="track" id="track-am">
+                    <h3>Track A</h3>
+                    <p>11:30 AM</p>
+                    <div id="countdown-am">--:--:--</div>
+                </div>
+                <div class="track" id="track-pm">
+                    <h3>Track B</h3>
+                    <p>11:30 PM</p>
+                    <div id="countdown-pm">--:--:--</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="rule-card">
+            <div class="rule-number">2</div>
+            <h2>McCall Method</h2>
+            <p>Also known as Equalizer Mode. Execute what matters with precision.</p>
+            
+            <div class="mccall-protocol">
+                <div class="phase">
+                    <div class="phase-title">
+                        <div class="phase-number">1</div>
+                        <h3>Briefing (The Pact)</h3>
+                    </div>
+                    <input type="text" class="input-field" id="tango-input" placeholder="Designate your Tango">
+                    <input type="number" class="input-field" id="pact-input" placeholder="Pact time (minutes)">
+                    <button class="btn" id="set-pact-btn">Set Pact</button>
+                    <div class="status-display" id="pact-status">Pact not set</div>
+                </div>
+                
+                <div class="phase">
+                    <div class="phase-title">
+                        <div class="phase-number">2</div>
+                        <h3>Infiltration (Execution)</h3>
+                    </div>
+                    <button class="btn" id="start-btn" disabled>Clock is Ticking</button>
+                    <div class="timer-display" id="execution-timer">00:00:00</div>
+                    <button class="btn" id="complete-btn" disabled>Tango Neutralized</button>
+                </div>
+                
+                <div class="phase">
+                    <div class="phase-title">
+                        <div class="phase-number">3</div>
+                        <h3>Debrief (Verification)</h3>
+                    </div>
+                    <div class="status-display" id="result-display">Awaiting mission completion</div>
+                    <button class="btn" id="reset-btn" disabled>New Operation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <p>Operative, your mission begins now. The clock is ticking.</p>
+    </footer>
+
+    <script>
+        // Current time display
+        function updateCurrentTime() {
+            const now = new Date();
+            const timeString = now.toLocaleTimeString('en-US', { hour12: false });
+            document.getElementById('current-time').textContent = timeString;
+            
+            // Update countdowns
+            updateCountdowns(now);
+        }
+        
+        // Update both AM and PM countdowns
+        function updateCountdowns(now) {
+            // Track A - 11:30 AM
+            const amDeadline = new Date(now);
+            amDeadline.setHours(11, 30, 0, 0);
+            if (now.getHours() >= 11 && now.getMinutes() > 30) {
+                amDeadline.setDate(amDeadline.getDate() + 1);
+            }
+            updateCountdown('am', now, amDeadline);
+            
+            // Track B - 11:30 PM
+            const pmDeadline = new Date(now);
+            pmDeadline.setHours(23, 30, 0, 0);
+            if (now.getHours() >= 23 && now.getMinutes() > 30) {
+                pmDeadline.setDate(pmDeadline.getDate() + 1);
+            }
+            updateCountdown('pm', now, pmDeadline);
+            
+            // Highlight active track
+            document.getElementById('track-am').classList.toggle('active', 
+                now.getHours() < 11 || (now.getHours() === 11 && now.getMinutes() < 30));
+            document.getElementById('track-pm').classList.toggle('active', 
+                (now.getHours() >= 11 && now.getMinutes() >= 30) && (now.getHours() < 23 || (now.getHours() === 23 && now.getMinutes() < 30)));
+        }
+        
+        // Update individual countdown
+        function updateCountdown(track, now, deadline) {
+            const diff = deadline - now;
+            if (diff < 0) return;
+            
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById(`countdown-${track}`).textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // McCall Protocol functionality
+        let pactTime = 0;
+        let startTime = 0;
+        let timerInterval = null;
+        
+        document.getElementById('set-pact-btn').addEventListener('click', function() {
+            const tango = document.getElementById('tango-input').value;
+            const pact = parseInt(document.getElementById('pact-input').value);
+            
+            if (!tango) {
+                alert("You must designate a Tango!");
+                return;
+            }
+            
+            if (isNaN(pact) || pact <= 0) {
+                alert("Pact must be a positive number of minutes!");
+                return;
+            }
+            
+            pactTime = pact * 60; // Convert to seconds
+            document.getElementById('pact-status').textContent = `Tango: ${tango} | Pact: ${pact} minutes`;
+            document.getElementById('start-btn').disabled = false;
+        });
+        
+        document.getElementById('start-btn').addEventListener('click', function() {
+            startTime = Date.now();
+            document.getElementById('start-btn').disabled = true;
+            document.getElementById('complete-btn').disabled = false;
+            
+            // Start execution timer
+            timerInterval = setInterval(updateExecutionTimer, 1000);
+        });
+        
+        document.getElementById('complete-btn').addEventListener('click', function() {
+            clearInterval(timerInterval);
+            const actualTime = Math.floor((Date.now() - startTime) / 1000);
+            const pactMinutes = Math.floor(pactTime / 60);
+            const actualMinutes = Math.floor(actualTime / 60);
+            const actualSeconds = actualTime % 60;
+            
+            let resultText = '';
+            if (actualTime <= pactTime) {
+                resultText = `<span class="victory">PACT HONORED. Efficiency confirmed. Actual: ${actualMinutes}m ${actualSeconds}s vs Pact: ${pactMinutes}m</span>`;
+            } else {
+                resultText = `<span class="condition-yellow">PACT BROKEN. Analyze misjudgment. Actual: ${actualMinutes}m ${actualSeconds}s vs Pact: ${pactMinutes}m</span>`;
+            }
+            
+            document.getElementById('result-display').innerHTML = resultText;
+            document.getElementById('complete-btn').disabled = true;
+            document.getElementById('reset-btn').disabled = false;
+        });
+        
+        document.getElementById('reset-btn').addEventListener('click', function() {
+            // Reset everything
+            document.getElementById('tango-input').value = '';
+            document.getElementById('pact-input').value = '';
+            document.getElementById('pact-status').textContent = 'Pact not set';
+            document.getElementById('execution-timer').textContent = '00:00:00';
+            document.getElementById('result-display').textContent = 'Awaiting mission completion';
+            document.getElementById('start-btn').disabled = true;
+            document.getElementById('complete-btn').disabled = true;
+            document.getElementById('reset-btn').disabled = true;
+            
+            pactTime = 0;
+            startTime = 0;
+            if (timerInterval) clearInterval(timerInterval);
+        });
+        
+        function updateExecutionTimer() {
+            const elapsed = Math.floor((Date.now() - startTime) / 1000);
+            const minutes = Math.floor(elapsed / 60);
+            const seconds = elapsed % 60;
+            document.getElementById('execution-timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+        
+        // Initialize
+        setInterval(updateCurrentTime, 1000);
+        updateCurrentTime();
+    </script>
+</body>
+</html>
