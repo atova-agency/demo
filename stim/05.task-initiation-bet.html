@@ -1,0 +1,862 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Initiation Protocol - With Betting Timer</title>
+    <style>
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --bg-tertiary: #3a3a3a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --text-accent: #8a8a8a;
+            --border: #404040;
+            --transition: all 0.3s ease;
+            --success-color: #2a5a2a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .nav-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            border-left: 3px solid var(--text-accent);
+            padding-left: 1rem;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .nav-card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--text-accent);
+            transition: var(--transition);
+            text-decoration: none;
+            display: block;
+        }
+
+        .nav-card:hover {
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Hide all slides by default */
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Only show active slide */
+        .slide.active {
+            display: block;
+        }
+
+        .slide-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .slide-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .slide-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .content-section {
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            border-left: 3px solid var(--text-accent);
+            padding-left: 1rem;
+        }
+
+        .strategy-grid, .check-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .strategy-card, .check-card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--text-accent);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .action-list, .step-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .action-item, .step-item {
+            background: var(--bg-tertiary);
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-radius: 4px;
+            border-left: 3px solid var(--border);
+        }
+
+        .action-title, .step-title {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .action-desc, .step-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        /* Betting Timer Styles */
+        .timer-container {
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1rem;
+            z-index: 1000;
+            min-width: 200px;
+        }
+
+        .timer-display {
+            font-size: 1.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            font-family: 'Courier New', monospace;
+        }
+
+        .timer-controls {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .timer-btn {
+            background: var(--bg-secondary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            flex: 1;
+            transition: var(--transition);
+        }
+
+        .timer-btn:hover {
+            background: var(--bg-primary);
+        }
+
+        .timer-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .timer-input {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            color: var(--text-primary);
+            padding: 0.5rem;
+            border-radius: 4px;
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+
+        .bet-result {
+            text-align: center;
+            padding: 0.5rem;
+            border-radius: 4px;
+            margin-top: 0.5rem;
+            display: none;
+        }
+
+        .bet-win {
+            background: var(--success-color);
+            border: 1px solid #3a7a3a;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background: var(--bg-secondary);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--bg-tertiary);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--text-accent);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .warning-note {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-left: 4px solid #8a6a2a;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .protocol-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 1rem;
+            }
+            
+            .slide-content {
+                padding: 2rem 1.5rem;
+                margin: 1rem 0;
+            }
+
+            .slide-title {
+                font-size: 2rem;
+            }
+
+            .strategy-grid, .check-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .protocol-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation {
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .timer-container {
+                position: relative;
+                top: auto;
+                left: auto;
+                margin-bottom: 1rem;
+            }
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Betting Timer -->
+    <div class="timer-container">
+        <div class="timer-display" id="timerDisplay">00:00:00</div>
+        <div class="timer-controls">
+            <button class="timer-btn" id="startBtn">Start</button>
+            <button class="timer-btn" id="stopBtn" disabled>Stop</button>
+        </div>
+        <input type="number" class="timer-input" id="betInput" placeholder="Bet minutes (e.g., 5)" min="1" max="240">
+        <button class="timer-btn" id="setBetBtn">Set Bet</button>
+        <div class="bet-result bet-win" id="betResult"></div>
+    </div>
+
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="slide-counter" id="slideCounter">1/12</div>
+<!-- Navigation Component - Copy this into your other pages -->
+<div class="nav-container" style="margin-bottom: 2rem;">
+    <h2 class="nav-title">COSS Protocol Navigation</h2>
+    <div class="nav-grid">
+        <a href="index.html" class="nav-card">
+            <div class="card-title">Home</div>
+            <div class="card-desc">Documentation hub</div>
+        </a>
+        <a href="01.COSS-Mini-v3.5.html" class="nav-card">
+            <div class="card-title">COSS-Mini v3.5</div>
+            <div class="card-desc">Core specification</div>
+        </a>
+        <a href="02.Kinetic-COSS.html" class="nav-card">
+            <div class="card-title">Kinetic-COSS</div>
+            <div class="card-desc">Physical interface</div>
+        </a>
+        <a href="03.TKI-COSS.html" class="nav-card">
+            <div class="card-title">TKI-COSS</div>
+            <div class="card-desc">Textual-kinetic framework</div>
+        </a>
+        <a href="04.stim-coss-protocol.html" class="nav-card">
+            <div class="card-title">Stim COSS Protocol</div>
+            <div class="card-desc">Self-regulation system</div>
+        </a>
+    </div>
+</div>
+<!-- End Navigation Component -->
+    <!-- Slide 1: Title -->
+    <section class="slide active" id="slide1">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h1 class="slide-title">Task Initiation Protocol</h1>
+                <p class="slide-subtitle">Break through stuck states and build momentum</p>
+            </div>
+            <div class="content-section">
+                <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">
+                    Use the betting timer to set small goals and celebrate when you exceed them.
+                </p>
+                <div class="warning-note">
+                    <strong>Betting Timer:</strong> Set a conservative goal (e.g., 5 min) and celebrate when you work longer (e.g., 15 min)
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: Quick Start -->
+    <section class="slide" id="slide2">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Immediate Action Protocol</h2>
+                <p class="slide-subtitle">Break paralysis in under 2 minutes</p>
+            </div>
+            <div class="content-section">
+                <div class="action-list">
+                    <div class="action-item">
+                        <div class="action-title">2-Minute Physical Movement</div>
+                        <div class="action-desc">
+                            <strong>Purpose:</strong> Break mental paralysis through physical action<br>
+                            <strong>Options:</strong> Stand up stretch 30 seconds . Get glass of water . Take 3 deep breaths<br>
+                            <strong>Why:</strong> Changes physiological state, interrupts stuck pattern
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Micro-Commitment</div>
+                        <div class="action-desc">
+                            <strong>Purpose:</strong> Reduce barrier to starting<br>
+                            <strong>Instruction:</strong> Commit to just 5 minutes of work<br>
+                            <strong>Example:</strong> "I will just open document and look for 5 minutes"<br>
+                            <strong>Why:</strong> Small commitments feel manageable, often lead to continued work
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Root Cause Analysis -->
+    <section class="slide" id="slide3">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Root Cause Analysis</h2>
+                <p class="slide-subtitle">Identify why you're stuck</p>
+            </div>
+            <div class="check-grid">
+                <div class="check-card">
+                    <div class="card-title">Overwhelm</div>
+                    <div class="card-content">
+                        <strong>Symptom:</strong> Task feels too big . Don't know where to start<br>
+                        <strong>Solution:</strong> Break into microscopic steps
+                    </div>
+                </div>
+                <div class="check-card">
+                    <div class="card-title">Perfectionism</div>
+                    <div class="card-content">
+                        <strong>Symptom:</strong> Fear of doing wrong or imperfectly<br>
+                        <strong>Solution:</strong> Aim for good-enough instead of perfect
+                    </div>
+                </div>
+                <div class="check-card">
+                    <div class="card-title">Uncertainty</div>
+                    <div class="card-content">
+                        <strong>Symptom:</strong> Not enough information to begin<br>
+                        <strong>Solution:</strong> Identify first information gathering step
+                    </div>
+                </div>
+                <div class="check-card">
+                    <div class="card-title">Lack of Energy</div>
+                    <div class="card-content">
+                        <strong>Symptom:</strong> Physically or mentally drained<br>
+                        <strong>Solution:</strong> Address energy before task
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Concrete Strategies -->
+    <section class="slide" id="slide4">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Concrete Starting Strategies</h2>
+                <p class="slide-subtitle">Targeted solutions for each blockage</p>
+            </div>
+            <div class="strategy-grid">
+                <div class="strategy-card">
+                    <div class="card-title">Overwhelm - First Tiny Step</div>
+                    <div class="card-content">
+                        <strong>Purpose:</strong> Identify absolute smallest possible action<br>
+                        <strong>Why:</strong> Momentum creates more momentum<br>
+                        <strong>Examples:</strong><br>
+                        • Write report → Open blank document type title<br>
+                        • Clean kitchen → Put away 3 items<br>
+                        • Exercise → Put on workout clothes
+                    </div>
+                </div>
+                <div class="strategy-card">
+                    <div class="card-title">Perfectionism - Draft Zero</div>
+                    <div class="card-content">
+                        <strong>Purpose:</strong> Intentionally create bad first version<br>
+                        <strong>Why:</strong> Removes performance pressure<br>
+                        <strong>Instruction:</strong> Set goal to create worst possible version quickly<br>
+                        <strong>Example:</strong> "I will write worst report possible in 15 minutes"
+                    </div>
+                </div>
+                <div class="strategy-card">
+                    <div class="card-title">Uncertainty - Information Hunt</div>
+                    <div class="card-content">
+                        <strong>Purpose:</strong> Make starting about gathering data not doing work<br>
+                        <strong>Why:</strong> Turns paralysis into productive research<br>
+                        <strong>Examples:</strong><br>
+                        • List what I don't know<br>
+                        • Find one resource that might help<br>
+                        • Ask one clarifying question
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Structured Approach -->
+    <section class="slide" id="slide5">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Structured COSS Approach</h2>
+                <p class="slide-subtitle">Apply the system to solve system problems</p>
+            </div>
+            <div class="content-section">
+                <div class="action-list">
+                    <div class="action-item">
+                        <div class="action-title">Context & Objective</div>
+                        <div class="action-desc">
+                            Context: Task initiation paralysis for specific task<br>
+                            Object: Complete first micro step within 10 minutes<br>
+                            Status: Currently frozen . Task feels impossible to start<br>
+                            State: Your actual emotional state
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Quick Scan Validation</div>
+                        <div class="action-desc">
+                            Check: Soundness - Is task actually necessary<br>
+                            Check: Congruence - Do I have what I need to start<br>
+                            Check: Alignment - How does this move me toward goals<br>
+                            Check: Risk Perspective - What is worst realistic outcome<br>
+                            Verdict: Proceed . Adjust . Abandon
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Define Microscopic First Step</div>
+                        <div class="action-desc">
+                            Criteria: Takes less than 2 minutes to complete<br>
+                            Criteria: Physically actionable - type . move . say<br>
+                            Examples: Open document . Write first sentence . Make one phone call
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Emergency Protocols -->
+    <section class="slide" id="slide6">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Emergency Start Protocols</h2>
+                <p class="slide-subtitle">For when nothing else works</p>
+            </div>
+            <div class="protocol-grid">
+                <div class="strategy-card">
+                    <div class="card-title">5-4-3-2-1 Countdown Method</div>
+                    <div class="card-content">
+                        <strong>Purpose:</strong> Use countdown to bypass overthinking<br>
+                        <strong>Steps:</strong><br>
+                        1. Acknowledge you're stuck<br>
+                        2. Count backwards 5-4-3-2-1<br>
+                        3. On 1 physically move toward starting<br>
+                        4. Do not think - just act on 1
+                    </div>
+                </div>
+                <div class="strategy-card">
+                    <div class="card-title">Body Doubling</div>
+                    <div class="card-content">
+                        <strong>Purpose:</strong> Work alongside someone else even virtually<br>
+                        <strong>Why:</strong> Social pressure creates accountability<br>
+                        <strong>Options:</strong><br>
+                        • Call friend work on mute together<br>
+                        • Go to coffee shop or library<br>
+                        • Use focusmate or similar service
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Try This Now -->
+    <section class="slide" id="slide7">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Try This Now</h2>
+                <p class="slide-subtitle">Immediate action to break current stuckness</p>
+            </div>
+            <div class="content-section">
+                <div class="action-list">
+                    <div class="action-item">
+                        <div class="action-title">Pick ONE Approach Right Now</div>
+                        <div class="action-desc">
+                            <strong>Option 1:</strong> Set betting timer for conservative goal (e.g., 5 min)<br>
+                            <strong>Option 2:</strong> Identify very first physical action required<br>
+                            <strong>Option 3:</strong> Describe task to breakdown with assistance<br>
+                            <strong>Constraint:</strong> Must choose one immediately
+                        </div>
+                    </div>
+                </div>
+                <div class="warning-note">
+                    <strong>Use the betting timer above:</strong> Set a small goal, start working, and celebrate when you exceed it!
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: Timer Instructions -->
+    <section class="slide" id="slide8">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Using the Betting Timer</h2>
+                <p class="slide-subtitle">Celebrate exceeding your conservative goals</p>
+            </div>
+            <div class="content-section">
+                <div class="action-list">
+                    <div class="action-item">
+                        <div class="action-title">How the Betting Timer Works</div>
+                        <div class="action-desc">
+                            <strong>Step 1:</strong> Set a conservative time bet (e.g., 5 minutes)<br>
+                            <strong>Step 2:</strong> Click "Set Bet" then "Start" to begin working<br>
+                            <strong>Step 3:</strong> Work until you naturally stop or complete the task<br>
+                            <strong>Step 4:</strong> Click "Stop" - if you worked longer than your bet, you win!<br>
+                            <strong>Psychology:</strong> Low pressure goals reduce resistance, exceeding them builds momentum
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Betting Strategy Examples</div>
+                        <div class="action-desc">
+                            <strong>Conservative Bets:</strong><br>
+                            • "I bet I can work for just 5 minutes" → Actual: 15 minutes ✓ WIN<br>
+                            • "I bet I can write one paragraph" → Actual: Three paragraphs ✓ WIN<br>
+                            • "I bet I can research for 10 minutes" → Actual: 25 minutes ✓ WIN<br>
+                            <strong>Key:</strong> The bet is the minimum, the win is exceeding it
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9: Summary -->
+    <section class="slide" id="slide9">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Key Principles</h2>
+                <p class="slide-subtitle">Core insights for sustainable task initiation</p>
+            </div>
+            <div class="content-section">
+                <div class="action-list">
+                    <div class="action-item">
+                        <div class="action-title">Task Initiation is About Overcoming Initial Resistance</div>
+                        <div class="action-desc">The hardest part is starting - once moving, momentum builds naturally</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Make First Step So Small Resistance Becomes Irrelevant</div>
+                        <div class="action-desc">Microscopic actions bypass the brain's resistance mechanisms</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Momentum Breaks Paralysis More Than Planning</div>
+                        <div class="action-desc">Action creates clarity, not the other way around</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Bet Against Your Resistance, Not Against Time</div>
+                        <div class="action-desc">Set conservative goals and celebrate when you prove yourself wrong</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" disabled>Previous</button>
+        <button class="nav-btn" id="nextBtn">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 9;
+
+        // Timer functionality
+        let timerInterval;
+        let startTime;
+        let elapsedTime = 0;
+        let isRunning = false;
+        let betMinutes = 0;
+
+        function updateTimerDisplay() {
+            const totalSeconds = Math.floor(elapsedTime / 1000);
+            const hours = Math.floor(totalSeconds / 3600);
+            const minutes = Math.floor((totalSeconds % 3600) / 60);
+            const seconds = totalSeconds % 60;
+
+            document.getElementById('timerDisplay').textContent = 
+                `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        function startTimer() {
+            if (!isRunning) {
+                startTime = Date.now() - elapsedTime;
+                timerInterval = setInterval(() => {
+                    elapsedTime = Date.now() - startTime;
+                    updateTimerDisplay();
+                }, 1000);
+                isRunning = true;
+                document.getElementById('startBtn').disabled = true;
+                document.getElementById('stopBtn').disabled = false;
+                document.getElementById('setBetBtn').disabled = true;
+            }
+        }
+
+        function stopTimer() {
+            if (isRunning) {
+                clearInterval(timerInterval);
+                isRunning = false;
+                document.getElementById('startBtn').disabled = false;
+                document.getElementById('stopBtn').disabled = true;
+                document.getElementById('setBetBtn').disabled = false;
+
+                // Check if bet was won
+                if (betMinutes > 0) {
+                    const workedMinutes = Math.floor(elapsedTime / 60000);
+                    if (workedMinutes > betMinutes) {
+                        const betResult = document.getElementById('betResult');
+                        betResult.textContent = `WIN! You bet ${betMinutes}min but worked ${workedMinutes}min!`;
+                        betResult.style.display = 'block';
+                    }
+                }
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            elapsedTime = 0;
+            isRunning = false;
+            updateTimerDisplay();
+            document.getElementById('startBtn').disabled = false;
+            document.getElementById('stopBtn').disabled = true;
+            document.getElementById('setBetBtn').disabled = false;
+            document.getElementById('betResult').style.display = 'none';
+        }
+
+        function setBet() {
+            const betInput = document.getElementById('betInput');
+            const value = parseInt(betInput.value);
+            if (value && value > 0) {
+                betMinutes = value;
+                betInput.value = '';
+                alert(`Bet set: ${betMinutes} minutes. Now start working and see if you exceed it!`);
+            }
+        }
+
+        // Initialize timer
+        document.getElementById('startBtn').addEventListener('click', startTimer);
+        document.getElementById('stopBtn').addEventListener('click', stopTimer);
+        document.getElementById('setBetBtn').addEventListener('click', setBet);
+
+        // Reset timer on page load
+        resetTimer();
+
+        // Slideshow functionality
+        function updateSlide() {
+            console.log('Updating to slide:', currentSlide);
+            
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Show current slide
+            const currentSlideElement = document.getElementById(`slide${currentSlide}`);
+            if (currentSlideElement) {
+                currentSlideElement.classList.add('active');
+            }
+
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+
+            // Update progress bar
+            const progress = ((currentSlide - 1) / (totalSlides - 1)) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+
+            // Update slide counter
+            document.getElementById('slideCounter').textContent = `${currentSlide}/${totalSlides}`;
+        }
+
+        // Initialize event listeners after DOM loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded - initializing slides');
+            
+            // Set up button listeners
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                if (currentSlide < totalSlides) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            });
+
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                if (currentSlide > 1) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                    e.preventDefault();
+                    if (currentSlide < totalSlides) {
+                        currentSlide++;
+                        updateSlide();
+                    }
+                } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    e.preventDefault();
+                    if (currentSlide > 1) {
+                        currentSlide--;
+                        updateSlide();
+                    }
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    currentSlide = 1;
+                    updateSlide();
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    currentSlide = totalSlides;
+                    updateSlide();
+                }
+            });
+
+            // Initialize first slide
+            updateSlide();
+        });
+    </script>
+</body>
+</html>

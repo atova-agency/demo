@@ -1,0 +1,959 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Self-Regulation Protocol - Light Sensitive</title>
+    <style>
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --bg-tertiary: #3a3a3a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --text-accent: #8a8a8a;
+            --border: #404040;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .nav-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            border-left: 3px solid var(--text-accent);
+            padding-left: 1rem;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .nav-card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--text-accent);
+            transition: var(--transition);
+            text-decoration: none;
+            display: block;
+        }
+
+        .nav-card:hover {
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Hide all slides by default */
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Only show active slide */
+        .slide.active {
+            display: block;
+        }
+
+        .slide-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .slide-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .slide-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .content-section {
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            border-left: 3px solid var(--text-accent);
+            padding-left: 1rem;
+        }
+
+        .component-grid, .mode-grid, .stim-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .component-card, .mode-card, .stim-card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--text-accent);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .action-list, .step-list, .need-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .action-item, .step-item, .need-item {
+            background: var(--bg-tertiary);
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-radius: 4px;
+            border-left: 3px solid var(--border);
+        }
+
+        .action-title, .step-title, .need-title {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .action-desc, .step-desc, .need-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .ladder-step {
+            background: var(--bg-tertiary);
+            margin: 1rem 0;
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--text-accent);
+        }
+
+        .step-header {
+            display: flex;
+            justify-content: between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .step-number {
+            font-size: 1.5rem;
+            font-weight: 300;
+            color: var(--text-accent);
+            margin-right: 1rem;
+        }
+
+        .step-name {
+            font-size: 1.3rem;
+            font-weight: 400;
+            color: var(--text-primary);
+        }
+
+        .step-details {
+            color: var(--text-secondary);
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background: var(--bg-secondary);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--bg-tertiary);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--text-accent);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .warning-note {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-left: 4px solid #8a6a2a;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .emergency-note {
+            background: #2a1a1a;
+            border: 1px solid #5a2a2a;
+            border-left: 4px solid #8a2a2a;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .protocol-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 1rem;
+            }
+            
+            .slide-content {
+                padding: 2rem 1.5rem;
+                margin: 1rem 0;
+            }
+
+            .slide-title {
+                font-size: 2rem;
+            }
+
+            .component-grid, .mode-grid, .stim-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .protocol-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="slide-counter" id="slideCounter">1/14</div>
+<!-- Navigation Component - Copy this into your other pages -->
+<div class="nav-container" style="margin-bottom: 2rem;">
+    <h2 class="nav-title">COSS Protocol Navigation</h2>
+    <div class="nav-grid">
+        <a href="index.html" class="nav-card">
+            <div class="card-title">Home</div>
+            <div class="card-desc">Documentation hub</div>
+        </a>
+        <a href="01.COSS-Mini-v3.5.html" class="nav-card">
+            <div class="card-title">COSS-Mini v3.5</div>
+            <div class="card-desc">Core specification</div>
+        </a>
+        <a href="02.Kinetic-COSS.html" class="nav-card">
+            <div class="card-title">Kinetic-COSS</div>
+            <div class="card-desc">Physical interface</div>
+        </a>
+        <a href="03.TKI-COSS.html" class="nav-card">
+            <div class="card-title">TKI-COSS</div>
+            <div class="card-desc">Textual-kinetic framework</div>
+        </a>
+        <a href="04.stim-coss-protocol.html" class="nav-card">
+            <div class="card-title">Stim COSS Protocol</div>
+            <div class="card-desc">Self-regulation system</div>
+        </a>
+    </div>
+</div>
+<!-- End Navigation Component -->
+    <!-- Slide 1: Title -->
+    <section class="slide active" id="slide1">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h1 class="slide-title">Personal Self-Regulation Protocol</h1>
+                <p class="slide-subtitle">Structured sensory regulation for overwhelm prevention</p>
+            </div>
+            <div class="content-section">
+                <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">
+                    A comprehensive system for on-the-fly self-diagnosis and regulation using COSS structure.
+                </p>
+                <div class="warning-note">
+                    <strong>Designed for light sensitivity:</strong> Dark theme, low contrast, reduced visual stimulation
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: System Overview -->
+    <section class="slide" id="slide2">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">System Overview</h2>
+                <p class="slide-subtitle">Comprehensive self-regulation framework</p>
+            </div>
+            <div class="component-grid">
+                <div class="component-card">
+                    <div class="card-title">Diagnostic Sequence</div>
+                    <div class="card-content">
+                        Analytical approach when cognitive resources are available. Step-by-step self-assessment.
+                    </div>
+                </div>
+                <div class="component-card">
+                    <div class="card-title">Sensory Catalog</div>
+                    <div class="card-content">
+                        Targeted solution matching. Connect specific sensory needs to appropriate stim tools.
+                    </div>
+                </div>
+                <div class="component-card">
+                    <div class="card-title">Crisis Protocol</div>
+                    <div class="card-content">
+                        Emergency override system for system crash states. No-thinking required.
+                    </div>
+                </div>
+                <div class="component-card">
+                    <div class="card-title">Stim Ladder</div>
+                    <div class="card-content">
+                        Progressive intervention from subtle to system-level regulation.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Usage Modes -->
+    <section class="slide" id="slide3">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Usage Modes</h2>
+                <p class="slide-subtitle">Which tool to use when</p>
+            </div>
+            <div class="mode-grid">
+                <div class="mode-card">
+                    <div class="card-title">Analytical Mode</div>
+                    <div class="card-content">
+                        <strong>Use:</strong> Diagnostic Sequence<br>
+                        <strong>When:</strong> Capacity for analysis available<br>
+                        Systematic thinking possible
+                    </div>
+                </div>
+                <div class="mode-card">
+                    <div class="card-title">Targeted Mode</div>
+                    <div class="card-content">
+                        <strong>Use:</strong> Sensory Catalog<br>
+                        <strong>When:</strong> Specific need identified<br>
+                        Know what sensory system needs regulation
+                    </div>
+                </div>
+                <div class="mode-card">
+                    <div class="card-title">Emergency Mode</div>
+                    <div class="card-content">
+                        <strong>Use:</strong> Crisis Protocol<br>
+                        <strong>When:</strong> System crash detected<br>
+                        Overwhelm-RED state active
+                    </div>
+                </div>
+                <div class="mode-card">
+                    <div class="card-title">Automatic Mode</div>
+                    <div class="card-content">
+                        <strong>Use:</strong> Stim Ladder<br>
+                        <strong>When:</strong> No thinking possible<br>
+                        Executive function offline
+                    </div>
+                </div>
+            </div>
+            <div class="warning-note">
+                <strong>Note:</strong> Modes can transition seamlessly based on changing state
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Diagnostic Sequence -->
+    <section class="slide" id="slide4">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Diagnostic Sequence</h2>
+                <p class="slide-subtitle">Step-by-step self-assessment</p>
+            </div>
+            <div class="step-list">
+                <div class="step-item">
+                    <div class="step-title">Step 1: Apply Kinetic Anchors</div>
+                    <div class="step-desc">Use kinetic-COSS protocol to ground in physical reality</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-title">Step 2: Environmental Scan</div>
+                    <div class="step-desc">Context: scan environment . Object: identify alert . Status: gather facts . Somatic: body scan . Kinetic: observe motion</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-title">Step 3: Label State</div>
+                    <div class="step-desc">Identify current state: OVERWHELM | SEEKING | CRASH | ALERT | NEUTRAL</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-title">Step 4: Execute Stim Solution</div>
+                    <div class="step-desc">Match to sensory need from catalog and execute appropriate stim</div>
+                </div>
+                <div class="step-item">
+                    <div class="step-title">Step 5: Issue Self-Command</div>
+                    <div class="step-desc">Use TKI signal protocol to define next physical action</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Sensory Catalog - Visual -->
+    <section class="slide" id="slide5">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Sensory Need Catalog</h2>
+                <p class="slide-subtitle">Visual Regulation Tools</p>
+            </div>
+            <div class="need-list">
+                <div class="need-item">
+                    <div class="need-title">Visual Retreat</div>
+                    <div class="need-desc">
+                        <strong>Purpose:</strong> Reduce visual input<br>
+                        <strong>Primary Stim:</strong> Bat-in-the-Cave (eyes roll upward)<br>
+                        <strong>Discrete Option:</strong> Focus on small point . Close eyes 2 seconds<br>
+                        <strong>Use when:</strong> Visual overwhelm from lights, crowds, complex scenes
+                    </div>
+                </div>
+                <div class="need-item">
+                    <div class="need-title">Visual Filtering</div>
+                    <div class="need-desc">
+                        <strong>Purpose:</strong> Manage visual data flow<br>
+                        <strong>Primary Stim:</strong> Waterfall (finger flapping in visual field)<br>
+                        <strong>Discrete Option:</strong> Trace patterns on thigh . Fidget with ring<br>
+                        <strong>Use when:</strong> Too much visual information to process efficiently
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Sensory Catalog - Auditory & Vestibular -->
+    <section class="slide" id="slide6">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Sensory Need Catalog</h2>
+                <p class="slide-subtitle">Auditory & Vestibular Regulation</p>
+            </div>
+            <div class="need-list">
+                <div class="need-item">
+                    <div class="need-title">Auditory Damping</div>
+                    <div class="need-desc">
+                        <strong>Purpose:</strong> Reduce sound input<br>
+                        <strong>Primary Stim:</strong> Helicopter (hand motion near ears)<br>
+                        <strong>Discrete Option:</strong> Tragus pressure . Insert earplugs<br>
+                        <strong>Use when:</strong> Noise sensitivity, loud environments, auditory overwhelm
+                    </div>
+                </div>
+                <div class="need-item">
+                    <div class="need-title">Vestibular Reset</div>
+                    <div class="need-desc">
+                        <strong>Purpose:</strong> Release tension, system reboot<br>
+                        <strong>Primary Stim:</strong> Electro (head/neck shaking)<br>
+                        <strong>Discrete Option:</strong> Ankle rolls . Shoulder shrugs . Clench-release fists<br>
+                        <strong>Use when:</strong> Body tension, need for proprioceptive input, system reset
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Crisis Protocol -->
+    <section class="slide" id="slide7">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Crisis Protocol</h2>
+                <p class="slide-subtitle">Emergency override system</p>
+            </div>
+            <div class="emergency-note">
+                <strong>Activation Conditions:</strong><br>
+                State: SYSTEM CRASH OR State: OVERWHELM-RED
+            </div>
+            <div class="action-list">
+                <div class="action-item">
+                    <div class="action-title">Immediate Action</div>
+                    <div class="action-desc">Execute crisis stims without restriction or hesitation</div>
+                </div>
+                <div class="action-item">
+                    <div class="action-title">Social Context</div>
+                    <div class="action-desc">Ignore social discretion requirements completely</div>
+                </div>
+                <div class="action-item">
+                    <div class="action-title">Priority</div>
+                    <div class="action-desc">Prioritize system stabilization above all else</div>
+                </div>
+            </div>
+            <div class="warning-note">
+                <strong>Permission granted:</strong> Full primary stim use authorized in crisis states
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: Crisis Stims -->
+    <section class="slide" id="slide8">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Crisis Stims</h2>
+                <p class="slide-subtitle">Maximum effectiveness tools</p>
+            </div>
+            <div class="stim-grid">
+                <div class="stim-card">
+                    <div class="card-title">Bat-in-the-Cave</div>
+                    <div class="card-content">
+                        <strong>Kinetic:</strong> Rolling eyes upward into skull<br>
+                        <strong>Function:</strong> Immediate soothing via sensory retreat<br>
+                        <strong>Sensory Need:</strong> Visual regulation / overload prevention
+                    </div>
+                </div>
+                <div class="stim-card">
+                    <div class="card-title">Waterfall</div>
+                    <div class="card-content">
+                        <strong>Kinetic:</strong> Flapping fingers in front of visual field<br>
+                        <strong>Function:</strong> Visual filtering via predictable patterns<br>
+                        <strong>Sensory Need:</strong> Visual regulation / processing aid
+                    </div>
+                </div>
+                <div class="stim-card">
+                    <div class="card-title">Helicopter</div>
+                    <div class="card-content">
+                        <strong>Kinetic:</strong> Rapid hand motion near ears<br>
+                        <strong>Function:</strong> Auditory damping + proprioceptive feedback<br>
+                        <strong>Sensory Need:</strong> Auditory regulation / proprioceptive input
+                    </div>
+                </div>
+                <div class="stim-card">
+                    <div class="card-title">Electro</div>
+                    <div class="card-content">
+                        <strong>Kinetic:</strong> Sharp shaking of head/neck<br>
+                        <strong>Function:</strong> Vestibular reset + proprioceptive jolt<br>
+                        <strong>Sensory Need:</strong> Vestibular-proprioceptive regulation
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9: Stim Ladder 1-3 -->
+    <section class="slide" id="slide9">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Stim Ladder</h2>
+                <p class="slide-subtitle">Steps 1-3: Subtle to Contained</p>
+            </div>
+            <div class="warning-note">
+                <strong>Rule:</strong> Start at Step 1, proceed until regulated, descend steps as needed
+            </div>
+            
+            <div class="ladder-step">
+                <div class="step-header">
+                    <div class="step-number">1</div>
+                    <div class="step-name">Internal-Only</div>
+                </div>
+                <div class="step-details">
+                    <strong>Action:</strong> Clench and release fists rhythmically . Rotate ankles in circles<br>
+                    <strong>Kinetic:</strong> Movements hidden and silent<br>
+                    <strong>Use-case:</strong> Public settings where discretion required
+                </div>
+            </div>
+
+            <div class="ladder-step">
+                <div class="step-header">
+                    <div class="step-number">2</div>
+                    <div class="step-name">Subtle Tactical</div>
+                </div>
+                <div class="step-details">
+                    <strong>Action:</strong> Press tragus . Trace patterns on leg with finger<br>
+                    <strong>Kinetic:</strong> Small, slow movements easily overlooked<br>
+                    <strong>Use-case:</strong> Moderate overwhelm in social situations
+                </div>
+            </div>
+
+            <div class="ladder-step">
+                <div class="step-header">
+                    <div class="step-number">3</div>
+                    <div class="step-name">Contained Motion</div>
+                </div>
+                <div class="step-details">
+                    <strong>Action:</strong> Sharp shoulder shrugs . Rapid hand shaking below waist<br>
+                    <strong>Kinetic:</strong> Obvious motion, but brief and contained<br>
+                    <strong>Use-case:</strong> Rising overwhelm needing physical release
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: Stim Ladder 4-6 -->
+    <section class="slide" id="slide10">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Stim Ladder</h2>
+                <p class="slide-subtitle">Steps 4-6: Clear Regulation</p>
+            </div>
+            
+            <div class="ladder-step">
+                <div class="step-header">
+                    <div class="step-number">4</div>
+                    <div class="step-name">Clear Audio Regulatory</div>
+                </div>
+                <div class="step-details">
+                    <strong>Action:</strong> Helicopter (full hand motion by ears)<br>
+                    <strong>Kinetic:</strong> Unmistakable self-regulation<br>
+                    <strong>Sensory Need:</strong> Auditory damping
+                </div>
+            </div>
+
+            <div class="ladder-step">
+                <div class="step-header">
+                    <div class="step-number">5</div>
+                    <div class="step-name">Clear Vision Regulatory</div>
+                </div>
+                <div class="step-details">
+                    <strong>Action:</strong> Waterfall (finger-flap in vision)<br>
+                    <strong>Kinetic:</strong> Unmistakable self-regulation<br>
+                    <strong>Sensory Need:</strong> Visual filtering
+                </div>
+            </div>
+
+            <div class="ladder-step">
+                <div class="step-header">
+                    <div class="step-number">6</div>
+                    <div class="step-name">Kinetic Intervention</div>
+                </div>
+                <div class="step-details">
+                    <strong>Action:</strong> Electro (head/neck tremor)<br>
+                    <strong>Kinetic:</strong> Mid-level tools for system stabilization<br>
+                    <strong>Sensory Need:</strong> Vestibular reset
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 11: Stim Ladder 7-9 -->
+    <section class="slide" id="slide11">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Stim Ladder</h2>
+                <p class="slide-subtitle">Steps 7-9: System Intervention</p>
+            </div>
+            
+            <div class="ladder-step">
+                <div class="step-header">
+                    <div class="step-number">7</div>
+                    <div class="step-name">Multi Sensory Regulatory</div>
+                </div>
+                <div class="step-details">
+                    <strong>Action:</strong> Helicopter + Waterfall + Electro<br>
+                    <strong>Kinetic:</strong> High-level tools for system stabilization<br>
+                    <strong>Use-case:</strong> Multiple sensory systems overwhelmed
+                </div>
+            </div>
+
+            <div class="ladder-step">
+                <div class="step-header">
+                    <div class="step-number">8</div>
+                    <div class="step-name">Full System Intervention</div>
+                </div>
+                <div class="step-details">
+                    <strong>Action:</strong> Electro + Bat-in-the-Cave<br>
+                    <strong>Kinetic:</strong> Crisis-level tools for system stabilization<br>
+                    <strong>Use-case:</strong> System crash imminent
+                </div>
+            </div>
+
+            <div class="ladder-step">
+                <div class="step-header">
+                    <div class="step-number">9</div>
+                    <div class="step-name">System Reboot - Stand-by</div>
+                </div>
+                <div class="step-details">
+                    <strong>Action:</strong> Bat-in-the-Cave + Helicopter + Waterfall + Electro<br>
+                    <strong>Kinetic:</strong> Crisis-level tools for system stabilization<br>
+                    <strong>Use-case:</strong> Complete system reset required
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 12: Preemptive Stimming -->
+    <section class="slide" id="slide12">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Preemptive Stimming</h2>
+                <p class="slide-subtitle">Proactive regulation before overwhelm</p>
+            </div>
+            <div class="content-section">
+                <div class="warning-note">
+                    <strong>Principles:</strong> Gentle movements only . Stop if discomfort<br>
+                    <strong>Timing:</strong> During low stress . Between tasks . During transitions<br>
+                    <strong>Duration:</strong> Brief sessions 5-10 seconds<br>
+                    <strong>Frequency:</strong> As needed throughout day
+                </div>
+                <div class="protocol-grid">
+                    <div class="stim-card">
+                        <div class="card-title">Waterfall (Gentle)</div>
+                        <div class="card-content">
+                            Gentle finger flutter in visual field<br>
+                            Use-case: Preventing visual overload
+                        </div>
+                    </div>
+                    <div class="stim-card">
+                        <div class="card-title">Helicopter (Gentle)</div>
+                        <div class="card-content">
+                            Gentle hand movements near ears<br>
+                            Use-case: Reducing auditory input before overwhelm
+                        </div>
+                    </div>
+                    <div class="stim-card">
+                        <div class="card-title">Electro (Gentle)</div>
+                        <div class="card-content">
+                            Small head movements like gentle "no" gesture<br>
+                            Use-case: Releasing tension before it builds
+                        </div>
+                    </div>
+                    <div class="stim-card">
+                        <div class="card-title">Bat-in-Cave (Brief)</div>
+                        <div class="card-content">
+                            Brief upward eye roll gaze<br>
+                            Use-case: Momentary visual break, kinetic reset
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 13: Core Principles -->
+    <section class="slide" id="slide13">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Core Principles</h2>
+                <p class="slide-subtitle">Guiding rules for effective regulation</p>
+            </div>
+            <div class="action-list">
+                <div class="action-item">
+                    <div class="action-title">Redirect, Don't Suppress</div>
+                    <div class="action-desc">Channel stim energy into regulated movements rather than suppressing natural impulses</div>
+                </div>
+                <div class="action-item">
+                    <div class="action-title">Match Sensory Function</div>
+                    <div class="action-desc">Choose stims that address the specific sensory system needing regulation</div>
+                </div>
+                <div class="action-item">
+                    <div class="action-title">Context-Appropriate Permission</div>
+                    <div class="action-desc">Primary stim in safe spaces, discrete alternatives in public settings</div>
+                </div>
+                <div class="action-item">
+                    <div class="action-title">Use Structure When Overwhelmed</div>
+                    <div class="action-desc">Lean on protocol structure precisely when thinking becomes difficult</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 14: Example Scenario & Conclusion -->
+    <section class="slide" id="slide14">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Protocol Ready</h2>
+                <p class="slide-subtitle">Your self-regulation system is active</p>
+            </div>
+            <div class="content-section">
+                <div class="section-title">Example Scenario: Crowded Supermarket</div>
+                <div class="action-list">
+                    <div class="action-item">
+                        <div class="action-title">Context</div>
+                        <div class="action-desc">Crowded supermarket, fluorescent lights, multiple conversations</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Alert</div>
+                        <div class="action-desc">Nagging alert: lights too bright, sound drone overwhelming</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Physical State</div>
+                        <div class="action-desc">Heart fast . Breath shallow . Temperature hot . Posture rigid</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Regulation</div>
+                        <div class="action-desc">Execute visual-retreat discrete protocol . Focus on product label</div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Outcome</div>
+                        <div class="action-desc">Complete task . Exit environment . System stabilized</div>
+                    </div>
+                </div>
+                <div class="warning-note" style="margin-top: 2rem;">
+                    <strong>Your protocol is active:</strong> Use diagnostic-sequence when analytical . Use stim-ladder when automatic . Apply kinetic-anchors when grounding needed
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" disabled>Previous</button>
+        <button class="nav-btn" id="nextBtn">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 14;
+
+        function updateSlide() {
+            console.log('Updating to slide:', currentSlide);
+            
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Show current slide
+            const currentSlideElement = document.getElementById(`slide${currentSlide}`);
+            if (currentSlideElement) {
+                currentSlideElement.classList.add('active');
+            }
+
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+
+            // Update progress bar
+            const progress = ((currentSlide - 1) / (totalSlides - 1)) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+
+            // Update slide counter
+            document.getElementById('slideCounter').textContent = `${currentSlide}/${totalSlides}`;
+        }
+
+        // Initialize event listeners after DOM loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded - initializing slides');
+            
+            // Set up button listeners
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                if (currentSlide < totalSlides) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            });
+
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                if (currentSlide > 1) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                    e.preventDefault();
+                    if (currentSlide < totalSlides) {
+                        currentSlide++;
+                        updateSlide();
+                    }
+                } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    e.preventDefault();
+                    if (currentSlide > 1) {
+                        currentSlide--;
+                        updateSlide();
+                    }
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    currentSlide = 1;
+                    updateSlide();
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    currentSlide = totalSlides;
+                    updateSlide();
+                }
+            });
+
+            // Initialize first slide
+            updateSlide();
+        });
+    </script>
+</body>
+</html>

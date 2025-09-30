@@ -1,0 +1,798 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COSS-Mini v3.5 Specification</title>
+    <style>
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --bg-tertiary: #3a3a3a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --text-accent: #8a8a8a;
+            --border: #404040;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .nav-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            border-left: 3px solid var(--text-accent);
+            padding-left: 1rem;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .nav-card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--text-accent);
+            transition: var(--transition);
+            text-decoration: none;
+            display: block;
+        }
+
+        .nav-card:hover {
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Hide all slides by default */
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Only show active slide */
+        .slide.active {
+            display: block;
+        }
+
+        .slide-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .slide-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .slide-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .content-section {
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            border-left: 3px solid var(--text-accent);
+            padding-left: 1rem;
+        }
+
+        .rule-grid, .keyword-grid, .example-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .rule-card, .keyword-card, .example-card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--text-accent);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .code-block {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 1rem 0;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background: var(--bg-secondary);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--bg-tertiary);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--text-accent);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .warning-note {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-left: 4px solid #8a6a2a;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .hierarchy-diagram {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            line-height: 1.8;
+        }
+
+        .indent-0 { margin-left: 0; }
+        .indent-2 { margin-left: 2rem; }
+        .indent-4 { margin-left: 4rem; }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 1rem;
+            }
+            
+            .slide-content {
+                padding: 2rem 1.5rem;
+                margin: 1rem 0;
+            }
+
+            .slide-title {
+                font-size: 2rem;
+            }
+
+            .rule-grid, .keyword-grid, .example-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation {
+                bottom: 1rem;
+                right: 1rem;
+            }
+
+            .hierarchy-diagram {
+                font-size: 0.8rem;
+                padding: 1rem;
+            }
+            
+            .indent-2 { margin-left: 1rem; }
+            .indent-4 { margin-left: 2rem; }
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="slide-counter" id="slideCounter">1/12</div>
+<!-- Navigation Component - Copy this into your other pages -->
+<div class="nav-container" style="margin-bottom: 2rem;">
+    <h2 class="nav-title">COSS Protocol Navigation</h2>
+    <div class="nav-grid">
+        <a href="index.html" class="nav-card">
+            <div class="card-title">Home</div>
+            <div class="card-desc">Documentation hub</div>
+        </a>
+        <a href="01.COSS-Mini-v3.5.html" class="nav-card">
+            <div class="card-title">COSS-Mini v3.5</div>
+            <div class="card-desc">Core specification</div>
+        </a>
+        <a href="02.Kinetic-COSS.html" class="nav-card">
+            <div class="card-title">Kinetic-COSS</div>
+            <div class="card-desc">Physical interface</div>
+        </a>
+        <a href="03.TKI-COSS.html" class="nav-card">
+            <div class="card-title">TKI-COSS</div>
+            <div class="card-desc">Textual-kinetic framework</div>
+        </a>
+        <a href="04.stim-coss-protocol.html" class="nav-card">
+            <div class="card-title">Stim COSS Protocol</div>
+            <div class="card-desc">Self-regulation system</div>
+        </a>
+    </div>
+</div>
+<!-- End Navigation Component -->
+
+    <!-- Slide 1: Title -->
+    <section class="slide active" id="slide1">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h1 class="slide-title">COSS-Mini v3.5</h1>
+                <p class="slide-subtitle">Concise Operational Signing System</p>
+            </div>
+            <div class="content-section">
+                <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">
+                    Core specification - all other documents build upon this foundation
+                </p>
+                <div class="warning-note">
+                    <strong>Foundation Document:</strong> This specification defines the core syntax and rules for all COSS implementations
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: Protocol Overview -->
+    <section class="slide" id="slide2">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">COSS Protocol</h2>
+                <p class="slide-subtitle">Minimalist structure for efficient communication</p>
+            </div>
+            <div class="content-section">
+                <div class="rule-card">
+                    <div class="card-title">Core Principle</div>
+                    <div class="card-content">
+                        <strong>Purpose:</strong> Minimalist structure for efficient communication<br>
+                        <strong>Why:</strong> Clear distinction between function and rationale reduces ambiguity<br>
+                        <strong>Tag:</strong> v3.5 semantic-clarity fluid-first flexible-keywords
+                    </div>
+                </div>
+                <div class="rule-card">
+                    <div class="card-title">Axiom</div>
+                    <div class="card-content">
+                        <strong>Definition:</strong> fluid first. structure when needed.<br>
+                        <strong>Why:</strong> Right format for the right situation<br>
+                        <strong>Tag:</strong> guiding-principle
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Format Rules -->
+    <section class="slide" id="slide3">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Format Rules</h2>
+                <p class="slide-subtitle">Core syntax and structure</p>
+            </div>
+            <div class="rule-grid">
+                <div class="rule-card">
+                    <div class="card-title">Basic Structure</div>
+                    <div class="card-content">
+                        <strong>Line:</strong> single entry<br>
+                        <strong>Format:</strong> `keyword. data`<br>
+                        <strong>Separator:</strong> `. `
+                    </div>
+                </div>
+                <div class="rule-card">
+                    <div class="card-title">Keywords</div>
+                    <div class="card-content">
+                        <strong>Format:</strong> single case-sensitive word/hyphenated phrase<br>
+                        <strong>Data:</strong> case-sensitive natural language brief phrase
+                    </div>
+                </div>
+                <div class="rule-card">
+                    <div class="card-title">Hierarchy</div>
+                    <div class="card-content">
+                        <strong>Indent:</strong> parent-child 0/2/4 space hierarchy<br>
+                        <strong>Comments:</strong> `;` for comments<br>
+                        <strong>Containers:</strong> `label.` for named-slugged-container
+                    </div>
+                </div>
+                <div class="rule-card">
+                    <div class="card-title">Telegraphic Format</div>
+                    <div class="card-content">
+                        <strong>Rule:</strong> max 5 `keyword. data` pairs per line<br>
+                        <strong>Separator:</strong> ` . ` between pairs<br>
+                        <strong>Data:</strong> no slug - use natural language
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Core Keywords -->
+    <section class="slide" id="slide4">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Core Keywords</h2>
+                <p class="slide-subtitle">Recommended vocabulary for COSS communication</p>
+            </div>
+            <div class="content-section">
+                <div class="warning-note">
+                    <strong>Note:</strong> These are RECOMMENDED, not required - users can create custom keywords
+                </div>
+                <div class="keyword-grid">
+                    <div class="keyword-card">
+                        <div class="card-title">Primary Keywords</div>
+                        <div class="card-content">
+                            ctx = context = scene<br>
+                            obj = object = concern<br>
+                            sta = status = actual<br>
+                            ste = state = note<br>
+                            sig = signal = response
+                        </div>
+                    </div>
+                    <div class="keyword-card">
+                        <div class="card-title">Supporting Keywords</div>
+                        <div class="card-content">
+                            lbl = label<br>
+                            pur = purpose<br>
+                            def = definition<br>
+                            tag = metadata<br>
+                            why = rationale
+                        </div>
+                    </div>
+                    <div class="keyword-card">
+                        <div class="card-title">Utility Keywords</div>
+                        <div class="card-content">
+                            err = error<br>
+                            val = validation<br>
+                            chk = check<br>
+                            nxt = next<br>
+                            exm = example<br>
+                            act = action<br>
+                            kwd = keywords
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Keyword Flexibility -->
+    <section class="slide" id="slide5">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Keyword Flexibility</h2>
+                <p class="slide-subtitle">Adaptation for different domains</p>
+            </div>
+            <div class="content-section">
+                <div class="rule-card">
+                    <div class="card-title">Keyword Creation</div>
+                    <div class="card-content">
+                        <strong>Definition:</strong> Users can create new keywords not in core set<br>
+                        <strong>Examples:</strong><br>
+                        • Domain-specific: bug. feature. test. metric.<br>
+                        • Project-specific: milestone. deliverable. stakeholder.<br>
+                        <strong>Constraint:</strong> Must follow `keyword. data` format and indentation rules<br>
+                        <strong>Why:</strong> Enables domain-specific optimization while maintaining structure
+                    </div>
+                </div>
+                <div class="rule-card">
+                    <div class="card-title">Keyword Consistency</div>
+                    <div class="card-content">
+                        <strong>Definition:</strong> Use chosen keywords consistently within a document/system<br>
+                        <strong>Why:</strong> Prevents confusion within shared contexts<br>
+                        <strong>Example:</strong> If using `task.` instead of `action.`, use it throughout
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Semantic Keywords -->
+    <section class="slide" id="slide6">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Semantic Keywords</h2>
+                <p class="slide-subtitle">Distinguishing function from rationale</p>
+            </div>
+            <div class="content-section">
+                <div class="rule-card">
+                    <div class="card-title">Purpose (pur.)</div>
+                    <div class="card-content">
+                        <strong>Definition:</strong> [intended function | objective | goal]<br>
+                        <strong>Usage:</strong> Describe what a component *does* or is *for*<br>
+                        <strong>Example:</strong><br>
+                        <div class="code-block">lbl. error-handling
+  pur. Structured problem reporting</div>
+                        <strong>Tag:</strong> functional-definition
+                    </div>
+                </div>
+                <div class="rule-card">
+                    <div class="card-title">Rationale (why.)</div>
+                    <div class="card-content">
+                        <strong>Definition:</strong> [rationale | justification | underlying cause]<br>
+                        <strong>Usage:</strong> Explain the reasoning *behind* a rule, decision, or structure<br>
+                        <strong>Example:</strong><br>
+                        <div class="code-block">lbl. axiom
+  def. fluid first. structure when needed.
+  why. Right format for the right situation</div>
+                        <strong>Tag:</strong> justification
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Hierarchical Format -->
+    <section class="slide" id="slide7">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Hierarchical Format</h2>
+                <p class="slide-subtitle">Clear relationship visualization</p>
+            </div>
+            <div class="content-section">
+                <div class="rule-card">
+                    <div class="card-title">Context Block (ctx.)</div>
+                    <div class="card-content">
+                        <strong>Definition:</strong> [environment | situation | cause]<br>
+                        <strong>Purpose:</strong> Establish broader context . Establish cognitive starting point<br>
+                        <strong>Why:</strong> Shared understanding prevents misalignment<br>
+                        <strong>Indent:</strong> 0 (top-level)
+                    </div>
+                </div>
+                <div class="rule-card">
+                    <div class="card-title">Object Block (obj.)</div>
+                    <div class="card-content">
+                        <strong>Definition:</strong> [primary focus | topic | concern]<br>
+                        <strong>Purpose:</strong> Define core message/subject . Define current cognitive target<br>
+                        <strong>Why:</strong> Clear focus prevents scope creep<br>
+                        <strong>Indent:</strong> 2
+                    </div>
+                </div>
+                <div class="hierarchy-diagram">
+                    <div class="indent-0">ctx. project environment</div>
+                    <div class="indent-2">obj. specific task focus</div>
+                    <div class="indent-4">sta. objective fact about situation</div>
+                    <div class="indent-4">ste. subjective state or feeling</div>
+                    <div class="indent-2">sig. next physical action</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: Data Blocks -->
+    <section class="slide" id="slide8">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Data Blocks</h2>
+                <p class="slide-subtitle">Status and state information</p>
+            </div>
+            <div class="content-section">
+                <div class="rule-card">
+                    <div class="card-title">Status Data (sta.)</div>
+                    <div class="card-content">
+                        <strong>Definition:</strong> [objective fact | data | status]<br>
+                        <strong>Purpose:</strong> State verifiable information<br>
+                        <strong>Why:</strong> Factual foundation enables sound decisions<br>
+                        <strong>Indent:</strong> 4<br>
+                        <strong>Tag:</strong> fact . reality-check
+                    </div>
+                </div>
+                <div class="rule-card">
+                    <div class="card-title">State Data (ste.)</div>
+                    <div class="card-content">
+                        <strong>Definition:</strong> [subjective state | feeling | hypothesis]<br>
+                        <strong>Purpose:</strong> State internal reality/intuition . Record subjective experience<br>
+                        <strong>Why:</strong> Emotional context informs appropriate response<br>
+                        <strong>Indent:</strong> 4<br>
+                        <strong>Tag:</strong> feeling hypothesis . self-awareness
+                    </div>
+                </div>
+                <div class="rule-card">
+                    <div class="card-title">Response Block (sig.)</div>
+                    <div class="card-content">
+                        <strong>Definition:</strong> [action | decision | next step]<br>
+                        <strong>Purpose:</strong> Define next physical action<br>
+                        <strong>Why:</strong> Clear next steps prevent paralysis<br>
+                        <strong>Indent:</strong> 2<br>
+                        <strong>Tag:</strong> action . activation
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9: Inline Format -->
+    <section class="slide" id="slide9">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Inline Format</h2>
+                <p class="slide-subtitle">Maximum speed communication</p>
+            </div>
+            <div class="content-section">
+                <div class="rule-card">
+                    <div class="card-title">Telegraphic Style</div>
+                    <div class="card-content">
+                        <strong>Purpose:</strong> Urgent situations require condensed information<br>
+                        <strong>Definition:</strong> ctx. [content] . obj. [content] . sta. [content] . ste. [content] . sig. [content]<br>
+                        <strong>Constraint:</strong> Max 5 keywords/block, one line only<br>
+                        <strong>Example:</strong><br>
+                        <div class="code-block">ctx. team chat . obj. status update . sta. task complete . ste. on track . sig. proceed next phase</div>
+                        <strong>Tag:</strong> rapid-format
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: Error Handling -->
+    <section class="slide" id="slide10">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Error Handling</h2>
+                <p class="slide-subtitle">Structured problem reporting</p>
+            </div>
+            <div class="content-section">
+                <div class="rule-card">
+                    <div class="card-title">Error Reporting</div>
+                    <div class="card-content">
+                        <strong>Purpose:</strong> Systematic error handling prevents issue escalation<br>
+                        <strong>Definition:</strong> err. [detected issue | invalid data | missing data]<br>
+                        <strong>Example:</strong><br>
+                        <div class="code-block">ctx. data import . obj. customer records . err. missing email in 12% records</div>
+                        <strong>Tag:</strong> resilience
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 11: Validation Checks -->
+    <section class="slide" id="slide11">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Validation Checks</h2>
+                <p class="slide-subtitle">Quality assurance protocols</p>
+            </div>
+            <div class="content-section">
+                <div class="rule-grid">
+                    <div class="rule-card">
+                        <div class="card-title">Data Quality</div>
+                        <div class="card-content">
+                            <strong>Purpose:</strong> Verify information reliability<br>
+                            <strong>Why:</strong> Unverified data leads to flawed decisions<br>
+                            <strong>Check:</strong> verify origin & veracity & relevancy<br>
+                            <strong>Verdict:</strong> Valid | Invalid | Questionable
+                        </div>
+                    </div>
+                    <div class="rule-card">
+                        <div class="card-title">Logic Soundness</div>
+                        <div class="card-content">
+                            <strong>Purpose:</strong> Ensure reasoning integrity<br>
+                            <strong>Why:</strong> Sound logic prevents systemic failures<br>
+                            <strong>Check:</strong> reasoning & structure<br>
+                            <strong>Verdict:</strong> Sound | Unsound | Flawed
+                        </div>
+                    </div>
+                    <div class="rule-card">
+                        <div class="card-title">Execution Alignment</div>
+                        <div class="card-content">
+                            <strong>Purpose:</strong> Confirm action-purpose alignment<br>
+                            <strong>Why:</strong> Misaligned execution wastes resources<br>
+                            <strong>Check:</strong> right thing & thing right<br>
+                            <strong>Verdict:</strong> Aligned | Misaligned | Partial
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 12: Examples -->
+    <section class="slide" id="slide12">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Examples</h2>
+                <p class="slide-subtitle">Practical usage demonstrations</p>
+            </div>
+            <div class="content-section">
+                <div class="example-grid">
+                    <div class="example-card">
+                        <div class="card-title">Hierarchical Example</div>
+                        <div class="code-block">ctx. project delivery
+  obj. timeline adjustment needed
+    sta. client requested new feature
+    sta. current schedule has no slack
+    ste. concerned about team capacity
+    why. Previous commitments already stretch resources
+  sig. schedule meeting to discuss options
+  why. Collaborative decision-making ensures buy-in</div>
+                    </div>
+                    <div class="example-card">
+                        <div class="card-title">Inline Example</div>
+                        <div class="code-block">ctx. daily sync . obj. blocker resolution . sta. API issue identified . ste. confident fix today . sig. assign to dev team</div>
+                    </div>
+                </div>
+                <div class="warning-note" style="margin-top: 2rem;">
+                    <strong>Specification Complete:</strong> Core COSS specification ready for extension and implementation
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" disabled>Previous</button>
+        <button class="nav-btn" id="nextBtn">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 12;
+
+        function updateSlide() {
+            console.log('Updating to slide:', currentSlide);
+            
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Show current slide
+            const currentSlideElement = document.getElementById(`slide${currentSlide}`);
+            if (currentSlideElement) {
+                currentSlideElement.classList.add('active');
+            }
+
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+
+            // Update progress bar
+            const progress = ((currentSlide - 1) / (totalSlides - 1)) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+
+            // Update slide counter
+            document.getElementById('slideCounter').textContent = `${currentSlide}/${totalSlides}`;
+        }
+
+        // Initialize event listeners after DOM loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded - initializing slides');
+            
+            // Set up button listeners
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                if (currentSlide < totalSlides) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            });
+
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                if (currentSlide > 1) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                    e.preventDefault();
+                    if (currentSlide < totalSlides) {
+                        currentSlide++;
+                        updateSlide();
+                    }
+                } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    e.preventDefault();
+                    if (currentSlide > 1) {
+                        currentSlide--;
+                        updateSlide();
+                    }
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    currentSlide = 1;
+                    updateSlide();
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    currentSlide = totalSlides;
+                    updateSlide();
+                }
+            });
+
+            // Initialize first slide
+            updateSlide();
+        });
+    </script>
+</body>
+</html>

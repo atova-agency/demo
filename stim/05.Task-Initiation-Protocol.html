@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task Initiation Protocol - Emergency Start</title>
+    <style>
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --bg-tertiary: #3a3a3a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --text-accent: #8a8a8a;
+            --border: #404040;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .nav-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            border-left: 3px solid var(--text-accent);
+            padding-left: 1rem;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .nav-card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--text-accent);
+            transition: var(--transition);
+            text-decoration: none;
+            display: block;
+        }
+
+        .nav-card:hover {
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Hide all slides by default */
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Only show active slide */
+        .slide.active {
+            display: block;
+        }
+
+        .slide-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .slide-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .slide-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .content-section {
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            border-left: 3px solid var(--text-accent);
+            padding-left: 1rem;
+        }
+
+        .protocol-grid, .diagnosis-grid, .action-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .protocol-card, .diagnosis-card, .action-card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--text-accent);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .code-block {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 1rem 0;
+            white-space: pre-wrap;
+            line-height: 1.4;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background: var(--bg-secondary);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--bg-tertiary);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--text-accent);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .warning-note {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-left: 4px solid #8a6a2a;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .emergency-note {
+            background: #2a1a1a;
+            border: 1px solid #5a2a2a;
+            border-left: 4px solid #8a2a2a;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .step-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .step-item {
+            background: var(--bg-tertiary);
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-radius: 4px;
+            border-left: 3px solid var(--border);
+        }
+
+        .step-title {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .step-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 1rem;
+            }
+            
+            .slide-content {
+                padding: 2rem 1.5rem;
+                margin: 1rem 0;
+            }
+
+            .slide-title {
+                font-size: 2rem;
+            }
+
+            .protocol-grid, .diagnosis-grid, .action-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="slide-counter" id="slideCounter">1/6</div>
+<!-- Navigation Component - Copy this into your other pages -->
+<div class="nav-container" style="margin-bottom: 2rem;">
+    <h2 class="nav-title">COSS Protocol Navigation</h2>
+    <div class="nav-grid">
+        <a href="index.html" class="nav-card">
+            <div class="card-title">Home</div>
+            <div class="card-desc">Documentation hub</div>
+        </a>
+        <a href="01.COSS-Mini-v3.5.html" class="nav-card">
+            <div class="card-title">COSS-Mini v3.5</div>
+            <div class="card-desc">Core specification</div>
+        </a>
+        <a href="02.Kinetic-COSS.html" class="nav-card">
+            <div class="card-title">Kinetic-COSS</div>
+            <div class="card-desc">Physical interface</div>
+        </a>
+        <a href="03.TKI-COSS.html" class="nav-card">
+            <div class="card-title">TKI-COSS</div>
+            <div class="card-desc">Textual-kinetic framework</div>
+        </a>
+        <a href="04.stim-coss-protocol.html" class="nav-card">
+            <div class="card-title">Stim COSS Protocol</div>
+            <div class="card-desc">Self-regulation system</div>
+        </a>
+    </div>
+</div>
+<!-- End Navigation Component -->
+    <!-- Slide 1: Title -->
+    <section class="slide active" id="slide1">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h1 class="slide-title">Task Initiation Protocol</h1>
+                <p class="slide-subtitle">Emergency start for paralysis states</p>
+            </div>
+            <div class="content-section">
+                <div class="code-block">ctx. stuck-in-paralysis
+  obj. break-inertia-and-start-moving
+  sta. aware-but-cannot-act
+  ste. frustrated overwhelmed
+  sig. do-one-small-action-now
+  tag. quick-protocol emergency-start
+  tag. formatted in COSS-Mini v3.5</div>
+                <div class="warning-note">
+                    <strong>Formatted in COSS-Mini v3.5:</strong> Using proper syntax and structure for clarity
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: Emergency Start -->
+    <section class="slide" id="slide2">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Emergency Start</h2>
+                <p class="slide-subtitle">Break paralysis in under 2 minutes</p>
+            </div>
+            <div class="content-section">
+                <div class="protocol-grid">
+                    <div class="protocol-card">
+                        <div class="card-title">Physical Reset</div>
+                        <div class="card-content">
+                            <strong>Purpose:</strong> Interrupt mental loops through movement<br>
+                            <strong>Options:</strong><br>
+                            • Stand and stretch 30 seconds<br>
+                            • Get water<br>
+                            • 3 deep breaths<br>
+                            <strong>Why:</strong> Changes physiological state
+                        </div>
+                    </div>
+                    <div class="protocol-card">
+                        <div class="card-title">Micro-Commitment</div>
+                        <div class="card-content">
+                            <strong>Purpose:</strong> Shrink the starting barrier<br>
+                            <strong>Instruction:</strong> Just 5 minutes<br>
+                            <strong>Example:</strong> Just open the document<br>
+                            <strong>Why:</strong> Small commitments feel manageable
+                        </div>
+                    </div>
+                </div>
+                <div class="warning-note">
+                    <strong>Fast Action:</strong> These techniques work quickly to break through initial resistance
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Quick Diagnosis -->
+    <section class="slide" id="slide3">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Quick Diagnosis</h2>
+                <p class="slide-subtitle">Identify blockage type quickly</p>
+            </div>
+            <div class="content-section">
+                <div class="diagnosis-grid">
+                    <div class="diagnosis-card">
+                        <div class="card-title">Overwhelmed</div>
+                        <div class="card-content">
+                            <strong>Symptom:</strong> Task feels too big, don't know where to start<br>
+                            <strong>Solution:</strong> Break into tiny steps<br>
+                            <strong>Tag:</strong> common-block
+                        </div>
+                    </div>
+                    <div class="diagnosis-card">
+                        <div class="card-title">Perfectionism</div>
+                        <div class="card-content">
+                            <strong>Symptom:</strong> Fear of doing wrong or imperfectly<br>
+                            <strong>Solution:</strong> Aim for bad first draft<br>
+                            <strong>Tag:</strong> common-block
+                        </div>
+                    </div>
+                    <div class="diagnosis-card">
+                        <div class="card-title">Uncertain</div>
+                        <div class="card-content">
+                            <strong>Symptom:</strong> Not enough information to begin<br>
+                            <strong>Solution:</strong> Find one missing piece<br>
+                            <strong>Tag:</strong> common-block
+                        </div>
+                    </div>
+                    <div class="diagnosis-card">
+                        <div class="card-title">Low Energy</div>
+                        <div class="card-content">
+                            <strong>Symptom:</strong> Physically or mentally drained<br>
+                            <strong>Solution:</strong> Fix energy first<br>
+                            <strong>Tag:</strong> common-block
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Tiny First Actions -->
+    <section class="slide" id="slide4">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Tiny First Actions</h2>
+                <p class="slide-subtitle">Specific starting techniques</p>
+            </div>
+            <div class="content-section">
+                <div class="action-grid">
+                    <div class="action-card">
+                        <div class="card-title">Smallest Physical Step</div>
+                        <div class="card-content">
+                            <strong>Purpose:</strong> Identify absolute minimal physical action<br>
+                            <strong>Examples:</strong><br>
+                            • Report → Open document<br>
+                            • Kitchen → Put away 3 items<br>
+                            • Workout → Put on shoes<br>
+                            <strong>Why:</strong> Eliminates decision paralysis
+                        </div>
+                    </div>
+                    <div class="action-card">
+                        <div class="card-title">5-Minute Timer</div>
+                        <div class="card-content">
+                            <strong>Purpose:</strong> Create finite work container<br>
+                            <strong>Instruction:</strong> Work until timer beeps<br>
+                            <strong>Why:</strong> Defined end point reduces resistance
+                        </div>
+                    </div>
+                    <div class="action-card">
+                        <div class="card-title">Body Double</div>
+                        <div class="card-content">
+                            <strong>Purpose:</strong> Add social accountability pressure<br>
+                            <strong>Options:</strong><br>
+                            • Friend on mute<br>
+                            • Coffee shop<br>
+                            • Focusmate<br>
+                            <strong>Why:</strong> External presence creates momentum
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Emergency Override -->
+    <section class="slide" id="slide5">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Emergency Override</h2>
+                <p class="slide-subtitle">Last-resort starting method</p>
+            </div>
+            <div class="content-section">
+                <div class="protocol-card">
+                    <div class="card-title">5-Second Rule</div>
+                    <div class="card-content">
+                        <strong>Purpose:</strong> Countdown bypasses overthinking<br>
+                        <strong>Steps:</strong><br>
+                        1. 5-4-3-2-1<br>
+                        2. Move on 1<br>
+                        3. Do not think - just act<br>
+                        <strong>Why:</strong> Countdown bypasses overthinking<br>
+                        <strong>Tag:</strong> guaranteed-works
+                    </div>
+                </div>
+                <div class="emergency-note" style="margin-top: 2rem;">
+                    <strong>Guaranteed Method:</strong> When nothing else works, the 5-second rule bypasses executive dysfunction completely
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Conclusion -->
+    <section class="slide" id="slide6">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Take Action Now</h2>
+                <p class="slide-subtitle">Your starting point</p>
+            </div>
+            <div class="content-section">
+                <div class="code-block">sig. choose-one-action-and-do-it-now
+why. starting-matters-more-than-starting-perfectly
+tag. immediate-execution</div>
+                
+                <div class="step-list" style="margin-top: 2rem;">
+                    <div class="step-item">
+                        <div class="step-title">Immediate Action Required</div>
+                        <div class="step-desc">Choose ONE technique from this protocol and execute it immediately</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-title">Key Insight</div>
+                        <div class="step-desc">Starting matters more than starting perfectly. Momentum builds through action, not planning.</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-title">Protocol Active</div>
+                        <div class="step-desc">This emergency start protocol is now available whenever you encounter task initiation paralysis</div>
+                    </div>
+                </div>
+                
+                <div class="warning-note" style="margin-top: 2rem;">
+                    <strong>Remember:</strong> The goal is to break inertia, not achieve perfection. Any forward motion counts as success.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" disabled>Previous</button>
+        <button class="nav-btn" id="nextBtn">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 6;
+
+        function updateSlide() {
+            console.log('Updating to slide:', currentSlide);
+            
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Show current slide
+            const currentSlideElement = document.getElementById(`slide${currentSlide}`);
+            if (currentSlideElement) {
+                currentSlideElement.classList.add('active');
+            }
+
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+
+            // Update progress bar
+            const progress = ((currentSlide - 1) / (totalSlides - 1)) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+
+            // Update slide counter
+            document.getElementById('slideCounter').textContent = `${currentSlide}/${totalSlides}`;
+        }
+
+        // Initialize event listeners after DOM loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded - initializing slides');
+            
+            // Set up button listeners
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                if (currentSlide < totalSlides) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            });
+
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                if (currentSlide > 1) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                    e.preventDefault();
+                    if (currentSlide < totalSlides) {
+                        currentSlide++;
+                        updateSlide();
+                    }
+                } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    e.preventDefault();
+                    if (currentSlide > 1) {
+                        currentSlide--;
+                        updateSlide();
+                    }
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    currentSlide = 1;
+                    updateSlide();
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    currentSlide = totalSlides;
+                    updateSlide();
+                }
+            });
+
+            // Initialize first slide
+            updateSlide();
+        });
+    </script>
+</body>
+</html>

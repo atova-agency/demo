@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Helix Editor - Left Hand Cheat Sheet</title>
+    <style>
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --bg-tertiary: #3a3a3a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --text-accent: #8a8a8a;
+            --border: #404040;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .nav-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            border-left: 3px solid var(--text-accent);
+            padding-left: 1rem;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .nav-card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--text-accent);
+            transition: var(--transition);
+            text-decoration: none;
+            display: block;
+        }
+
+        .nav-card:hover {
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Hide all slides by default */
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Only show active slide */
+        .slide.active {
+            display: block;
+        }
+
+        .slide-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .slide-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .slide-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .content-section {
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            border-left: 3px solid var(--text-accent);
+            padding-left: 1rem;
+        }
+
+        /* Table Styles */
+        .shortcut-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .shortcut-table th {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 500;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .shortcut-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .shortcut-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .shortcut-table .action-col {
+            color: var(--text-primary);
+            font-weight: 500;
+            width: 40%;
+        }
+
+        .shortcut-table .shortcut-col {
+            font-family: 'Courier New', monospace;
+            color: var(--text-accent);
+            width: 30%;
+        }
+
+        .shortcut-table .notes-col {
+            width: 30%;
+        }
+
+        .key-combo {
+            display: inline-block;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 0.1rem;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background: var(--bg-secondary);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--bg-tertiary);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--text-accent);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .warning-note {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-left: 4px solid #8a6a2a;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .tip-box {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--text-accent);
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .tip-title {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .tip-content {
+            color: var(--text-secondary);
+        }
+
+        .mode-indicator {
+            display: inline-block;
+            background: #2a4a2a;
+            border: 1px solid #3a6a3a;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 1rem;
+            }
+            
+            .slide-content {
+                padding: 2rem 1.5rem;
+                margin: 1rem 0;
+            }
+
+            .slide-title {
+                font-size: 2rem;
+            }
+
+            .shortcut-table {
+                font-size: 0.9rem;
+            }
+
+            .shortcut-table th,
+            .shortcut-table td {
+                padding: 0.7rem;
+            }
+
+            .navigation {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="slide-counter" id="slideCounter">1/6</div>
+<!-- Navigation Component - Copy this into your other pages -->
+<div class="nav-container" style="margin-bottom: 2rem;">
+    <h2 class="nav-title">COSS Protocol Navigation</h2>
+    <div class="nav-grid">
+        <a href="index.html" class="nav-card">
+            <div class="card-title">Home</div>
+            <div class="card-desc">Documentation hub</div>
+        </a>
+        <a href="01.COSS-Mini-v3.5.html" class="nav-card">
+            <div class="card-title">COSS-Mini v3.5</div>
+            <div class="card-desc">Core specification</div>
+        </a>
+        <a href="02.Kinetic-COSS.html" class="nav-card">
+            <div class="card-title">Kinetic-COSS</div>
+            <div class="card-desc">Physical interface</div>
+        </a>
+        <a href="03.TKI-COSS.html" class="nav-card">
+            <div class="card-title">TKI-COSS</div>
+            <div class="card-desc">Textual-kinetic framework</div>
+        </a>
+        <a href="04.stim-coss-protocol.html" class="nav-card">
+            <div class="card-title">Stim COSS Protocol</div>
+            <div class="card-desc">Self-regulation system</div>
+        </a>
+    </div>
+</div>
+<!-- End Navigation Component -->
+
+    <!-- Slide 1: Title -->
+    <section class="slide active" id="slide1">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h1 class="slide-title">Helix Editor Cheat Sheet</h1>
+                <p class="slide-subtitle">One-Hand (Left) Modal Editing for Rust, JS, Python</p>
+            </div>
+            <div class="content-section">
+                <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">
+                    Modal editor like Vim - focused on <strong>normal mode</strong> for efficient coding
+                </p>
+                <div class="warning-note">
+                    <strong>Modal Editing:</strong> Different modes for different tasks - this cheat sheet focuses on Normal mode commands
+                </div>
+                <div class="tip-box">
+                    <div class="tip-title">Key Principle</div>
+                    <div class="tip-content">
+                        Helix uses modal editing: <strong>Normal mode</strong> for navigation and commands, <strong>Insert mode</strong> for typing text.
+                        Most powerful commands are in Normal mode.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: Navigation & Movement -->
+    <section class="slide" id="slide2">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Navigation & Movement</h2>
+                <p class="slide-subtitle">Moving through code efficiently</p>
+            </div>
+            <div class="content-section">
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th class="action-col">Action</th>
+                            <th class="shortcut-col">Keys</th>
+                            <th class="notes-col">Tip</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="action-col">Move left / right</td>
+                            <td class="shortcut-col"><span class="key-combo">h</span> / <span class="key-combo">l</span></td>
+                            <td class="notes-col">Classic vim-style</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Move up / down</td>
+                            <td class="shortcut-col"><span class="key-combo">k</span> / <span class="key-combo">j</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Word left / right</td>
+                            <td class="shortcut-col"><span class="key-combo">b</span> / <span class="key-combo">w</span></td>
+                            <td class="notes-col">Jump by words</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Line start / end</td>
+                            <td class="shortcut-col"><span class="key-combo">0</span> / <span class="key-combo">$</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Scroll up / down</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">u</span> / <span class="key-combo">Ctrl</span> + <span class="key-combo">d</span></td>
+                            <td class="notes-col">Half-page scroll</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Jump to file top / bottom</td>
+                            <td class="shortcut-col"><span class="key-combo">gg</span> / <span class="key-combo">G</span></td>
+                            <td class="notes-col">Fast travel</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Search</td>
+                            <td class="shortcut-col"><span class="key-combo">/</span> then type</td>
+                            <td class="notes-col"><span class="key-combo">n</span> / <span class="key-combo">N</span> to cycle results</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="tip-box">
+                    <div class="tip-title">Movement Pattern</div>
+                    <div class="tip-content">
+                        Use <span class="key-combo">h</span><span class="key-combo">j</span><span class="key-combo">k</span><span class="key-combo">l</span> for precise character movement, 
+                        <span class="key-combo">w</span><span class="key-combo">b</span> for word movement, and 
+                        <span class="key-combo">gg</span>/<span class="key-combo">G</span> for large jumps.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Editing & Selection -->
+    <section class="slide" id="slide3">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Editing & Selection</h2>
+                <p class="slide-subtitle">Making changes to code</p>
+            </div>
+            <div class="content-section">
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th class="action-col">Action</th>
+                            <th class="shortcut-col">Keys</th>
+                            <th class="notes-col">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="action-col">Enter insert mode</td>
+                            <td class="shortcut-col"><span class="key-combo">i</span></td>
+                            <td class="notes-col">Type code <span class="mode-indicator">Insert</span></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Insert at line start / end</td>
+                            <td class="shortcut-col"><span class="key-combo">I</span> / <span class="key-combo">A</span></td>
+                            <td class="notes-col">Handy for editing</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Delete char under cursor</td>
+                            <td class="shortcut-col"><span class="key-combo">x</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Delete word</td>
+                            <td class="shortcut-col"><span class="key-combo">dw</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Delete line</td>
+                            <td class="shortcut-col"><span class="key-combo">dd</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Copy (yank) line</td>
+                            <td class="shortcut-col"><span class="key-combo">yy</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Paste below / above</td>
+                            <td class="shortcut-col"><span class="key-combo">p</span> / <span class="key-combo">P</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Undo / Redo</td>
+                            <td class="shortcut-col"><span class="key-combo">u</span> / <span class="key-combo">Ctrl</span> + <span class="key-combo">r</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Select word</td>
+                            <td class="shortcut-col"><span class="key-combo">viw</span></td>
+                            <td class="notes-col"><span class="key-combo">v</span> starts selection</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Comment selection</td>
+                            <td class="shortcut-col"><span class="key-combo">gc</span></td>
+                            <td class="notes-col">Works in Rust, JS, etc.</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="tip-box">
+                    <div class="tip-title">Editing Workflow</div>
+                    <div class="tip-content">
+                        Navigate in <strong>Normal mode</strong> → Use commands like <span class="key-combo">dd</span>, <span class="key-combo">yy</span>, <span class="key-combo">p</span> → 
+                        Enter <strong>Insert mode</strong> with <span class="key-combo">i</span> when you need to type → Press <span class="key-combo">Esc</span> to return to Normal mode.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Multi-Cursor & Structural Editing -->
+    <section class="slide" id="slide4">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Multi-Cursor & Structural Editing</h2>
+                <p class="slide-subtitle">Helix's powerful editing features</p>
+            </div>
+            <div class="content-section">
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th class="action-col">Action</th>
+                            <th class="shortcut-col">Keys</th>
+                            <th class="notes-col">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="action-col">Add cursor below / above</td>
+                            <td class="shortcut-col"><span class="key-combo">Alt</span> + <span class="key-combo">j</span> / <span class="key-combo">Alt</span> + <span class="key-combo">k</span></td>
+                            <td class="notes-col">Works with Sticky Keys</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Select next occurrence</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">n</span></td>
+                            <td class="notes-col">Multi-edit repeats</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Select all occurrences</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">a</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="tip-box">
+                    <div class="tip-title">Multi-Cursor Power</div>
+                    <div class="tip-content">
+                        Multi-cursor editing lets you make the same change in multiple places simultaneously.
+                        Perfect for renaming variables, adding prefixes/suffixes, or bulk formatting.
+                    </div>
+                </div>
+                <div class="tip-box">
+                    <div class="tip-title">Example Workflow</div>
+                    <div class="tip-content">
+                        To rename a variable: 
+                        <ol style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Place cursor on variable</li>
+                            <li><span class="key-combo">Ctrl</span> + <span class="key-combo">n</span> to select next occurrence</li>
+                            <li>Repeat until all are selected</li>
+                            <li>Type the new name - it updates all cursors</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: File & Project Control -->
+    <section class="slide" id="slide5">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">File & Project Control</h2>
+                <p class="slide-subtitle">Managing files and workspace</p>
+            </div>
+            <div class="content-section">
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th class="action-col">Action</th>
+                            <th class="shortcut-col">Keys</th>
+                            <th class="notes-col">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="action-col">Open file picker</td>
+                            <td class="shortcut-col"><span class="key-combo">Space</span> + <span class="key-combo">f</span></td>
+                            <td class="notes-col">(Default Helix "leader" is <span class="key-combo">Space</span>)</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Save file</td>
+                            <td class="shortcut-col"><span class="key-combo">:w</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Quit</td>
+                            <td class="shortcut-col"><span class="key-combo">:q</span></td>
+                            <td class="notes-col"><span class="key-combo">:wq</span> to save + quit</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Split window</td>
+                            <td class="shortcut-col"><span class="key-combo">:vs</span> / <span class="key-combo">:sp</span></td>
+                            <td class="notes-col">Vertical / horizontal</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Switch window</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">w</span> then arrow</td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Toggle file tree (if plugin)</td>
+                            <td class="shortcut-col"><span class="key-combo">Space</span> + <span class="key-combo">e</span></td>
+                            <td class="notes-col">Depends on config</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="tip-box">
+                    <div class="tip-title">Space as Leader Key</div>
+                    <div class="tip-content">
+                        In Helix, <span class="key-combo">Space</span> acts as a "leader" key that brings up additional command menus.
+                        Press <span class="key-combo">Space</span> then wait to see available options for file operations, git, etc.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Pro Tips & Customization -->
+    <section class="slide" id="slide6">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Pro Tips for One-Hand Use</h2>
+                <p class="slide-subtitle">Optimizing Helix for left-hand workflow</p>
+            </div>
+            <div class="content-section">
+                <div class="tip-box">
+                    <div class="tip-title">Keyboard Remapping</div>
+                    <div class="tip-content">
+                        <p>Remap seldom-used keys closer to the left side. In <code>~/.config/helix/config.toml</code>, you can rebind commands under <code>[keys.normal]</code>.</p>
+                        <p style="margin-top: 0.5rem;">Example remapping:</p>
+                        <div class="code-block" style="margin: 0.5rem 0; font-size: 0.8rem;">
+[keys.normal]
+space = "file_picker"  # Keep default
+"{" = "goto_previous_buffer"  # Remap for easier access
+"}" = "goto_next_buffer"
+                        </div>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <div class="tip-title">Modifier Key Optimization</div>
+                    <div class="tip-content">
+                        <ul style="margin-left: 1.5rem;">
+                            <li>If <span class="key-combo">Ctrl</span> or <span class="key-combo">Alt</span> combos are awkward, consider mapping them to <span class="key-combo">Caps Lock</span> or <span class="key-combo">Backtick</span></li>
+                            <li>Practice "tap sequences" instead of holds — e.g. <span class="key-combo">Ctrl</span> → <span class="key-combo">r</span> (redo) instead of pressing both</li>
+                            <li>Use Sticky Keys for multi-key combinations</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <div class="tip-title">Essential Workflow Tips</div>
+                    <div class="tip-content">
+                        <ul style="margin-left: 1.5rem;">
+                            <li><strong>Stay in Normal mode</strong> as much as possible - it's where the power is</li>
+                            <li>Use <span class="key-combo">Esc</span> religiously to return to Normal mode</li>
+                            <li>Combine motions with commands: <span class="key-combo">d</span><span class="key-combo">w</span> (delete word), <span class="key-combo">c</span><span class="key-combo">$</span> (change to end of line)</li>
+                            <li>Learn to select first (<span class="key-combo">v</span>), then operate on selection</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="warning-note" style="margin-top: 2rem;">
+                    <strong>Practice Strategy:</strong> Focus on learning 5-10 essential commands first (navigation, basic editing), then gradually add multi-cursor and advanced features.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" disabled>Previous</button>
+        <button class="nav-btn" id="nextBtn">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 6;
+
+        function updateSlide() {
+            console.log('Updating to slide:', currentSlide);
+            
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Show current slide
+            const currentSlideElement = document.getElementById(`slide${currentSlide}`);
+            if (currentSlideElement) {
+                currentSlideElement.classList.add('active');
+            }
+
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+
+            // Update progress bar
+            const progress = ((currentSlide - 1) / (totalSlides - 1)) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+
+            // Update slide counter
+            document.getElementById('slideCounter').textContent = `${currentSlide}/${totalSlides}`;
+        }
+
+        // Initialize event listeners after DOM loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded - initializing slides');
+            
+            // Set up button listeners
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                if (currentSlide < totalSlides) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            });
+
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                if (currentSlide > 1) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                    e.preventDefault();
+                    if (currentSlide < totalSlides) {
+                        currentSlide++;
+                        updateSlide();
+                    }
+                } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    e.preventDefault();
+                    if (currentSlide > 1) {
+                        currentSlide--;
+                        updateSlide();
+                    }
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    currentSlide = 1;
+                    updateSlide();
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    currentSlide = totalSlides;
+                    updateSlide();
+                }
+            });
+
+            // Initialize first slide
+            updateSlide();
+        });
+    </script>
+</body>
+</html>

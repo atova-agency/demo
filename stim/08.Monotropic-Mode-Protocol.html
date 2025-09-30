@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monotropic Mode Protocol - Light Sensitive</title>
+    <style>
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --bg-tertiary: #3a3a3a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --text-accent: #8a8a8a;
+            --border: #404040;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .nav-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            border-left: 3px solid var(--text-accent);
+            padding-left: 1rem;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .nav-card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--text-accent);
+            transition: var(--transition);
+            text-decoration: none;
+            display: block;
+        }
+
+        .nav-card:hover {
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
+        /* Hide all slides by default */
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Only show active slide */
+        .slide.active {
+            display: block;
+        }
+
+        .slide-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .slide-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .slide-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .content-section {
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            border-left: 3px solid var(--text-accent);
+            padding-left: 1rem;
+        }
+
+        .principle-grid, .phase-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+
+        .principle-card, .phase-card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--text-accent);
+        }
+
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-content {
+            color: var(--text-secondary);
+            font-size: 1rem;
+        }
+
+        .action-list, .step-list {
+            list-style: none;
+            margin: 1rem 0;
+        }
+
+        .action-item, .step-item {
+            background: var(--bg-tertiary);
+            margin: 0.5rem 0;
+            padding: 1rem;
+            border-radius: 4px;
+            border-left: 3px solid var(--border);
+        }
+
+        .action-title, .step-title {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .action-desc, .step-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background: var(--bg-secondary);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--bg-tertiary);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--text-accent);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .warning-note {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-left: 4px solid #8a6a2a;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .code-block {
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            padding: 1rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin: 1rem 0;
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 1rem;
+            }
+            
+            .slide-content {
+                padding: 2rem 1.5rem;
+                margin: 1rem 0;
+            }
+
+            .slide-title {
+                font-size: 2rem;
+            }
+
+            .principle-grid, .phase-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .navigation {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="slide-counter" id="slideCounter">1/12</div>
+<!-- Navigation Component - Copy this into your other pages -->
+<div class="nav-container" style="margin-bottom: 2rem;">
+    <h2 class="nav-title">COSS Protocol Navigation</h2>
+    <div class="nav-grid">
+        <a href="index.html" class="nav-card">
+            <div class="card-title">Home</div>
+            <div class="card-desc">Documentation hub</div>
+        </a>
+        <a href="01.COSS-Mini-v3.5.html" class="nav-card">
+            <div class="card-title">COSS-Mini v3.5</div>
+            <div class="card-desc">Core specification</div>
+        </a>
+        <a href="02.Kinetic-COSS.html" class="nav-card">
+            <div class="card-title">Kinetic-COSS</div>
+            <div class="card-desc">Physical interface</div>
+        </a>
+        <a href="03.TKI-COSS.html" class="nav-card">
+            <div class="card-title">TKI-COSS</div>
+            <div class="card-desc">Textual-kinetic framework</div>
+        </a>
+        <a href="04.stim-coss-protocol.html" class="nav-card">
+            <div class="card-title">Stim COSS Protocol</div>
+            <div class="card-desc">Self-regulation system</div>
+        </a>
+    </div>
+</div>
+<!-- End Navigation Component -->
+    <!-- Slide 1: Title -->
+    <section class="slide active" id="slide1">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h1 class="slide-title">Monotropic Mode Protocol</h1>
+                <p class="slide-subtitle">Strategic emulation of monotropic attention strengths</p>
+            </div>
+            <div class="content-section">
+                <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">
+                    A structured approach to achieving deep focus while respecting light sensitivity and sensory needs.
+                </p>
+                <div class="warning-note">
+                    <strong>Designed for light sensitivity:</strong> Dark theme, low contrast, reduced visual stimulation
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: Quick Start -->
+    <section class="slide" id="slide2">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Quick Start Guide</h2>
+                <p class="slide-subtitle">Begin your monotropic journey today</p>
+            </div>
+            <div class="content-section">
+                <div class="step-list">
+                    <div class="step-item">
+                        <div class="step-title">1. Read Core Principles</div>
+                        <div class="step-desc">Understand the foundation before implementing</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-title">2. Start Phase 1: Awareness Audit</div>
+                        <div class="step-desc">Begin tracking your attention patterns today</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-title">3. Pick ONE Habit to Practice</div>
+                        <div class="step-desc">Choose from Phase 3 - start small and consistent</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-title">4. Set Weekly Review</div>
+                        <div class="step-desc">Schedule time for adjustments and reflection</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Core Principles -->
+    <section class="slide" id="slide3">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Core Principles</h2>
+                <p class="slide-subtitle">Foundation of monotropic emulation</p>
+            </div>
+            <div class="principle-grid">
+                <div class="principle-card">
+                    <div class="card-title">Emulate, Don't Become</div>
+                    <div class="card-content">
+                        Adopt productive traits without forcing neurological change. Work with your current attention system.
+                    </div>
+                </div>
+                <div class="principle-card">
+                    <div class="card-title">Strength-Based Design</div>
+                    <div class="card-content">
+                        Build around attention strengths rather than fighting weaknesses. Identify natural focus patterns.
+                    </div>
+                </div>
+                <div class="principle-card">
+                    <div class="card-title">Environmental Scaffolding</div>
+                    <div class="card-content">
+                        Use external systems to support focused attention. Create focus-friendly spaces and routines.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Implementation Overview -->
+    <section class="slide" id="slide4">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Implementation Roadmap</h2>
+                <p class="slide-subtitle">Four structured phases for sustainable adoption</p>
+            </div>
+            <div class="phase-grid">
+                <div class="phase-card">
+                    <div class="card-title">Phase 1: Awareness Audit</div>
+                    <div class="card-content">
+                        <strong>Duration:</strong> 1 week<br>
+                        <strong>Focus:</strong> Understand your natural attention patterns<br>
+                        Track focus times, interruptions, and energy levels
+                    </div>
+                </div>
+                <div class="phase-card">
+                    <div class="card-title">Phase 2: System Design</div>
+                    <div class="card-content">
+                        <strong>Duration:</strong> Weekend setup<br>
+                        <strong>Focus:</strong> Create focus-friendly environment<br>
+                        Design workspace and schedule structure
+                    </div>
+                </div>
+                <div class="phase-card">
+                    <div class="card-title">Phase 3: Habit Cultivation</div>
+                    <div class="card-content">
+                        <strong>Duration:</strong> 3-4 weeks<br>
+                        <strong>Focus:</strong> Practice focused work patterns<br>
+                        Build deep engagement through consistent practice
+                    </div>
+                </div>
+                <div class="phase-card">
+                    <div class="card-title">Phase 4: Meta Awareness</div>
+                    <div class="card-content">
+                        <strong>Duration:</strong> Ongoing<br>
+                        <strong>Focus:</strong> Develop flexibility within systems<br>
+                        Learn to adapt while maintaining focus benefits
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Phase 1 Details -->
+    <section class="slide" id="slide5">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Phase 1: Awareness Audit</h2>
+                <p class="slide-subtitle">Understand your attention landscape</p>
+            </div>
+            <div class="content-section">
+                <div class="action-list">
+                    <div class="action-item">
+                        <div class="action-title">Time & Attention Tracking</div>
+                        <div class="action-desc">
+                            Monitor natural focus patterns and interruptions for one week. Note when you lose track of time and what typically disrupts you.
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Interest Inventory</div>
+                        <div class="action-desc">
+                            Identify genuine high-engagement topics. List what captivates your attention naturally without effort.
+                        </div>
+                    </div>
+                </div>
+                <div class="warning-note">
+                    <strong>Output after one week:</strong> Clear focus patterns, interruption sources, and interest inventory
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Phase 2 Details -->
+    <section class="slide" id="slide6">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Phase 2: System Design</h2>
+                <p class="slide-subtitle">Create your focus infrastructure</p>
+            </div>
+            <div class="content-section">
+                <div class="action-list">
+                    <div class="action-item">
+                        <div class="action-title">Deep Work Space Design</div>
+                        <div class="action-desc">
+                            Create physical and digital environment that supports focus. Dedicated space, noise control, app blockers.
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Time Architecture</div>
+                        <div class="action-desc">
+                            Structure your week to protect focus time. Theme days, block deep work sessions, create interruption buffers.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 7: Phase 3 Details -->
+    <section class="slide" id="slide7">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Phase 3: Habit Cultivation</h2>
+                <p class="slide-subtitle">Build your focus muscle</p>
+            </div>
+            <div class="content-section">
+                <div class="action-list">
+                    <div class="action-item">
+                        <div class="action-title">Single-Channel Commitment</div>
+                        <div class="action-desc">
+                            Practice uninterrupted focus sessions. Start with 25 minutes, gradually increase to 60-90 minutes.
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Interest Alignment</div>
+                        <div class="action-desc">
+                            Connect work to natural curiosities. Reframe tasks as curiosity quests rather than obligations.
+                        </div>
+                    </div>
+                </div>
+                <div class="warning-note">
+                    <strong>Practice schedule:</strong> Week 1: 2-3 sessions daily → Week 2: Increase length → Week 3: Refine approach
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 8: Deep Attention Techniques -->
+    <section class="slide" id="slide8">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Deep Attention Emulation</h2>
+                <p class="slide-subtitle">Engineer focus conditions</p>
+            </div>
+            <div class="content-section">
+                <div class="action-list">
+                    <div class="action-item">
+                        <div class="action-title">Attention Tunnel Creation</div>
+                        <div class="action-desc">
+                            Define clear focus boundaries with specific tasks, time blocks, and success criteria.
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Interruption Armor</div>
+                        <div class="action-desc">
+                            Protect focus sessions with DND mode, closed applications, and clear communication boundaries.
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Shutdown Ritual</div>
+                        <div class="action-desc">
+                            Formally close focus sessions with progress review and next-step planning.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 9: Troubleshooting -->
+    <section class="slide" id="slide9">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Troubleshooting Common Issues</h2>
+                <p class="slide-subtitle">Solutions for sticking points</p>
+            </div>
+            <div class="content-section">
+                <div class="action-list">
+                    <div class="action-item">
+                        <div class="action-title">Cannot Start Phase 1</div>
+                        <div class="action-desc">
+                            <strong>Solution:</strong> Start smaller - track just 2 times daily or use voice notes
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Phase 2 Feels Too Rigid</div>
+                        <div class="action-desc">
+                            <strong>Solution:</strong> Start with one protected hour daily, use flexible time blocks
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Focus Sessions Fail</div>
+                        <div class="action-desc">
+                            <strong>Solution:</strong> Shorter sessions (15-20 min), stronger interruption protection
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Life Too Unpredictable</div>
+                        <div class="action-desc">
+                            <strong>Solution:</strong> Create "minimum viable focus" - one micro-session daily
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 10: Progress Tracking -->
+    <section class="slide" id="slide10">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Progress Tracking</h2>
+                <p class="slide-subtitle">Measure your monotropic development</p>
+            </div>
+            <div class="content-section">
+                <div class="action-list">
+                    <div class="action-item">
+                        <div class="action-title">Weekly Focus Hours</div>
+                        <div class="action-desc">
+                            Track time in deliberate deep work. Target: Week 1: 2-3h → Week 2: 5-6h → Week 3: 8-10h
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Interest Alignment Score</div>
+                        <div class="action-desc">
+                            Rate work-curiosity connection (1-10). Target: Increasing score over time.
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">System Fluidity</div>
+                        <div class="action-desc">
+                            Rate ability to handle surprises (1-10). Target: Gradual improvement in resilience.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 11: Next Steps -->
+    <section class="slide" id="slide11">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Your Starting Point</h2>
+                <p class="slide-subtitle">Begin your monotropic journey today</p>
+            </div>
+            <div class="content-section">
+                <div class="step-list">
+                    <div class="step-item">
+                        <div class="step-title">Immediate Action</div>
+                        <div class="step-desc">Start Phase 1: Awareness Audit today. Track just today's focus patterns.</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-title">This Week</div>
+                        <div class="step-desc">Complete one week of attention tracking and interest inventory.</div>
+                    </div>
+                    <div class="step-item">
+                        <div class="step-title">Next Weekend</div>
+                        <div class="step-desc">Design your focus environment based on Week 1 insights.</div>
+                    </div>
+                </div>
+                <div class="warning-note" style="margin-top: 2rem;">
+                    <strong>Remember:</strong> Progress over perfection. Consistent small steps build sustainable focus.
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 12: Resources -->
+    <section class="slide" id="slide12">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Protocol Complete</h2>
+                <p class="slide-subtitle">Your monotropic mode implementation guide</p>
+            </div>
+            <div class="content-section">
+                <p style="color: var(--text-secondary); margin-bottom: 2rem;">
+                    You now have a comprehensive, structured approach to developing monotropic-style focus while respecting your sensory needs.
+                </p>
+                <div class="action-list">
+                    <div class="action-item">
+                        <div class="action-title">Key Takeaway</div>
+                        <div class="action-desc">
+                            Emulate monotropic strengths through environmental design and habitual practice, not neurological forcing.
+                        </div>
+                    </div>
+                    <div class="action-item">
+                        <div class="action-title">Success Metric</div>
+                        <div class="action-desc">
+                            Sustainable deep engagement with work, not constant hyperfocus or burnout.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" disabled>Previous</button>
+        <button class="nav-btn" id="nextBtn">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 12;
+
+        function updateSlide() {
+            console.log('Updating to slide:', currentSlide); // Debug log
+            
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Show current slide
+            const currentSlideElement = document.getElementById(`slide${currentSlide}`);
+            if (currentSlideElement) {
+                currentSlideElement.classList.add('active');
+            }
+
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+
+            // Update progress bar
+            const progress = ((currentSlide - 1) / (totalSlides - 1)) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+
+            // Update slide counter
+            document.getElementById('slideCounter').textContent = `${currentSlide}/${totalSlides}`;
+        }
+
+        // Initialize event listeners after DOM loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded - initializing slides'); // Debug log
+            
+            // Set up button listeners
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                if (currentSlide < totalSlides) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            });
+
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                if (currentSlide > 1) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                    e.preventDefault();
+                    if (currentSlide < totalSlides) {
+                        currentSlide++;
+                        updateSlide();
+                    }
+                } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    e.preventDefault();
+                    if (currentSlide > 1) {
+                        currentSlide--;
+                        updateSlide();
+                    }
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    currentSlide = 1;
+                    updateSlide();
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    currentSlide = totalSlides;
+                    updateSlide();
+                }
+            });
+
+            // Initialize first slide
+            updateSlide();
+        });
+    </script>
+</body>
+</html>

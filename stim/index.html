@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>COSS Protocol Documentation Hub</title>
+    <style>
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --bg-tertiary: #3a3a3a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --text-accent: #8a8a8a;
+            --border: #404040;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .nav-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            border-left: 3px solid var(--text-accent);
+            padding-left: 1rem;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .nav-card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--text-accent);
+            transition: var(--transition);
+            text-decoration: none;
+            display: block;
+        }
+
+        .nav-card:hover {
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding-bottom: 2rem;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .title {
+            font-size: 3rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+
+        .card-title {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .card-desc {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+        }
+
+        .protocol-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .protocol-card {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 2rem;
+            transition: var(--transition);
+            text-decoration: none;
+            display: block;
+        }
+
+        .protocol-card:hover {
+            background: var(--bg-tertiary);
+            transform: translateY(-3px);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .protocol-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+        }
+
+        .protocol-desc {
+            color: var(--text-secondary);
+            font-size: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .protocol-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+
+        .protocol-tag {
+            background: var(--bg-tertiary);
+            color: var(--text-secondary);
+            padding: 0.3rem 0.7rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+
+        .warning-note {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-left: 4px solid #8a6a2a;
+            padding: 1rem;
+            margin: 2rem 0;
+            border-radius: 4px;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            .title {
+                font-size: 2.5rem;
+            }
+            
+            .nav-grid, .protocol-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+            
+            .nav-card:hover, .protocol-card:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1 class="title">COSS Protocol Documentation</h1>
+            <p class="subtitle">Comprehensive system for neurodivergent cognitive processing and self-regulation</p>
+        </div>
+
+        <div class="nav-container">
+            <h2 class="nav-title">Navigation</h2>
+            <div class="nav-grid">
+                <a href="index.html" class="nav-card">
+                    <div class="card-title">Home</div>
+                    <div class="card-desc">Documentation hub and navigation</div>
+                </a>
+                <a href="01.COSS-Mini-v3.5.html" class="nav-card">
+                    <div class="card-title">COSS-Mini v3.5</div>
+                    <div class="card-desc">Core specification - foundation for all COSS implementations</div>
+                </a>
+                <a href="02.Kinetic-COSS.html" class="nav-card">
+                    <div class="card-title">Kinetic-COSS</div>
+                    <div class="card-desc">Physical interface extension for external cognition</div>
+                </a>
+                <a href="03.TKI-COSS.html" class="nav-card">
+                    <div class="card-title">TKI-COSS</div>
+                    <div class="card-desc">Textual-kinetic interface framework</div>
+                </a>
+                <a href="04.stim-coss-protocol.html" class="nav-card">
+                    <div class="card-title">Stim COSS Protocol</div>
+                    <div class="card-desc">Personal self-regulation for overwhelm prevention</div>
+                </a>
+                <a href="05.task-initiation-bet.html" class="nav-card">
+                    <div class="card-title">Task Initiation BET</div>
+                    <div class="card-desc">Behavioral economics approach to task initiation</div>
+                </a>
+                <a href="05.Task-Initiation-Protocol.html" class="nav-card">
+                    <div class="card-title">Task Initiation Protocol</div>
+                    <div class="card-desc">Structured approach to overcoming executive dysfunction</div>
+                </a>
+                <a href="08.Monotropic-Mode-Protocol.html" class="nav-card">
+                    <div class="card-title">Monotropic Mode Protocol</div>
+                    <div class="card-desc">Managing intense focus states and transitions</div>
+                </a>
+                <a href="09.lefthandTyping-hx-Helix-Editor.html" class="nav-card">
+                    <div class="card-title">Lefthand Typing - Helix Editor</div>
+                    <div class="card-desc">Single-handed typing workflow with Helix editor</div>
+                </a>
+                <a href="09.lefthandTyping-workflow-strategies.html" class="nav-card">
+                    <div class="card-title">Lefthand Typing Strategies</div>
+                    <div class="card-desc">Workflow strategies for single-handed typing</div>
+                </a>
+            </div>
+        </div>
+
+        <div class="warning-note">
+            <strong>Documentation Structure:</strong> All protocols build upon COSS-Mini v3.5 foundation. Start with core specification for complete understanding.
+        </div>
+
+        <h2 class="nav-title" style="margin-top: 3rem;">Protocol Overview</h2>
+        <div class="protocol-grid">
+            <a href="01.COSS-Mini-v3.5.html" class="protocol-card">
+                <div class="protocol-title">COSS-Mini v3.5</div>
+                <div class="protocol-desc">Core syntax and structure for efficient communication. Minimalist format with flexible keywords.</div>
+                <div class="protocol-tags">
+                    <span class="protocol-tag">Foundation</span>
+                    <span class="protocol-tag">Syntax</span>
+                    <span class="protocol-tag">Communication</span>
+                </div>
+            </a>
+            
+            <a href="02.Kinetic-COSS.html" class="protocol-card">
+                <div class="protocol-title">Kinetic-COSS</div>
+                <div class="protocol-desc">Physical interface extension using eye movements and kinetic anchors for cognitive grounding.</div>
+                <div class="protocol-tags">
+                    <span class="protocol-tag">Physical Interface</span>
+                    <span class="protocol-tag">External Cognition</span>
+                    <span class="protocol-tag">Kinetic Anchors</span>
+                </div>
+            </a>
+            
+            <a href="03.TKI-COSS.html" class="protocol-card">
+                <div class="protocol-title">TKI-COSS</div>
+                <div class="protocol-desc">Textual-kinetic interface framework bridging physical processing with semantic structure.</div>
+                <div class="protocol-tags">
+                    <span class="protocol-tag">Integration</span>
+                    <span class="protocol-tag">Cognitive Processing</span>
+                    <span class="protocol-tag">Neurodivergent</span>
+                </div>
+            </a>
+            
+            <a href="04.stim-coss-protocol.html" class="protocol-card">
+                <div class="protocol-title">Stim COSS Protocol</div>
+                <div class="protocol-desc">Comprehensive self-regulation system for sensory overwhelm prevention and management.</div>
+                <div class="protocol-tags">
+                    <span class="protocol-tag">Self-Regulation</span>
+                    <span class="protocol-tag">Sensory</span>
+                    <span class="protocol-tag">Overwhelm Prevention</span>
+                </div>
+            </a>
+        </div>
+    </div>
+</body>
+</html>

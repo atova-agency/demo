@@ -1,0 +1,717 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Linux Mint - Left Hand Cheat Sheet</title>
+    <style>
+        :root {
+            --bg-primary: #1a1a1a;
+            --bg-secondary: #2a2a2a;
+            --bg-tertiary: #3a3a3a;
+            --text-primary: #e0e0e0;
+            --text-secondary: #b0b0b0;
+            --text-accent: #8a8a8a;
+            --border: #404040;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        .nav-container {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .nav-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            border-left: 3px solid var(--text-accent);
+            padding-left: 1rem;
+        }
+
+        .nav-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1rem;
+        }
+
+        .nav-card {
+            background: var(--bg-tertiary);
+            padding: 1.5rem;
+            border-radius: 6px;
+            border-left: 4px solid var(--text-accent);
+            transition: var(--transition);
+            text-decoration: none;
+            display: block;
+        }
+
+        .nav-card:hover {
+            background: var(--bg-secondary);
+            transform: translateY(-2px);
+        }
+        /* Hide all slides by default */
+        .slide {
+            display: none;
+            min-height: 100vh;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Only show active slide */
+        .slide.active {
+            display: block;
+        }
+
+        .slide-content {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 3rem;
+            margin: 2rem 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .slide-header {
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .slide-title {
+            font-size: 2.5rem;
+            font-weight: 300;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .slide-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            font-weight: 300;
+        }
+
+        .content-section {
+            margin: 2rem 0;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+            font-weight: 400;
+            border-left: 3px solid var(--text-accent);
+            padding-left: 1rem;
+        }
+
+        /* Table Styles */
+        .shortcut-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            background: var(--bg-tertiary);
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .shortcut-table th {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            padding: 1rem;
+            text-align: left;
+            font-weight: 500;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .shortcut-table td {
+            padding: 1rem;
+            border-bottom: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .shortcut-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .shortcut-table .action-col {
+            color: var(--text-primary);
+            font-weight: 500;
+            width: 40%;
+        }
+
+        .shortcut-table .shortcut-col {
+            font-family: 'Courier New', monospace;
+            color: var(--text-accent);
+            width: 30%;
+        }
+
+        .shortcut-table .notes-col {
+            width: 30%;
+        }
+
+        .key-combo {
+            display: inline-block;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            padding: 0.3rem 0.6rem;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            margin: 0.1rem;
+        }
+
+        .navigation {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+        }
+
+        .nav-btn {
+            background: var(--bg-tertiary);
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+            padding: 0.8rem 1.5rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .nav-btn:hover {
+            background: var(--bg-secondary);
+        }
+
+        .nav-btn:disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+        }
+
+        .progress-bar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--bg-tertiary);
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: var(--text-accent);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        .slide-counter {
+            position: fixed;
+            top: 1rem;
+            right: 1rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .warning-note {
+            background: #2a2a2a;
+            border: 1px solid #404040;
+            border-left: 4px solid #8a6a2a;
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 4px;
+        }
+
+        .tip-box {
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border);
+            border-left: 4px solid var(--text-accent);
+            padding: 1.5rem;
+            border-radius: 6px;
+            margin: 1.5rem 0;
+        }
+
+        .tip-title {
+            font-weight: 500;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .tip-content {
+            color: var(--text-secondary);
+        }
+
+        @media (max-width: 768px) {
+            .slide {
+                padding: 1rem;
+            }
+            
+            .slide-content {
+                padding: 2rem 1.5rem;
+                margin: 1rem 0;
+            }
+
+            .slide-title {
+                font-size: 2rem;
+            }
+
+            .shortcut-table {
+                font-size: 0.9rem;
+            }
+
+            .shortcut-table th,
+            .shortcut-table td {
+                padding: 0.7rem;
+            }
+
+            .navigation {
+                bottom: 1rem;
+                right: 1rem;
+            }
+        }
+
+        /* Reduced motion for accessibility */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                transition: none !important;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+    </div>
+    <div class="slide-counter" id="slideCounter">1/6</div>
+
+    <!-- Slide 1: Title -->
+    <section class="slide active" id="slide1">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h1 class="slide-title">Linux Mint Cheat Sheet</h1>
+                <p class="slide-subtitle">One-Hand (Left) Keyboard Shortcuts</p>
+            </div>
+            <div class="content-section">
+                <p style="color: var(--text-secondary); font-size: 1.1rem; margin-bottom: 2rem;">
+                    Optimized for left-hand use with minimal right-hand movement
+                </p>
+                <div class="warning-note">
+                    <strong>Designed for efficiency:</strong> All shortcuts accessible with left hand, perfect for mouse-free workflow
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 2: System & Window Control -->
+    <section class="slide" id="slide2">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">System & Window Control</h2>
+                <p class="slide-subtitle">Desktop and application management</p>
+            </div>
+            <div class="content-section">
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th class="action-col">Action</th>
+                            <th class="shortcut-col">Shortcut</th>
+                            <th class="notes-col">Tip</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="action-col">Open app menu</td>
+                            <td class="shortcut-col"><span class="key-combo">Super</span></td>
+                            <td class="notes-col">Hold → type app name</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Switch windows</td>
+                            <td class="shortcut-col"><span class="key-combo">Alt</span> + <span class="key-combo">Tab</span></td>
+                            <td class="notes-col">Tap Tab repeatedly</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Close window</td>
+                            <td class="shortcut-col"><span class="key-combo">Alt</span> + <span class="key-combo">F4</span></td>
+                            <td class="notes-col">Or Ctrl + Q inside app</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Move workspace</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">Alt</span> + <span class="key-combo">←</span> / <span class="key-combo">→</span></td>
+                            <td class="notes-col">Left/right desktop</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Show desktop</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">Alt</span> + <span class="key-combo">D</span></td>
+                            <td class="notes-col">Handy to clear screen</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Maximize window</td>
+                            <td class="shortcut-col"><span class="key-combo">Super</span> + <span class="key-combo">↑</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Tile left / right</td>
+                            <td class="shortcut-col"><span class="key-combo">Super</span> + <span class="key-combo">←</span> / <span class="key-combo">→</span></td>
+                            <td class="notes-col">Great for terminal + editor split</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 3: Terminal Basics -->
+    <section class="slide" id="slide3">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Terminal Basics</h2>
+                <p class="slide-subtitle">Essential command line shortcuts</p>
+            </div>
+            <div class="content-section">
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th class="action-col">Action</th>
+                            <th class="shortcut-col">Shortcut</th>
+                            <th class="notes-col">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="action-col">New tab</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">Shift</span> + <span class="key-combo">T</span></td>
+                            <td class="notes-col">Open another terminal tab</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Close tab</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">Shift</span> + <span class="key-combo">W</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Next / prev tab</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">PageUp</span> / <span class="key-combo">PageDown</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Clear screen</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">L</span></td>
+                            <td class="notes-col">Classic</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Cancel running cmd</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">C</span></td>
+                            <td class="notes-col">Use often</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Stop output (pause)</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">S</span></td>
+                            <td class="notes-col">Resume with Ctrl + Q</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">End of line</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">E</span></td>
+                            <td class="notes-col">Bash readline</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Start of line</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">A</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Delete word</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">W</span></td>
+                            <td class="notes-col">Deletes previous word</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Delete line</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">U</span></td>
+                            <td class="notes-col">Deletes everything before cursor</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Paste last arg</td>
+                            <td class="shortcut-col"><span class="key-combo">Alt</span> + <span class="key-combo">.</span></td>
+                            <td class="notes-col">Super useful for long commands</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Reverse search</td>
+                            <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">R</span></td>
+                            <td class="notes-col">Search history as you type</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Re-run last cmd</td>
+                            <td class="shortcut-col"><span class="key-combo">!!</span> + <span class="key-combo">Enter</span></td>
+                            <td class="notes-col">Bang-bang</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 4: Navigation & Filesystem -->
+    <section class="slide" id="slide4">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Navigation & Filesystem</h2>
+                <p class="slide-subtitle">Directory and file management</p>
+            </div>
+            <div class="content-section">
+                <table class="shortcut-table">
+                    <thead>
+                        <tr>
+                            <th class="action-col">Action</th>
+                            <th class="shortcut-col">Shortcut</th>
+                            <th class="notes-col">Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="action-col">Auto-complete</td>
+                            <td class="shortcut-col"><span class="key-combo">Tab</span></td>
+                            <td class="notes-col">Tap twice to list</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Previous dir</td>
+                            <td class="shortcut-col"><span class="key-combo">cd -</span></td>
+                            <td class="notes-col">Jumps back</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Home dir</td>
+                            <td class="shortcut-col"><span class="key-combo">cd ~</span></td>
+                            <td class="notes-col">Quick reset</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Root dir</td>
+                            <td class="shortcut-col"><span class="key-combo">cd /</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Make dir</td>
+                            <td class="shortcut-col"><span class="key-combo">mkdir &lt;name&gt;</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Remove dir/file</td>
+                            <td class="shortcut-col"><span class="key-combo">rm -r &lt;name&gt;</span></td>
+                            <td class="notes-col">Use with caution ⚠️</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">List files</td>
+                            <td class="shortcut-col"><span class="key-combo">ls -lah</span></td>
+                            <td class="notes-col">All + human-readable</td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Move cursor back 1 word</td>
+                            <td class="shortcut-col"><span class="key-combo">Alt</span> + <span class="key-combo">B</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                        <tr>
+                            <td class="action-col">Move cursor forward 1 word</td>
+                            <td class="shortcut-col"><span class="key-combo">Alt</span> + <span class="key-combo">F</span></td>
+                            <td class="notes-col"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 5: Sticky Keys & Techniques -->
+    <section class="slide" id="slide5">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Sticky Keys & Techniques</h2>
+                <p class="slide-subtitle">Efficient left-hand workflow strategies</p>
+            </div>
+            <div class="content-section">
+                <div class="tip-box">
+                    <div class="tip-title">Sticky Keys Combos – Tips</div>
+                    <div class="tip-content">
+                        <ul style="margin-left: 1.5rem; margin-top: 0.5rem;">
+                            <li>Tap modifiers (<span class="key-combo">Ctrl</span>, <span class="key-combo">Alt</span>, <span class="key-combo">Super</span>) <strong>once</strong> instead of holding</li>
+                            <li>For multi-combos (like <span class="key-combo">Ctrl</span> + <span class="key-combo">Shift</span> + <span class="key-combo">T</span>), press keys <strong>in order</strong>: <span class="key-combo">Ctrl</span> → <span class="key-combo">Shift</span> → <span class="key-combo">T</span></li>
+                            <li>Build "rhythms" — e.g. <span class="key-combo">Ctrl</span> → <span class="key-combo">C</span> to cancel feels like two taps</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tip-box">
+                    <div class="tip-title">Keyboard Remapping Pro Tip</div>
+                    <div class="tip-content">
+                        <p>If <span class="key-combo">Alt</span> on the right side is hard to reach, you can remap <span class="key-combo">Caps Lock</span> or <span class="key-combo">Menu</span> to <span class="key-combo">Alt</span> in:</p>
+                        <p style="margin-top: 0.5rem;"><strong>Keyboard → Layout → Options</strong></p>
+                        <p style="margin-top: 0.5rem; color: var(--text-accent);">This makes left-hand combos much easier!</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Slide 6: Quick Reference -->
+    <section class="slide" id="slide6">
+        <div class="slide-content">
+            <div class="slide-header">
+                <h2 class="slide-title">Quick Reference</h2>
+                <p class="slide-subtitle">Most essential shortcuts at a glance</p>
+            </div>
+            <div class="content-section">
+                <div class="tip-box">
+                    <div class="tip-title">Top 10 Essential Shortcuts</div>
+                    <div class="tip-content">
+                        <table class="shortcut-table" style="margin: 1rem 0;">
+                            <tbody>
+                                <tr>
+                                    <td class="action-col">App menu</td>
+                                    <td class="shortcut-col"><span class="key-combo">Super</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="action-col">Switch windows</td>
+                                    <td class="shortcut-col"><span class="key-combo">Alt</span> + <span class="key-combo">Tab</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="action-col">New terminal tab</td>
+                                    <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">Shift</span> + <span class="key-combo">T</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="action-col">Cancel command</td>
+                                    <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">C</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="action-col">Clear terminal</td>
+                                    <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">L</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="action-col">Auto-complete</td>
+                                    <td class="shortcut-col"><span class="key-combo">Tab</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="action-col">Reverse search</td>
+                                    <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">R</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="action-col">Tile windows</td>
+                                    <td class="shortcut-col"><span class="key-combo">Super</span> + <span class="key-combo">←</span>/<span class="key-combo">→</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="action-col">Show desktop</td>
+                                    <td class="shortcut-col"><span class="key-combo">Ctrl</span> + <span class="key-combo">Alt</span> + <span class="key-combo">D</span></td>
+                                </tr>
+                                <tr>
+                                    <td class="action-col">Close window</td>
+                                    <td class="shortcut-col"><span class="key-combo">Alt</span> + <span class="key-combo">F4</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                
+                <div class="warning-note" style="margin-top: 2rem;">
+                    <strong>Practice Tip:</strong> Focus on learning 2-3 new shortcuts per day. Muscle memory builds quickly with consistent practice!
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="navigation">
+        <button class="nav-btn" id="prevBtn" disabled>Previous</button>
+        <button class="nav-btn" id="nextBtn">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 1;
+        const totalSlides = 6;
+
+        function updateSlide() {
+            console.log('Updating to slide:', currentSlide);
+            
+            // Hide all slides
+            document.querySelectorAll('.slide').forEach(slide => {
+                slide.classList.remove('active');
+            });
+
+            // Show current slide
+            const currentSlideElement = document.getElementById(`slide${currentSlide}`);
+            if (currentSlideElement) {
+                currentSlideElement.classList.add('active');
+            }
+
+            // Update navigation buttons
+            document.getElementById('prevBtn').disabled = currentSlide === 1;
+            document.getElementById('nextBtn').disabled = currentSlide === totalSlides;
+
+            // Update progress bar
+            const progress = ((currentSlide - 1) / (totalSlides - 1)) * 100;
+            document.getElementById('progressFill').style.width = `${progress}%`;
+
+            // Update slide counter
+            document.getElementById('slideCounter').textContent = `${currentSlide}/${totalSlides}`;
+        }
+
+        // Initialize event listeners after DOM loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded - initializing slides');
+            
+            // Set up button listeners
+            document.getElementById('nextBtn').addEventListener('click', () => {
+                if (currentSlide < totalSlides) {
+                    currentSlide++;
+                    updateSlide();
+                }
+            });
+
+            document.getElementById('prevBtn').addEventListener('click', () => {
+                if (currentSlide > 1) {
+                    currentSlide--;
+                    updateSlide();
+                }
+            });
+
+            // Keyboard navigation
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'ArrowRight' || e.key === ' ' || e.key === 'PageDown') {
+                    e.preventDefault();
+                    if (currentSlide < totalSlides) {
+                        currentSlide++;
+                        updateSlide();
+                    }
+                } else if (e.key === 'ArrowLeft' || e.key === 'PageUp') {
+                    e.preventDefault();
+                    if (currentSlide > 1) {
+                        currentSlide--;
+                        updateSlide();
+                    }
+                } else if (e.key === 'Home') {
+                    e.preventDefault();
+                    currentSlide = 1;
+                    updateSlide();
+                } else if (e.key === 'End') {
+                    e.preventDefault();
+                    currentSlide = totalSlides;
+                    updateSlide();
+                }
+            });
+
+            // Initialize first slide
+            updateSlide();
+        });
+    </script>
+</body>
+</html>
