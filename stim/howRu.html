@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Physical Sensation to Emotion Translator</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --container-bg: #2a2a2a;
+            --text-color: #cccccc;
+            --accent-color: #555555;
+            --border-color: #444444;
+            --section-bg: #333333;
+            --button-bg: #3a3a3a;
+            --button-hover: #444444;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 300;
+            color: #e0e0e0;
+        }
+        
+        .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #aaaaaa;
+            font-style: italic;
+        }
+        
+        .section {
+            background-color: var(--section-bg);
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .section-title {
+            margin-bottom: 15px;
+            color: #e0e0e0;
+            font-size: 1.3rem;
+        }
+        
+        .tool-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+        
+        @media (max-width: 768px) {
+            .tool-container {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .sensation-selector, .emotion-result {
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 6px;
+        }
+        
+        .body-region {
+            margin-bottom: 20px;
+        }
+        
+        .region-title {
+            margin-bottom: 10px;
+            font-weight: bold;
+            color: #e0e0e0;
+        }
+        
+        .sensation-options {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .sensation-option {
+            background-color: #3a3a3a;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            font-size: 0.9rem;
+        }
+        
+        .sensation-option:hover {
+            background-color: #444444;
+        }
+        
+        .sensation-option.selected {
+            background-color: var(--accent-color);
+        }
+        
+        .intensity-slider {
+            width: 100%;
+            margin: 15px 0;
+        }
+        
+        button {
+            background-color: var(--button-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            display: block;
+            margin: 20px auto;
+            font-size: 1rem;
+        }
+        
+        button:hover {
+            background-color: var(--button-hover);
+        }
+        
+        .result-box {
+            background-color: #3a3a3a;
+            padding: 20px;
+            border-radius: 6px;
+            min-height: 200px;
+        }
+        
+        .possible-emotions {
+            margin-top: 20px;
+        }
+        
+        .emotion-item {
+            background-color: #444444;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 10px;
+        }
+        
+        .emotion-name {
+            font-weight: bold;
+            margin-bottom: 5px;
+            color: #e0e0e0;
+        }
+        
+        .emotion-description {
+            font-size: 0.9rem;
+            color: #bbbbbb;
+        }
+        
+        .emergency-section {
+            background-color: #442222;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            border-left: 3px solid #774444;
+        }
+        
+        .emergency-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e0a0a0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Physical Sensation to Emotion Translator</h1>
+        <div class="subtitle">For when you feel things in your body but can't name the emotion</div>
+        
+        <div class="section">
+            <div class="section-title">How This Works</div>
+            <p>Many people experience emotions as physical sensations rather than named feelings. This is especially common for neurodivergent individuals. This tool helps translate those physical experiences into emotional language.</p>
+            <p><strong>Select the physical sensations you're experiencing</strong> and we'll match them to possible emotions based on the Type-0 Emotion Translation Matrix.</p>
+        </div>
+        
+        <div class="tool-container">
+            <div class="sensation-selector">
+                <div class="section-title">What Physical Sensations Are You Feeling?</div>
+                
+                <div class="body-region">
+                    <div class="region-title">Head & Face</div>
+                    <div class="sensation-options">
+                        <div class="sensation-option" data-sensation="headache">Headache</div>
+                        <div class="sensation-option" data-sensation="jaw-tension">Jaw tension</div>
+                        <div class="sensation-option" data-sensation="face-flushing">Face flushing/warmth</div>
+                        <div class="sensation-option" data-sensation="gaze-aversion">Avoiding eye contact</div>
+                        <div class="sensation-option" data-sensation="dizziness">Dizziness</div>
+                    </div>
+                </div>
+                
+                <div class="body-region">
+                    <div class="region-title">Chest & Heart</div>
+                    <div class="sensation-options">
+                        <div class="sensation-option" data-sensation="chest-tightness">Chest tightness</div>
+                        <div class="sensation-option" data-sensation="chest-warmth">Chest warmth</div>
+                        <div class="sensation-option" data-sensation="heavy-chest">Heavy chest</div>
+                        <div class="sensation-option" data-sensation="light-chest">Light chest</div>
+                        <div class="sensation-option" data-sensation="rapid-heartbeat">Rapid heartbeat</div>
+                    </div>
+                </div>
+                
+                <div class="body-region">
+                    <div class="region-title">Stomach & Gut</div>
+                    <div class="sensation-options">
+                        <div class="sensation-option" data-sensation="stomach-dropping">Stomach dropping</div>
+                        <div class="sensation-option" data-sensation="stomach-tightness">Stomach tightness</div>
+                        <div class="sensation-option" data-sensation="nausea">Nausea</div>
+                    </div>
+                </div>
+                
+                <div class="body-region">
+                    <div class="region-title">Muscles & Energy</div>
+                    <div class="sensation-options">
+                        <div class="sensation-option" data-sensation="muscle-tension">Muscle tension</div>
+                        <div class="sensation-option" data-sensation="low-energy">Low energy/fatigue</div>
+                        <div class="sensation-option" data-sensation="energy-surge">Energy surge</div>
+                        <div class="sensation-option" data-sensation="restlessness">Restlessness</div>
+                        <div class="sensation-option" data-sensation="slow-movement">Slow movement</div>
+                        <div class="sensation-option" data-sensation="agitation">Agitation</div>
+                    </div>
+                </div>
+                
+                <div class="body-region">
+                    <div class="region-title">Overall Body</div>
+                    <div class="sensation-options">
+                        <div class="sensation-option" data-sensation="increased-temperature">Feeling hot/warm</div>
+                        <div class="sensation-option" data-sensation="relaxation">Relaxation</div>
+                        <div class="sensation-option" data-sensation="irritability">Irritability</div>
+                        <div class="sensation-option" data-sensation="shutdown-urge">Urge to shutdown/withdraw</div>
+                        <div class="sensation-option" data-sensation="processing-freeze">Mind going blank</div>
+                    </div>
+                </div>
+                
+                <div class="body-region">
+                    <div class="region-title">Intensity</div>
+                    <input type="range" min="1" max="3" value="2" class="intensity-slider" id="intensitySlider">
+                    <div style="display: flex; justify-content: space-between;">
+                        <span>Mild</span>
+                        <span>Moderate</span>
+                        <span>Severe</span>
+                    </div>
+                </div>
+                
+                <button id="analyzeButton">What Might I Be Feeling?</button>
+            </div>
+            
+            <div class="emotion-result">
+                <div class="section-title">Possible Emotion Translations</div>
+                <div class="result-box" id="resultBox">
+                    <p>Select your physical sensations and click the button to see possible emotional translations.</p>
+                </div>
+                
+                <div class="possible-emotions" id="possibleEmotions">
+                    <!-- Results will appear here -->
+                </div>
+                
+                <div class="emergency-section" id="emergencySection" style="display: none;">
+                    <div class="emergency-title">Emergency Override Activated</div>
+                    <p>Your physical sensations indicate possible system overwhelm. Consider:</p>
+                    <ul>
+                        <li>Reducing sensory input</li>
+                        <li>Finding a quiet space</li>
+                        <li>Using simple communication: "I'm experiencing system overload"</li>
+                        <li>Basic self-care: water, comfortable position, deep breathing</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Understanding Your Physical-Emotional Connection</div>
+            <p>What you're experiencing is valid and recognized. Here's what might help:</p>
+            <ul>
+                <li><strong>Keep a sensation journal:</strong> Note physical feelings and what was happening</li>
+                <li><strong>Use this tool regularly:</strong> Build connections between sensations and emotions</li>
+                <li><strong>Be patient with yourself:</strong> This is a learning process</li>
+                <li><strong>Remember intensity matters:</strong> Mild chest tightness might be worry, severe might be panic</li>
+                <li><strong>Context clues help:</strong> What happened right before the sensations started?</li>
+            </ul>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const sensationOptions = document.querySelectorAll('.sensation-option');
+            const analyzeButton = document.getElementById('analyzeButton');
+            const resultBox = document.getElementById('resultBox');
+            const possibleEmotions = document.getElementById('possibleEmotions');
+            const emergencySection = document.getElementById('emergencySection');
+            const intensitySlider = document.getElementById('intensitySlider');
+            
+            let selectedSensations = [];
+            
+            // Emotion mapping based on Type-0 Matrix
+            const emotionMatrix = {
+                'anxiety': {
+                    sensations: ['chest-tightness', 'rapid-heartbeat', 'muscle-tension', 'stomach-tightness'],
+                    description: 'Anticipation of future threat or negative outcome',
+                    triggers: 'uncertainty, perceived danger, upcoming events'
+                },
+                'anger': {
+                    sensations: ['face-flushing', 'jaw-tension', 'increased-temperature', 'agitation'],
+                    description: 'Response to perceived wrong, injustice, or frustration',
+                    triggers: 'blocked goals, unfair treatment, boundary violations'
+                },
+                'sadness': {
+                    sensations: ['heavy-chest', 'slow-movement', 'low-energy', 'stomach-tightness'],
+                    description: 'Response to loss, disappointment, or unmet needs',
+                    triggers: 'loss, disappointment, helplessness'
+                },
+                'joy/happiness': {
+                    sensations: ['energy-surge', 'light-chest', 'relaxation'],
+                    description: 'Positive response to meaningful events or general contentment',
+                    triggers: 'achievement, connection, needs being met'
+                },
+                'embarrassment': {
+                    sensations: ['face-flushing', 'gaze-aversion', 'increased-temperature'],
+                    description: 'Discomfort from perceived social failure or exposure',
+                    triggers: 'social mistakes, being center of attention'
+                },
+                'affection': {
+                    sensations: ['chest-warmth', 'relaxation'],
+                    description: 'Warm feeling of fondness or attachment toward someone',
+                    triggers: 'closeness, positive familiarity, caring relationships'
+                },
+                'shock/disbelief': {
+                    sensations: ['stomach-dropping', 'dizziness', 'processing-freeze'],
+                    description: 'Intense surprise with difficulty accepting reality',
+                    triggers: 'traumatic news, extreme unexpected events'
+                },
+                'excitement': {
+                    sensations: ['rapid-heartbeat', 'energy-surge', 'restlessness'],
+                    description: 'Anticipation of positive future events with high energy',
+                    triggers: 'upcoming positive events, new opportunities'
+                },
+                'frustration': {
+                    sensations: ['heavy-chest', 'jaw-tension', 'agitation', 'restlessness'],
+                    description: 'Response to obstructed progress with irritation',
+                    triggers: 'obstacles, blocked goals, things not working'
+                },
+                'overwhelm': {
+                    sensations: ['headache', 'irritability', 'shutdown-urge', 'processing-freeze'],
+                    description: 'State where input exceeds processing capacity',
+                    triggers: 'sensory overload, too many demands, insufficient resources'
+                }
+            };
+            
+            // Sensation selection
+            sensationOptions.forEach(option => {
+                option.addEventListener('click', function() {
+                    const sensation = this.getAttribute('data-sensation');
+                    
+                    if (this.classList.contains('selected')) {
+                        this.classList.remove('selected');
+                        selectedSensations = selectedSensations.filter(s => s !== sensation);
+                    } else {
+                        this.classList.add('selected');
+                        selectedSensations.push(sensation);
+                    }
+                });
+            });
+            
+            // Analyze button
+            analyzeButton.addEventListener('click', function() {
+                if (selectedSensations.length === 0) {
+                    resultBox.innerHTML = '<p>Please select at least one physical sensation.</p>';
+                    possibleEmotions.innerHTML = '';
+                    emergencySection.style.display = 'none';
+                    return;
+                }
+                
+                const intensity = parseInt(intensitySlider.value);
+                let intensityLabel = '';
+                if (intensity === 1) intensityLabel = 'mild';
+                else if (intensity === 2) intensityLabel = 'moderate';
+                else intensityLabel = 'severe';
+                
+                // Find matching emotions
+                const matchingEmotions = [];
+                
+                for (const [emotion, data] of Object.entries(emotionMatrix)) {
+                    const matchCount = data.sensations.filter(s => selectedSensations.includes(s)).length;
+                    if (matchCount > 0) {
+                        matchingEmotions.push({
+                            emotion: emotion,
+                            matchCount: matchCount,
+                            data: data
+                        });
+                    }
+                }
+                
+                // Sort by best match
+                matchingEmotions.sort((a, b) => b.matchCount - a.matchCount);
+                
+                // Update results
+                resultBox.innerHTML = `
+                    <p>Based on your ${intensityLabel} physical sensations:</p>
+                    <ul>
+                        ${selectedSensations.map(s => `<li>${s.replace(/-/g, ' ')}</li>`).join('')}
+                    </ul>
+                `;
+                
+                if (matchingEmotions.length > 0) {
+                    let emotionsHTML = '';
+                    matchingEmotions.forEach(item => {
+                        emotionsHTML += `
+                            <div class="emotion-item">
+                                <div class="emotion-name">${item.emotion}</div>
+                                <div class="emotion-description">
+                                    <p>${item.data.description}</p>
+                                    <p><strong>Common triggers:</strong> ${item.data.triggers}</p>
+                                </div>
+                            </div>
+                        `;
+                    });
+                    
+                    possibleEmotions.innerHTML = emotionsHTML;
+                } else {
+                    possibleEmotions.innerHTML = '<p>No clear emotion matches found. Your combination of sensations might be complex or transitional.</p>';
+                }
+                
+                // Check for emergency override (overwhelm indicators)
+                const overwhelmIndicators = ['headache', 'irritability', 'shutdown-urge', 'processing-freeze'];
+                const overwhelmCount = selectedSensations.filter(s => overwhelmIndicators.includes(s)).length;
+                
+                if (overwhelmCount >= 2 && intensity >= 2) {
+                    emergencySection.style.display = 'block';
+                } else {
+                    emergencySection.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

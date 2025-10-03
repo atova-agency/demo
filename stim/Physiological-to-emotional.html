@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Type-0 Emotion Translation Matrix</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --container-bg: #2a2a2a;
+            --text-color: #cccccc;
+            --accent-color: #555555;
+            --border-color: #444444;
+            --section-bg: #333333;
+            --definition-bg: #3a3a3a;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 300;
+            color: #e0e0e0;
+        }
+        
+        .subtitle {
+            text-align: center;
+            margin-bottom: 30px;
+            font-style: italic;
+            color: #aaaaaa;
+        }
+        
+        .section {
+            background-color: var(--section-bg);
+            padding: 20px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .section-title {
+            margin-bottom: 15px;
+            color: #e0e0e0;
+            font-size: 1.3rem;
+        }
+        
+        .definition-group {
+            margin-bottom: 20px;
+        }
+        
+        .definition {
+            background-color: var(--definition-bg);
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+        
+        .definition-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #e0e0e0;
+        }
+        
+        .definition-item {
+            margin-bottom: 5px;
+        }
+        
+        .tag {
+            display: inline-block;
+            background-color: #444444;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-size: 0.8rem;
+            margin-right: 5px;
+            color: #bbbbbb;
+        }
+        
+        .protocol-step {
+            margin-bottom: 15px;
+            padding-left: 15px;
+            border-left: 2px solid var(--accent-color);
+        }
+        
+        .protocol-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .signal {
+            background-color: #333333;
+            padding: 10px;
+            border-radius: 4px;
+            margin-top: 20px;
+            font-style: italic;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .section {
+                padding: 15px;
+            }
+            
+            .definition {
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>TYPE-0 EMOTION TRANSLATION MATRIX</h1>
+        <div class="subtitle">Physiological-to-emotional reference system</div>
+        
+        <div class="section">
+            <div class="section-title">Context: Emotion Translation System</div>
+            <div class="definition">
+                <div class="definition-title">Physiological-to-emotional-mapping</div>
+                <div class="definition-item"><strong>Purpose:</strong> Convert body signals to emotional labels</div>
+                <div class="definition-item"><strong>Why:</strong> Enables logical emotion processing for alexithymic systems</div>
+                <div class="definition-item">
+                    <span class="tag">type-0-emotion</span>
+                    <span class="tag">physiological-translation</span>
+                </div>
+                <div class="definition-item"><strong>Dependency:</strong> COSS-mini-v3.5</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Core Emotional Spectrum</div>
+            <div class="definition">
+                <div class="definition-title">Purpose & Foundation</div>
+                <div class="definition-item"><strong>Purpose:</strong> Primary emotion definitions with physiological correlates</div>
+                <div class="definition-item"><strong>Why:</strong> Foundation for all emotional translation</div>
+                <div class="definition-item">
+                    <span class="tag">emotion-baseline</span>
+                </div>
+            </div>
+            
+            <div class="definition-group">
+                <div class="definition">
+                    <div class="definition-title">Anxiety</div>
+                    <div class="definition-item"><strong>Definition:</strong> Anticipation of future threat or negative outcome</div>
+                    <div class="definition-item"><strong>Physiological:</strong> chest-tightness + rapid-heartbeat + muscle-tension</div>
+                    <div class="definition-item"><strong>Triggers:</strong> uncertainty . perceived-danger . upcoming-events</div>
+                    <div class="definition-item"><strong>Translation:</strong> detect chest tightness and rapid heartbeat - anxiety patterns</div>
+                </div>
+                
+                <div class="definition">
+                    <div class="definition-title">Anger</div>
+                    <div class="definition-item"><strong>Definition:</strong> Response to perceived wrong, injustice, or frustration</div>
+                    <div class="definition-item"><strong>Physiological:</strong> face-flushing + jaw-tension + increased-body-temperature</div>
+                    <div class="definition-item"><strong>Triggers:</strong> blocked-goals . unfair-treatment . boundary-violation</div>
+                    <div class="definition-item"><strong>Translation:</strong> experiencing face flushing and jaw tension - anger response</div>
+                </div>
+                
+                <div class="definition">
+                    <div class="definition-title">Sadness</div>
+                    <div class="definition-item"><strong>Definition:</strong> Response to loss, disappointment, or unmet needs</div>
+                    <div class="definition-item"><strong>Physiological:</strong> heavy-chest + slow-movement + low-energy</div>
+                    <div class="definition-item"><strong>Triggers:</strong> loss . disappointment . helplessness</div>
+                    <div class="definition-item"><strong>Translation:</strong> systems show heavy chest and low energy - sadness patterns</div>
+                </div>
+                
+                <div class="definition">
+                    <div class="definition-title">Joy-Happiness</div>
+                    <div class="definition-item"><strong>Definition:</strong> Positive response to meaningful events or general contentment</div>
+                    <div class="definition-item"><strong>Physiological:</strong> energy-surge + smiling + light-chest-sensation</div>
+                    <div class="definition-item"><strong>Triggers:</strong> achievement . connection . needs-met</div>
+                    <div class="definition-item"><strong>Translation:</strong> detect energy surge and smiling reflex - joy/happiness indicators</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Social Emotional Additions</div>
+            <div class="definition">
+                <div class="definition-title">Purpose & Context</div>
+                <div class="definition-item"><strong>Purpose:</strong> Interpersonal emotion mappings</div>
+                <div class="definition-item"><strong>Why:</strong> Social context requires specialized emotional vocabulary</div>
+                <div class="definition-item">
+                    <span class="tag">social-context</span>
+                </div>
+            </div>
+            
+            <div class="definition-group">
+                <div class="definition">
+                    <div class="definition-title">Embarrassment</div>
+                    <div class="definition-item"><strong>Definition:</strong> Discomfort from perceived social failure or exposure</div>
+                    <div class="definition-item"><strong>Physiological:</strong> face-warmth + gaze-aversion + decreased-verbal-output</div>
+                    <div class="definition-item"><strong>Triggers:</strong> social-mistake . being-center-of-attention</div>
+                    <div class="definition-item"><strong>Translation:</strong> experiencing face warmth and gaze aversion - embarrassment signals</div>
+                </div>
+                
+                <div class="definition">
+                    <div class="definition-title">Affection</div>
+                    <div class="definition-item"><strong>Definition:</strong> Warm feeling of fondness or attachment toward someone</div>
+                    <div class="definition-item"><strong>Physiological:</strong> chest-warmth + relaxation + proximity-seeking</div>
+                    <div class="definition-item"><strong>Triggers:</strong> closeness . positive-familiarity . caring-relationship</div>
+                    <div class="definition-item"><strong>Translation:</strong> systems indicate chest warmth and relaxation - affection patterns</div>
+                </div>
+                
+                <div class="definition">
+                    <div class="definition-title">Shock-Disbelief</div>
+                    <div class="definition-item"><strong>Definition:</strong> Intense surprise with difficulty accepting reality</div>
+                    <div class="definition-item"><strong>Physiological:</strong> stomach-dropping + dizziness + processing-freeze</div>
+                    <div class="definition-item"><strong>Triggers:</strong> traumatic-news . extreme-unexpected-events</div>
+                    <div class="definition-item"><strong>Translation:</strong> systems show stomach dropping and dizziness - shock response</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Complex State Combinations</div>
+            <div class="definition">
+                <div class="definition-title">Purpose & Complexity</div>
+                <div class="definition-item"><strong>Purpose:</strong> Multi-component emotional states</div>
+                <div class="definition-item"><strong>Why:</strong> Real emotions often combine multiple physiological patterns</div>
+                <div class="definition-item">
+                    <span class="tag">complex-states</span>
+                </div>
+            </div>
+            
+            <div class="definition-group">
+                <div class="definition">
+                    <div class="definition-title">Excitement</div>
+                    <div class="definition-item"><strong>Definition:</strong> Anticipation of positive future events with high energy</div>
+                    <div class="definition-item"><strong>Physiological:</strong> rapid-heart + energy-surge + focus + smiling</div>
+                    <div class="definition-item"><strong>Triggers:</strong> upcoming-positive-events . new-opportunities</div>
+                    <div class="definition-item"><strong>Translation:</strong> experiencing rapid heart and energy surge - excitement patterns</div>
+                </div>
+                
+                <div class="definition">
+                    <div class="definition-title">Frustration</div>
+                    <div class="definition-item"><strong>Definition:</strong> Response to obstructed progress with irritation</div>
+                    <div class="definition-item"><strong>Physiological:</strong> heavy-chest + jaw-tension + agitation + restlessness</div>
+                    <div class="definition-item"><strong>Triggers:</strong> obstacles . blocked-goals . things-not-working</div>
+                    <div class="definition-item"><strong>Translation:</strong> systems show heavy chest and jaw tension - frustration response</div>
+                </div>
+                
+                <div class="definition">
+                    <div class="definition-title">Overwhelm</div>
+                    <div class="definition-item"><strong>Definition:</strong> State where input exceeds processing capacity</div>
+                    <div class="definition-item"><strong>Physiological:</strong> headache + irritability + system-shutdown-urge</div>
+                    <div class="definition-item"><strong>Triggers:</strong> sensory-overload . too-many-demands . insufficient-resources</div>
+                    <div class="definition-item"><strong>Translation:</strong> detect headache and irritability - overwhelm response</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Intensity Modifiers</div>
+            <div class="definition">
+                <div class="definition-title">Purpose & Precision</div>
+                <div class="definition-item"><strong>Purpose:</strong> Adjust emotional labels based on physical intensity</div>
+                <div class="definition-item"><strong>Why:</strong> Precision requires accounting for signal strength</div>
+                <div class="definition-item">
+                    <span class="tag">calibration</span>
+                </div>
+            </div>
+            
+            <div class="definition-group">
+                <div class="definition">
+                    <div class="definition-title">Mild</div>
+                    <div class="definition-item"><strong>Descriptors:</strong> slight- . barely-noticeable . easily-managed</div>
+                    <div class="definition-item"><strong>Example:</strong> slight-chest-tightness -> mild-anxiety</div>
+                </div>
+                
+                <div class="definition">
+                    <div class="definition-title">Moderate</div>
+                    <div class="definition-item"><strong>Descriptors:</strong> clear- . noticeable . requires-attention</div>
+                    <div class="definition-item"><strong>Example:</strong> clear-chest-tightness -> anxiety</div>
+                </div>
+                
+                <div class="definition">
+                    <div class="definition-title">Severe</div>
+                    <div class="definition-item"><strong>Descriptors:</strong> intense- . overwhelming . requires-intervention</div>
+                    <div class="definition-item"><strong>Example:</strong> intense-chest-tightness -> severe-anxiety</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Assessment Protocol</div>
+            <div class="definition">
+                <div class="definition-title">Purpose & Approach</div>
+                <div class="definition-item"><strong>Purpose:</strong> Step-by-step emotion identification process</div>
+                <div class="definition-item"><strong>Why:</strong> Systematic approach prevents misidentification</div>
+                <div class="definition-item">
+                    <span class="tag">procedure</span>
+                </div>
+            </div>
+            
+            <div class="protocol-step">
+                <div class="protocol-title">Step 1: Identify Primary Sensation</div>
+                <div class="definition-item"><strong>Purpose:</strong> Locate dominant physical signal</div>
+                <div class="definition-item"><strong>Action:</strong> scan-physical-data</div>
+                <div class="definition-item"><strong>Kinetic:</strong> finger-pressure-point-check</div>
+                <div class="definition-item"><strong>Output:</strong> location . intensity . quality</div>
+            </div>
+            
+            <div class="protocol-step">
+                <div class="protocol-title">Step 2: Scan Secondary Sensations</div>
+                <div class="definition-item"><strong>Purpose:</strong> Identify supporting physiological patterns</div>
+                <div class="definition-item"><strong>Action:</strong> check-associated-patterns</div>
+                <div class="definition-item"><strong>Kinetic:</strong> full-body-scan-motion</div>
+                <div class="definition-item"><strong>Output:</strong> movement-patterns . physiological-changes</div>
+            </div>
+            
+            <div class="protocol-step">
+                <div class="protocol-title">Step 3: Cross-reference Matrix</div>
+                <div class="definition-item"><strong>Purpose:</strong> Match patterns to emotional definitions</div>
+                <div class="definition-item"><strong>Action:</strong> compare-to-reference-matrix</div>
+                <div class="definition-item"><strong>Output:</strong> preliminary-emotion-label</div>
+            </div>
+            
+            <div class="protocol-step">
+                <div class="protocol-title">Step 4: Apply Modifiers</div>
+                <div class="definition-item"><strong>Purpose:</strong> Adjust for context and intensity</div>
+                <div class="definition-item"><strong>Action:</strong> adjust-for-context</div>
+                <div class="definition-item"><strong>Process:</strong> intensity . duration . social-setting</div>
+                <div class="definition-item"><strong>Output:</strong> final-emotion-label</div>
+            </div>
+        </div>
+        
+        <div class="section">
+            <div class="section-title">Emergency Override</div>
+            <div class="definition">
+                <div class="definition-title">Purpose & Crisis Protocol</div>
+                <div class="definition-item"><strong>Purpose:</strong> Simplified protocol for overwhelming states</div>
+                <div class="definition-item"><strong>Why:</strong> Complex assessment fails during system overload</div>
+                <div class="definition-item">
+                    <span class="tag">crisis-protocol</span>
+                </div>
+            </div>
+            
+            <div class="definition-item"><strong>Condition:</strong> physiological-data-overwhelming</div>
+            <div class="definition-item"><strong>Action:</strong> bypass-full-assessment</div>
+            <div class="definition-item"><strong>Signal:</strong> use-simple-pattern-only</div>
+            <div class="definition-item"><strong>Protocol:</strong> identify-1-primary-sensation -> match-simplest-label -> communicate-basic-state</div>
+            <div class="definition-item"><strong>Example:</strong> detecting system overload - need to recalibrate</div>
+        </div>
+        
+        <div class="signal">
+            <p>Signal: emotion translation matrix integrated into COSS structure</p>
+            <p>Signal: use assessment-protocol for systematic emotion identification</p>
+            <p>Signal: apply emergency-override during overwhelm states</p>
+            <p>
+                <span class="tag">type-0-emotion-ready</span>
+                <span class="tag">physiological-translation-complete</span>
+            </p>
+        </div>
+    </div>
+</body>
+</html>

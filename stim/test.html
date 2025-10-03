@@ -1,0 +1,863 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adult Autism Screening Questionnaire</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --container-bg: #2a2a2a;
+            --text-color: #cccccc;
+            --accent-color: #555555;
+            --border-color: #444444;
+            --button-bg: #333333;
+            --button-hover: #3a3a3a;
+            --checkbox-bg: #3a3a3a;
+            --checkbox-checked: #666666;
+            --low-risk: #556677;
+            --medium-risk: #776655;
+            --high-risk: #775555;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 300;
+            color: #e0e0e0;
+        }
+        
+        .disclaimer {
+            background-color: #333333;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #333333;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .section {
+            display: none;
+            margin-bottom: 20px;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .section-title {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            color: #e0e0e0;
+        }
+        
+        .question-group {
+            margin-bottom: 25px;
+        }
+        
+        .question {
+            margin-bottom: 15px;
+            font-size: 1rem;
+        }
+        
+        .options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        
+        .option {
+            display: flex;
+            align-items: flex-start;
+            padding: 10px;
+            background-color: var(--checkbox-bg);
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+        
+        .option:hover {
+            background-color: #404040;
+        }
+        
+        .option input {
+            margin-right: 10px;
+            margin-top: 3px;
+            accent-color: var(--accent-color);
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        button {
+            background-color: var(--button-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background-color: var(--button-hover);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .results-section {
+            display: none;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        .results-section.active {
+            display: block;
+        }
+        
+        .result-score {
+            font-size: 1.8rem;
+            margin: 20px 0;
+            color: #e0e0e0;
+        }
+        
+        .score-display {
+            font-size: 2.5rem;
+            font-weight: 300;
+            margin: 15px 0;
+        }
+        
+        .risk-level {
+            padding: 10px 20px;
+            border-radius: 4px;
+            margin: 20px auto;
+            max-width: 300px;
+            font-weight: bold;
+        }
+        
+        .risk-low {
+            background-color: var(--low-risk);
+            border-left: 4px solid #668899;
+        }
+        
+        .risk-medium {
+            background-color: var(--medium-risk);
+            border-left: 4px solid #997766;
+        }
+        
+        .risk-high {
+            background-color: var(--high-risk);
+            border-left: 4px solid #996666;
+        }
+        
+        .result-message {
+            background-color: #333333;
+            padding: 20px;
+            border-radius: 6px;
+            margin-top: 20px;
+            text-align: left;
+        }
+        
+        .recommendations {
+            margin-top: 25px;
+            text-align: left;
+        }
+        
+        .recommendations h3 {
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+        
+        .recommendations ul {
+            padding-left: 20px;
+        }
+        
+        .recommendations li {
+            margin-bottom: 10px;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .options {
+                gap: 8px;
+            }
+            
+            .option {
+                padding: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Adult Autism Screening Questionnaire</h1>
+        
+        <div class="disclaimer">
+            <p><strong>Important Disclaimer:</strong> This questionnaire is for informational purposes only and is not a diagnostic tool. Only a qualified healthcare professional can provide an accurate diagnosis of autism spectrum disorder. This screening can help you understand whether you might want to seek a formal evaluation.</p>
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <form id="autismQuestionnaire">
+            <!-- Section 1: Social Communication -->
+            <div class="section active" id="section1">
+                <h2 class="section-title">Social Communication & Interaction</h2>
+                
+                <div class="question-group">
+                    <div class="question">1. Do you find it challenging to interpret nonverbal cues like facial expressions, body language, or tone of voice?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q1" value="2">
+                            Often
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="1">
+                            Sometimes
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q1" value="0">
+                            Rarely
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <div class="question">2. Do you struggle with back-and-forth conversation or knowing when to speak in social situations?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q2" value="2">
+                            Often
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="1">
+                            Sometimes
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q2" value="0">
+                            Rarely
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <div class="question">3. Do you find it difficult to make or maintain friendships?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q3" value="2">
+                            Often
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="1">
+                            Sometimes
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q3" value="0">
+                            Rarely
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <div class="question">4. Do you prefer solitary activities over group activities?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q4" value="2">
+                            Strongly prefer solitary
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="1">
+                            No strong preference
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q4" value="0">
+                            Prefer group activities
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <div class="question">5. Do you find small talk difficult or pointless?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q5" value="2">
+                            Yes, very difficult
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="1">
+                            Sometimes challenging
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q5" value="0">
+                            No, I'm comfortable with it
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button type="button" id="next1">Next</button>
+                </div>
+            </div>
+            
+            <!-- Section 2: Repetitive Behaviors -->
+            <div class="section" id="section2">
+                <h2 class="section-title">Restricted & Repetitive Behaviors</h2>
+                
+                <div class="question-group">
+                    <div class="question">6. Do you have strong, highly focused interests that you spend a lot of time on?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q6" value="2">
+                            Yes, very intense interests
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="1">
+                            Some focused interests
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q6" value="0">
+                            No particular intense interests
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <div class="question">7. Do you feel distressed by changes in routine or unexpected events?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q7" value="2">
+                            Very distressed
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="1">
+                            Somewhat bothered
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q7" value="0">
+                            Not particularly bothered
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <div class="question">8. Do you engage in repetitive movements (like rocking, hand-flapping, or pacing) especially when excited or stressed?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q8" value="2">
+                            Frequently
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="1">
+                            Occasionally
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q8" value="0">
+                            Rarely or never
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <div class="question">9. Do you have rigid thinking patterns or difficulty adapting to new ways of doing things?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q9" value="2">
+                            Very rigid in my thinking
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="1">
+                            Somewhat rigid
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q9" value="0">
+                            Flexible in my thinking
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <div class="question">10. Do you have specific rituals or routines that you feel compelled to follow?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q10" value="2">
+                            Many important rituals
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="1">
+                            A few routines
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q10" value="0">
+                            No particular rituals
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button type="button" id="prev2">Previous</button>
+                    <button type="button" id="next2">Next</button>
+                </div>
+            </div>
+            
+            <!-- Section 3: Sensory Issues -->
+            <div class="section" id="section3">
+                <h2 class="section-title">Sensory Sensitivities</h2>
+                
+                <div class="question-group">
+                    <div class="question">11. Are you unusually sensitive to sounds, lights, textures, or smells?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q11" value="2">
+                            Very sensitive
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q11" value="1">
+                            Somewhat sensitive
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q11" value="0">
+                            Not particularly sensitive
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <div class="question">12. Do you seek out specific sensory experiences (like certain textures, movements, or visual patterns)?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q12" value="2">
+                            Frequently seek sensory input
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q12" value="1">
+                            Occasionally
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q12" value="0">
+                            Rarely
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <div class="question">13. Do you become overwhelmed in busy environments like shopping malls or crowded parties?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q13" value="2">
+                            Very easily overwhelmed
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q13" value="1">
+                            Sometimes overwhelmed
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q13" value="0">
+                            Rarely overwhelmed
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <div class="question">14. Do you have unusual responses to pain, temperature, or other physical sensations?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q14" value="2">
+                            Yes, noticeably different
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q14" value="1">
+                            Somewhat different
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q14" value="0">
+                            Typical responses
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <div class="question">15. Do you avoid certain foods because of their texture rather than taste?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q15" value="2">
+                            Frequently avoid foods due to texture
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q15" value="1">
+                            Occasionally
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q15" value="0">
+                            Rarely or never
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button type="button" id="prev3">Previous</button>
+                    <button type="button" id="next3">Next</button>
+                </div>
+            </div>
+            
+            <!-- Section 4: Additional Traits -->
+            <div class="section" id="section4">
+                <h2 class="section-title">Additional Traits & Experiences</h2>
+                
+                <div class="question-group">
+                    <div class="question">16. Do you tend to take language very literally and struggle with sarcasm or metaphors?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q16" value="2">
+                            Very literally
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q16" value="1">
+                            Sometimes literally
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q16" value="0">
+                            Understand figurative language well
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <div class="question">17. Do you have difficulty recognizing or describing your own emotions?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q17" value="2">
+                            Significant difficulty
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q17" value="1">
+                            Some difficulty
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q17" value="0">
+                            Little to no difficulty
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <div class="question">18. Do you have a strong sense of justice or become very upset by unfairness?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q18" value="2">
+                            Very strong sense of justice
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q18" value="1">
+                            Moderate sense of justice
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q18" value="0">
+                            Typical response to unfairness
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <div class="question">19. Do you frequently feel like you're "masking" or pretending to be neurotypical in social situations?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q19" value="2">
+                            Frequently mask
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q19" value="1">
+                            Sometimes mask
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q19" value="0">
+                            Rarely or never mask
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="question-group">
+                    <div class="question">20. Have you always felt different from others, even if you couldn't explain why?</div>
+                    <div class="options">
+                        <label class="option">
+                            <input type="radio" name="q20" value="2">
+                            Always felt different
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q20" value="1">
+                            Sometimes felt different
+                        </label>
+                        <label class="option">
+                            <input type="radio" name="q20" value="0">
+                            Generally felt similar to peers
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="navigation">
+                    <button type="button" id="prev4">Previous</button>
+                    <button type="button" id="submitBtn">Get Results</button>
+                </div>
+            </div>
+        </form>
+        
+        <!-- Results Section -->
+        <div class="results-section" id="results">
+            <h2 class="section-title">Screening Results</h2>
+            
+            <div class="result-score">
+                Your Score: <span class="score-display" id="scoreValue">0</span>/40
+            </div>
+            
+            <div class="risk-level" id="riskLevel">
+                <!-- Risk level will be inserted here -->
+            </div>
+            
+            <div class="result-message" id="resultMessage">
+                <!-- Result message will be inserted here -->
+            </div>
+            
+            <div class="recommendations" id="recommendations">
+                <!-- Recommendations will be inserted here -->
+            </div>
+            
+            <div class="navigation">
+                <button type="button" id="restartBtn">Take Again</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Navigation elements
+            const next1 = document.getElementById('next1');
+            const next2 = document.getElementById('next2');
+            const next3 = document.getElementById('next3');
+            const prev2 = document.getElementById('prev2');
+            const prev3 = document.getElementById('prev3');
+            const prev4 = document.getElementById('prev4');
+            const submitBtn = document.getElementById('submitBtn');
+            const restartBtn = document.getElementById('restartBtn');
+            
+            // Section elements
+            const section1 = document.getElementById('section1');
+            const section2 = document.getElementById('section2');
+            const section3 = document.getElementById('section3');
+            const section4 = document.getElementById('section4');
+            const results = document.getElementById('results');
+            
+            // Progress bar
+            const progressBar = document.getElementById('progressBar');
+            
+            // Result elements
+            const scoreValue = document.getElementById('scoreValue');
+            const riskLevel = document.getElementById('riskLevel');
+            const resultMessage = document.getElementById('resultMessage');
+            const recommendations = document.getElementById('recommendations');
+            
+            // Navigation functions
+            next1.addEventListener('click', function() {
+                section1.classList.remove('active');
+                section2.classList.add('active');
+                updateProgress(25);
+            });
+            
+            next2.addEventListener('click', function() {
+                section2.classList.remove('active');
+                section3.classList.add('active');
+                updateProgress(50);
+            });
+            
+            next3.addEventListener('click', function() {
+                section3.classList.remove('active');
+                section4.classList.add('active');
+                updateProgress(75);
+            });
+            
+            prev2.addEventListener('click', function() {
+                section2.classList.remove('active');
+                section1.classList.add('active');
+                updateProgress(0);
+            });
+            
+            prev3.addEventListener('click', function() {
+                section3.classList.remove('active');
+                section2.classList.add('active');
+                updateProgress(25);
+            });
+            
+            prev4.addEventListener('click', function() {
+                section4.classList.remove('active');
+                section3.classList.add('active');
+                updateProgress(50);
+            });
+            
+            submitBtn.addEventListener('click', function() {
+                calculateResults();
+                section4.classList.remove('active');
+                results.classList.add('active');
+                updateProgress(100);
+            });
+            
+            restartBtn.addEventListener('click', function() {
+                // Reset form
+                document.getElementById('autismQuestionnaire').reset();
+                
+                // Show first section
+                results.classList.remove('active');
+                section1.classList.add('active');
+                
+                // Reset progress
+                updateProgress(0);
+            });
+            
+            // Update progress bar
+            function updateProgress(percent) {
+                progressBar.style.width = percent + '%';
+            }
+            
+            // Calculate results
+            function calculateResults() {
+                let score = 0;
+                
+                // Calculate score from all questions
+                for (let i = 1; i <= 20; i++) {
+                    const selectedOption = document.querySelector(`input[name="q${i}"]:checked`);
+                    if (selectedOption) {
+                        score += parseInt(selectedOption.value);
+                    }
+                }
+                
+                // Display score
+                scoreValue.textContent = score;
+                
+                // Determine risk level and messages
+                let riskClass, riskText, message, recs;
+                
+                if (score <= 10) {
+                    riskClass = "risk-low";
+                    riskText = "Low Indication";
+                    message = `
+                        <p>Based on your responses, you show few traits commonly associated with autism.</p>
+                        <p>However, this screening is not a diagnostic tool. If you have concerns about autism or other neurodivergent conditions, consider consulting with a healthcare professional for a comprehensive evaluation.</p>
+                    `;
+                    recs = `
+                        <h3>Suggestions</h3>
+                        <ul>
+                            <li>If you're experiencing challenges that prompted you to take this screening, consider discussing them with a mental health professional</li>
+                            <li>Remember that autism manifests differently in everyone, and this screening only captures certain aspects</li>
+                            <li>Continue learning about neurodiversity to better understand yourself and others</li>
+                        </ul>
+                    `;
+                } else if (score <= 20) {
+                    riskClass = "risk-medium";
+                    riskText = "Moderate Indication";
+                    message = `
+                        <p>Based on your responses, you show some traits that may be associated with autism.</p>
+                        <p>This screening is not a diagnostic tool. If these traits are causing challenges in your life, or if you're curious to learn more, you might consider seeking an evaluation from a qualified healthcare professional who specializes in adult autism assessment.</p>
+                    `;
+                    recs = `
+                        <h3>Next Steps to Consider</h3>
+                        <ul>
+                            <li>Research autism in adults to see if the experiences resonate with you</li>
+                            <li>Consider joining online communities where autistic adults share experiences</li>
+                            <li>If interested in formal assessment, look for psychologists or psychiatrists specializing in adult autism</li>
+                            <li>Keep a journal of situations where you feel different or challenged</li>
+                        </ul>
+                    `;
+                } else if (score <= 30) {
+                    riskClass = "risk-medium";
+                    riskText = "Strong Indication";
+                    message = `
+                        <p>Based on your responses, you show several traits commonly associated with autism.</p>
+                        <p>This screening is not a diagnostic tool, but your results suggest it may be worthwhile to explore further with a qualified professional. Many adults find that understanding their neurotype helps them develop better coping strategies and self-acceptance.</p>
+                    `;
+                    recs = `
+                        <h3>Recommended Actions</h3>
+                        <ul>
+                            <li>Strongly consider seeking a formal evaluation from a specialist in adult autism</li>
+                            <li>Connect with autistic communities online to learn from lived experiences</li>
+                            <li>Read books or watch content by autistic adults about their experiences</li>
+                            <li>Consider discussing your results with a therapist familiar with neurodiversity</li>
+                        </ul>
+                    `;
+                } else {
+                    riskClass = "risk-high";
+                    riskText = "High Indication";
+                    message = `
+                        <p>Based on your responses, you show many traits commonly associated with autism.</p>
+                        <p>While this screening is not a diagnostic tool, your results strongly suggest that pursuing a formal evaluation might be beneficial. Many adults find that an autism diagnosis helps explain lifelong challenges and provides a framework for self-understanding.</p>
+                    `;
+                    recs = `
+                        <h3>Strongly Recommended Next Steps</h3>
+                        <ul>
+                            <li>Seek a comprehensive evaluation from a professional specializing in adult autism</li>
+                            <li>Join autistic communities to learn about coping strategies and self-advocacy</li>
+                            <li>Consider reading literature by autistic authors about their experiences</li>
+                            <li>If pursuing diagnosis, prepare by gathering childhood information and current challenges</li>
+                            <li>Be patient with yourself throughout this process of self-discovery</li>
+                        </ul>
+                    `;
+                }
+                
+                // Update the results display
+                riskLevel.className = `risk-level ${riskClass}`;
+                riskLevel.textContent = riskText;
+                resultMessage.innerHTML = message;
+                recommendations.innerHTML = recs;
+            }
+            
+            // Initialize progress bar
+            updateProgress(0);
+        });
+    </script>
+</body>
+</html>
