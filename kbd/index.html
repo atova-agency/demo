@@ -1,0 +1,1042 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Touch Typing Mastery</title>
+    <style>
+        :root {
+            --bg-color: #1a1a1a;
+            --container-bg: #2a2a2a;
+            --text-color: #cccccc;
+            --accent-color: #555555;
+            --border-color: #444444;
+            --button-bg: #333333;
+            --button-hover: #3a3a3a;
+            --checkbox-bg: #3a3a3a;
+            --checkbox-checked: #666666;
+            --low-risk: #556677;
+            --medium-risk: #776655;
+            --high-risk: #775555;
+            --correct-color: #556655;
+            --incorrect-color: #665555;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background-color: var(--container-bg);
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            font-weight: 300;
+            color: #e0e0e0;
+        }
+        
+        .disclaimer {
+            background-color: #333333;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 25px;
+            font-size: 0.9rem;
+            border-left: 3px solid var(--accent-color);
+        }
+        
+        .progress-container {
+            width: 100%;
+            background-color: #333333;
+            border-radius: 4px;
+            margin-bottom: 25px;
+            overflow: hidden;
+        }
+        
+        .progress-bar {
+            height: 6px;
+            background-color: var(--accent-color);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+        
+        .section {
+            display: none;
+            margin-bottom: 20px;
+        }
+        
+        .section.active {
+            display: block;
+        }
+        
+        .section-title {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
+            color: #e0e0e0;
+        }
+        
+        .lesson-objective {
+            background-color: #333333;
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 20px;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .finger-map {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+        
+        .finger-column {
+            background-color: #333333;
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .finger-name {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #e0e0e0;
+        }
+        
+        .key-path {
+            font-size: 1.2rem;
+            margin: 10px 0;
+        }
+        
+        .mnemonic {
+            font-style: italic;
+            color: #aaaaaa;
+            font-size: 0.9rem;
+        }
+        
+        .drill-container {
+            background-color: #333333;
+            padding: 20px;
+            border-radius: 6px;
+            margin: 20px 0;
+        }
+        
+        .drill-title {
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+        
+        .phrase-to-type {
+            font-size: 1.5rem;
+            background-color: #2a2a2a;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 15px 0;
+            text-align: center;
+            letter-spacing: 2px;
+            border: 1px solid var(--border-color);
+        }
+        
+        .typing-area {
+            width: 100%;
+            background-color: #2a2a2a;
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            padding: 15px;
+            font-size: 1.2rem;
+            resize: vertical;
+            min-height: 100px;
+            margin: 15px 0;
+        }
+        
+        .typing-area:focus {
+            outline: none;
+            border-color: var(--accent-color);
+        }
+        
+        .feedback {
+            margin: 15px 0;
+            padding: 10px;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+        }
+        
+        .feedback.correct {
+            background-color: var(--correct-color);
+        }
+        
+        .feedback.incorrect {
+            background-color: var(--incorrect-color);
+        }
+        
+        .completion-criteria {
+            background-color: #333333;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 20px;
+            border-left: 4px solid var(--accent-color);
+        }
+        
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 30px;
+        }
+        
+        button {
+            background-color: var(--button-bg);
+            color: var(--text-color);
+            border: 1px solid var(--border-color);
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+        
+        button:hover {
+            background-color: var(--button-hover);
+        }
+        
+        button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .keyboard-visual {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 20px 0;
+        }
+        
+        .keyboard-row {
+            display: flex;
+            margin-bottom: 8px;
+        }
+        
+        .key {
+            width: 40px;
+            height: 40px;
+            background-color: #333333;
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 2px;
+            font-size: 0.9rem;
+        }
+        
+        .key.home {
+            background-color: #444444;
+        }
+        
+        .key.active {
+            background-color: var(--accent-color);
+        }
+        
+        .instructions {
+            background-color: #333333;
+            padding: 15px;
+            border-radius: 6px;
+            margin: 15px 0;
+        }
+        
+        .mantra {
+            text-align: center;
+            font-style: italic;
+            margin: 20px 0;
+            padding: 10px;
+            background-color: #333333;
+            border-radius: 4px;
+        }
+        
+        .two-hand-map {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin: 20px 0;
+        }
+        
+        .hand-section {
+            background-color: #333333;
+            padding: 15px;
+            border-radius: 6px;
+        }
+        
+        .hand-title {
+            text-align: center;
+            margin-bottom: 15px;
+            color: #e0e0e0;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 15px;
+            }
+            
+            .key {
+                width: 30px;
+                height: 30px;
+                font-size: 0.8rem;
+            }
+            
+            .phrase-to-type {
+                font-size: 1.2rem;
+            }
+            
+            .two-hand-map {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Touch Typing Mastery</h1>
+        
+        <div class="disclaimer">
+            <strong>Core Principle:</strong> The goal is not speed. The goal is to create a direct, non-visual pathway between your mind and your fingers. <strong>Struggle is learning.</strong> The moment you get stuck and choose not to look is the moment your brain builds a permanent connection.
+        </div>
+        
+        <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <!-- Lesson 1 Sections -->
+        <div class="section active" id="lesson1-intro">
+            <h2 class="section-title">Lesson 1: Activating the Left Hand</h2>
+            <div class="lesson-objective">
+                <strong>Objective:</strong> Master the left-hand vertical columns for the pinky, ring, and middle fingers. Deactivate the visual system.
+            </div>
+            <div class="mantra">
+                "I do not need to see. I only need to feel."
+            </div>
+            <div class="instructions">
+                <h3>Establish the Anchor:</h3>
+                <ul>
+                    <li>Sit up straight. Feet flat on the floor.</li>
+                    <li>Curl your left hand and place your fingers on the Home Row Keys:
+                        <ul>
+                            <li>Pinky on <strong>A</strong></li>
+                            <li>Ring finger on <strong>S</strong></li>
+                            <li>Middle finger on <strong>D</strong></li>
+                            <li>Index finger on <strong>F</strong></li>
+                        </ul>
+                    </li>
+                    <li>Find the raised bump on the <strong>F</strong> key. This is your tactile guide.</li>
+                </ul>
+            </div>
+            <div class="keyboard-visual">
+                <div class="keyboard-row">
+                    <div class="key">Q</div>
+                    <div class="key">W</div>
+                    <div class="key">E</div>
+                    <div class="key">R</div>
+                    <div class="key">T</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key home">A</div>
+                    <div class="key home">S</div>
+                    <div class="key home">D</div>
+                    <div class="key home active">F</div>
+                    <div class="key">G</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key">Z</div>
+                    <div class="key">X</div>
+                    <div class="key">C</div>
+                    <div class="key">V</div>
+                    <div class="key">B</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button disabled>Previous</button>
+                <button id="nextToFingerPaths">Next: Learn Finger Paths</button>
+            </div>
+        </div>
+        
+        <div class="section" id="lesson1-paths">
+            <h2 class="section-title">Lesson 1: Finger Paths</h2>
+            <div class="finger-map">
+                <div class="finger-column">
+                    <div class="finger-name">Pinky</div>
+                    <div class="key-path">Q ← A → Z</div>
+                    <div class="mnemonic">"Quiet Alignment Zone"</div>
+                </div>
+                <div class="finger-column">
+                    <div class="finger-name">Ring</div>
+                    <div class="key-path">W ← S → X</div>
+                    <div class="mnemonic">"Whisper Secret X-rays"</div>
+                </div>
+                <div class="finger-column">
+                    <div class="finger-name">Middle</div>
+                    <div class="key-path">E ← D → C</div>
+                    <div class="mnemonic">"Every Day Clock"</div>
+                </div>
+            </div>
+            <div class="instructions">
+                <p>Forget letters; think of them as <strong>finger paths</strong>. Each finger moves vertically along its column.</p>
+            </div>
+            <div class="navigation">
+                <button id="prevToIntro">Previous</button>
+                <button id="nextToDrill1">Next: Blind Column Tap</button>
+            </div>
+        </div>
+        
+        <div class="section" id="lesson1-drill1">
+            <h2 class="section-title">Lesson 1: Drill 1 - Blind Column Tap</h2>
+            <div class="drill-container">
+                <h3 class="drill-title">Instructions:</h3>
+                <p>Close your eyes. Take a deep breath.</p>
+                <ul>
+                    <li><strong>Pinky Path:</strong> With your left pinky, slowly press Q → A → Z → A. Repeat 5 times, saying "Quiet Alignment Zone" in your head.</li>
+                    <li><strong>Ring Path:</strong> Switch to your left ring finger. W → S → X → S. Repeat 5 times. "Whisper Secret X-rays."</li>
+                    <li><strong>Middle Path:</strong> Switch to your left middle finger. E → D → C → D. Repeat 5 times. "Every Day Clock."</li>
+                </ul>
+                <p>Focus on the feeling of the stretch and reach.</p>
+                
+                <div class="phrase-to-type" id="drill1Phrase">QAZA WSXS EDCD</div>
+                <textarea class="typing-area" id="drill1Input" placeholder="Type the pattern here..."></textarea>
+                <div class="feedback" id="drill1Feedback"></div>
+            </div>
+            <div class="navigation">
+                <button id="prevToPaths">Previous</button>
+                <button id="nextToDrill2" disabled>Next: Reach & Return Rhythm</button>
+            </div>
+        </div>
+        
+        <div class="section" id="lesson1-drill2">
+            <h2 class="section-title">Lesson 1: Drill 2 - Reach & Return Rhythm</h2>
+            <div class="drill-container">
+                <h3 class="drill-title">Instructions:</h3>
+                <p>Type this sequence. The rule is: <strong>after every key press, the finger must return to its home row key.</strong></p>
+                <p>This is the most important drill. It builds the muscle memory to never get lost.</p>
+                
+                <div class="phrase-to-type" id="drill2Phrase">Q A Z A   W S X S   E D C D</div>
+                <textarea class="typing-area" id="drill2Input" placeholder="Type the sequence here..."></textarea>
+                <div class="feedback" id="drill2Feedback"></div>
+            </div>
+            <div class="navigation">
+                <button id="prevToDrill1">Previous</button>
+                <button id="nextToDrill3" disabled>Next: Columnar Words</button>
+            </div>
+        </div>
+        
+        <div class="section" id="lesson1-drill3">
+            <h2 class="section-title">Lesson 1: Drill 3 - Columnar Words</h2>
+            <div class="drill-container">
+                <h3 class="drill-title">Instructions:</h3>
+                <p>Type these words. They are designed to keep your left hand in its columns.</p>
+                <p>Focus on the feeling of the fingers moving up and down from the home row.</p>
+                
+                <div class="phrase-to-type" id="drill3Phrase">aqua waxes deeded</div>
+                <textarea class="typing-area" id="drill3Input" placeholder="Type the words here..."></textarea>
+                <div class="feedback" id="drill3Feedback"></div>
+            </div>
+            <div class="navigation">
+                <button id="prevToDrill2">Previous</button>
+                <button id="nextToChallenge" disabled>Next: Integration Challenge</button>
+            </div>
+        </div>
+        
+        <div class="section" id="lesson1-challenge">
+            <h2 class="section-title">Lesson 1: Integration Challenge</h2>
+            <div class="drill-container">
+                <h3 class="drill-title">Instructions:</h3>
+                <p>Close your eyes. Place your fingers on A-S-D-F.</p>
+                <p>Type the following sentence slowly:</p>
+                
+                <div class="phrase-to-type" id="challengePhrase">a sad ace was exact</div>
+                <textarea class="typing-area" id="challengeInput" placeholder="Type the phrase here with your eyes CLOSED..."></textarea>
+                <div class="feedback" id="challengeFeedback"></div>
+                
+                <div class="instructions">
+                    <p><strong>If you get stuck, DO NOT OPEN YOUR EYES.</strong> Pause. Remember the column the key is in ("That's the middle finger column... E, D, C... it must be 'E'"). Perform a slow "Blind Column Tap" with that finger until you find it.</p>
+                    <p>The struggle is the learning.</p>
+                </div>
+            </div>
+            <div class="completion-criteria">
+                <strong>Completion Criteria:</strong> You can type the phrase with your eyes closed, at a slow, deliberate pace, without making more than two mistakes.
+            </div>
+            <div class="navigation">
+                <button id="prevToDrill3">Previous</button>
+                <button id="nextToLesson2" disabled>Next: Lesson 2</button>
+            </div>
+        </div>
+        
+        <!-- Lesson 2 Sections -->
+        <div class="section" id="lesson2-intro">
+            <h2 class="section-title">Lesson 2: Expanding the Map & Introducing the Right Hand</h2>
+            <div class="lesson-objective">
+                <strong>Objective:</strong> Add the left index finger columns and introduce the right hand home row. Begin two-hand coordination.
+            </div>
+            <div class="mantra">
+                "My fingers are finding their way."
+            </div>
+            <div class="navigation">
+                <button id="prevToLesson1">Previous</button>
+                <button id="nextToLesson2Paths">Next: Left Index Finger Paths</button>
+            </div>
+        </div>
+        
+        <div class="section" id="lesson2-paths">
+            <h2 class="section-title">Lesson 2: Left Index Finger Paths</h2>
+            <div class="finger-map">
+                <div class="finger-column">
+                    <div class="finger-name">Left Index (Inner)</div>
+                    <div class="key-path">R ← F → V</div>
+                    <div class="mnemonic">"Really Fast View"</div>
+                </div>
+                <div class="finger-column">
+                    <div class="finger-name">Left Index (Outer)</div>
+                    <div class="key-path">T ← G → B</div>
+                    <div class="mnemonic">"Tiny Green Box"</div>
+                </div>
+            </div>
+            <div class="instructions">
+                <p>Your left index finger is your most dexterous finger. It manages <strong>two vertical columns</strong>.</p>
+                <p>Feel the bump on <strong>F</strong>. This is your index finger's true home. The <strong>G</strong> key is part of its reach to the right.</p>
+            </div>
+            <div class="navigation">
+                <button id="prevToLesson2Intro">Previous</button>
+                <button id="nextToLesson2Drill1">Next: Left Index Drill</button>
+            </div>
+        </div>
+        
+        <div class="section" id="lesson2-drill1">
+            <h2 class="section-title">Lesson 2: Drill 1 - Left Index Blind Column Tap</h2>
+            <div class="drill-container">
+                <h3 class="drill-title">Instructions:</h3>
+                <p>Close your eyes. Left hand on home row.</p>
+                <ul>
+                    <li><strong>Inner Path (R F V):</strong> With your left index finger, slowly press R → F → V → F. Repeat 5 times. "Really Fast View."</li>
+                    <li><strong>Outer Path (T G B):</strong> From F, reach slightly to the right to G. From G, press T → G → B → G. Repeat 5 times. "Tiny Green Box."</li>
+                </ul>
+                
+                <div class="phrase-to-type" id="lesson2Drill1Phrase">RFRFVFV TGTGTGBGB</div>
+                <textarea class="typing-area" id="lesson2Drill1Input" placeholder="Type the pattern here..."></textarea>
+                <div class="feedback" id="lesson2Drill1Feedback"></div>
+            </div>
+            <div class="navigation">
+                <button id="prevToLesson2Paths">Previous</button>
+                <button id="nextToLesson2Drill2" disabled>Next: Right Hand Introduction</button>
+            </div>
+        </div>
+        
+        <div class="section" id="lesson2-righthand">
+            <h2 class="section-title">Lesson 2: Introducing the Right Hand</h2>
+            <div class="instructions">
+                <h3>The Right Hand Anchor:</h3>
+                <ul>
+                    <li>Curl your right fingers and place them gently on the Home Row Keys:
+                        <ul>
+                            <li>Index finger on <strong>J</strong></li>
+                            <li>Middle finger on <strong>K</strong></li>
+                            <li>Ring finger on <strong>L</strong></li>
+                            <li>Pinky on <strong>;</strong></li>
+                        </ul>
+                    </li>
+                    <li>Find the raised dash on the <strong>J</strong> key. This is your right index finger's home, just like F is for your left.</li>
+                </ul>
+            </div>
+            <div class="keyboard-visual">
+                <div class="keyboard-row">
+                    <div class="key">Y</div>
+                    <div class="key">U</div>
+                    <div class="key">I</div>
+                    <div class="key">O</div>
+                    <div class="key">P</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key">H</div>
+                    <div class="key home active">J</div>
+                    <div class="key home">K</div>
+                    <div class="key home">L</div>
+                    <div class="key home">;</div>
+                </div>
+                <div class="keyboard-row">
+                    <div class="key">N</div>
+                    <div class="key">M</div>
+                    <div class="key">,</div>
+                    <div class="key">.</div>
+                    <div class="key">/</div>
+                </div>
+            </div>
+            <div class="navigation">
+                <button id="prevToLesson2Drill1">Previous</button>
+                <button id="nextToLesson2Drill3">Next: Home Row Alternation</button>
+            </div>
+        </div>
+        
+        <div class="section" id="lesson2-drill3">
+            <h2 class="section-title">Lesson 2: Drill 3 - Home Row Alternation</h2>
+            <div class="drill-container">
+                <h3 class="drill-title">Instructions:</h3>
+                <p>Type a simple alternating pattern. Focus on the feeling of pressing a key and the opposite hand's finger preparing to move.</p>
+                
+                <div class="phrase-to-type" id="lesson2Drill3Phrase">F J   D K   S L   A ;</div>
+                <textarea class="typing-area" id="lesson2Drill3Input" placeholder="Type the sequence here..."></textarea>
+                <div class="feedback" id="lesson2Drill3Feedback"></div>
+                
+                <div class="instructions">
+                    <p><strong>Cognitive Focus:</strong> Feel the rhythm. Left index (F), Right index (J), Left middle (D), Right middle (K), and so on. You are building coordination between your two hands.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button id="prevToLesson2Righthand">Previous</button>
+                <button id="nextToLesson2Integration" disabled>Next: Integration</button>
+            </div>
+        </div>
+        
+        <div class="section" id="lesson2-integration">
+            <h2 class="section-title">Lesson 2: Integration & Cognitive Challenge</h2>
+            <div class="drill-container">
+                <h3 class="drill-title">Two-Hand Columnar Words:</h3>
+                <p>These words use only the left-hand columns we've learned and the right-hand home row.</p>
+                
+                <div class="phrase-to-type" id="lesson2IntegrationPhrase">adds alaska fa gas ha jar ka la sad dad fall gala hall jala</div>
+                <textarea class="typing-area" id="lesson2IntegrationInput" placeholder="Type the words here..."></textarea>
+                <div class="feedback" id="lesson2IntegrationFeedback"></div>
+                
+                <div class="instructions">
+                    <p><strong>How to practice:</strong> Type each word slowly. After each word, return all fingers to the home row. Feel the journey each finger takes.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button id="prevToLesson2Drill3">Previous</button>
+                <button id="nextToLesson2Challenge" disabled>Next: Eyes-Closed Synthesis</button>
+            </div>
+        </div>
+        
+        <div class="section" id="lesson2-challenge">
+            <h2 class="section-title">Lesson 2: Eyes-Closed Synthesis</h2>
+            <div class="drill-container">
+                <h3 class="drill-title">Instructions:</h3>
+                <p>Close your eyes. Place both hands on the home row (ASDF JKL;).</p>
+                <p>Type the following phrases slowly:</p>
+                
+                <div class="phrase-to-type" id="lesson2ChallengePhrase">a sad dad adds a salad</div>
+                <textarea class="typing-area" id="lesson2ChallengeInput" placeholder="Type the phrase here with your eyes CLOSED..."></textarea>
+                <div class="feedback" id="lesson2ChallengeFeedback"></div>
+                
+                <div class="instructions">
+                    <p><strong>The Struggle Protocol:</strong> If you get stuck on a key:
+                        <ul>
+                            <li>DO NOT OPEN YOUR EYES.</li>
+                            <li>Pause.</li>
+                            <li>Identify the finger and the column.</li>
+                            <li>Perform a single, slow "Blind Column Tap" with that finger until you find it.</li>
+                        </ul>
+                    </p>
+                    <p>This moment of struggle is where your brain builds a permanent, non-visual map.</p>
+                </div>
+            </div>
+            <div class="completion-criteria">
+                <strong>Completion Criteria:</strong> You can type the three practice phrases with your eyes closed, at a slow, deliberate pace, without making more than three mistakes total.
+            </div>
+            <div class="navigation">
+                <button id="prevToLesson2Integration">Previous</button>
+                <button id="nextToLesson3" disabled>Next: Lesson 3</button>
+            </div>
+        </div>
+        
+        <!-- Lesson 3 Sections -->
+        <div class="section" id="lesson3-intro">
+            <h2 class="section-title">Lesson 3: Completing the Mental Map</h2>
+            <div class="lesson-objective">
+                <strong>Objective:</strong> Complete the spatial map by mastering the right hand vertical columns. Integrate both hands for full-keyboard, non-visual typing.
+            </div>
+            <div class="mantra">
+                "The map is complete. My hands know the way."
+            </div>
+            <div class="navigation">
+                <button id="prevToLesson2">Previous</button>
+                <button id="nextToLesson3Paths">Next: Right Hand Columns</button>
+            </div>
+        </div>
+        
+        <div class="section" id="lesson3-paths">
+            <h2 class="section-title">Lesson 3: The Right Hand Columns</h2>
+            <div class="finger-map">
+                <div class="finger-column">
+                    <div class="finger-name">Right Index (Inner)</div>
+                    <div class="key-path">U ← J → M</div>
+                    <div class="mnemonic">"Use Jelly, Maybe?"</div>
+                </div>
+                <div class="finger-column">
+                    <div class="finger-name">Right Index (Outer)</div>
+                    <div class="key-path">Y ← H → N</div>
+                    <div class="mnemonic">"Your Home Now"</div>
+                </div>
+                <div class="finger-column">
+                    <div class="finger-name">Right Middle</div>
+                    <div class="key-path">I ← K → ,</div>
+                    <div class="mnemonic">"I Know ,"</div>
+                </div>
+                <div class="finger-column">
+                    <div class="finger-name">Right Ring</div>
+                    <div class="key-path">O ← L → .</div>
+                    <div class="mnemonic">"Open Level ."</div>
+                </div>
+                <div class="finger-column">
+                    <div class="finger-name">Right Pinky</div>
+                    <div class="key-path">P ← ; → /</div>
+                    <div class="mnemonic">"Please ; /"</div>
+                </div>
+            </div>
+            <div class="instructions">
+                <p>Your right hand mirrors the left. The index finger handles two columns.</p>
+            </div>
+            <div class="navigation">
+                <button id="prevToLesson3Intro">Previous</button>
+                <button id="nextToLesson3Drill1">Next: Right Hand Blind Column Tap</button>
+            </div>
+        </div>
+        
+        <div class="section" id="lesson3-drill1">
+            <h2 class="section-title">Lesson 3: Drill 1 - Right Hand Blind Column Tap</h2>
+            <div class="drill-container">
+                <h3 class="drill-title">Instructions:</h3>
+                <p>Close your eyes. Right hand on home row (JKL;).</p>
+                <ul>
+                    <li><strong>Index - Inner Path (U J M):</strong> Press U → J → M → J. Repeat 5 times. "Use Jelly, Maybe?"</li>
+                    <li><strong>Index - Outer Path (Y H N):</strong> From J, reach left to H. Press Y → H → N → H. Repeat 5 times. "Your Home Now."</li>
+                    <li><strong>Middle Path (I K ,):</strong> Press I → K → , → K. Repeat 5 times. "I Know ,"</li>
+                    <li><strong>Ring Path (O L .):</strong> Press O → L → . → L. Repeat 5 times. "Open Level ."</li>
+                    <li><strong>Pinky Path (P ; /):</strong> Press P → ; → / → ;. Repeat 5 times. "Please ; /"</li>
+                </ul>
+                
+                <div class="phrase-to-type" id="lesson3Drill1Phrase">UJMUJM YHNYHN IK,IK, OL.OL. P;/P;/</div>
+                <textarea class="typing-area" id="lesson3Drill1Input" placeholder="Type the pattern here..."></textarea>
+                <div class="feedback" id="lesson3Drill1Feedback"></div>
+            </div>
+            <div class="navigation">
+                <button id="prevToLesson3Paths">Previous</button>
+                <button id="nextToLesson3Integration" disabled>Next: Full Integration</button>
+            </div>
+        </div>
+        
+        <div class="section" id="lesson3-integration">
+            <h2 class="section-title">Lesson 3: Full Integration - The Entire Keyboard</h2>
+            <div class="drill-container">
+                <h3 class="drill-title">The Grand Alternation:</h3>
+                <p>Type this sequence. Focus on the feeling of each finger moving from its home position and returning.</p>
+                
+                <div class="phrase-to-type" id="lesson3IntegrationPhrase">Q P   W O   E I   R U   T Y   A ;   S L   D K   F J   G H   Z /   X .   C ,   V M   B N</div>
+                <textarea class="typing-area" id="lesson3IntegrationInput" placeholder="Type the sequence here..."></textarea>
+                <div class="feedback" id="lesson3IntegrationFeedback"></div>
+                
+                <div class="instructions">
+                    <p><strong>What this does:</strong> This drill forces you to use every column we've learned in an alternating, balanced pattern, connecting the far reaches of the keyboard.</p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button id="prevToLesson3Drill1">Previous</button>
+                <button id="nextToLesson3Drill2" disabled>Next: Nonsense Sentences</button>
+            </div>
+        </div>
+        
+        <div class="section" id="lesson3-drill2">
+            <h2 class="section-title">Lesson 3: Drill 2 - Nonsense Sentences</h2>
+            <div class="drill-container">
+                <h3 class="drill-title">Instructions:</h3>
+                <p>These sentences use every key on the keyboard. They are designed for practice, not meaning.</p>
+                
+                <div class="phrase-to-type" id="lesson3Drill2Phrase">The quick, brown fox jumps over a lazy dog.</div>
+                <textarea class="typing-area" id="lesson3Drill2Input" placeholder="Type the sentence here..."></textarea>
+                <div class="feedback" id="lesson3Drill2Feedback"></div>
+                
+                <div class="instructions">
+                    <p><strong>Practice Method:</strong>
+                        <ul>
+                            <li>Type each sentence once with your eyes <strong>open</strong>, focusing on using the correct finger for each key.</li>
+                            <li>Then, type it again with your eyes <strong>closed</strong>.</li>
+                            <li>When you make a mistake with eyes closed, pause, identify the column, and find the key with a "Blind Column Tap."</li>
+                        </ul>
+                    </p>
+                </div>
+            </div>
+            <div class="navigation">
+                <button id="prevToLesson3Integration">Previous</button>
+                <button id="nextToLesson3Challenge" disabled>Next: Final Challenge</button>
+            </div>
+        </div>
+        
+        <div class="section" id="lesson3-challenge">
+            <h2 class="section-title">Lesson 3: The Final Cognitive Challenge</h2>
+            <div class="drill-container">
+                <h3 class="drill-title">Eyes-Closed Free Write:</h3>
+                <p>Close your eyes. Place your fingers on the home row.</p>
+                <p>For five full minutes, type anything that comes to your mind. It could be:</p>
+                <ul>
+                    <li>A description of your day</li>
+                    <li>A simple story</li>
+                    <li>Your thoughts on learning to type</li>
+                </ul>
+                
+                <div class="phrase-to-type">Free Writing Area - Type anything for 5 minutes</div>
+                <textarea class="typing-area" id="lesson3ChallengeInput" placeholder="Type anything here with your eyes CLOSED for 5 minutes..."></textarea>
+                <div class="feedback" id="lesson3ChallengeFeedback"></div>
+                
+                <div class="instructions">
+                    <p><strong>The Rules:</strong>
+                        <ol>
+                            <li><strong>DO NOT OPEN YOUR EYES.</strong> No matter what.</li>
+                            <li>If you get stuck on a word because you can't find a key, pause. Use the "Blind Column Tap" to find it.</li>
+                            <li>If you can't find it after 10 seconds, skip the word and keep going.</li>
+                            <li>Do not worry about mistakes, backspacing, or punctuation. Just let the words flow.</li>
+                        </ol>
+                    </p>
+                    <p>This drill breaks the final barrier. It forces your brain to rely 100% on the tactile map you've built.</p>
+                </div>
+            </div>
+            <div class="completion-criteria">
+                <strong>Completion Criteria:</strong> You can complete the 5-minute "Eyes-Closed Free Write" without peeking, and produce recognizable text, even with many errors.
+            </div>
+            <div class="navigation">
+                <button id="prevToLesson3Drill2">Previous</button>
+                <button id="completeCourse" disabled>Complete Course</button>
+            </div>
+        </div>
+        
+        <div class="section" id="completion">
+            <h2 class="section-title">Congratulations!</h2>
+            <div class="lesson-objective">
+                <strong>You have completed the foundational touch typing course!</strong>
+            </div>
+            <div class="instructions">
+                <p>You have just built a complete, non-visual mental map of the keyboard. The visual distortion has lost its power. You now type with your mind and muscles, not your eyes.</p>
+                
+                <h3>The Path Forward: From Mastery to Fluency</h3>
+                <p>Your journey now shifts from <em>learning the keys</em> to <em>building fluency</em>.</p>
+                <ol>
+                    <li><strong>Daily Practice:</strong> Spend 10-15 minutes daily on practice drills.</li>
+                    <li><strong>Real-World Application:</strong> Use this skill whenever you type. Consciously keep your eyes on the screen.</li>
+                    <li><strong>Embrace the Mistakes:</strong> Fluency comes from making thousands of small corrections.</li>
+                </ol>
+                
+                <p>You have learned one of the most valuable cognitive-physical skills of the digital age. The consistency of your practice from this point forward will determine your speed and fluency. Well done.</p>
+            </div>
+            <div class="navigation">
+                <button id="restartCourse">Start Over</button>
+                <button disabled>Next</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Navigation between sections
+        const sections = [
+            'lesson1-intro', 'lesson1-paths', 'lesson1-drill1', 'lesson1-drill2', 
+            'lesson1-drill3', 'lesson1-challenge', 'lesson2-intro', 'lesson2-paths',
+            'lesson2-drill1', 'lesson2-righthand', 'lesson2-drill3', 'lesson2-integration',
+            'lesson2-challenge', 'lesson3-intro', 'lesson3-paths', 'lesson3-drill1',
+            'lesson3-integration', 'lesson3-drill2', 'lesson3-challenge', 'completion'
+        ];
+        
+        let currentSectionIndex = 0;
+        const progressBar = document.getElementById('progressBar');
+        
+        // Update progress bar
+        function updateProgress() {
+            const progress = (currentSectionIndex / (sections.length - 1)) * 100;
+            progressBar.style.width = `${progress}%`;
+        }
+        
+        // Show specific section
+        function showSection(sectionId) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Show the target section
+            document.getElementById(sectionId).classList.add('active');
+            
+            // Update current section index
+            currentSectionIndex = sections.indexOf(sectionId);
+            updateProgress();
+            
+            // Special handling for free writing challenge
+            if (sectionId === 'lesson3-challenge') {
+                setupFreeWriteTimer();
+            }
+        }
+        
+        // Spacebar clearing functionality
+        function setupSpacebarClear(inputId, feedbackId) {
+            const input = document.getElementById(inputId);
+            const feedback = document.getElementById(feedbackId);
+            
+            input.addEventListener('keydown', function(event) {
+                // Check if spacebar is pressed and feedback shows incorrect
+                if (event.code === 'Space' && feedback.classList.contains('incorrect') && feedback.textContent.includes('Incorrect')) {
+                    event.preventDefault(); // Prevent adding a space
+                    this.value = ''; // Clear the input
+                    feedback.textContent = 'Input cleared. Try again.';
+                    feedback.className = 'feedback';
+                }
+            });
+        }
+        
+        // Typing validation functions
+        function setupTypingValidation(inputId, expectedText, feedbackId, nextButtonId) {
+            const input = document.getElementById(inputId);
+            const feedback = document.getElementById(feedbackId);
+            const nextButton = nextButtonId ? document.getElementById(nextButtonId) : null;
+            
+            // Set up spacebar clearing for incorrect inputs
+            setupSpacebarClear(inputId, feedbackId);
+            
+            input.addEventListener('input', function() {
+                const userInput = this.value.trim().toLowerCase();
+                const expected = expectedText.toLowerCase();
+                
+                if (userInput === expected) {
+                    feedback.textContent = 'Correct! Well done.';
+                    feedback.className = 'feedback correct';
+                    if (nextButton) nextButton.disabled = false;
+                } else if (userInput.length > 0 && expected.startsWith(userInput)) {
+                    feedback.textContent = 'Keep going...';
+                    feedback.className = 'feedback';
+                    if (nextButton) nextButton.disabled = true;
+                } else if (userInput.length > 0) {
+                    feedback.textContent = 'Incorrect. Try again. (Press Spacebar to clear)';
+                    feedback.className = 'feedback incorrect';
+                    if (nextButton) nextButton.disabled = true;
+                } else {
+                    feedback.textContent = '';
+                    feedback.className = 'feedback';
+                    if (nextButton) nextButton.disabled = true;
+                }
+            });
+        }
+        
+        // Special handling for free writing challenge
+        function setupFreeWriteTimer() {
+            const input = document.getElementById('lesson3ChallengeInput');
+            const feedback = document.getElementById('lesson3ChallengeFeedback');
+            const completeButton = document.getElementById('completeCourse');
+            let timer;
+            let timeLeft = 300; // 5 minutes in seconds
+            
+            // Clear any existing timer
+            if (timer) clearInterval(timer);
+            
+            // Reset state
+            input.value = '';
+            completeButton.disabled = true;
+            feedback.textContent = 'Type anything for 5 minutes with your eyes CLOSED. Timer will start when you begin typing.';
+            feedback.className = 'feedback';
+            
+            input.addEventListener('input', function() {
+                // Start timer on first input
+                if (!timer && this.value.length > 0) {
+                    feedback.textContent = `Time remaining: 5:00`;
+                    feedback.className = 'feedback';
+                    
+                    timer = setInterval(() => {
+                        timeLeft--;
+                        const minutes = Math.floor(timeLeft / 60);
+                        const seconds = timeLeft % 60;
+                        
+                        if (timeLeft <= 0) {
+                            clearInterval(timer);
+                            feedback.textContent = 'Time\'s up! Well done. You have completed the final challenge.';
+                            feedback.className = 'feedback correct';
+                            completeButton.disabled = false;
+                        } else {
+                            feedback.textContent = `Time remaining: ${minutes}:${seconds.toString().padStart(2, '0')}`;
+                        }
+                    }, 1000);
+                }
+            });
+        }
+        
+        // Set up validation for each drill in Lesson 1
+        setupTypingValidation('drill1Input', 'qaza wsxs edcd', 'drill1Feedback', 'nextToDrill2');
+        setupTypingValidation('drill2Input', 'q a z a   w s x s   e d c d', 'drill2Feedback', 'nextToDrill3');
+        setupTypingValidation('drill3Input', 'aqua waxes deeded', 'drill3Feedback', 'nextToChallenge');
+        setupTypingValidation('challengeInput', 'a sad ace was exact', 'challengeFeedback', 'nextToLesson2');
+        
+        // Set up validation for each drill in Lesson 2
+        setupTypingValidation('lesson2Drill1Input', 'rfrfvfv tgtgtgbgb', 'lesson2Drill1Feedback', 'nextToLesson2Drill2');
+        setupTypingValidation('lesson2Drill3Input', 'f j   d k   s l   a ;', 'lesson2Drill3Feedback', 'nextToLesson2Integration');
+        setupTypingValidation('lesson2IntegrationInput', 'adds alaska fa gas ha jar ka la sad dad fall gala hall jala', 'lesson2IntegrationFeedback', 'nextToLesson2Challenge');
+        setupTypingValidation('lesson2ChallengeInput', 'a sad dad adds a salad', 'lesson2ChallengeFeedback', 'nextToLesson3');
+        
+        // Set up validation for each drill in Lesson 3
+        setupTypingValidation('lesson3Drill1Input', 'ujmujm yhn yhn ik,ik, ol.ol. p;/p;/', 'lesson3Drill1Feedback', 'nextToLesson3Integration');
+        setupTypingValidation('lesson3IntegrationInput', 'q p   w o   e i   r u   t y   a ;   s l   d k   f j   g h   z /   x .   c ,   v m   b n', 'lesson3IntegrationFeedback', 'nextToLesson3Drill2');
+        setupTypingValidation('lesson3Drill2Input', 'the quick, brown fox jumps over a lazy dog.', 'lesson3Drill2Feedback', 'nextToLesson3Challenge');
+        
+        // Navigation event listeners for Lesson 1
+        document.getElementById('nextToFingerPaths').addEventListener('click', () => showSection('lesson1-paths'));
+        document.getElementById('prevToIntro').addEventListener('click', () => showSection('lesson1-intro'));
+        document.getElementById('nextToDrill1').addEventListener('click', () => showSection('lesson1-drill1'));
+        document.getElementById('prevToPaths').addEventListener('click', () => showSection('lesson1-paths'));
+        document.getElementById('nextToDrill2').addEventListener('click', () => showSection('lesson1-drill2'));
+        document.getElementById('prevToDrill1').addEventListener('click', () => showSection('lesson1-drill1'));
+        document.getElementById('nextToDrill3').addEventListener('click', () => showSection('lesson1-drill3'));
+        document.getElementById('prevToDrill2').addEventListener('click', () => showSection('lesson1-drill2'));
+        document.getElementById('nextToChallenge').addEventListener('click', () => showSection('lesson1-challenge'));
+        document.getElementById('prevToDrill3').addEventListener('click', () => showSection('lesson1-drill3'));
+        document.getElementById('nextToLesson2').addEventListener('click', () => showSection('lesson2-intro'));
+        
+        // Navigation event listeners for Lesson 2
+        document.getElementById('prevToLesson1').addEventListener('click', () => showSection('lesson1-challenge'));
+        document.getElementById('nextToLesson2Paths').addEventListener('click', () => showSection('lesson2-paths'));
+        document.getElementById('prevToLesson2Intro').addEventListener('click', () => showSection('lesson2-intro'));
+        document.getElementById('nextToLesson2Drill1').addEventListener('click', () => showSection('lesson2-drill1'));
+        document.getElementById('prevToLesson2Paths').addEventListener('click', () => showSection('lesson2-paths'));
+        document.getElementById('nextToLesson2Drill2').addEventListener('click', () => showSection('lesson2-righthand'));
+        document.getElementById('prevToLesson2Drill1').addEventListener('click', () => showSection('lesson2-drill1'));
+        document.getElementById('nextToLesson2Drill3').addEventListener('click', () => showSection('lesson2-drill3'));
+        document.getElementById('prevToLesson2Righthand').addEventListener('click', () => showSection('lesson2-righthand'));
+        document.getElementById('nextToLesson2Integration').addEventListener('click', () => showSection('lesson2-integration'));
+        document.getElementById('prevToLesson2Drill3').addEventListener('click', () => showSection('lesson2-drill3'));
+        document.getElementById('nextToLesson2Challenge').addEventListener('click', () => showSection('lesson2-challenge'));
+        document.getElementById('prevToLesson2Integration').addEventListener('click', () => showSection('lesson2-integration'));
+        document.getElementById('nextToLesson3').addEventListener('click', () => showSection('lesson3-intro'));
+        
+        // Navigation event listeners for Lesson 3
+        document.getElementById('prevToLesson2').addEventListener('click', () => showSection('lesson2-challenge'));
+        document.getElementById('nextToLesson3Paths').addEventListener('click', () => showSection('lesson3-paths'));
+        document.getElementById('prevToLesson3Intro').addEventListener('click', () => showSection('lesson3-intro'));
+        document.getElementById('nextToLesson3Drill1').addEventListener('click', () => showSection('lesson3-drill1'));
+        document.getElementById('prevToLesson3Paths').addEventListener('click', () => showSection('lesson3-paths'));
+        document.getElementById('nextToLesson3Integration').addEventListener('click', () => showSection('lesson3-integration'));
+        document.getElementById('prevToLesson3Drill1').addEventListener('click', () => showSection('lesson3-drill1'));
+        document.getElementById('nextToLesson3Drill2').addEventListener('click', () => showSection('lesson3-drill2'));
+        document.getElementById('prevToLesson3Integration').addEventListener('click', () => showSection('lesson3-integration'));
+        document.getElementById('nextToLesson3Challenge').addEventListener('click', () => showSection('lesson3-challenge'));
+        document.getElementById('prevToLesson3Drill2').addEventListener('click', () => showSection('lesson3-drill2'));
+        document.getElementById('completeCourse').addEventListener('click', () => showSection('completion'));
+        document.getElementById('restartCourse').addEventListener('click', () => showSection('lesson1-intro'));
+        
+        // Initialize progress bar
+        updateProgress();
+    </script>
+</body>
+</html>
