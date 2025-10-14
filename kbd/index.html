@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Touch Typing Mastery - Low Vision Accessible</title>
+    <title>Accessible Typing Tutor</title>
     <style>
         :root {
             --base-font-size: 24px;
@@ -114,11 +114,15 @@
             font-size: calc(var(--base-font-size) * 1.17);
         }
         
+        /* UPDATED: Finger map now floats side by side */
         .finger-map {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 25px;
+            display: flex;
+            flex-wrap: nowrap;
+            justify-content: space-between;
+            gap: 15px;
             margin: 30px 0;
+            overflow-x: auto;
+            padding-bottom: 10px;
         }
         
         .finger-column {
@@ -126,6 +130,8 @@
             padding: 25px;
             border-radius: 8px;
             text-align: center;
+            flex: 1;
+            min-width: 200px;
         }
         
         .finger-name {
@@ -272,6 +278,14 @@
             font-weight: bold;
         }
         
+        .key.wide {
+            width: 140px;
+        }
+        
+        .key.extra-wide {
+            width: 210px;
+        }
+        
         .key.home {
             background-color: #444444;
         }
@@ -357,6 +371,74 @@
             font-weight: bold;
         }
         
+        /* Custom additions for the typing tutor */
+        .typing-tutor-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        
+        .key.pinky { border-color: #e53e3e; }
+        .key.ring { border-color: #dd6b20; }
+        .key.middle { border-color: #d69e2e; }
+        .key.index-left { border-color: #38a169; }
+        .key.index-right { border-color: #319795; }
+        .key.thumb { border-color: #805ad5; }
+        
+        .key.active.pinky { background-color: #e53e3e; }
+        .key.active.ring { background-color: #dd6b20; }
+        .key.active.middle { background-color: #d69e2e; }
+        .key.active.index-left { background-color: #38a169; }
+        .key.active.index-right { background-color: #319795; }
+        .key.active.thumb { background-color: #805ad5; }
+        
+        .practice-stats {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin: 20px 0;
+            padding: 20px;
+            background-color: #333333;
+            border-radius: 8px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-value {
+            font-size: calc(var(--base-font-size) * 1.5);
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+        
+        .practice-text {
+            width: 100%;
+            min-height: 150px;
+            background-color: #2a2a2a;
+            border: 3px solid var(--border-color);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+            font-size: calc(var(--base-font-size) * 1.17);
+            resize: vertical;
+        }
+        
+        .practice-text:focus {
+            outline: none;
+            border-color: var(--focus-color);
+            box-shadow: 0 0 10px var(--focus-color);
+        }
+        
+        .voice-feedback {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #333333;
+            border-radius: 8px;
+            text-align: center;
+            font-size: calc(var(--base-font-size) * 1.17);
+        }
+        
         @media (max-width: 768px) {
             :root {
                 --base-font-size: 20px;
@@ -375,6 +457,14 @@
                 height: 50px;
             }
             
+            .key.wide {
+                width: 100px;
+            }
+            
+            .key.extra-wide {
+                width: 150px;
+            }
+            
             .two-hand-map {
                 grid-template-columns: 1fr;
             }
@@ -388,8 +478,16 @@
                 width: 100%;
             }
             
+            /* On mobile, allow finger map to scroll horizontally */
             .finger-map {
-                grid-template-columns: 1fr;
+                flex-wrap: nowrap;
+                overflow-x: auto;
+                justify-content: flex-start;
+            }
+            
+            .finger-column {
+                flex: 0 0 auto;
+                min-width: 180px;
             }
         }
         
@@ -402,387 +500,528 @@
                 width: 40px;
                 height: 40px;
             }
+            
+            .key.wide {
+                width: 80px;
+            }
+            
+            .key.extra-wide {
+                width: 120px;
+            }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <h1>Touch Typing Mastery - Low Vision Accessible</h1>
+        <h1>Accessible Typing Tutor</h1>
+        
+        <div class="disclaimer">
+            <p>This typing tutor is designed specifically for users with light sensitivity and low vision. It features high contrast, large text, and clear visual feedback.</p>
+        </div>
         
         <div class="accessibility-controls">
             <button class="accessibility-button" id="increaseFont">Increase Font Size</button>
             <button class="accessibility-button" id="decreaseFont">Decrease Font Size</button>
-            <button class="accessibility-button" id="highContrast">Toggle High Contrast</button>
-            <button class="accessibility-button" id="readAloud">Read Aloud</button>
-            <button class="accessibility-button" id="resetFont">Reset Font Size</button>
+            <button class="accessibility-button" id="toggleVoice">Toggle Voice Feedback</button>
+            <button class="accessibility-button" id="toggleHighContrast">Toggle High Contrast</button>
         </div>
         
-        <div class="font-size-display" id="fontSizeDisplay">
-            Current Font Size: <span id="currentFontSize">24</span>px
+        <div class="font-size-display">
+            Current Font Size: <span id="currentFontSize">24px</span>
         </div>
         
-        <div class="disclaimer">
-            <strong>Core Principle:</strong> The goal is not speed. The goal is to create a direct, non-visual pathway between your mind and your fingers. <strong>Struggle is learning.</strong> The moment you get stuck and choose not to look is the moment your brain builds a permanent connection.
-        </div>
-        
-        <div class="progress-container">
-            <div class="progress-bar" id="progressBar"></div>
-        </div>
-        
-        <!-- Lesson 1 Sections -->
-        <div class="section active" id="lesson1-intro">
-            <h2 class="section-title">Lesson 1: Activating the Left Hand</h2>
-            <div class="lesson-objective">
-                <strong>Objective:</strong> Master the left-hand vertical columns for the pinky, ring, and middle fingers. Deactivate the visual system.
+        <div class="typing-tutor-container">
+            <div class="practice-stats">
+                <div class="stat-item">
+                    <div class="stat-value" id="keysPracticed">0</div>
+                    <div>Keys Practiced</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="accuracy">0%</div>
+                    <div>Accuracy</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-value" id="sessionTime">0:00</div>
+                    <div>Session Time</div>
+                </div>
             </div>
-            <div class="mantra">
-                "I do not need to see. I only need to feel."
-            </div>
-            <div class="instructions">
-                <h3>Establish the Anchor:</h3>
-                <ul>
-                    <li>Sit up straight. Feet flat on the floor.</li>
-                    <li>Curl your left hand and place your fingers on the Home Row Keys:
-                        <ul>
-                            <li>Pinky on <strong>A</strong></li>
-                            <li>Ring finger on <strong>S</strong></li>
-                            <li>Middle finger on <strong>D</strong></li>
-                            <li>Index finger on <strong>F</strong></li>
-                        </ul>
-                    </li>
-                    <li>Find the raised bump on the <strong>F</strong> key. This is your tactile guide.</li>
-                </ul>
-            </div>
+            
             <div class="keyboard-visual">
+                <h2>Complete Keyboard</h2>
+                
+                <!-- Number Row -->
                 <div class="keyboard-row">
-                    <div class="key">Q</div>
-                    <div class="key">W</div>
-                    <div class="key">E</div>
-                    <div class="key">R</div>
-                    <div class="key">T</div>
+                    <div class="key pinky" data-key="`">`</div>
+                    <div class="key pinky" data-key="1">1</div>
+                    <div class="key ring" data-key="2">2</div>
+                    <div class="key middle" data-key="3">3</div>
+                    <div class="key index-left" data-key="4">4</div>
+                    <div class="key index-left" data-key="5">5</div>
+                    <div class="key index-right" data-key="6">6</div>
+                    <div class="key index-right" data-key="7">7</div>
+                    <div class="key middle" data-key="8">8</div>
+                    <div class="key ring" data-key="9">9</div>
+                    <div class="key pinky" data-key="0">0</div>
+                    <div class="key pinky" data-key="-">-</div>
+                    <div class="key pinky" data-key="=">=</div>
+                    <div class="key pinky wide" data-key="Backspace">⌫</div>
                 </div>
+                
+                <!-- Top Row -->
                 <div class="keyboard-row">
-                    <div class="key home">A</div>
-                    <div class="key home">S</div>
-                    <div class="key home">D</div>
-                    <div class="key home active">F</div>
-                    <div class="key">G</div>
+                    <div class="key pinky" data-key="Q">Q</div>
+                    <div class="key ring" data-key="W">W</div>
+                    <div class="key middle" data-key="E">E</div>
+                    <div class="key index-left" data-key="R">R</div>
+                    <div class="key index-left" data-key="T">T</div>
+                    <div class="key index-right" data-key="Y">Y</div>
+                    <div class="key index-right" data-key="U">U</div>
+                    <div class="key middle" data-key="I">I</div>
+                    <div class="key ring" data-key="O">O</div>
+                    <div class="key pinky" data-key="P">P</div>
+                    <div class="key pinky" data-key="[">[</div>
+                    <div class="key pinky" data-key="]">]</div>
+                    <div class="key pinky" data-key="\\">\\</div>
                 </div>
+                
+                <!-- Home Row -->
                 <div class="keyboard-row">
-                    <div class="key">Z</div>
-                    <div class="key">X</div>
-                    <div class="key">C</div>
-                    <div class="key">V</div>
-                    <div class="key">B</div>
+                    <div class="key pinky home" data-key="A">A</div>
+                    <div class="key ring home" data-key="S">S</div>
+                    <div class="key middle home" data-key="D">D</div>
+                    <div class="key index-left home" data-key="F">F</div>
+                    <div class="key index-left home" data-key="G">G</div>
+                    <div class="key index-right home" data-key="H">H</div>
+                    <div class="key index-right home" data-key="J">J</div>
+                    <div class="key middle home" data-key="K">K</div>
+                    <div class="key ring home" data-key="L">L</div>
+                    <div class="key pinky" data-key=";">;</div>
+                    <div class="key pinky" data-key="'">'</div>
+                    <div class="key pinky wide" data-key="Enter">⏎</div>
+                </div>
+                
+                <!-- Bottom Row -->
+                <div class="keyboard-row">
+                    <div class="key pinky" data-key="Z">Z</div>
+                    <div class="key ring" data-key="X">X</div>
+                    <div class="key middle" data-key="C">C</div>
+                    <div class="key index-left" data-key="V">V</div>
+                    <div class="key index-left" data-key="B">B</div>
+                    <div class="key index-right" data-key="N">N</div>
+                    <div class="key index-right" data-key="M">M</div>
+                    <div class="key middle" data-key=",">,</div>
+                    <div class="key ring" data-key=".">.</div>
+                    <div class="key pinky" data-key="/">/</div>
+                </div>
+                
+                <!-- Space Bar Row -->
+                <div class="keyboard-row">
+                    <div class="key thumb extra-wide" data-key=" ">Space</div>
                 </div>
             </div>
-            <div class="navigation">
-                <button disabled>Previous</button>
-                <button id="nextToFingerPaths">Next: Learn Finger Paths</button>
-            </div>
-        </div>
-        
-        <div class="section" id="lesson1-paths">
-            <h2 class="section-title">Lesson 1: Finger Paths</h2>
+            
+            <!-- UPDATED: Finger map now floats side by side -->
             <div class="finger-map">
                 <div class="finger-column">
-                    <div class="finger-name">Pinky</div>
-                    <div class="key-path">Q ← A → Z</div>
-                    <div class="mnemonic">"Quiet Alignment Zone"</div>
+                    <div class="finger-name">Pinky Finger</div>
+                    <div class="key-path">` 1 Q A Z P ; [ ] \ ' /</div>
+                    <div class="mnemonic">Quick Access Zone</div>
                 </div>
                 <div class="finger-column">
-                    <div class="finger-name">Ring</div>
-                    <div class="key-path">W ← S → X</div>
-                    <div class="mnemonic">"Whisper Secret X-rays"</div>
+                    <div class="finger-name">Ring Finger</div>
+                    <div class="key-path">2 W S X O L .</div>
+                    <div class="mnemonic">Whisper Secret X-rays</div>
                 </div>
                 <div class="finger-column">
-                    <div class="finger-name">Middle</div>
-                    <div class="key-path">E ← D → C</div>
-                    <div class="mnemonic">"Every Day Clock"</div>
+                    <div class="finger-name">Middle Finger</div>
+                    <div class="key-path">3 E D C I K ,</div>
+                    <div class="mnemonic">Every Dog Can</div>
+                </div>
+                <div class="finger-column">
+                    <div class="finger-name">Left Index</div>
+                    <div class="key-path">4 5 R F V T G B</div>
+                    <div class="mnemonic">Really Fast View</div>
+                </div>
+                <div class="finger-column">
+                    <div class="finger-name">Right Index</div>
+                    <div class="key-path">6 7 Y H N U J M</div>
+                    <div class="mnemonic">Your Home Now</div>
+                </div>
+                <div class="finger-column">
+                    <div class="finger-name">Thumbs</div>
+                    <div class="key-path">Space</div>
+                    <div class="mnemonic">Space Bar</div>
                 </div>
             </div>
+            
+            <div class="practice-text" id="practiceText" contenteditable="true" placeholder="Start typing here to practice..."></div>
+            
+            <div class="voice-feedback" id="voiceFeedback">
+                Voice feedback: <span id="feedbackText">Click any key to begin</span>
+            </div>
+            
+            <div class="navigation">
+                <button id="resetStats">Reset Statistics</button>
+                <button id="speakInstructions">Repeat Instructions</button>
+            </div>
+
             <div class="instructions">
-                <p>Forget letters; think of them as <strong>finger paths</strong>. Each finger moves vertically along its column.</p>
-            </div>
-            <div class="navigation">
-                <button id="prevToIntro">Previous</button>
-                <button id="nextToDrill1">Next: Blind Column Tap</button>
-            </div>
-        </div>
-        
-        <div class="section" id="lesson1-drill1">
-            <h2 class="section-title">Lesson 1: Drill 1 - Blind Column Tap</h2>
-            <div class="drill-container">
-                <h3 class="drill-title">Instructions:</h3>
-                <p>Close your eyes. Take a deep breath.</p>
-                <ul>
-                    <li><strong>Pinky Path:</strong> With your left pinky, slowly press Q → A → Z → A. Repeat 5 times, saying "Quiet Alignment Zone" in your head.</li>
-                    <li><strong>Ring Path:</strong> Switch to your left ring finger. W → S → X → S. Repeat 5 times. "Whisper Secret X-rays."</li>
-                    <li><strong>Middle Path:</strong> Switch to your left middle finger. E → D → C → D. Repeat 5 times. "Every Day Clock."</li>
-                </ul>
-                <p>Focus on the feeling of the stretch and reach.</p>
-                
-                <div class="phrase-to-type" id="drill1Phrase">QAZA WSXS EDCD</div>
-                <textarea class="typing-area" id="drill1Input" placeholder="Type the pattern here..." aria-label="Type the pattern QAZA WSXS EDCD"></textarea>
-                <div class="feedback" id="drill1Feedback"></div>
-            </div>
-            <div class="navigation">
-                <button id="prevToPaths">Previous</button>
-                <button id="nextToDrill2" disabled>Next: Reach & Return Rhythm</button>
-            </div>
-        </div>
-        
-        <div class="section" id="lesson1-drill2">
-            <h2 class="section-title">Lesson 1: Drill 2 - Reach & Return Rhythm</h2>
-            <div class="drill-container">
-                <h3 class="drill-title">Instructions:</h3>
-                <p>Type this sequence. The rule is: <strong>after every key press, the finger must return to its home row key.</strong></p>
-                <p>This is the most important drill. It builds the muscle memory to never get lost.</p>
-                
-                <div class="phrase-to-type" id="drill2Phrase">Q A Z A   W S X S   E D C D</div>
-                <textarea class="typing-area" id="drill2Input" placeholder="Type the sequence here..." aria-label="Type the sequence Q A Z A   W S X S   E D C D"></textarea>
-                <div class="feedback" id="drill2Feedback"></div>
-            </div>
-            <div class="navigation">
-                <button id="prevToDrill1">Previous</button>
-                <button id="nextToDrill3" disabled>Next: Columnar Words</button>
-            </div>
-        </div>
-        
-        <div class="section" id="lesson1-drill3">
-            <h2 class="section-title">Lesson 1: Drill 3 - Columnar Words</h2>
-            <div class="drill-container">
-                <h3 class="drill-title">Instructions:</h3>
-                <p>Type these words. They are designed to keep your left hand in its columns.</p>
-                <p>Focus on the feeling of the fingers moving up and down from the home row.</p>
-                
-                <div class="phrase-to-type" id="drill3Phrase">aqua waxes deeded</div>
-                <textarea class="typing-area" id="drill3Input" placeholder="Type the words here..." aria-label="Type the words aqua waxes deeded"></textarea>
-                <div class="feedback" id="drill3Feedback"></div>
-            </div>
-            <div class="navigation">
-                <button id="prevToDrill2">Previous</button>
-                <button id="nextToChallenge" disabled>Next: Integration Challenge</button>
-            </div>
-        </div>
-        
-        <div class="section" id="lesson1-challenge">
-            <h2 class="section-title">Lesson 1: Integration Challenge</h2>
-            <div class="drill-container">
-                <h3 class="drill-title">Instructions:</h3>
-                <p>Close your eyes. Place your fingers on A-S-D-F.</p>
-                <p>Type the following sentence slowly:</p>
-                
-                <div class="phrase-to-type" id="challengePhrase">a sad ace was exact</div>
-                <textarea class="typing-area" id="challengeInput" placeholder="Type the phrase here with your eyes CLOSED..." aria-label="Type the phrase a sad ace was exact"></textarea>
-                <div class="feedback" id="challengeFeedback"></div>
-                
-                <div class="instructions">
-                    <p><strong>If you get stuck, DO NOT OPEN YOUR EYES.</strong> Pause. Remember the column the key is in ("That's the middle finger column... E, D, C... it must be 'E'"). Perform a slow "Blind Column Tap" with that finger until you find it.</p>
-                    <p>The struggle is the learning.</p>
-                </div>
-            </div>
-            <div class="completion-criteria">
-                <strong>Completion Criteria:</strong> You can type the phrase with your eyes closed, at a slow, deliberate pace, without making more than two mistakes.
-            </div>
-            <div class="navigation">
-                <button id="prevToDrill3">Previous</button>
-                <button id="nextToLesson2" disabled>Next: Lesson 2</button>
-            </div>
-        </div>
-        
-        <!-- Completion Section -->
-        <div class="section" id="completion">
-            <h2 class="section-title">Congratulations!</h2>
-            <div class="lesson-objective">
-                <strong>You have completed the foundational touch typing course!</strong>
-            </div>
-            <div class="instructions">
-                <p>You have just built a complete, non-visual mental map of the keyboard. The visual distortion has lost its power. You now type with your mind and muscles, not your eyes.</p>
-                
-                <h3>The Path Forward: From Mastery to Fluency</h3>
-                <p>Your journey now shifts from <em>learning the keys</em> to <em>building fluency</em>.</p>
+                <h3>How to Use This Tutor:</h3>
                 <ol>
-                    <li><strong>Daily Practice:</strong> Spend 10-15 minutes daily on practice drills.</li>
-                    <li><strong>Real-World Application:</strong> Use this skill whenever you type. Consciously keep your eyes on the screen.</li>
-                    <li><strong>Embrace the Mistakes:</strong> Fluency comes from making thousands of small corrections.</li>
+                    <li>Click any key on the virtual keyboard or type on your physical keyboard</li>
+                    <li>The app will speak the finger and letter name (if voice feedback is enabled)</li>
+                    <li>Colors show which finger to use for each key</li>
+                    <li>Practice regularly to build muscle memory</li>
+                    <li>Use the accessibility controls to adjust the interface to your needs</li>
+                    <li>Practice Enter, Backspace, numbers, and Space to master all essential keys</li>
                 </ol>
-                
-                <p>You have learned one of the most valuable cognitive-physical skills of the digital age. The consistency of your practice from this point forward will determine your speed and fluency. Well done.</p>
             </div>
-            <div class="navigation">
-                <button id="restartCourse">Start Over</button>
-                <button disabled>Next</button>
-            </div>
+            
         </div>
     </div>
 
     <script>
-        // Font size management
-        let currentFontSize = 24;
-        const minFontSize = 16;
-        const maxFontSize = 40;
-        const fontSizeStep = 2;
-        
-        function updateFontSize() {
-            document.documentElement.style.setProperty('--base-font-size', currentFontSize + 'px');
-            document.getElementById('currentFontSize').textContent = currentFontSize;
+        // Extended finger mapping with numbers and special keys
+        const fingerMap = {
+            // Numbers and top symbols
+            '`': {finger: 'pinky', mnemonic: 'Backtick'},
+            '1': {finger: 'pinky', mnemonic: 'One'},
+            '2': {finger: 'ring', mnemonic: 'Two'},
+            '3': {finger: 'middle', mnemonic: 'Three'},
+            '4': {finger: 'index left', mnemonic: 'Four'},
+            '5': {finger: 'index left', mnemonic: 'Five'},
+            '6': {finger: 'index right', mnemonic: 'Six'},
+            '7': {finger: 'index right', mnemonic: 'Seven'},
+            '8': {finger: 'middle', mnemonic: 'Eight'},
+            '9': {finger: 'ring', mnemonic: 'Nine'},
+            '0': {finger: 'pinky', mnemonic: 'Zero'},
+            '-': {finger: 'pinky', mnemonic: 'Dash'},
+            '=': {finger: 'pinky', mnemonic: 'Equals'},
             
-            // Save to localStorage
-            localStorage.setItem('typingAppFontSize', currentFontSize);
-        }
-        
-        // Navigation between sections
-        const sections = [
-            'lesson1-intro', 'lesson1-paths', 'lesson1-drill1', 'lesson1-drill2', 
-            'lesson1-drill3', 'lesson1-challenge', 'completion'
-        ];
-        
-        let currentSectionIndex = 0;
-        const progressBar = document.getElementById('progressBar');
-        
-        // Update progress bar
-        function updateProgress() {
-            const progress = (currentSectionIndex / (sections.length - 1)) * 100;
-            progressBar.style.width = `${progress}%`;
-        }
-        
-        // Show specific section
-        function showSection(sectionId) {
-            // Hide all sections
-            document.querySelectorAll('.section').forEach(section => {
-                section.classList.remove('active');
+            // Top row letters
+            'Q': {finger: 'pinky', mnemonic: 'Quick'},
+            'W': {finger: 'ring', mnemonic: 'Whisper'},
+            'E': {finger: 'middle', mnemonic: 'Every'},
+            'R': {finger: 'index left', mnemonic: 'Really'},
+            'T': {finger: 'index left', mnemonic: 'Tiny'},
+            'Y': {finger: 'index right', mnemonic: 'Your'},
+            'U': {finger: 'index right', mnemonic: 'Use'},
+            'I': {finger: 'middle', mnemonic: 'I'},
+            'O': {finger: 'ring', mnemonic: 'Open'},
+            'P': {finger: 'pinky', mnemonic: 'Please'},
+            '[': {finger: 'pinky', mnemonic: 'Left Bracket'},
+            ']': {finger: 'pinky', mnemonic: 'Right Bracket'},
+            '\\': {finger: 'pinky', mnemonic: 'Backslash'},
+            
+            // Home row letters
+            'A': {finger: 'pinky', mnemonic: 'Access'},
+            'S': {finger: 'ring', mnemonic: 'Secret'},
+            'D': {finger: 'middle', mnemonic: 'Dog'},
+            'F': {finger: 'index left', mnemonic: 'Fast'},
+            'G': {finger: 'index left', mnemonic: 'Green'},
+            'H': {finger: 'index right', mnemonic: 'Home'},
+            'J': {finger: 'index right', mnemonic: 'Jelly'},
+            'K': {finger: 'middle', mnemonic: 'Know'},
+            'L': {finger: 'ring', mnemonic: 'Level'},
+            ';': {finger: 'pinky', mnemonic: 'Semicolon'},
+            "'": {finger: 'pinky', mnemonic: 'Apostrophe'},
+            
+            // Bottom row letters
+            'Z': {finger: 'pinky', mnemonic: 'Zone'},
+            'X': {finger: 'ring', mnemonic: 'X-rays'},
+            'C': {finger: 'middle', mnemonic: 'Can'},
+            'V': {finger: 'index left', mnemonic: 'View'},
+            'B': {finger: 'index left', mnemonic: 'Box'},
+            'N': {finger: 'index right', mnemonic: 'Now'},
+            'M': {finger: 'index right', mnemonic: 'Maybe'},
+            ',': {finger: 'middle', mnemonic: 'Comma'},
+            '.': {finger: 'ring', mnemonic: 'Period'},
+            '/': {finger: 'pinky', mnemonic: 'Slash'},
+            
+            // Special keys
+            ' ': {finger: 'thumb', mnemonic: 'Space'},
+            'Backspace': {finger: 'pinky', mnemonic: 'Backspace'},
+            'Enter': {finger: 'pinky', mnemonic: 'Enter'}
+        };
+
+        // Statistics and state
+        let keysPracticed = parseInt(localStorage.getItem('keysPracticed')) || 0;
+        let correctKeys = parseInt(localStorage.getItem('correctKeys')) || 0;
+        let sessionStartTime = new Date();
+        let voiceEnabled = localStorage.getItem('voiceEnabled') !== 'false'; // Default to true
+        let highContrast = localStorage.getItem('highContrast') === 'true'; // Default to false
+        let baseFontSize = parseInt(localStorage.getItem('baseFontSize')) || 24;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateStats();
+            setupEventListeners();
+            applyStoredSettings();
+            speakWelcome();
+        });
+
+        function setupEventListeners() {
+            // Virtual keyboard clicks
+            document.querySelectorAll('.key').forEach(key => {
+                key.addEventListener('click', function() {
+                    const keyChar = this.getAttribute('data-key');
+                    handleKeyPress(keyChar);
+                });
             });
-            
-            // Show the target section
-            document.getElementById(sectionId).classList.add('active');
-            
-            // Update current section index
-            currentSectionIndex = sections.indexOf(sectionId);
-            updateProgress();
-        }
-        
-        // Spacebar clearing functionality
-        function setupSpacebarClear(inputId, feedbackId) {
-            const input = document.getElementById(inputId);
-            const feedback = document.getElementById(feedbackId);
-            
-            input.addEventListener('keydown', function(event) {
-                // Check if spacebar is pressed and feedback shows incorrect
-                if (event.code === 'Space' && feedback.classList.contains('incorrect') && feedback.textContent.includes('Incorrect')) {
-                    event.preventDefault(); // Prevent adding a space
-                    this.value = ''; // Clear the input
-                    feedback.textContent = 'Input cleared. Try again.';
-                    feedback.className = 'feedback';
-                }
-            });
-        }
-        
-        // Typing validation functions
-        function setupTypingValidation(inputId, expectedText, feedbackId, nextButtonId) {
-            const input = document.getElementById(inputId);
-            const feedback = document.getElementById(feedbackId);
-            const nextButton = nextButtonId ? document.getElementById(nextButtonId) : null;
-            
-            // Set up spacebar clearing for incorrect inputs
-            setupSpacebarClear(inputId, feedbackId);
-            
-            input.addEventListener('input', function() {
-                const userInput = this.value.trim().toLowerCase();
-                const expected = expectedText.toLowerCase();
+
+            // Physical keyboard
+            document.addEventListener('keydown', function(event) {
+                let key = event.key;
                 
-                if (userInput === expected) {
-                    feedback.textContent = 'Correct! Well done.';
-                    feedback.className = 'feedback correct';
-                    if (nextButton) nextButton.disabled = false;
-                } else if (userInput.length > 0 && expected.startsWith(userInput)) {
-                    feedback.textContent = 'Keep going...';
-                    feedback.className = 'feedback';
-                    if (nextButton) nextButton.disabled = true;
-                } else if (userInput.length > 0) {
-                    feedback.textContent = 'Incorrect. Try again. (Press Spacebar to clear)';
-                    feedback.className = 'feedback incorrect';
-                    if (nextButton) nextButton.disabled = true;
+                // Handle special keys
+                if (event.key === 'Enter') {
+                    key = 'Enter';
+                } else if (event.key === 'Backspace') {
+                    key = 'Backspace';
+                } else if (event.key === ' ') {
+                    key = ' ';
                 } else {
-                    feedback.textContent = '';
-                    feedback.className = 'feedback';
-                    if (nextButton) nextButton.disabled = true;
+                    key = key.toUpperCase();
+                }
+                
+                if (fingerMap[key]) {
+                    event.preventDefault();
+                    handleKeyPress(key);
+                    
+                    // For text area, allow the actual typing
+                    if (key !== 'Enter' && key !== 'Backspace') {
+                        const practiceText = document.getElementById('practiceText');
+                        if (key === ' ') {
+                            practiceText.textContent += ' ';
+                        } else {
+                            practiceText.textContent += key;
+                        }
+                    } else if (key === 'Backspace') {
+                        const practiceText = document.getElementById('practiceText');
+                        practiceText.textContent = practiceText.textContent.slice(0, -1);
+                    } else if (key === 'Enter') {
+                        const practiceText = document.getElementById('practiceText');
+                        practiceText.textContent += '\n';
+                    }
                 }
             });
+
+            // Practice text area
+            document.getElementById('practiceText').addEventListener('keydown', function(event) {
+                let key = event.key;
+                
+                // Handle special keys
+                if (event.key === 'Enter') {
+                    key = 'Enter';
+                } else if (event.key === 'Backspace') {
+                    key = 'Backspace';
+                } else if (event.key === ' ') {
+                    key = ' ';
+                } else {
+                    key = key.toUpperCase();
+                }
+                
+                if (fingerMap[key]) {
+                    handleKeyPress(key);
+                }
+            });
+
+            // Accessibility controls
+            document.getElementById('increaseFont').addEventListener('click', increaseFontSize);
+            document.getElementById('decreaseFont').addEventListener('click', decreaseFontSize);
+            document.getElementById('toggleVoice').addEventListener('click', toggleVoice);
+            document.getElementById('toggleHighContrast').addEventListener('click', toggleHighContrast);
+            document.getElementById('resetStats').addEventListener('click', resetStats);
+            document.getElementById('speakInstructions').addEventListener('click', speakInstructions);
+
+            // Update session timer
+            setInterval(updateSessionTime, 1000);
         }
-        
-        // Accessibility functions
-        document.getElementById('increaseFont').addEventListener('click', function() {
-            if (currentFontSize < maxFontSize) {
-                currentFontSize += fontSizeStep;
-                updateFontSize();
+
+        function handleKeyPress(key) {
+            // Visual feedback
+            highlightKey(key);
+            
+            // Get finger association
+            const fingerData = fingerMap[key];
+            const finger = fingerData.finger;
+            const mnemonic = fingerData.mnemonic;
+            
+            // Update statistics
+            updateStatistics(key, finger);
+            
+            // Provide feedback
+            let displayKey = key;
+            if (key === ' ') displayKey = 'Space';
+            if (key === 'Enter') displayKey = 'Enter';
+            if (key === 'Backspace') displayKey = 'Backspace';
+            
+            const feedback = `${finger} ${displayKey}, ${mnemonic}`;
+            document.getElementById('feedbackText').textContent = feedback;
+            
+            // Speak the association
+            if (voiceEnabled) {
+                speakText(feedback);
             }
-        });
-        
-        document.getElementById('decreaseFont').addEventListener('click', function() {
-            if (currentFontSize > minFontSize) {
-                currentFontSize -= fontSizeStep;
-                updateFontSize();
+        }
+
+        function highlightKey(key) {
+            // Remove active class from all keys
+            document.querySelectorAll('.key').forEach(k => {
+                k.classList.remove('active');
+            });
+            
+            // Add active class to pressed key
+            let keyElement;
+            if (key === ' ') {
+                keyElement = document.querySelector('.key[data-key=" "]');
+            } else if (key === 'Enter') {
+                keyElement = document.querySelector('.key[data-key="Enter"]');
+            } else if (key === 'Backspace') {
+                keyElement = document.querySelector('.key[data-key="Backspace"]');
+            } else {
+                keyElement = document.querySelector(`.key[data-key="${key}"]`);
             }
-        });
-        
-        document.getElementById('resetFont').addEventListener('click', function() {
-            currentFontSize = 24;
+            
+            if (keyElement) {
+                keyElement.classList.add('active');
+                
+                // Remove active class after animation
+                setTimeout(() => {
+                    keyElement.classList.remove('active');
+                }, 500);
+            }
+        }
+
+        function speakText(text) {
+            if ('speechSynthesis' in window) {
+                // Cancel any ongoing speech
+                window.speechSynthesis.cancel();
+                
+                const utterance = new SpeechSynthesisUtterance(text);
+                utterance.rate = 0.8;
+                utterance.pitch = 1;
+                utterance.volume = 1;
+                window.speechSynthesis.speak(utterance);
+            }
+        }
+
+        function updateStatistics(key, finger) {
+            keysPracticed++;
+            correctKeys++;
+            localStorage.setItem('keysPracticed', keysPracticed);
+            localStorage.setItem('correctKeys', correctKeys);
+            
+            updateStats();
+        }
+
+        function updateStats() {
+            document.getElementById('keysPracticed').textContent = keysPracticed;
+            const accuracy = keysPracticed > 0 ? Math.round((correctKeys / keysPracticed) * 100) : 0;
+            document.getElementById('accuracy').textContent = `${accuracy}%`;
+        }
+
+        function updateSessionTime() {
+            const now = new Date();
+            const diff = Math.floor((now - sessionStartTime) / 1000);
+            const minutes = Math.floor(diff / 60);
+            const seconds = diff % 60;
+            document.getElementById('sessionTime').textContent = 
+                `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+        }
+
+        function resetStats() {
+            keysPracticed = 0;
+            correctKeys = 0;
+            sessionStartTime = new Date();
+            localStorage.setItem('keysPracticed', '0');
+            localStorage.setItem('correctKeys', '0');
+            updateStats();
+            if (voiceEnabled) {
+                speakText("Statistics reset");
+            }
+        }
+
+        function speakInstructions() {
+            const instructions = "This is the Complete Keyboard Typing Tutor. Click any key or type on your keyboard to hear which finger to use. Colors show finger assignments: red for pinky, orange for ring, yellow for middle, green for left index, teal for right index, purple for thumb. Practice all keys including numbers, Enter, Backspace, and Space.";
+            document.getElementById('feedbackText').textContent = instructions;
+            if (voiceEnabled) {
+                speakText(instructions);
+            }
+        }
+
+        function speakWelcome() {
+            setTimeout(() => {
+                const welcome = "Welcome to the Accessible Typing Tutor. This app is designed for users with light sensitivity and low vision. Click any key to begin learning the complete keyboard including numbers and special keys.";
+                document.getElementById('feedbackText').textContent = welcome;
+                if (voiceEnabled) {
+                    speakText(welcome);
+                }
+            }, 1000);
+        }
+
+        function increaseFontSize() {
+            baseFontSize = Math.min(36, baseFontSize + 2);
             updateFontSize();
-        });
-        
-        document.getElementById('highContrast').addEventListener('click', function() {
-            document.body.classList.toggle('high-contrast');
-            if (document.body.classList.contains('high-contrast')) {
+        }
+
+        function decreaseFontSize() {
+            baseFontSize = Math.max(16, baseFontSize - 2);
+            updateFontSize();
+        }
+
+        function updateFontSize() {
+            document.documentElement.style.setProperty('--base-font-size', `${baseFontSize}px`);
+            document.getElementById('currentFontSize').textContent = `${baseFontSize}px`;
+            localStorage.setItem('baseFontSize', baseFontSize);
+        }
+
+        function toggleVoice() {
+            voiceEnabled = !voiceEnabled;
+            localStorage.setItem('voiceEnabled', voiceEnabled);
+            document.getElementById('feedbackText').textContent = 
+                `Voice feedback ${voiceEnabled ? 'enabled' : 'disabled'}`;
+            if (voiceEnabled) {
+                speakText(`Voice feedback enabled`);
+            }
+        }
+
+        function toggleHighContrast() {
+            highContrast = !highContrast;
+            localStorage.setItem('highContrast', highContrast);
+            
+            if (highContrast) {
                 document.documentElement.style.setProperty('--bg-color', '#000000');
+                document.documentElement.style.setProperty('--container-bg', '#000000');
                 document.documentElement.style.setProperty('--text-color', '#FFFFFF');
                 document.documentElement.style.setProperty('--accent-color', '#FFFF00');
-                document.documentElement.style.setProperty('--focus-color', '#00FFFF');
+                document.documentElement.style.setProperty('--border-color', '#FFFFFF');
+                document.documentElement.style.setProperty('--button-bg', '#000000');
+                document.documentElement.style.setProperty('--button-hover', '#333333');
+                document.documentElement.style.setProperty('--focus-color', '#FFFF00');
             } else {
                 document.documentElement.style.setProperty('--bg-color', '#000000');
+                document.documentElement.style.setProperty('--container-bg', '#222222');
                 document.documentElement.style.setProperty('--text-color', '#FFFFFF');
                 document.documentElement.style.setProperty('--accent-color', '#FFA500');
+                document.documentElement.style.setProperty('--border-color', '#444444');
+                document.documentElement.style.setProperty('--button-bg', '#333333');
+                document.documentElement.style.setProperty('--button-hover', '#444444');
                 document.documentElement.style.setProperty('--focus-color', '#FFFF00');
             }
-        });
-        
-        document.getElementById('readAloud').addEventListener('click', function() {
-            const activeSection = document.querySelector('.section.active');
-            const textToRead = activeSection.innerText;
-            const utterance = new SpeechSynthesisUtterance(textToRead);
-            utterance.rate = 0.8;
-            speechSynthesis.speak(utterance);
-        });
-        
-        // Set up validation for each drill
-        setupTypingValidation('drill1Input', 'qaza wsxs edcd', 'drill1Feedback', 'nextToDrill2');
-        setupTypingValidation('drill2Input', 'q a z a   w s x s   e d c d', 'drill2Feedback', 'nextToDrill3');
-        setupTypingValidation('drill3Input', 'aqua waxes deeded', 'drill3Feedback', 'nextToChallenge');
-        setupTypingValidation('challengeInput', 'a sad ace was exact', 'challengeFeedback', 'nextToLesson2');
-        
-        // Navigation event listeners
-        document.getElementById('nextToFingerPaths').addEventListener('click', () => showSection('lesson1-paths'));
-        document.getElementById('prevToIntro').addEventListener('click', () => showSection('lesson1-intro'));
-        document.getElementById('nextToDrill1').addEventListener('click', () => showSection('lesson1-drill1'));
-        document.getElementById('prevToPaths').addEventListener('click', () => showSection('lesson1-paths'));
-        document.getElementById('nextToDrill2').addEventListener('click', () => showSection('lesson1-drill2'));
-        document.getElementById('prevToDrill1').addEventListener('click', () => showSection('lesson1-drill1'));
-        document.getElementById('nextToDrill3').addEventListener('click', () => showSection('lesson1-drill3'));
-        document.getElementById('prevToDrill2').addEventListener('click', () => showSection('lesson1-drill2'));
-        document.getElementById('nextToChallenge').addEventListener('click', () => showSection('lesson1-challenge'));
-        document.getElementById('prevToDrill3').addEventListener('click', () => showSection('lesson1-drill3'));
-        document.getElementById('nextToLesson2').addEventListener('click', () => showSection('completion'));
-        document.getElementById('restartCourse').addEventListener('click', () => showSection('lesson1-intro'));
-        
-        // Initialize
-        updateFontSize();
-        updateProgress();
-        
-        // Load saved font size
-        const savedFontSize = localStorage.getItem('typingAppFontSize');
-        if (savedFontSize) {
-            currentFontSize = parseInt(savedFontSize);
+            
+            document.getElementById('feedbackText').textContent = 
+                `High contrast mode ${highContrast ? 'enabled' : 'disabled'}`;
+            if (voiceEnabled) {
+                speakText(`High contrast mode ${highContrast ? 'enabled' : 'disabled'}`);
+            }
+        }
+
+        function applyStoredSettings() {
             updateFontSize();
+            if (highContrast) {
+                toggleHighContrast(); // This will apply the high contrast theme
+            }
         }
     </script>
 </body>
