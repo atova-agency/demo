@@ -9,6 +9,7 @@ title: index demo
 - [eq-mode](eq-mode)
 - [fc](fc)
 - [kbd](kbd)
+- [VoiceOver][voiceover]
 - [komandy](komandy)
 - [NRN](NRN)
 - [old]
