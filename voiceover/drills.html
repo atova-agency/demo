@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VoiceOver Practice Drill - Interactive Guide</title>
+    <style>
+        /* Custom Atova Theme Variables */
+        :root {
+            --active-brightness: 0.85;
+            --border-radius: 5px;
+            --box-shadow: 2px 2px 10px;
+            --color-accent: #b3937b;
+            --color-bg: #363636;
+            --color-bg-secondary: #2a2a2a;
+            --color-link: #b3937b;
+            --color-secondary: #f59e0b;
+            --color-secondary-accent: rgba(245, 158, 11, 0.1);
+            --color-shadow: rgba(0, 0, 0, 0.2);
+            --color-table: #b3937b;
+            --color-text: #ffffff;
+            --color-text-secondary: #aaaaaa;
+            --color-scrollbar: #b3937b80;
+            --font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+            --hover-brightness: 1.15;
+            --justify-important: center;
+            --justify-normal: left;
+            --line-height: 1.6;
+            --width-card: 285px;
+            --width-card-medium: 460px;
+            --width-card-wide: 800px;
+            --width-content: 1080px;
+            --font-size-base: 100%; /* Base font size for scaling */
+        }
+
+        /* Font size classes - Applied to HTML element */
+        html.font-small {
+            font-size: 85%;
+        }
+
+        html.font-medium {
+            font-size: 100%;
+        }
+
+        html.font-large {
+            font-size: 120%;
+        }
+
+        html.font-xlarge {
+            font-size: 140%;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root[color-mode="user"] {
+                --color-bg: #2a2a2a;
+                --color-bg-secondary: #363636;
+                --color-secondary-accent: rgba(245, 158, 11, 0.15);
+                --color-shadow: rgba(0, 0, 0, 0.3);
+                --color-text: #f7f7f7;
+                --color-text-secondary: #b3937b;
+            }
+        }
+
+        /* Base Styles */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            scrollbar-width: thin;
+            scrollbar-color: var(--color-scrollbar) transparent;
+        }
+
+        ::-webkit-scrollbar {
+            width: 5px;
+            height: 5px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background-color: var(--color-scrollbar);
+            border-radius: 10px;
+        }
+
+        .box_blue {background: rgba(10, 58, 117, 0.2); border: 1px solid var(--color-accent);}
+        .box_yellow {background: rgba(245, 158, 11, 0.1); border: 1px solid var(--color-secondary);}
+        .box_green {background: rgba(16, 185, 129, 0.1); border: 1px solid #10b981;}
+        .box_red { background: linear-gradient(145deg, #b42930, #502205);border: 1px solid var(--color-accent);}
+        .with_shadow { box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);}
+
+        html {
+            scroll-behavior: smooth;
+            background: var(--color-bg);
+            background-image: 
+                radial-gradient(circle at 10% 20%, rgba(179, 147, 123, 0.05) 0%, transparent 20%),
+                radial-gradient(circle at 90% 80%, rgba(179, 147, 123, 0.05) 0%, transparent 20%);
+            font-size: 100%;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            html { scroll-behavior: auto; }
+        }
+
+        body {
+            background: transparent;
+            color: var(--color-text);
+            font-family: var(--font-family);
+            line-height: var(--line-height);
+            margin: 0;
+            overflow-x: hidden;
+            padding: 0 0 2rem 0;
+            min-height: 100vh;
+            font-size: 1em; /* Inherit from html */
+        }
+
+        .focus {
+            max-width: var(--width-content);
+            margin: 0 auto;
+            background: rgba(42, 42, 42, 0.5);
+            border-radius: var(--border-radius);
+            padding: 2rem;
+            box-shadow: var(--box-shadow) var(--color-shadow);
+        }
+
+        .desc {
+            background: rgba(179, 147, 123, 0.1);
+            padding: 1.5rem;
+            border-radius: var(--border-radius);
+            margin-bottom: 2rem;
+            border-left: 3px solid var(--color-accent);
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            margin: 0 0 1.5rem;
+            line-height: 1.25;
+            text-wrap: balance;
+            color: var(--color-text);
+        }
+        h1, h2, h3 {
+            color: var(--color-accent);
+            margin-top: 0;
+        }
+
+        h1 {
+            font-size: clamp(2rem, 5vw, 2.5rem);
+            font-weight: 800;
+            border-bottom: 1px solid var(--color-accent);
+            padding-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: clamp(1.5rem, 4vw, 2rem);
+            font-weight: 700;
+            padding-left: 1rem;
+            position: relative;
+        }
+
+        h2::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 4px;
+            height: 80%;
+            background: linear-gradient(to bottom, var(--color-accent), #8a6d5b);
+            border-radius: 2px;
+        }
+
+        h3 { font-size: clamp(1.25rem, 3vw, 1.75rem); }
+
+        p {
+            margin: 1rem 0;
+            color: var(--color-text-secondary);
+        }
+
+        a {
+            color: var(--color-link);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        a:hover, a:focus {
+            color: var(--color-secondary);
+            filter: brightness(var(--hover-brightness));
+            outline: 2px solid var(--color-secondary);
+            outline-offset: 2px;
+        }
+
+        /* Layout */
+        .container {
+            max-width: var(--width-content);
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        footer, header, main {
+            margin: 0 auto;
+            max-width: var(--width-content);
+            padding: 2rem 1rem;
+        }
+
+        hr {
+            background-color: var(--color-bg-secondary);
+            border: none;
+            height: 1px;
+            margin: 4rem 0;
+            width: 100%;
+        }
+
+        section {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: var(--justify-important);
+        }
+
+        /* Components */
+        .card {
+            background: linear-gradient(145deg, #05225003, #2a2a2a);
+            border: 1px solid var(--color-accent);
+            border-radius: var(--border-radius);
+            box-shadow: var(--box-shadow) var(--color-shadow);
+            padding: 2rem;
+            transition: all 0.3s ease;
+            margin-bottom: 2rem;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        button, .btn {
+            background: linear-gradient(145deg, #05225003, #57534e);
+            color: var(--color-text);
+            border: 1px solid var(--color-accent);
+            border-radius: var(--border-radius);
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-block;
+            text-align: center;
+        }
+
+        button:hover, .btn:hover, 
+        button:focus, .btn:focus {
+            background: var(--color-accent);
+            color: #2a2a2a;
+            transform: translateY(-3px);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            outline: 2px solid var(--color-secondary);
+            outline-offset: 2px;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--color-accent);
+            transition: all 0.2s ease;
+        }
+        .btn-outline:hover, .btn-outline:focus {
+            background-color: rgba(179, 147, 123, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn-primary {
+            background: linear-gradient(145deg, #05225003, #57534e);
+            transition: all 0.2s ease;
+            border: 1px solid var(--color-accent);
+        }
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: #343434;
+            transform: translateY(-2px);
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Navigation */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: bold;
+            margin-bottom: 3rem;
+            padding: 1.5rem 0;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        #TOC {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        #TOC:before {
+            content: "VoiceOver Practice";
+            margin-right: 1rem;
+            font-weight: 800;
+            font-size: 1.5rem;
+            color: var(--color-accent);
+        }
+
+        #TOC a {
+            text-decoration: none;
+            color: var(--color-accent);
+            padding: 0.5rem 1rem;
+            border-radius: var(--border-radius);
+            transition: all 0.2s ease;
+        }
+
+        #TOC a:hover, #TOC a:focus {
+            background: rgba(179, 147, 123, 0.1);
+            outline: 2px solid var(--color-accent);
+            outline-offset: 2px;
+        }
+
+        #title-block-header {
+            background: linear-gradient(135deg, rgba(179, 147, 123, 0.2), rgba(42, 42, 42, 0.8));
+            color: #fff;
+            width: 100%;
+            max-width: 100%;
+            padding: 3rem 0 2.5rem;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .author { display: none; }
+        .subtitle { 
+            font-weight: bold; 
+            color: var(--color-text-secondary);
+            font-size: clamp(1rem, 3vw, 1.2rem);
+        }
+
+        /* Tables */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 2rem 0;
+            background: var(--color-bg-secondary);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+            box-shadow: var(--box-shadow) var(--color-shadow);
+        }
+
+        th {
+            background: linear-gradient(to bottom, rgba(179, 147, 123, 0.25), rgba(179, 147, 123, 0.15));
+            color: var(--color-accent);
+            font-weight: 600;
+            text-align: left;
+            padding: 1rem 1.25rem;
+            border-bottom: 2px solid var(--color-accent);
+            position: relative;
+        }
+
+        th::after {
+            content: '';
+            position: absolute;
+            left: 0;
+            bottom: -1px;
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--color-accent), transparent);
+        }
+
+        td {
+            padding: 0.85rem 1.25rem;
+            border-bottom: 1px solid rgba(179, 147, 123, 0.15);
+            color: var(--color-text);
+            transition: background 0.2s ease;
+        }
+
+        tr:last-child td { border-bottom: none; }
+        tr:nth-child(even) { background: rgba(42, 42, 42, 0.8); }
+        tr:hover td { background: rgba(179, 147, 123, 0.1); }
+        thead tr:hover td { background: transparent; }
+
+        /* Utility Classes */
+        .stats-card {
+            background: linear-gradient(145deg, #b42930, #502205);
+            border: 1px solid var(--color-accent);
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            padding: 1.25rem;
+        }
+
+        /* Accessibility Controls */
+        .accessibility-controls {
+            display: flex;
+            gap: 0.5rem;
+            align-items: center;
+            margin-left: auto;
+        }
+
+        .font-controls {
+            display: flex;
+            gap: 0.25rem;
+            border: 1px solid var(--color-accent);
+            border-radius: var(--border-radius);
+            overflow: hidden;
+        }
+
+        .font-controls button {
+            background: rgba(179, 147, 123, 0.1);
+            border: none;
+            border-radius: 0;
+            padding: 0.5rem 0.75rem;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .font-controls button:hover, .font-controls button:focus {
+            background: var(--color-accent);
+        }
+
+        .font-controls button.active {
+            background: var(--color-accent);
+            color: #2a2a2a;
+        }
+
+        .skip-link {
+            position: absolute;
+            top: -40px;
+            left: 6px;
+            background: var(--color-accent);
+            color: #2a2a2a;
+            padding: 8px;
+            z-index: 100;
+            text-decoration: none;
+            border-radius: 0 0 4px 4px;
+            transition: top 0.3s;
+        }
+
+        .skip-link:focus {
+            top: 0;
+        }
+
+        /* High contrast mode */
+        .high-contrast {
+            --color-bg: #000000;
+            --color-bg-secondary: #111111;
+            --color-text: #ffffff;
+            --color-text-secondary: #cccccc;
+            --color-accent: #ffff00;
+            --color-link: #ffff00;
+            --color-secondary: #ffff00;
+            filter: contrast(1.5);
+        }
+
+        /* Practice Checklist */
+        .checklist {
+            margin: 1.5rem 0;
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            border-radius: var(--border-radius);
+            transition: background 0.2s ease;
+        }
+
+        .checklist-item:hover {
+            background: rgba(179, 147, 123, 0.05);
+        }
+
+        .checklist-item input[type="checkbox"] {
+            margin-right: 1rem;
+            margin-top: 0.25rem;
+            transform: scale(1.2);
+        }
+
+        .checklist-item label {
+            flex: 1;
+            cursor: pointer;
+        }
+
+        .checklist-item.completed {
+            background: rgba(16, 185, 129, 0.1);
+            border-left: 3px solid #10b981;
+        }
+
+        /* Progress Tracker */
+        .progress-container {
+            background: var(--color-bg-secondary);
+            border-radius: var(--border-radius);
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .progress-bar {
+            height: 10px;
+            background: rgba(179, 147, 123, 0.2);
+            border-radius: 5px;
+            overflow: hidden;
+            margin: 1rem 0;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(to right, var(--color-accent), #8a6d5b);
+            border-radius: 5px;
+            transition: width 0.5s ease;
+        }
+
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            color: var(--color-text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* Tip Boxes */
+        .tip-box {
+            background: rgba(179, 147, 123, 0.1);
+            border-left: 4px solid var(--color-accent);
+            padding: 1rem 1.5rem;
+            margin: 1.5rem 0;
+            border-radius: 0 var(--border-radius) var(--border-radius) 0;
+        }
+
+        .tip-box h4 {
+            margin-top: 0;
+            color: var(--color-accent);
+        }
+
+        /* Responsive Adjustments */
+        @media (max-width: 768px) {
+            nav {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            .accessibility-controls {
+                margin-left: 0;
+                margin-top: 1rem;
+            }
+            
+            #TOC {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            
+            #TOC a {
+                margin: 0.25rem 0;
+            }
+            
+            .cta-buttons {
+                flex-direction: column;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .font-controls button span {
+                display: none;
+            }
+            
+            .font-controls button {
+                padding: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Skip link for keyboard users -->
+    <a href="#main-content" class="skip-link">Skip to main content</a>
+
+    <div id="title-block-header">
+        <div class="container">
+            <h1>VoiceOver Practice Drill</h1>
+            <p class="subtitle">Build muscle memory and confidence with guided exercises</p>
+                <div class="cta-buttons" style="display: flex; gap: 1rem; justify-content: center; margin-top: 2rem;">
+                    <a href="index.html" class="btn btn-primary">Home</a>
+                    <a href="guide.html" class="btn btn-primary">View Gesture Guide</a>
+                    <a href="drills.html" class="btn btn-outline">Start Practice Drills</a>
+                </div>
+        </div>
+    </div>
+
+    <nav>
+        <div id="TOC">
+            <a href="#philosophy">Guiding Philosophy</a>
+            <a href="#part1">Foundation</a>
+            <a href="#part2">Navigation & Control</a>
+            <a href="#part3">Daily Drill</a>
+            <a href="#protips">Pro-Tips</a>
+        </div> 
+
+        <div class="accessibility-controls">
+            <div class="font-controls">
+                <button id="font-small" aria-label="Small text size">
+                    <span>A-</span>
+                </button>
+                <button id="font-medium" class="active" aria-label="Medium text size">
+                    <span>A</span>
+                </button>
+                <button id="font-large" aria-label="Large text size">
+                    <span>A+</span>
+                </button>
+                <button id="font-xlarge" aria-label="Extra large text size">
+                    <span>A++</span>
+                </button>
+            </div>
+            <button id="high-contrast-toggle" aria-pressed="false">
+                <span>High Contrast</span>
+            </button>
+        </div>
+    </nav>
+
+    <main id="main-content" class="container" tabindex="-1">
+        <section class="focus">
+            <div class="desc">
+                <p>This interactive practice drill will help you build muscle memory and confidence with VoiceOver gestures. Complete each section progressively, and track your progress as you go.</p>
+            </div>
+
+            <!-- Progress Tracker -->
+            <div class="progress-container">
+                <h3>Your Progress</h3>
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progress-fill" style="width: 0%"></div>
+                </div>
+                <div class="progress-text">
+                    <span id="progress-percent">0%</span>
+                    <span id="progress-steps">0/16 steps completed</span>
+                </div>
+            </div>
+
+            <div class="card" id="philosophy">
+                <h2>Guiding Philosophy</h2>
+                <p><strong>"No Peeking."</strong> The goal is to build a mental map of the screen and trust your ears and fingers.</p>
+                <p>If you get lost or frustrated, it's okay to turn VoiceOver off to reset, but try to do the actual practice with your eyes closed or looking away.</p>
+            </div>
+
+            <div class="card box_yellow" id="part1">
+                <h2>Part 1: The Foundation (The "Alphabet")</h2>
+                <p><strong>Goal:</strong> Master the basic gestures without any pressure to <em>do</em> anything.</p>
+                
+                <div class="checklist">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step1">
+                        <label for="step1">
+                            <strong>Setup:</strong> Sit comfortably with your iPhone. Go to <strong>Settings > Accessibility > VoiceOver</strong> and turn it ON. (You can also ask Siri: "Turn on VoiceOver").
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step2">
+                        <label for="step2">
+                            <strong>Remember:</strong> Gestures are different now. A single tap <em>selects</em> an item and speaks its name. To <em>activate</em> a selected item (like opening an app), you <strong>double-tap anywhere on the screen.</strong>
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step3">
+                        <label for="step3">
+                            <strong>The Explorer Gesture:</strong> Lightly rest your finger on the screen and slowly drag it around. Hear how VoiceOver reads out every element your finger touches. Don't lift your finger until you've scanned the whole screen.
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step4">
+                        <label for="step4">
+                            <strong>The Swipe Gesture:</strong> Use a single finger to swipe left and right. Move focus from one item to the next, in order.
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step5">
+                        <label for="step5">
+                            <strong>Practice Task:</strong> Go to your Home Screen. Use the Explorer Gesture to find the "Settings" app. Use Swipe Left/Right to move to apps next to it. When "Settings" is selected, perform a Double-tap to open it. <strong>Success:</strong> You opened an app without looking.
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card box_green" id="part2">
+                <h2>Part 2: Basic Navigation & Control</h2>
+                <p><strong>Goal:</strong> Learn to perform common actions reliably.</p>
+                
+                <div class="checklist">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step6">
+                        <label for="step6">
+                            <strong>Scrolling:</strong> Use a three-finger swipe up or down. In Settings, use a three-finger swipe down to scroll. Hear the content change. Swipe up to scroll back.
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step7">
+                        <label for="step7">
+                            <strong>Going Home:</strong> Perform a "scrub" gesture—move two fingers back and forth on the screen in a "Z" shape, three times quickly. From within Settings, perform the "Z" scrub to go back to the Home Screen.
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step8">
+                        <label for="step8">
+                            <strong>The Status Bar:</strong> Tap the very top of the screen once. VoiceOver will read the time, battery, and connection status. From the Home Screen, tap the top to hear the time.
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step9">
+                        <label for="step9">
+                            <strong>The Rotor:</strong> Place two fingers on the screen (like you're pinching) and rotate them. Hear the rotor options change. On a webpage or in your Mail app, use the rotor to select "Headings." Now, swipe up and down with one finger to jump between headings.
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card box_blue" id="part3">
+                <h2>Part 3: The Daily Drill (The "Workout")</h2>
+                <p>Perform this sequence every day until it becomes fluid. Time yourself if you want to track progress.</p>
+                
+                <div class="checklist">
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step10">
+                        <label for="step10">
+                            <strong>Start:</strong> Phone on the Lock Screen.
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step11">
+                        <label for="step11">
+                            <strong>Task 1: Unlock.</strong> Use the Explorer gesture to find "Face ID" or "Swipe up to unlock." Double-tap to activate.
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step12">
+                        <label for="step12">
+                            <strong>Task 2: Check the Time.</strong> Tap the top status bar.
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step13">
+                        <label for="step13">
+                            <strong>Task 3: Open a Specific App.</strong> Choose a simple, familiar app like "Clock" or "Notes." Use the Explorer gesture or Swipe Left/Right to find it. Double-tap to open.
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step14">
+                        <label for="step14">
+                            <strong>Task 4: Perform an Action in the App.</strong> In Clock: Find the "Alarm" tab and create a new alarm for 10 minutes from now. In Notes: Find the "New Note" button and create a note that says "VoiceOver practice successful!"
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step15">
+                        <label for="step15">
+                            <strong>Task 5: Return Home.</strong> Use the "Z" scrub gesture to go back to the Home Screen.
+                        </label>
+                    </div>
+                    <div class="checklist-item">
+                        <input type="checkbox" id="step16">
+                        <label for="step16">
+                            <strong>Task 6: Close the App (Optional).</strong> Swipe up with four fingers to enter the app switcher. Swipe left/right to find the app you were using. Use the rotor to select "Buttons." Swipe up/down until you hear "Remove App" or "Close App," then double-tap.
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card box_red" id="protips">
+                <h2>Pro-Tips for Your CVI Context</h2>
+                
+                <div class="tip-box">
+                    <h4>"Sense Restraint" is Key</h4>
+                    <p>This is the perfect digital application of your strategy. Close your eyes during the drill. You are training your brain to process information through a new, reliable channel (auditory/tactile) instead of the visually chaotic one.</p>
+                </div>
+                
+                <div class="tip-box">
+                    <h4>Use Headphones</h4>
+                    <p>This can help cut down on environmental noise and make the VoiceOver speech clearer and easier to understand.</p>
+                </div>
+                
+                <div class="tip-box">
+                    <h4>Adjust the Speaking Rate</h4>
+                    <p>In <strong>Settings > Accessibility > VoiceOver > Speech > Rate</strong>, you can speed up or slow down the voice. A faster rate can feel more efficient once you're used to it.</p>
+                </div>
+                
+                <div class="tip-box">
+                    <h4>Be Patient with the Rotor</h4>
+                    <p>The rotor gesture is tricky at first but is the single most powerful feature for efficient navigation. Practice the motion without worrying about the function at first.</p>
+                </div>
+                
+                <div class="stats-card">
+                    <h3>You're Building New Neural Pathways</h3>
+                    <p>You are not just learning a phone feature; you are building a new neural pathway for accessing digital information. This is a powerful extension of the adaptation you have already mastered in the physical world. Stick with it. The freedom and independence it provides are well worth the initial effort.</p>
+                </div>
+            </div>
+
+            <div class="card">
+                <h2>Practice Resources</h2>
+                <p>Use these resources to enhance your practice sessions:</p>
+                <div class="cta-buttons" style="display: flex; gap: 1rem; margin-top: 1.5rem;">
+                    <button class="btn btn-primary" onclick="resetProgress()">Reset Progress</button>
+                    <button class="btn btn-outline" onclick="shareProgress()">Share Progress</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="container">
+        <hr>
+        <p style="text-align: center; color: var(--color-text-secondary);">
+            VoiceOver Practice Drill &copy; 2023 | Designed with Accessibility in Mind
+        </p>
+    </footer>
+
+    <script>
+        // Font size controls
+        document.addEventListener('DOMContentLoaded', function() {
+            const fontSmall = document.getElementById('font-small');
+            const fontMedium = document.getElementById('font-medium');
+            const fontLarge = document.getElementById('font-large');
+            const fontXLarge = document.getElementById('font-xlarge');
+            const highContrastToggle = document.getElementById('high-contrast-toggle');
+            const html = document.documentElement;
+            
+            // Load saved preferences
+            const savedFontSize = localStorage.getItem('fontSize') || 'medium';
+            const isHighContrast = localStorage.getItem('highContrast') === 'true';
+            
+            // Apply saved preferences
+            setFontSize(savedFontSize);
+            if (isHighContrast) {
+                document.body.classList.add('high-contrast');
+                highContrastToggle.setAttribute('aria-pressed', 'true');
+            }
+            
+            // Font size event listeners
+            fontSmall.addEventListener('click', () => setFontSize('small'));
+            fontMedium.addEventListener('click', () => setFontSize('medium'));
+            fontLarge.addEventListener('click', () => setFontSize('large'));
+            fontXLarge.addEventListener('click', () => setFontSize('xlarge'));
+            
+            // High contrast toggle
+            highContrastToggle.addEventListener('click', () => {
+                document.body.classList.toggle('high-contrast');
+                const isActive = document.body.classList.contains('high-contrast');
+                highContrastToggle.setAttribute('aria-pressed', isActive);
+                localStorage.setItem('highContrast', isActive);
+            });
+            
+            function setFontSize(size) {
+                // Remove all font classes from html
+                html.classList.remove('font-small', 'font-medium', 'font-large', 'font-xlarge');
+                
+                // Add selected class to html
+                html.classList.add(`font-${size}`);
+                
+                // Update active button
+                document.querySelectorAll('.font-controls button').forEach(btn => {
+                    btn.classList.remove('active');
+                });
+                document.getElementById(`font-${size}`).classList.add('active');
+                
+                // Save preference
+                localStorage.setItem('fontSize', size);
+            }
+            
+            // Keyboard navigation for font controls
+            document.querySelectorAll('.font-controls button').forEach(button => {
+                button.addEventListener('keydown', function(e) {
+                    if (e.key === 'ArrowRight' || e.key === 'ArrowLeft') {
+                        e.preventDefault();
+                        const buttons = Array.from(document.querySelectorAll('.font-controls button'));
+                        const currentIndex = buttons.indexOf(this);
+                        let nextIndex;
+                        
+                        if (e.key === 'ArrowRight') {
+                            nextIndex = currentIndex < buttons.length - 1 ? currentIndex + 1 : 0;
+                        } else {
+                            nextIndex = currentIndex > 0 ? currentIndex - 1 : buttons.length - 1;
+                        }
+                        
+                        buttons[nextIndex].focus();
+                        buttons[nextIndex].click();
+                    }
+                });
+            });
+
+            // Progress tracking
+            const checkboxes = document.querySelectorAll('.checklist input[type="checkbox"]');
+            const progressFill = document.getElementById('progress-fill');
+            const progressPercent = document.getElementById('progress-percent');
+            const progressSteps = document.getElementById('progress-steps');
+            
+            // Load saved progress
+            checkboxes.forEach(checkbox => {
+                const isChecked = localStorage.getItem(checkbox.id) === 'true';
+                checkbox.checked = isChecked;
+                if (isChecked) {
+                    checkbox.closest('.checklist-item').classList.add('completed');
+                }
+                
+                checkbox.addEventListener('change', function() {
+                    // Update UI
+                    if (this.checked) {
+                        this.closest('.checklist-item').classList.add('completed');
+                    } else {
+                        this.closest('.checklist-item').classList.remove('completed');
+                    }
+                    
+                    // Save progress
+                    localStorage.setItem(this.id, this.checked);
+                    
+                    // Update progress bar
+                    updateProgress();
+                });
+            });
+            
+            // Initialize progress
+            updateProgress();
+            
+            function updateProgress() {
+                const completed = document.querySelectorAll('.checklist input[type="checkbox"]:checked').length;
+                const total = checkboxes.length;
+                const percent = Math.round((completed / total) * 100);
+                
+                progressFill.style.width = `${percent}%`;
+                progressPercent.textContent = `${percent}%`;
+                progressSteps.textContent = `${completed}/${total} steps completed`;
+            }
+            
+            // Reset progress function
+            window.resetProgress = function() {
+                if (confirm('Are you sure you want to reset all your progress?')) {
+                    checkboxes.forEach(checkbox => {
+                        checkbox.checked = false;
+                        checkbox.closest('.checklist-item').classList.remove('completed');
+                        localStorage.setItem(checkbox.id, false);
+                    });
+                    updateProgress();
+                }
+            };
+            
+            // Share progress function
+            window.shareProgress = function() {
+                const completed = document.querySelectorAll('.checklist input[type="checkbox"]:checked').length;
+                const total = checkboxes.length;
+                const percent = Math.round((completed / total) * 100);
+                
+                alert(`I've completed ${percent}% of the VoiceOver Practice Drill! ${completed}/${total} steps done.`);
+            };
+        });
+    </script>
+</body>
+</html>
